@@ -1,5 +1,20 @@
 [
   {
+    "id": "00",
+    "title": "insights-core",
+    "brief": ".claude/work/01-insights-core/brief.md",
+    "start_sha": "d6d270ba6af7e306d6d2469602d8820dd3ed6c51",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-14T04:39:17.797Z",
+      "start_sha": "d6d270ba6af7e306d6d2469602d8820dd3ed6c51",
+      "mutation_evidence": true,
+      "tree": "4429a7c25f818b953bdb6689b6f53f6936cd23f1e965eef878b884ddf059b0e5"
+    },
+    "verified_at": "2026-10-14T04:40:19.109Z",
+    "tree": "4429a7c25f818b953bdb6689b6f53f6936cd23f1e965eef878b884ddf059b0e5"
+  },
+  {
     "id": "01",
     "title": "upstream-watch",
     "brief": ".claude/work/01-upstream-watch/brief.md",
@@ -10,8 +25,7 @@
       "start_sha": "035b4b85c94f78999767121f427503ef6c86ab43",
       "mutation_evidence": true,
       "tree": "15d96f699f18e64b4170541c3e11cfe29ca7a99915e9e3a1f65c31ef5d9a7081"
-    },
-    "parked": "tsc TS5097 on .ts imports; needs tsconfig decision from Rob"
+    }
   },
   {
     "id": "02",
