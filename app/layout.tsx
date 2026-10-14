@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import { getBaseUrl } from "@/lib/base-url";
 import { cn } from "@/lib/utils";
+import { BRAND_NAME } from "@/kc/brand";
 import "./globals.css";
 
 const inter = Inter({
@@ -22,8 +23,8 @@ const description = "The No-Hassle CMS for GitHub";
 export const metadata: Metadata = {
   metadataBase: new URL(appUrl),
   title: {
-    template: "%s | Pages CMS",
-    default: "Pages CMS",
+    template: `%s | ${BRAND_NAME}`,
+    default: BRAND_NAME,
   },
   description,
   alternates: {
@@ -32,21 +33,21 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     url: appUrl,
-    siteName: "Pages CMS",
-    title: "Pages CMS",
+    siteName: BRAND_NAME,
+    title: BRAND_NAME,
     description,
     images: [
       {
         url: socialImage,
         width: 1200,
         height: 630,
-        alt: "Pages CMS social card",
+        alt: `${BRAND_NAME} social card`,
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Pages CMS",
+    title: BRAND_NAME,
     description,
     images: [socialImage],
   },

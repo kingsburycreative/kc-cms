@@ -15,6 +15,7 @@ import { collaboratorInviteTable, collaboratorTable } from "@/db/schema";
 import { z } from "zod";
 import { randomBytes } from "crypto";
 import { findVerifiedUserByEmail, normalizeEmail } from "@/lib/collaborator-access";
+import { BRAND_NAME } from "@/kc/brand";
 
 const parseInviteEmails = (raw: FormDataEntryValue | null) => {
   const value = typeof raw === "string" ? raw : "";
@@ -48,7 +49,7 @@ const assertRepoInInstallation = async (
       installationRepo.name?.toLowerCase() === repo.toLowerCase()
     )
   );
-  if (!isInstalledForRepo) throw new Error(`"${owner}/${repo}" is not part of your Pages CMS installation.`);
+  if (!isInstalledForRepo) throw new Error(`"${owner}/${repo}" is not part of your ${BRAND_NAME} installation.`);
 
   return {
     repoAccess,
@@ -188,7 +189,7 @@ const handleAddCollaborator = async (prevState: any, formData: FormData) => {
           );
           await sendEmail({
             to: normalizedEmail,
-            subject: `Join "${owner}/${repo}" on Pages CMS`,
+            subject: `Join "${owner}/${repo}" on ${BRAND_NAME}`,
             html,
           });
         } catch (error: any) {
@@ -209,7 +210,7 @@ const handleAddCollaborator = async (prevState: any, formData: FormData) => {
           );
           await sendEmail({
             to: normalizedEmail,
-            subject: `You were added to "${owner}/${repo}" on Pages CMS`,
+            subject: `You were added to "${owner}/${repo}" on ${BRAND_NAME}`,
             html,
           });
         } catch (error: any) {
@@ -338,7 +339,7 @@ const handleResendCollaboratorInvite = async (collaboratorId: number, owner: str
 
     await sendEmail({
       to: collaborator.email,
-      subject: `Join "${owner}/${repo}" on Pages CMS`,
+      subject: `Join "${owner}/${repo}" on ${BRAND_NAME}`,
       html,
     });
 
