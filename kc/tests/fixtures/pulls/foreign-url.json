@@ -1,0 +1,5 @@
+[
+  { "head": { "ref": "upstream/v2.2.0" }, "html_url": "https://github.com/someone/kc-cms/pull/1" },
+  { "head": { "ref": "upstream/v2.2.1" }, "html_url": "https://evil.example/kingsburycreative/kc-cms/pull/2" },
+  { "head": { "ref": "upstream/v2.2.2" }, "html_url": "http://github.com/kingsburycreative/kc-cms/pull/3" }
+]

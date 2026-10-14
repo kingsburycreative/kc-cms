@@ -2,24 +2,6 @@
 
 ## Now
 
-- **update-banner**: the one-click update from PLAN.md step 8. On the admin
-  page (`app/(main)/admin/page.tsx`, Rob only, already behind
-  `requireAdminSession`), when `kingsburycreative/kc-cms` has an open pull
-  request from a branch starting `upstream/` (opened by the weekly
-  upstream-sync workflow), show a banner: "Pages CMS <tag> is available",
-  with a button that opens that pull request on GitHub. No banner when
-  there is none.
-  - A pure module `kc/update/banner.ts` turns GitHub's pulls list into
-    `{ tag, url } | null`; a server-only fetch calls
-    `GET /repos/kingsburycreative/kc-cms/pulls?state=open` (public repo, no
-    token) and caches the answer for an hour, so the admin page costs at most
-    one GitHub call an hour. A failed fetch shows no banner and logs one line.
-  - The pull request URL comes only from GitHub's `html_url` and must start
-    with `https://github.com/kingsburycreative/kc-cms/pull/`; anything else is
-    dropped.
-  - Tests: fixtures for none open, one open, a non-upstream branch ignored,
-    a foreign URL rejected, and the tag parsed from the branch name.
-
 - **title-hook**: `components/document-title.tsx` (from client-view) calls
   `useConfig()` inside a try/catch to survive pages with no config provider.
   Replace that with a context read that returns null outside a repo (a
@@ -48,6 +30,7 @@
 
 ## Done
 
+- **update-banner**: committed on feat/06-update-banner, gate green, no audit (not a risky path).
 - **client-view**: committed on feat/05-client-view, gate green, no audit (not a risky path).
 - **branding**: committed on feat/03-branding, gate green, audit clean.
 - **upstream-watch**: PR #5, merged. A manual run went green and opened no PR.
