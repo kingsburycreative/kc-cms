@@ -8,6 +8,7 @@ import { getToken } from "@/lib/token";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { insightsPropertyFor } from "@/kc/insights/map";
 
 export default async function Layout({
   children,
@@ -95,7 +96,7 @@ export default async function Layout({
 
   return (
     <ConfigProvider value={config}>
-      <RepoLayout>{errorMessage ? errorMessage : children}</RepoLayout>
+      <RepoLayout hasInsights={!errorMessage && insightsPropertyFor(owner, repo) !== null}>{errorMessage ? errorMessage : children}</RepoLayout>
     </ConfigProvider>
   );
 }
