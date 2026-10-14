@@ -1,4 +1,7 @@
 import { createHttpError } from "@/lib/api-error";
+import { hasAdminAccess } from "@/lib/admin";
+import { createOctokitInstance } from "@/lib/utils/octokit";
+import { canSeeInsights } from "@/kc/insights/gate";
 import { getConfig } from "@/lib/config-store";
 import { getGithubId } from "@/lib/github-account";
 import { checkRepoAccess } from "@/lib/github-cache-permissions";
@@ -43,4 +46,21 @@ const getRepoReadContext = async ({ owner, repo, branch }: RepoRef): Promise<Rep
   return { user, token, config };
 };
 
-export { getRepoReadContext };
+// KC: Insights is narrower than repo read. checkRepoAccess caches a boolean only,
+// so push permission costs one repos.get call here.
+const getInsightsAccess = async (user: User, owner: string, repo: string): Promise<boolean> => {
+  if (hasAdminAccess(user)) return true;
+  try {
+    const { token, source } = await getToken(user, owner, repo);
+    const githubId = await getGithubId(user.id);
+    if (githubId && source === "user") {
+      const { data } = await createOctokitInstance(token).rest.repos.get({ owner, repo });
+      return canSeeInsights({ isAdmin: false, loginType: "github", permissions: data.permissions, isCollaborator: false });
+    }
+    return canSeeInsights({ isAdmin: false, loginType: githubId ? "github" : "email", isCollaborator: source === "installation" });
+  } catch {
+    return false;
+  }
+};
+
+export { getRepoReadContext, getInsightsAccess };

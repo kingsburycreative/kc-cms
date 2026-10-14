@@ -9,6 +9,7 @@ import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { insightsPropertyFor } from "@/kc/insights/map";
+import { getInsightsAccess } from "@/lib/api-repo-context";
 
 export default async function Layout({
   children,
@@ -94,9 +95,11 @@ export default async function Layout({
     }
   }
 
+  const hasInsights = !errorMessage && insightsPropertyFor(owner, repo) !== null && await getInsightsAccess(user, owner, repo);
+
   return (
     <ConfigProvider value={config}>
-      <RepoLayout hasInsights={!errorMessage && insightsPropertyFor(owner, repo) !== null}>{errorMessage ? errorMessage : children}</RepoLayout>
+      <RepoLayout hasInsights={hasInsights}>{errorMessage ? errorMessage : children}</RepoLayout>
     </ConfigProvider>
   );
 }

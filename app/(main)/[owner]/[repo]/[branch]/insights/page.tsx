@@ -1,4 +1,4 @@
-import { getRepoReadContext } from "@/lib/api-repo-context";
+import { getInsightsAccess, getRepoReadContext } from "@/lib/api-repo-context";
 import { insightsPropertyFor } from "@/kc/insights/map";
 import { defaultCache, loadInsights, readKey } from "@/kc/insights/route";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
@@ -38,9 +38,12 @@ export default async function Page(
 ) {
   const { owner, repo, branch } = await props.params;
   // The same access check the repo API routes use, before anything else.
+  let allowed = false;
   try {
-    await getRepoReadContext({ owner, repo, branch: decodeURIComponent(branch) });
-  } catch {
+    const { user } = await getRepoReadContext({ owner, repo, branch: decodeURIComponent(branch) });
+    allowed = await getInsightsAccess(user, owner, repo);
+  } catch {}
+  if (!allowed) {
     return <Message title="Access denied" text="You do not have permission to access this repository." />;
   }
 
