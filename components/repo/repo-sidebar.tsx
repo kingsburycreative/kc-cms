@@ -62,6 +62,7 @@ import {
 import {
   ArrowLeft,
   ArrowUpRight,
+  BarChart3,
   ChevronRight,
   ChevronsUpDown,
   Database,
@@ -280,7 +281,7 @@ function RepoSwitcher() {
   );
 }
 
-export function RepoSidebar() {
+export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) {
   const pathname = usePathname();
   const { user } = useUser();
   const { config } = useConfig();
@@ -609,6 +610,14 @@ export function RepoSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       )
+      : null,
+    hasInsights && config
+      ? renderFlatGroup("Site", [{
+        key: "kc-insights",
+        label: "Insights",
+        href: `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/insights`,
+        icon: <BarChart3 className="size-4" />,
+      }])
       : null,
     renderFlatGroup("Admin", adminItems),
   ].filter(Boolean);
