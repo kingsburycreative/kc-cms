@@ -65,3 +65,13 @@ export function soleRepoRedirect(
 export function repoListLabel(isClient: boolean, repo: string): string {
   return isClient ? dashboardName(undefined, repo) : repo;
 }
+
+// The tab title for a client inside a repo; null means "use the normal page title".
+export function documentTitleFor(a: {
+  config: { repo: string; object?: unknown } | null;
+  isClient: boolean;
+}): string | null {
+  if (!a.config || !a.isClient) return null;
+  const kc = (a.config.object as { kc?: { client?: string } } | null | undefined)?.kc;
+  return dashboardName(kc, a.config.repo);
+}

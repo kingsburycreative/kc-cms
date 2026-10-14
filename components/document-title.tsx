@@ -2,10 +2,10 @@
 
 import { useEffect } from "react";
 import { BRAND_NAME } from "@/kc/brand";
-import { useConfig } from "@/contexts/config-context";
+import { useOptionalConfig } from "@/contexts/config-context";
 import { useUser } from "@/contexts/user-context";
 import { hasGithubIdentity } from "@/lib/authz-shared";
-import { dashboardName } from "@/kc/client-view";
+import { documentTitleFor } from "@/kc/client-view";
 
 const APP_TITLE = BRAND_NAME;
 
@@ -28,16 +28,8 @@ export function DocumentTitle({
   title?: string | null;
 }) {
   const { user } = useUser();
-  // Outside a repo there is no config provider; useConfig throws there.
-  let config = null;
-  try {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    config = useConfig().config;
-  } catch {}
-  const clientTitle =
-    config && !hasGithubIdentity(user)
-      ? dashboardName((config.object as any)?.kc, config.repo)
-      : null;
+  const config = useOptionalConfig();
+  const clientTitle = documentTitleFor({ config, isClient: !hasGithubIdentity(user) });
 
   useEffect(() => {
     document.title = clientTitle ?? formatDocumentTitle(title);
