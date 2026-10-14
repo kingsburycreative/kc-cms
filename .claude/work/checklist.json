@@ -88,5 +88,20 @@
     },
     "verified_at": "2026-10-14T22:01:03.908Z",
     "tree": "42fed22837b7cf6c70f938a70720d8b1223cbb14cd3584c969f6fd76f8c792e7"
+  },
+  {
+    "id": "06",
+    "title": "update-banner",
+    "brief": ".claude/work/06-update-banner/brief.md",
+    "start_sha": "2b77c87301eaa66109dff424471ef2289872191b",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-14T22:16:39.197Z",
+      "start_sha": "2b77c87301eaa66109dff424471ef2289872191b",
+      "mutation_evidence": true,
+      "tree": "de72e458455f328743f5dedefbf4ce9576cd27472a9f8ff392cc9df720e9fffc"
+    },
+    "verified_at": "2026-10-14T22:17:04.504Z",
+    "tree": "de72e458455f328743f5dedefbf4ce9576cd27472a9f8ff392cc9df720e9fffc"
   }
 ]

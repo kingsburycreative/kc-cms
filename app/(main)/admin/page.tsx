@@ -53,6 +53,7 @@ import {
 } from "@/components/ui/pagination";
 import { getInitialsFromName } from "@/lib/utils/avatar";
 import { cn } from "@/lib/utils";
+import { fetchBanner } from "@/kc/update/banner-fetch";
 
 const formatDateTime = (value: Date | string | null | undefined) => {
   if (!value) return "-";
@@ -105,6 +106,7 @@ export default async function Page({
   searchParams?: Promise<{ q?: string; page?: string }>;
 }) {
   await requireAdminSession();
+  const updateBanner = await fetchBanner();
   const nowMs = Date.now();
   const resolvedSearchParams = await searchParams;
   const query = resolvedSearchParams?.q?.trim() ?? "";
@@ -195,6 +197,19 @@ export default async function Page({
         </header>
 
         <div className="space-y-6">
+          {updateBanner ? (
+            <div className="flex items-center justify-between gap-3 rounded-md border px-4 py-3 text-sm">
+              <span>Pages CMS {updateBanner.tag} is available</span>
+              <a
+                className={buttonVariants({ variant: "outline", size: "sm" })}
+                href={updateBanner.url}
+                target="_blank"
+                rel="noreferrer"
+              >
+                View pull request
+              </a>
+            </div>
+          ) : null}
           <Card>
             <CardHeader>
               <CardTitle>Overview</CardTitle>
