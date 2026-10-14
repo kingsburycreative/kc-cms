@@ -2,14 +2,6 @@
 
 ## Now
 
-- **upstream-watch**: the weekly upstream check (plan step 8, first half). In
-  `kc/update/`: compare the fork's version with upstream's latest release
-  (skip drafts and prereleases, compare as semver). A workflow
-  `.github/workflows/kc-upstream-sync.yml` (weekly and on demand) that, when
-  upstream has a newer release, pushes branch `upstream/<tag>` at that tag and
-  opens one PR into `main`, unless one is already open. Least permissions:
-  `contents: write` and `pull-requests: write` only. Done-test:
-  `node --test kc/tests/update.test.ts`.
 - **uptime**: `.github/workflows/kc-uptime.yml`, every 15 minutes, fetches
   `https://cms.kingsburycreative.com/` with a 20 s limit and fails on anything
   but 2xx or 3xx, so GitHub emails Rob (plan step 12). It runs only when the
@@ -42,5 +34,7 @@
 - Merge PR #1 (insights-core): gated and audited, no findings.
 
 ## Blocked
+
+- **upstream-watch** (parked, code on branch `wip/01-upstream-watch`): `npx tsc` rejects the `.ts` import paths project.md requires (TS5097). Needs Rob to allow `"allowImportingTsExtensions": true` in the upstream `tsconfig.json`, or another import rule.
 
 ## Done
