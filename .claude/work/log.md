@@ -5,3 +5,5 @@
 - 2026-10-14 merged insights-core (PR #1, renumbered 00) and uptime (PR #3) with Rob's yes. upstream-watch unparked: main now has allowImportingTsExtensions.
 - 2026-10-14 card 01 upstream-watch round 2: restored onto main, scope ok with mutation evidence; workflow identical to the audited one, test now normalises CRLF. Sent to the loop's gate.
 - 2026-10-14 card 03 branding: scope ok with mutation evidence; audit found no attack (lib/auth.ts changed only the import and the OTP subject). Worker left About's Website/Docs/GitHub links pointing at pagescms.org, and two listed files had no Pages CMS logo so stayed untouched. Credit link uses github.com/pagescms/pagescms; project.md names hunvreus/pagescms, unchecked which is current. Sent to the loop's gate.
+- 2026-10-14 card 04 dark-primary: scope ok with mutation evidence; diff read, no weakened tests; not a risky path, no audit. Dark ratios 5.86 link, 5.30 button. Sent to the loop's gate.
+- 2026-10-14 card 04: R --pass first refused because check-scope had been given a short start sha; re-recorded with the full sha on the unchanged tree.

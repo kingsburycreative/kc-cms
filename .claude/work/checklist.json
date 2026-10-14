@@ -58,5 +58,20 @@
     },
     "verified_at": "2026-10-14T21:28:52.775Z",
     "tree": "7755d9a84b00c737ffe78578c55c94e95d5e24ef695aa8f89eb9856bafb8c80b"
+  },
+  {
+    "id": "04",
+    "title": "dark-primary",
+    "brief": ".claude/work/04-dark-primary/brief.md",
+    "start_sha": "30026a2d2449b12c97e9febc90a270dac0cd48b4",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-14T21:33:12.065Z",
+      "start_sha": "30026a2d2449b12c97e9febc90a270dac0cd48b4",
+      "mutation_evidence": true,
+      "tree": "dfa56e28df54905790c1a2f13dc5087a7b9aa30b5067ef417d68c3111109732e"
+    },
+    "verified_at": "2026-10-14T21:33:12.966Z",
+    "tree": "dfa56e28df54905790c1a2f13dc5087a7b9aa30b5067ef417d68c3111109732e"
   }
 ]
