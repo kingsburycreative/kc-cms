@@ -14,3 +14,6 @@
 ## 2026-10-14 insights-route (08)
 - Audit: one latent finding. The reused repo-access check lets any signed-in GitHub user open a *public* mapped repo's Insights. Not live: no kingsburycreative repo but kc-cms is public, and client repos are created private. The card says reuse the existing check, so I did not change access rules; needs Rob: should Insights require push access or a collaborator row instead? Also noted: the map keys on mutable owner/repo names.
 - Worker call: a missing key file shows the failure message without logging.
+
+## 2026-10-14 insights-gate (09)
+- Branch feat/09-insights-gate. Scope ok with mutation evidence; diff read, no weakened tests. Push permission costs one extra repos.get call for GitHub-login users (the cached access check holds only a yes/no). Audit (Opus) found no attack on the new gate. Latent, pre-existing, needs Rob: hasAdminAccess (lib/admin.ts) trusts ADMIN_EMAILS without checking emailVerified, and GitHub sign-in can record an unverified email; requiring emailVerified would close it. Known side effect: an email collaborator who links GitHub loses Insights unless they have push. getInsightsAccess itself is untested (needs DB and GitHub). Sent to the loop's gate.

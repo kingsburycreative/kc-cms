@@ -104,3 +104,22 @@ test("a failed token call logs its status, and a missing key is not set up", asy
   assert.equal(readKey(undefined), null);
   assert.equal(readKey(path("map-malformed.json")), null);
 });
+
+test("cities, channel labels and page paths are each cut to 80 characters", async () => {
+  const fetchFn = async (url: string, init: { body: string }) => {
+    if (url.includes("oauth2")) return { ok: true, status: 200, json: async () => ({ access_token: "t", expires_in: 3600 }) };
+    const body = JSON.parse(init.body);
+    const dim = body.dimensions?.[0]?.name;
+    const data = dim
+      ? { rows: [{ dimensionValues: [{ value: dim + "x".repeat(200) }], metricValues: [{ value: "9" }] }] }
+      : body.dateRanges.length === 2 ? fixture("visitors") : fixture("engagement");
+    return { ok: true, status: 200, json: async () => data };
+  };
+  const r = await loadInsights({ propertyId: "9", key, fetchFn, cache: createCache<any>(), now: () => 0 });
+  assert.equal(r.ok, true);
+  if (!r.ok) return;
+  for (const card of [r.cards.cities, r.cards.channels, r.cards.pages]) {
+    assert.equal(card.items.length, 1);
+    assert.equal(card.items[0].label.length, 80);
+  }
+});

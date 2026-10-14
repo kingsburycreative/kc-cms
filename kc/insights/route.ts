@@ -100,9 +100,9 @@ async function buildCards(key: ServiceAccountKey, propertyId: string, fetchFn: F
   ]);
   return {
     visitors: cards.visitorsCard(visitors),
-    cities: cards.topCitiesCard(cities),
+    cities: cards.topCitiesCard(trimRows(cities)),
     pages: cards.topPagesCard(trimRows(pages)),
-    channels: cards.channelsCard(channels),
+    channels: cards.channelsCard(trimRows(channels)),
     engagement: cards.engagementCard(engagement),
   };
 }
