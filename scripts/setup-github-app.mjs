@@ -50,7 +50,8 @@ async function main() {
       checks: "read",
       statuses: "read",
       contents: "write",
-      email_addresses: "read",
+      // GitHub's manifest check refuses email_addresses (an account
+      // permission); add "Email addresses: read" in the app's settings after.
       metadata: "read",
     },
     default_events: [
@@ -69,7 +70,6 @@ async function main() {
     hook_attributes: {
       url: webhookUrl,
       active: true,
-      secret: webhookSecret,
     },
   };
 
@@ -102,7 +102,8 @@ async function main() {
     GITHUB_APP_CLIENT_ID: converted.client_id,
     GITHUB_APP_CLIENT_SECRET: converted.client_secret,
     GITHUB_APP_PRIVATE_KEY: wrapQuoted(escapeNewlines(converted.pem || "")),
-    GITHUB_APP_WEBHOOK_SECRET: webhookSecret,
+    // GitHub refuses "secret" in a manifest; it makes one and returns it here.
+    GITHUB_APP_WEBHOOK_SECRET: converted.webhook_secret || webhookSecret,
   };
 
   if (envPath) {
