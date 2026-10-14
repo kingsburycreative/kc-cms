@@ -1,0 +1,23 @@
+name: KC uptime
+
+on:
+  schedule:
+    - cron: "*/15 * * * *"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  check:
+    if: ${{ vars.KC_UPTIME_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Check cms.kingsburycreative.com answers
+        run: |
+          code=$(curl -sS --max-time 20 -o /dev/null -w '%{http_code}' https://cms.kingsburycreative.com/ || echo 000)
+          echo "HTTP $code"
+          case "$code" in
+            2??|3??) exit 0 ;;
+            *) echo "Site down or slow: $code" >&2; exit 1 ;;
+          esac

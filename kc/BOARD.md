@@ -2,13 +2,6 @@
 
 ## Now
 
-- **uptime**: `.github/workflows/kc-uptime.yml`, every 15 minutes, fetches
-  `https://cms.kingsburycreative.com/` with a 20 s limit and fails on anything
-  but 2xx or 3xx, so GitHub emails Rob (plan step 12). It runs only when the
-  repo variable `KC_UPTIME_ENABLED` is `true`, so it stays quiet until the app
-  is deployed. `permissions: {}`. Done-test: `node --test kc/tests/uptime.test.ts`
-  reads the workflow file and checks the schedule, the guard, the URL and the
-  empty permissions.
 
 ## Next
 

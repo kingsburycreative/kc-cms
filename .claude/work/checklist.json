@@ -1,1 +1,31 @@
-[{"id": "01", "title": "upstream-watch", "brief": ".claude/work/01-upstream-watch/brief.md", "start_sha": "035b4b85c94f78999767121f427503ef6c86ab43", "passes": false, "scope_ok": {"at": "2026-10-14T04:50:15.699Z", "start_sha": "035b4b85c94f78999767121f427503ef6c86ab43", "mutation_evidence": true, "tree": "15d96f699f18e64b4170541c3e11cfe29ca7a99915e9e3a1f65c31ef5d9a7081"}, "parked": "tsc TS5097 on .ts imports; needs tsconfig decision from Rob"}]
+[
+  {
+    "id": "01",
+    "title": "upstream-watch",
+    "brief": ".claude/work/01-upstream-watch/brief.md",
+    "start_sha": "035b4b85c94f78999767121f427503ef6c86ab43",
+    "passes": false,
+    "scope_ok": {
+      "at": "2026-10-14T04:50:15.699Z",
+      "start_sha": "035b4b85c94f78999767121f427503ef6c86ab43",
+      "mutation_evidence": true,
+      "tree": "15d96f699f18e64b4170541c3e11cfe29ca7a99915e9e3a1f65c31ef5d9a7081"
+    },
+    "parked": "tsc TS5097 on .ts imports; needs tsconfig decision from Rob"
+  },
+  {
+    "id": "02",
+    "title": "uptime",
+    "brief": ".claude/work/02-uptime/brief.md",
+    "start_sha": "e568042f772ca8f4723b037e4bc93ab623494af5",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-14T04:57:13.493Z",
+      "start_sha": "e568042f772ca8f4723b037e4bc93ab623494af5",
+      "mutation_evidence": true,
+      "tree": "a02f7c62c0fe178843f21ff6e6c6fa34f3f7985cded2a3e57b0049343c53b383"
+    },
+    "verified_at": "2026-10-14T04:57:13.967Z",
+    "tree": "a02f7c62c0fe178843f21ff6e6c6fa34f3f7985cded2a3e57b0049343c53b383"
+  }
+]
