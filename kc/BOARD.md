@@ -2,22 +2,6 @@
 
 ## Now
 
-- **insights-core**: the GA4 data layer for Insights (plan step 10), with no UI
-  and no database. In `kc/insights/`: build the Data API `runReport` request
-  bodies for the cards (visitors in the last 28 days against the 28 before,
-  top 5 pages, top 5 cities, visitors by channel, average engagement time),
-  turn a response into plain card data (numbers plus a one-line sentence each,
-  like "412 visitors, up 18% on the month before"), and sign a service
-  account's access token request with `node:crypto` (RS256 JWT, no new
-  dependency), with `fetch` passed in so tests never touch the network. Check
-  every dimension and metric name against Google's Data API schema page and
-  name the page in a comment; `city` and `pagePath` are already confirmed,
-  the channel and duration names are not. Done-test:
-  `node --test kc/tests/insights.test.ts`, on fixture responses, covering a
-  property with no data and a month with zero previous visitors.
-
-## Next
-
 - **upstream-watch**: the weekly upstream check (plan step 8, first half). In
   `kc/update/`: compare the fork's version with upstream's latest release
   (skip drafts and prereleases, compare as semver). A workflow
@@ -34,6 +18,17 @@
   reads the workflow file and checks the schedule, the guard, the URL and the
   empty permissions.
 
+## Next
+
+- **insights-route**: the Insights screen and its route, after insights-core
+  (PR #1) merges and a GA4 property exists to try it on. Needs a schema
+  change (a GA4 property ID per repo), which this board parks, so Rob decides
+  how. Two hard rules from the audit of insights-core: render every card value
+  as plain text, never HTML or markdown, and length-limit `pagePath` before
+  it goes into a sentence (anyone can send GA4 a fake page path); and look up
+  the property ID on the server from the repo record, only after checking the
+  user can open that repo, never from the request. Cache reports for an hour.
+
 ## Waiting on Rob
 
 - Run `server/deploy.sh` on the box (the agent's permission check refused a
@@ -44,6 +39,7 @@
 - Branding (plan step 9): which KC logo, colours and name on the login screen.
 - `ADMIN_EMAILS`: which address he logs in with.
 - GA4 property and Google Cloud project under KC's account; B2 signup.
+- Merge PR #1 (insights-core): gated and audited, no findings.
 
 ## Blocked
 
