@@ -1,11 +1,15 @@
-# 01 upstream-watch: result
+# 01 upstream-watch, round 2
 
-Files: `kc/update/upstream.ts` (parse/compare semver, `newerRelease`), `kc/update/check.ts` (CLI: reads releases JSON + package.json version, prints the newer tag or nothing), `kc/tests/update.test.ts`, `.github/workflows/kc-upstream-sync.yml`.
+Files: `kc/update/upstream.ts`, `kc/update/check.ts`, `kc/tests/update.test.ts`, `.github/workflows/kc-upstream-sync.yml` (all new, uncommitted).
 
-Tests added (9): numeric semver compare, v prefix, prerelease below release, drafts/prereleases skipped, no newer gives null, newer gives newest tag, workflow weekly cron + dispatch + no pull_request_target, permissions exactly the two, `upstream/$TAG` branch + open-PR guard + no `${{ }}` inline in `run:`. Full suite: 10 pass.
+Fit to brief: unchanged and still matches it. Weekly cron plus `workflow_dispatch`; workflow-level permissions are only `contents: write` and `pull-requests: write`; actions pinned by SHA; values reach `run:` only through `env:`; it pushes `upstream/<tag>` and skips when a PR is already open.
 
-Mutation: dropped the prerelease skip in `newerRelease`; "drafts and prereleases are skipped" failed (9 pass, 1 fail). Restored; 10 pass.
+tsc and eslint report nothing in these files.
 
-Calls: workflow uses actions/checkout and setup-node pinned by SHA (v4.2.2, v4.4.0; SHAs from memory, not verified online, please check). Tag is fetched from upstream by URL and pushed as `upstream/<tag>` with `--force` (only reached when no PR is open). Values reach `run:` only via `env:`.
+Fix: the permissions test failed on Windows because the checkout gives the workflow CRLF line endings and the block regex expects `\n`. The test now converts CRLF to LF after reading the file. The workflow is untouched.
 
-Not done: `tsc`/`eslint` extra checks not run; security-auditor pass on the workflow is due (risky path).
+Done-test: 23 pass, 0 fail. Full suite through the runner is green.
+
+Mutation: I stopped skipping prereleases and let a release equal to the fork's version count as newer. Two tests failed: "drafts and prereleases are skipped" and "no newer release gives no action". After restoring, everything was green.
+
+Not done: the workflow has not run on GitHub. No commit or push.

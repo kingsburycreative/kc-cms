@@ -2,7 +2,6 @@
 
 ## Now
 
-- **upstream-watch**: code on branch `wip/01-upstream-watch`, gated once and parked only on the tsconfig line, which is now in main. Rebase it onto main, rerun the gate, and open the PR. Its workflow needs "Allow GitHub Actions to create pull requests" turned on for the repo.
 
 ## Next
 
@@ -27,5 +26,6 @@
 
 ## Done
 
+- **upstream-watch**: gated, PR pending. Its workflow needs "Allow GitHub Actions to create pull requests" turned on for the repo.
 - **insights-core**: PR #1, merged.
 - **uptime**: PR #3, merged. Stays quiet until the repo variable `KC_UPTIME_ENABLED` is `true`.

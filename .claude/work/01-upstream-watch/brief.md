@@ -30,3 +30,6 @@ No commit, no push, no install, nothing outward. Never edit `package.json`, `pac
 
 ## Report
 Write `result.md` beside this file, under 200 words: files changed, tests added, the mutation result naming the tests that failed, and any call made and why. Say what was not done.
+
+## Round 2 (2026-10-14)
+The four files above were restored, uncommitted, from branch `wip/01-upstream-watch` onto main, which now has `allowImportingTsExtensions`. Check they still fit the brief, fix anything that fails `npx tsc --noEmit` or `npx eslint kc` in those files, then rerun the done-test and the mutation check through the runner, and rewrite result.md.

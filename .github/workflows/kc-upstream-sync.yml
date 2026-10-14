@@ -1,0 +1,49 @@
+name: KC upstream sync
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: "24"
+
+      - name: Find a newer upstream release
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --paginate --slurp repos/hunvreus/pagescms/releases | jq 'add' > "$RUNNER_TEMP/releases.json"
+          tag="$(node kc/update/check.ts "$RUNNER_TEMP/releases.json")"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Open the upstream PR
+        if: steps.check.outputs.tag != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.check.outputs.tag }}
+        run: |
+          branch="upstream/$TAG"
+          open="$(gh pr list --state open --base main --head "$branch" --json number --jq 'length')"
+          if [ "$open" != "0" ]; then
+            echo "A PR for $branch is already open."
+            exit 0
+          fi
+          git fetch --no-tags https://github.com/hunvreus/pagescms.git "refs/tags/$TAG:refs/tags/$TAG"
+          git push --force origin "refs/tags/$TAG^{commit}:refs/heads/$branch"
+          gh pr create --base main --head "$branch" \
+            --title "Upstream Pages CMS $TAG" \
+            --body "Upstream hunvreus/pagescms published $TAG. Review and merge to pick it up."
