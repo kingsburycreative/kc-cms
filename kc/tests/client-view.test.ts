@@ -5,6 +5,7 @@ import {
   KcSchema,
   clientName,
   dashboardName,
+  documentTitleFor,
   repoDisplayName,
   viewFor,
   repoHref,
@@ -65,4 +66,14 @@ test("a client with one unfiltered repo is redirected, nobody else", () => {
 test("list label is the dashboard name for a client only", () => {
   assert.equal(repoListLabel(true, "henike-tree-service"), "Henike Tree Service Dashboard");
   assert.equal(repoListLabel(false, "henike-tree-service"), "henike-tree-service");
+});
+
+test("tab title is the dashboard name for a client inside a repo only", () => {
+  const named = { repo: "henike-tree-service", object: { kc: { client: "Henike Tree" } } };
+  const bare = { repo: "henike-tree-service", object: {} };
+  assert.equal(documentTitleFor({ config: named, isClient: true }), "Henike Tree Dashboard");
+  assert.equal(documentTitleFor({ config: bare, isClient: true }), "Henike Tree Service Dashboard");
+  assert.equal(documentTitleFor({ config: named, isClient: false }), null);
+  assert.equal(documentTitleFor({ config: null, isClient: true }), null);
+  assert.equal(documentTitleFor({ config: null, isClient: false }), null);
 });

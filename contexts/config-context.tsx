@@ -33,3 +33,5 @@ export const ConfigProvider = ({
     </ConfigContext.Provider>
   );
 };
+
+export const useOptionalConfig = () => useContext(ConfigContext)?.config ?? null;

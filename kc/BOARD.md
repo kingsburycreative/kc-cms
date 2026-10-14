@@ -2,15 +2,6 @@
 
 ## Now
 
-- **title-hook**: `components/document-title.tsx` (from client-view) calls
-  `useConfig()` inside a try/catch to survive pages with no config provider.
-  Replace that with a context read that returns null outside a repo (a
-  `useOptionalConfig` in `kc/`, reading the same context the provider sets,
-  or the smallest export from `contexts/config-context.tsx` that allows it),
-  and drop the eslint disable. Behaviour is unchanged: a client inside a repo
-  sees "<client> Dashboard", everyone else sees the page title. Test the
-  title helper both ways.
-
 ## Next
 
 - **insights-route**: the Insights screen and its route, after insights-core
@@ -30,6 +21,7 @@
 
 ## Done
 
+- **title-hook**: committed on feat/07-title-hook, gate green, no audit (not a risky path).
 - **update-banner**: committed on feat/06-update-banner, gate green, no audit (not a risky path).
 - **client-view**: committed on feat/05-client-view, gate green, no audit (not a risky path).
 - **branding**: committed on feat/03-branding, gate green, audit clean.
