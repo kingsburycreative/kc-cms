@@ -2,6 +2,19 @@
 
 ## Now
 
+- **dark-primary**: dark mode's primary fails contrast. `#A84F23` is used as
+  link text (`text-primary` in `app/(main)/admin/page.tsx` and
+  `components/about.tsx`) and measures about 3.2:1 on the dark background.
+  In `.dark` only, in `app/globals.css`: `--primary: #D4713F`,
+  `--primary-foreground: #1A1714`, `--ring: #D4713F` (KC's own lighter
+  terracotta and warm near-black; about 5.3:1 for button text and about 5:1
+  as text on the dark background). Add both values to `kc/brand.ts` as
+  `BRAND_PRIMARY_DARK` and `BRAND_PRIMARY_FOREGROUND_DARK`. Extend
+  `kc/tests/brand.test.ts`: read `.dark`'s `--background` from
+  `globals.css`, convert the oklch to sRGB in the test, and require 4.5:1
+  for primary on background and foreground on primary, in both `:root` and
+  `.dark`. Light mode is right and stays as is.
+
 ## Next
 
 - **insights-route**: the Insights screen and its route, after insights-core
