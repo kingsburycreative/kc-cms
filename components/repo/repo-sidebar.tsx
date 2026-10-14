@@ -14,6 +14,8 @@ import { useConfig } from "@/contexts/config-context";
 import { useRepo } from "@/contexts/repo-context";
 import { useUser } from "@/contexts/user-context";
 import { hasGithubIdentity } from "@/lib/authz-shared";
+import { dashboardName, viewFor } from "@/kc/client-view";
+import { BRAND_MARK } from "@/kc/brand";
 import { isCacheEnabled, isConfigEnabled } from "@/lib/config";
 import { getRootActions } from "@/lib/actions";
 import { getVisits } from "@/lib/tracker";
@@ -149,6 +151,23 @@ function RepoSwitcher() {
     router.push(`/${owner}/${repo}/${encodeURIComponent(branch)}`);
   };
 
+  const { user } = useUser();
+  const view = viewFor(!hasGithubIdentity(user)).sidebar;
+  if (!view.branchPicker) {
+    return (
+      <SidebarMenuButton size="lg" asChild>
+        <Link href={`/${owner}/${repo}/${encodeURIComponent(currentBranch || "main")}`}>
+          <svg className="size-8" viewBox="0 0 32 32" fill={BRAND_MARK} xmlns="http://www.w3.org/2000/svg">
+            <circle cx="16" cy="16" r="12" />
+          </svg>
+          <span className="truncate font-medium">
+            {dashboardName((config?.object as any)?.kc, repo)}
+          </span>
+        </Link>
+      </SidebarMenuButton>
+    );
+  }
+
   return (
     <Dialog>
       <div ref={triggerWrapperRef}>
@@ -189,6 +208,7 @@ function RepoSwitcher() {
                 : undefined
             }
           >
+            {view.githubLink && (<>
             <DropdownMenuItem asChild>
               <a
                 href={`https://github.com/${owner}/${repo}`}
@@ -200,6 +220,7 @@ function RepoSwitcher() {
               </a>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
+            </>)}
             <DropdownMenuLabel className="text-xs text-muted-foreground">
               Branches
             </DropdownMenuLabel>
@@ -612,7 +633,7 @@ export function RepoSidebar() {
             <User align="start" />
             <AdminButton />
           </div>
-          <About />
+          {viewFor(!hasGithubIdentity(user)).sidebar.about && <About />}
         </div>
       </SidebarFooter>
     </Sidebar>

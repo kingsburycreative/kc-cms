@@ -6,6 +6,7 @@
 
 import { z } from "zod";
 import { fieldTypes } from "@/fields/registry";
+import { KcSchema } from "@/kc/client-view";
 
 const ActionSchema = z
   .object({
@@ -769,6 +770,7 @@ const ConfigSchema = z
         message: "'hide' must be a boolean.",
       })
       .optional(),
+    kc: KcSchema.optional(),
     media: MediaSchema.optional(),
     content: z
       .array(ContentObjectSchema, {
