@@ -2,20 +2,6 @@
 
 ## Now
 
-- **insights-core**: the GA4 data layer for Insights (plan step 10), with no UI
-  and no database. In `kc/insights/`: build the Data API `runReport` request
-  bodies for the cards (visitors in the last 28 days against the 28 before,
-  top 5 pages, top 5 cities, visitors by channel, average engagement time),
-  turn a response into plain card data (numbers plus a one-line sentence each,
-  like "412 visitors, up 18% on the month before"), and sign a service
-  account's access token request with `node:crypto` (RS256 JWT, no new
-  dependency), with `fetch` passed in so tests never touch the network. Check
-  every dimension and metric name against Google's Data API schema page and
-  name the page in a comment; `city` and `pagePath` are already confirmed,
-  the channel and duration names are not. Done-test:
-  `node --test kc/tests/insights.test.ts`, on fixture responses, covering a
-  property with no data and a month with zero previous visitors.
-
 ## Next
 
 - **upstream-watch**: the weekly upstream check (plan step 8, first half). In
@@ -48,3 +34,17 @@
 ## Blocked
 
 ## Done
+
+- **insights-core**: the GA4 data layer for Insights (plan step 10), with no UI
+  and no database. In `kc/insights/`: build the Data API `runReport` request
+  bodies for the cards (visitors in the last 28 days against the 28 before,
+  top 5 pages, top 5 cities, visitors by channel, average engagement time),
+  turn a response into plain card data (numbers plus a one-line sentence each,
+  like "412 visitors, up 18% on the month before"), and sign a service
+  account's access token request with `node:crypto` (RS256 JWT, no new
+  dependency), with `fetch` passed in so tests never touch the network. Check
+  every dimension and metric name against Google's Data API schema page and
+  name the page in a comment; `city` and `pagePath` are already confirmed,
+  the channel and duration names are not. Done-test:
+  `node --test kc/tests/insights.test.ts`, on fixture responses, covering a
+  property with no data and a month with zero previous visitors.
