@@ -8,6 +8,7 @@ import { RepoTemplates } from "@/components/repo/repo-templates";
 import { RepoLatest } from "@/components/repo/repo-latest";
 import { DocumentTitle } from "@/components/document-title";
 import { hasGithubIdentity } from "@/lib/authz-shared";
+import { viewFor } from "@/kc/client-view";
 import {
   Empty,
   EmptyContent,
@@ -23,6 +24,7 @@ export default function Page() {
   const [hasRecentVisits, setHasRecentVisits] = useState(false);
   const { user } = useUser();
   const isGithubUser = hasGithubIdentity(user);
+  const view = viewFor(!isGithubUser).home;
 
   useEffect(() => {
     setHasRecentVisits(getVisits().length > 0);
@@ -37,7 +39,7 @@ export default function Page() {
       <div className="max-w-screen-sm mx-auto p-4 md:p-6 space-y-8">
         {user.accounts.length > 0 ? (
           <div className="min-h-[calc(100vh-12rem)] flex flex-col justify-center space-y-8">
-            {hasRecentVisits && (
+            {view.recentVisits && hasRecentVisits && (
               <div className="space-y-4">
                 <h2 className="text-lg font-medium tracking-tight">
                   Recently visited
@@ -53,7 +55,7 @@ export default function Page() {
                 onAccountSelect={(account) => setDefaultAccount(account)}
               />
             </div>
-            {isGithubUser && (
+            {view.templates && (
               <div className="space-y-4">
                 <h2 className="text-lg font-medium tracking-tight">
                   Create from a template

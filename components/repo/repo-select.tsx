@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { formatDistanceToNow } from "date-fns";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { repoHref, repoListLabel, soleRepoRedirect } from "@/kc/client-view";
 import { useUser } from "@/contexts/user-context";
 import { getGithubInstallationUrl } from "@/lib/github-app";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -31,6 +33,7 @@ export function RepoSelect({
 }) {
   const { user } = useUser();
   const isGithubUser = hasGithubIdentity(user);
+  const router = useRouter();
 
   const accounts = useMemo(() => {
     if (!user) return [];
@@ -107,6 +110,12 @@ export function RepoSelect({
       abortControllerRef.current?.abort();
     };
   }, [debouncedKeyword, selectedAccount]);
+
+  useEffect(() => {
+    if (isLoading) return;
+    const href = soleRepoRedirect(!isGithubUser, displayedKeyword, results);
+    if (href) router.replace(href);
+  }, [isLoading, isGithubUser, displayedKeyword, results, router]);
 
   const resultsLoadingSkeleton = useMemo(() => (
     <ul>
@@ -194,15 +203,15 @@ export function RepoSelect({
                 <li key={`${result.owner}/${result.repo}`} className="flex gap-x-2 items-center border border-b-0 last:border-b first:rounded-t-md last:rounded-b-md px-3 py-2 text-sm">
                   <Link
                     className="truncate font-medium hover:underline"
-                    href={`/${result.owner}/${result.repo}/${result.defaultBranch ? encodeURIComponent(result.defaultBranch) : ""}`}
-                  >{result.repo}</Link>
+                    href={repoHref(result)}
+                  >{repoListLabel(!isGithubUser, result.repo)}</Link>
                   {result.private && <LockKeyhole className="h-3 w-3 opacity-50"/>}
                   {result.updatedAt &&
                     <div className="text-muted-foreground truncate">{formatDistanceToNow(new Date(result.updatedAt))} ago</div>
                   }
                   <Link
                     className={cn("ml-auto", buttonVariants({ variant: "outline", size: "xs"}))}
-                    href={`/${result.owner}/${result.repo}/${result.defaultBranch ? encodeURIComponent(result.defaultBranch) : ""}`}
+                    href={repoHref(result)}
                   >
                     Open
                   </Link>

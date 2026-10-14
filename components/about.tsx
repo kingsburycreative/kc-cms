@@ -5,6 +5,9 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { useUser } from "@/contexts/user-context";
+import { hasGithubIdentity } from "@/lib/authz-shared";
+import { viewFor } from "@/kc/client-view";
 import { BRAND_NAME, BRAND_MARK, UPSTREAM_NAME, UPSTREAM_URL } from "@/kc/brand";
 import {
   Tooltip,
@@ -34,6 +37,7 @@ const UPDATE_DOCS_URL = "https://pagescms.org/docs";
 export function About() {
   const [open, setOpen] = useState(false);
   const [latestVersion, setLatestVersion] = useState<string | null>(null);
+  const { user } = useUser();
 
   useEffect(() => {
     if (!open) return;
@@ -67,6 +71,8 @@ export function About() {
     if (!latestVersion) return false;
     return compareSemver(version, latestVersion) < 0;
   }, [latestVersion]);
+
+  if (!viewFor(!hasGithubIdentity(user)).sidebar.about) return null;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
