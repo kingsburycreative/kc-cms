@@ -3,3 +3,4 @@
 - 2026-10-14 card 01 upstream-watch PARKED: extra_checks failed, tsc TS5097 on `.ts` import paths (required by project.md) because tsconfig.json lacks allowImportingTsExtensions. Fix is an upstream-file edit the card doesn't name, so Rob decides. Work on branch wip/01-upstream-watch. Any future card importing between kc/ files hits the same wall.
 - 2026-10-14 card 02 uptime: audit found no attack. Needs Rob: if the repo is private, a 15-minute schedule is about 2,880 Actions minutes a month, over the Free plan's 2,000; make it public, or slow the cron. Minor: a failed connection logs "000000"; still fails correctly.
 - 2026-10-14 merged insights-core (PR #1, renumbered 00) and uptime (PR #3) with Rob's yes. upstream-watch unparked: main now has allowImportingTsExtensions.
+- 2026-10-14 card 01 upstream-watch round 2: restored onto main, scope ok with mutation evidence; workflow identical to the audited one, test now normalises CRLF. Sent to the loop's gate.
