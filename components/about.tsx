@@ -5,6 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { BRAND_NAME, BRAND_MARK, UPSTREAM_NAME, UPSTREAM_URL } from "@/kc/brand";
 import {
   Tooltip,
   TooltipContent,
@@ -74,39 +75,41 @@ export function About() {
           <TooltipTrigger asChild>
             <DialogTrigger asChild>
               <Button size="icon-sm" variant="ghost">
-                <span className="bg-primary text-primary-foreground rounded-md size-6 flex items-center justify-center">
+                <span className="rounded-md size-6 flex items-center justify-center">
                   <svg
                     className="size-4"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
+                    viewBox="0 0 32 32"
+                    fill={BRAND_MARK}
                     xmlns="http://www.w3.org/2000/svg"
                   >
-                    <path d="M0 4.8C0 2.14903 2.14903 0 4.8 0H12.0118C13.2848 0 14.5057 0.505713 15.4059 1.40589L22.5941 8.59411C23.4943 9.49429 24 10.7152 24 11.9882V19.2C24 21.851 21.851 24 19.2 24H4.8C2.14903 24 0 21.851 0 19.2V4.8Z"></path>
+                    <circle cx="16" cy="16" r="12" />
                   </svg>
                 </span>
-                <span className="sr-only">About Pages CMS</span>
+                <span className="sr-only">About {BRAND_NAME}</span>
               </Button>
             </DialogTrigger>
           </TooltipTrigger>
-          <TooltipContent>About Pages CMS</TooltipContent>
+          <TooltipContent>About {BRAND_NAME}</TooltipContent>
         </Tooltip>
       </TooltipProvider>
       <DialogContent className="w-[20rem] max-w-[calc(100vw-2rem)]">
         <DialogHeader className="items-center gap-3 text-center">
-          <div className="flex size-15 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
+          <div className="flex size-15 items-center justify-center rounded-2xl">
             <svg
               className="size-10"
-              viewBox="0 0 24 24"
-              fill="currentColor"
+              viewBox="0 0 32 32"
+              fill={BRAND_MARK}
               xmlns="http://www.w3.org/2000/svg"
             >
-              <path d="M0 4.8C0 2.14903 2.14903 0 4.8 0H12.0118C13.2848 0 14.5057 0.505713 15.4059 1.40589L22.5941 8.59411C23.4943 9.49429 24 10.7152 24 11.9882V19.2C24 21.851 21.851 24 19.2 24H4.8C2.14903 24 0 21.851 0 19.2V4.8Z" />
+              <circle cx="16" cy="16" r="12" />
             </svg>
           </div>
           <DialogTitle className="text-base font-semibold">
-            Pages CMS
+            {BRAND_NAME}
           </DialogTitle>
           <DialogDescription>
+            Built on{" "}
+            <ExternalLink href={UPSTREAM_URL}>{UPSTREAM_NAME}</ExternalLink>.{" "}
             Open source CMS for static sites. Edit directly on GitHub with a
             clean interface.
           </DialogDescription>

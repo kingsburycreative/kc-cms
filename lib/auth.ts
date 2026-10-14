@@ -11,6 +11,7 @@ import { syncGithubProfileOnLogin } from "@/lib/github-account";
 import { bindCollaboratorInvitesToUser } from "@/lib/collaborator-access";
 import { LoginEmailTemplate } from "@/components/email/login";
 import { render } from "@react-email/render";
+import { BRAND_NAME } from "@/kc/brand";
 
 export const auth = betterAuth({
   baseURL: getBaseUrl(),
@@ -164,7 +165,7 @@ export const auth = betterAuth({
       sendVerificationOTP: async ({ email, otp, type }) => {
         if (type !== "sign-in") return;
 
-        const subject = `Your Pages CMS temporary code is ${otp}`;
+        const subject = `Your ${BRAND_NAME} temporary code is ${otp}`;
         const html = await render(
           LoginEmailTemplate({
             email,
