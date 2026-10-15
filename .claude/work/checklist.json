@@ -163,5 +163,20 @@
     },
     "verified_at": "2026-10-15T03:41:49.467Z",
     "tree": "409f61bbef5e6592af3396060a3224a1751fbac37edf4bb6ab04e57ae284fbc2"
+  },
+  {
+    "id": "11",
+    "title": "settings-gate",
+    "brief": ".claude/work/11-settings-gate/brief.md",
+    "start_sha": "f9e25b8b51c9d3fd0e3a588aff733cfbc98f8b8f",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-15T19:29:15.943Z",
+      "start_sha": "f9e25b8b51c9d3fd0e3a588aff733cfbc98f8b8f",
+      "mutation_evidence": false,
+      "tree": "2c5c41806fb4c299503bea7fedc72ff748861b61b7b1aaa57ace5f0c251ad391"
+    },
+    "verified_at": "2026-10-15T19:37:04.470Z",
+    "tree": "2c5c41806fb4c299503bea7fedc72ff748861b61b7b1aaa57ace5f0c251ad391"
   }
 ]

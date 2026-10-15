@@ -20,3 +20,8 @@
 
 ## 2026-10-14 insights-labels (10)
 - Branch feat/10-insights-labels. Scope ok with mutation evidence; diff read, no weakened tests. Call made: pages and channels get their own "aren't known yet" sentences alongside the card's cities one. Audit (Opus) found no attack; labels render as escaped React text. Sent to the loop's gate.
+
+## 2026-10-15 settings-gate (11)
+- The 18:56 pass was killed at 19:19 mid re-audit; its output was stashed. This pass restored the stash onto feat/11-settings-gate and gated it. Scope ok; the runner reported mutation evidence "no" only because restoring re-created the card folder after the 19:17 fail-then-pass mutation runs, which are in test-runs.jsonl. Diff read, all tests new, none weakened.
+- Fresh Opus audit: the round 3 path fix holds, no way past the new gate. Two older findings the diff did not create, so the card was not sent back (it started on the top tier and had used one round on an audit fix; parking it would leave the .pages.yml write hole open): run-claim (a client can cancel Rob's workflow run via an orphaned run row) queued in Next; config-exposure (clients can read the parsed .pages.yml through the page data) put under Waiting on Rob.
+- Calls the worker made: renaming onto .pages.yml is refused for everyone; GET actions stays open; email collaborators can no longer dispatch actions. Sent to the loop's gate.

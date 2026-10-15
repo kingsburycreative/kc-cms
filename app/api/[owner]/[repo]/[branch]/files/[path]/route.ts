@@ -7,7 +7,8 @@ import { stringify, parse } from "@/lib/serialization";
 import { deepMap, generateZodSchema, getSchemaByName, sanitizeObject } from "@/lib/schema";
 import { getConfig, updateConfig } from "@/lib/config-store";
 import { getFileExtension, getFileName, normalizePath, serializedTypes, getParentPath } from "@/lib/utils/file";
-import { assertGithubIdentity } from "@/lib/authz-shared";
+import { isSettingsPath } from "@/kc/settings-gate";
+import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { getToken } from "@/lib/token";
 import { updateFileCache } from "@/lib/github-cache-file";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
@@ -51,6 +52,8 @@ export async function POST(
     let schema;
     let schemaCommitTemplates: Record<string, string> | undefined;
     let schemaCommitIdentity: "app" | "user" | undefined;
+
+    if (data.type === "settings" || isSettingsPath(normalizedPath)) await requireOwnRepoPush(user, params.owner, params.repo, "Only GitHub users can manage settings.");
 
     switch (data.type) {
       case "content":
@@ -183,7 +186,6 @@ export async function POST(
         }
         break;
       case "settings":
-        assertGithubIdentity(user, "Only GitHub users can manage settings.");
         if (normalizedPath !== ".pages.yml") throw new Error(`Invalid path "${params.path}" for settings.`);
         if (!data.sha && !isContentOperationAllowed("create", { scope: "settings" })) {
           throw createHttpError(`Creating the settings file isn't allowed.`, 403);
@@ -459,7 +461,10 @@ export async function DELETE(
     const { token } = await getToken(user, params.owner, params.repo, true);
     if (!token) throw new Error("Token not found");
 
-    if (!isContentOperationAllowed("delete", { scope: "settings" }) && params.path === ".pages.yml") {
+    const normalizedPath = normalizePath(params.path);
+    const settingsPath = isSettingsPath(params.path) || isSettingsPath(normalizedPath);
+    if (settingsPath) await requireOwnRepoPush(user, params.owner, params.repo, "Only GitHub users can manage settings.");
+    if (!isContentOperationAllowed("delete", { scope: "settings" }) && settingsPath) {
       throw createHttpError(`Deleting the settings file isn't allowed.`, 403);
     }
 
@@ -477,7 +482,6 @@ export async function DELETE(
     });
     if (!config) throw new Error(`Configuration not found for ${params.owner}/${params.repo}/${params.branch}.`);
 
-    const normalizedPath = normalizePath(params.path);
     let schema;
     let schemaCommitTemplates: Record<string, string> | undefined;
     let schemaCommitIdentity: "app" | "user" | undefined;

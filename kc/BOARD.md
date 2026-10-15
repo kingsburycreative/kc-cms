@@ -2,36 +2,10 @@
 
 ## Now
 
-Three fixes from the 2026-10-15 security audit, in this order. All three
+Two fixes left from the 2026-10-15 security audit, in this order. Both
 are risky paths (`app/api/`, `lib/auth.ts`): top model tier and a
 `security-auditor` pass on each.
 
-- **settings-gate**: a client can rewrite `.pages.yml` today. A client is an
-  email user invited to one repo. If they make a free GitHub account with
-  the same email and click Connect, better-auth links it without asking
-  (`lib/auth.ts:28-35`, `trustedProviders: ["github"]`) and the login sets
-  `githubUsername` (`lib/github-account.ts:45-47`). Their own token can't
-  see the private repo, so `getToken` falls back to the installation token
-  (`lib/token.ts:37-47`), while the settings routes only ask "has a GitHub
-  username" (`assertGithubIdentity`). Result: they can read, write, rename
-  and delete `.pages.yml`, which strips the CMS's required fields and opens
-  every path in the repo to them. Fix: settings need push access proven
-  with the user's own GitHub token, the same check collaborators already
-  use (`requireGithubRepoWriteAccess`, `lib/authz-server.ts:16-39`). Put
-  the check in one `kc/` helper and call it from each place that now calls
-  `assertGithubIdentity` for settings:
-  `app/api/[owner]/[repo]/[branch]/files/[path]/route.ts:186`,
-  `.../entries/[path]/route.ts:44`, `.../entries/[path]/history/route.ts:37`,
-  and the `.pages.yml` guard in `lib/operations.ts` (around lines 17-21).
-  Same card: the Actions dispatch in `.../actions/route.ts` (POST, around
-  line 24) takes `action.workflow` from the request body and has no
-  identity check at all, so a client can run any workflow in their repo.
-  Gate dispatch with the same helper. Upstream files touched: the four
-  routes and `lib/operations.ts`, one-line hooks each. Tests: the helper's
-  decision as a pure function (no identity, identity without push, push),
-  and a test per route that reads its source and fails if the settings
-  branch or the dispatch can be reached without the helper. Mutation check:
-  remove the call from one route.
 - **otp-ip-key**: the sign-in code rate limit is keyed on the first
   `X-Forwarded-For` value, which the caller sets, so anyone can send login
   codes to any address without limit. nginx already sets
@@ -54,12 +28,29 @@ are risky paths (`app/api/`, `lib/auth.ts`): top model tier and a
 
 ## Next
 
+- **run-claim**: from the settings-gate audit, older than that card. A run
+  row whose dispatch threw or whose 9-second lookup missed keeps a null
+  `workflowRunId` (`actions/route.ts` around 412, 430, 472); a later GET
+  attaches the newest unclaimed run on that workflow and ref, checking only
+  a lower time bound (`actions/route.ts` around 72, `actions/[runId]/route.ts`
+  around 67). A client holding such a row can claim Rob's run, and then cancel
+  it as their "own" run without the push check. Fix: attach only runs created
+  within a short window after the row's `createdAt`, and expire rows whose run
+  id is still null. Risky path (`app/api/`): top tier and an audit.
+
 ## Waiting on Rob
+
+- **config-exposure** (from the settings-gate audit, upstream design): any
+  client who opens the repo gets the whole parsed `.pages.yml` in the page
+  data (`app/(main)/[owner]/[repo]/[branch]/layout.tsx` 46-58 and 101 into
+  the client `ConfigProvider`). The settings gate stops changing it, not
+  reading it. Is that acceptable, or should clients get a trimmed config?
 
 ## Blocked
 
 ## Done
 
+- **settings-gate**: committed on feat/11-settings-gate, gate green, audit found no way past the gate; two older findings queued (run-claim, config-exposure).
 - **insights-labels**: PR #18, merged.
 - **insights-gate**: committed on feat/09-insights-gate, gate green, audit found no attack.
 - **title-hook**: committed on feat/07-title-hook, gate green, no audit (not a risky path).

@@ -9,6 +9,8 @@ import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import { getBranchHeadSha, setBranchHeadSha } from "@/lib/github-cache-file";
 import { buildCommitTokens, resolveCommitIdentity, resolveCommitMessage } from "@/lib/commit-message";
 import { requireApiUserSession } from "@/lib/session-server";
+import { isSettingsPath } from "@/kc/settings-gate";
+import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 
 /**
  * Renames a file in a GitHub repository.
@@ -31,7 +33,10 @@ export async function POST(
     const { token } = await getToken(user, params.owner, params.repo, true);
     if (!token) throw new Error("Token not found");
 
-    if (!isContentOperationAllowed("rename", { scope: "settings" }) && params.path === ".pages.yml") {
+    const normalizedPath = normalizePath(params.path);
+    const settingsPath = isSettingsPath(params.path) || isSettingsPath(normalizedPath);
+    if (settingsPath) await requireOwnRepoPush(user, params.owner, params.repo, "Only GitHub users can manage settings.");
+    if (!isContentOperationAllowed("rename", { scope: "settings" }) && settingsPath) {
       throw createHttpError(`Renaming the settings file isn't allowed.`, 403);
     }
 
@@ -46,8 +51,8 @@ export async function POST(
     if (!data.name && data.type === "content") throw new Error(`"name" is required.`);
     if (!data.newPath) throw new Error(`"newPath" is required.`);
 
-    const normalizedPath = normalizePath(params.path);
     const normalizedNewPath = normalizePath(data.newPath);
+    if (isSettingsPath(data.newPath) || isSettingsPath(normalizedNewPath)) throw createHttpError(`Renaming a file to the settings file isn't allowed.`, 403);
     if (normalizedPath === normalizedNewPath) throw new Error(`New path "${data.newPath}" is the same as the old path.`);
 
     let schema;

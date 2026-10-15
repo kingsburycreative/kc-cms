@@ -5,7 +5,8 @@ import { deepMap, getSchemaByName } from "@/lib/schema";
 import { parse } from "@/lib/serialization";
 import { getConfig } from "@/lib/config-store";
 import { getFileExtension, normalizePath } from "@/lib/utils/file";
-import { assertGithubIdentity } from "@/lib/authz-shared";
+import { isSettingsPath } from "@/kc/settings-gate";
+import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { getToken } from "@/lib/token";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import { requireApiUserSession } from "@/lib/session-server";
@@ -40,8 +41,8 @@ export async function GET(
       searchParams.get("meta") === "1";
     
     const normalizedPath = normalizePath(params.path);
-    if (normalizedPath === ".pages.yml") {
-      assertGithubIdentity(user, "Only GitHub users can access settings.");
+    if (isSettingsPath(normalizedPath)) {
+      await requireOwnRepoPush(user, params.owner, params.repo, "Only GitHub users can access settings.");
     }
 
     if (!name && normalizedPath !== ".pages.yml") {
