@@ -2,21 +2,10 @@
 
 ## Now
 
-Two fixes left from the 2026-10-15 security audit, in this order. Both
+Fixes left from the 2026-10-15 security audit, in this order. Both
 are risky paths (`app/api/`, `lib/auth.ts`): top model tier and a
 `security-auditor` pass on each.
 
-- **otp-ip-key**: the sign-in code rate limit is keyed on the first
-  `X-Forwarded-For` value, which the caller sets, so anyone can send login
-  codes to any address without limit. nginx already sets
-  `X-Real-IP $remote_addr` (`D:\Dev\htdocs\kc-cms\server\deploy.sh:142`).
-  Make better-auth read only `x-real-ip` for the client IP. Find the exact
-  option name in `node_modules/better-auth` (1.5.6) source, do not guess it
-  (likely `advanced.ipAddress.ipAddressHeaders`). Keep the value in a `kc/`
-  constant that `lib/auth.ts` imports. Also confirm from the same source
-  that the rate limiter is on in production with no extra setting, and say
-  so in the commit. Tests: the constant is exactly `["x-real-ip"]`, and
-  `lib/auth.ts` passes it.
 - **media-types**: an upload is accepted with any extension when the media
   config sets no `extensions` (`.../files/[path]/route.ts:177-182`), so a
   client can commit `.svg`, `.html` or `.js` into the site's `public/`.
@@ -25,6 +14,19 @@ are risky paths (`app/api/`, `lib/auth.ts`): top model tier and a
   config that sets `extensions` keeps working as it does. Tests: each
   allowed type passes, `svg`, `html`, `js` and a double extension like
   `photo.jpg.html` are refused, and a config with its own list is honoured.
+
+- **otp-disabled-paths**: from the otp-ip-key audit. Many simultaneous wrong
+  guesses at `/email-otp/check-verification-otp` are charged as one of the 5
+  attempts (better-auth reads then writes the counter, `routes.mjs` 233-255),
+  and a right guess there does not use up the code, so it can then sign in.
+  The UI never calls that path (`components/sign-in.tsx`,
+  `components/invite-sign-in.tsx` use only send and sign-in). Fix: put
+  `/email-otp/check-verification-otp`, `/email-otp/request-password-reset`
+  and `/email-otp/reset-password` in better-auth's `disabledPaths` (reset
+  codes are created but never emailed, so they can be guessed silently the day
+  password sign-in is turned on), from a `kc/` constant `lib/auth.ts`
+  imports. Tests: the constant's exact list, and `lib/auth.ts` passes it.
+  Risky path (`lib/auth.ts`): top tier and an audit.
 
 ## Next
 
@@ -38,6 +40,15 @@ are risky paths (`app/api/`, `lib/auth.ts`): top model tier and a
   within a short window after the row's `createdAt`, and expire rows whose run
   id is still null. Risky path (`app/api/`): top tier and an audit.
 
+- **otp-atomic-limit**: from the otp-ip-key audit. better-auth's limiter checks
+  before the request and counts after it (`better-call/dist/router.mjs`
+  103-107), so a burst of simultaneous sends from one IP all get through, and
+  an IPv6 /48 gives 65,536 separate buckets. Fix: a `hooks.before` on
+  send-verification-otp and sign-in/email-otp that increments then checks,
+  per IP and per recipient email, before the handler runs. In memory is enough
+  on the one process (a Postgres counter needs a schema change, which parks).
+  Risky path: top tier and an audit.
+
 ## Waiting on Rob
 
 - **config-exposure** (from the settings-gate audit, upstream design): any
@@ -46,10 +57,18 @@ are risky paths (`app/api/`, `lib/auth.ts`): top model tier and a
   the client `ConfigProvider`). The settings gate stops changing it, not
   reading it. Is that acceptable, or should clients get a trimmed config?
 
+- **nginx limit_req** (from the otp-ip-key audit): an nginx `limit_req` zone on
+  `/api/auth/email-otp/` and `/api/auth/sign-in/` would cap the send race at
+  the edge. It is a box change, so it is yours.
+- **invite emails unlimited** (same audit): a signed-in client with push access
+  can send any number of KC-branded invite emails to any addresses
+  (`lib/actions/collaborator.ts` 20-29, 190, 211, 340). Worth a limit?
+
 ## Blocked
 
 ## Done
 
+- **otp-ip-key**: committed on feat/12-otp-ip-key, gate green, audit found no attack on the change; two older better-auth races queued (otp-disabled-paths, otp-atomic-limit).
 - **settings-gate**: committed on feat/11-settings-gate, gate green, audit found no way past the gate; two older findings queued (run-claim, config-exposure).
 - **insights-labels**: PR #18, merged.
 - **insights-gate**: committed on feat/09-insights-gate, gate green, audit found no attack.
