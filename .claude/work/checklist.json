@@ -178,5 +178,20 @@
     },
     "verified_at": "2026-10-15T19:37:04.470Z",
     "tree": "2c5c41806fb4c299503bea7fedc72ff748861b61b7b1aaa57ace5f0c251ad391"
+  },
+  {
+    "id": "12",
+    "title": "otp-ip-key",
+    "brief": ".claude/work/12-otp-ip-key/brief.md",
+    "start_sha": "49acbe7c06469e192e158cc501411aa7ff4f319c",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-15T19:41:50.238Z",
+      "start_sha": "49acbe7c06469e192e158cc501411aa7ff4f319c",
+      "mutation_evidence": true,
+      "tree": "e83fd880eefdad3c020cafeea96effdb79f8ea026a3e5852314b51978cf94f42"
+    },
+    "verified_at": "2026-10-15T19:53:35.326Z",
+    "tree": "e83fd880eefdad3c020cafeea96effdb79f8ea026a3e5852314b51978cf94f42"
   }
 ]

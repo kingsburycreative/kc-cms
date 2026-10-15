@@ -12,10 +12,16 @@ import { bindCollaboratorInvitesToUser } from "@/lib/collaborator-access";
 import { LoginEmailTemplate } from "@/components/email/login";
 import { render } from "@react-email/render";
 import { BRAND_NAME } from "@/kc/brand";
+import { AUTH_IP_HEADERS } from "@/kc/auth-ip";
 
 export const auth = betterAuth({
   baseURL: getBaseUrl(),
   secret: (process.env.AUTH_SECRET || process.env.BETTER_AUTH_SECRET) as string,
+  advanced: {
+    ipAddress: {
+      ipAddressHeaders: AUTH_IP_HEADERS,
+    },
+  },
   user: {
     additionalFields: {
       githubUsername: {
