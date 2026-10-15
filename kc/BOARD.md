@@ -2,6 +2,14 @@
 
 ## Now
 
+- **insights-labels**: GA4 returns `(not set)` (and sometimes `(other)` or an
+  empty string) for towns, pages and channels it couldn't resolve. Seen live
+  2026-10-14 as the second-biggest town. In `kc/insights/cards.ts`, show
+  those as "Unknown" in the lists, and never let one be the "Most visitors
+  come from ..." sentence: the sentence names the top real value, or says
+  "Most visitors' towns aren't known yet." when there is none. Tests for
+  each placeholder value in each card.
+
 
 ## Next
 
