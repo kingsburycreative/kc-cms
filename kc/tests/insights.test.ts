@@ -95,3 +95,27 @@ test("a failed token request never shows the key", async () => {
     return true;
   });
 });
+
+const placeholderCards = [
+  { name: "pages", card: cards.topPagesCard, real: "/about", sentence: "Your most visited page is /about.", none: "Your most visited pages aren't known yet." },
+  { name: "cities", card: cards.topCitiesCard, real: "Ottawa", sentence: "Most visitors come from Ottawa.", none: "Most visitors' towns aren't known yet." },
+  { name: "channels", card: cards.channelsCard, real: "Direct", sentence: "Most visitors arrive through Direct.", none: "Most visitors' traffic sources aren't known yet." },
+];
+const row = (label: string | undefined, value: string) => ({
+  dimensionValues: label === undefined ? [] : [{ value: label }],
+  metricValues: [{ value }],
+});
+for (const { name, card, real, sentence, none } of placeholderCards) {
+  for (const placeholder of ["(not set)", "(other)", "", "  "]) {
+    test(`${name} card shows ${JSON.stringify(placeholder)} as Unknown and skips it in the sentence`, () => {
+      const out = card({ rows: [row(placeholder, "9"), row(real, "5")] });
+      assert.deepEqual(out.items, [{ label: "Unknown", value: 9 }, { label: real, value: 5 }]);
+      assert.equal(out.sentence, sentence);
+    });
+    test(`${name} card with only ${JSON.stringify(placeholder)} says it is not known yet`, () => {
+      const out = card({ rows: [row(placeholder, "3"), row(undefined, "2")] });
+      assert.deepEqual(out.items, [{ label: "Unknown", value: 3 }, { label: "Unknown", value: 2 }]);
+      assert.equal(out.sentence, none);
+    });
+  }
+}

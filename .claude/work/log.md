@@ -17,3 +17,6 @@
 
 ## 2026-10-14 insights-gate (09)
 - Branch feat/09-insights-gate. Scope ok with mutation evidence; diff read, no weakened tests. Push permission costs one extra repos.get call for GitHub-login users (the cached access check holds only a yes/no). Audit (Opus) found no attack on the new gate. Latent, pre-existing, needs Rob: hasAdminAccess (lib/admin.ts) trusts ADMIN_EMAILS without checking emailVerified, and GitHub sign-in can record an unverified email; requiring emailVerified would close it. Known side effect: an email collaborator who links GitHub loses Insights unless they have push. getInsightsAccess itself is untested (needs DB and GitHub). Sent to the loop's gate.
+
+## 2026-10-14 insights-labels (10)
+- Branch feat/10-insights-labels. Scope ok with mutation evidence; diff read, no weakened tests. Call made: pages and channels get their own "aren't known yet" sentences alongside the card's cities one. Audit (Opus) found no attack; labels render as escaped React text. Sent to the loop's gate.
