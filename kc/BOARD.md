@@ -2,18 +2,8 @@
 
 ## Now
 
-Fixes left from the 2026-10-15 security audit, in this order. Both
-are risky paths (`app/api/`, `lib/auth.ts`): top model tier and a
+Fixes left from the 2026-10-15 security audit. A risky path (`app/api/`, `lib/auth.ts`): top model tier and a
 `security-auditor` pass on each.
-
-- **media-types**: an upload is accepted with any extension when the media
-  config sets no `extensions` (`.../files/[path]/route.ts:177-182`), so a
-  client can commit `.svg`, `.html` or `.js` into the site's `public/`.
-  Fix: when `extensions` is missing, allow only `jpg`, `jpeg`, `png`,
-  `webp`, `avif`, `gif`, `pdf`, case-insensitive, from a `kc/` constant. A
-  config that sets `extensions` keeps working as it does. Tests: each
-  allowed type passes, `svg`, `html`, `js` and a double extension like
-  `photo.jpg.html` are refused, and a config with its own list is honoured.
 
 - **otp-disabled-paths**: from the otp-ip-key audit. Many simultaneous wrong
   guesses at `/email-otp/check-verification-otp` are charged as one of the 5
@@ -64,10 +54,14 @@ are risky paths (`app/api/`, `lib/auth.ts`): top model tier and a
   can send any number of KC-branded invite emails to any addresses
   (`lib/actions/collaborator.ts` 20-29, 190, 211, 340). Worth a limit?
 
+- **media categories** (from the media-types audit): a `.pages.yml` media config using `categories: [image]` still allows `.svg` (and `code` allows `.html`, `.js`), because a config that names its own types is honoured as before. Unchecked whether any client config uses `categories`; listing `extensions` explicitly in KC configs avoids it.
+- **scripts in content** (same audit): the rich-text field saves `<script>` in a markdown body unchanged, so a client can still put script on their own site through content. Whether each Astro site renders it is unchecked. Acceptable, or sanitise?
+
 ## Blocked
 
 ## Done
 
+- **media-types**: committed on feat/13-media-types, gate green, audit found no attack; upload and rename now allow only safe image and pdf types when the config names none, and refuse control characters.
 - **otp-ip-key**: committed on feat/12-otp-ip-key, gate green, audit found no attack on the change; two older better-auth races queued (otp-disabled-paths, otp-atomic-limit).
 - **settings-gate**: committed on feat/11-settings-gate, gate green, audit found no way past the gate; two older findings queued (run-claim, config-exposure).
 - **insights-labels**: PR #18, merged.

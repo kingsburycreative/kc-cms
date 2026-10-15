@@ -193,5 +193,20 @@
     },
     "verified_at": "2026-10-15T19:53:35.326Z",
     "tree": "e83fd880eefdad3c020cafeea96effdb79f8ea026a3e5852314b51978cf94f42"
+  },
+  {
+    "id": "13",
+    "title": "media-types",
+    "brief": ".claude/work/13-media-types/brief.md",
+    "start_sha": "2584d11310c95bda020d98cddcdc71332f3351cd",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-15T20:08:32.364Z",
+      "start_sha": "2584d11310c95bda020d98cddcdc71332f3351cd",
+      "mutation_evidence": true,
+      "tree": "80cec9c6c2053fb6ae047584edd506de31d2b72b0bba00465ce58d2a23d88e68"
+    },
+    "verified_at": "2026-10-15T20:09:08.846Z",
+    "tree": "80cec9c6c2053fb6ae047584edd506de31d2b72b0bba00465ce58d2a23d88e68"
   }
 ]

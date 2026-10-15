@@ -11,6 +11,7 @@ import { buildCommitTokens, resolveCommitIdentity, resolveCommitMessage } from "
 import { requireApiUserSession } from "@/lib/session-server";
 import { isSettingsPath } from "@/kc/settings-gate";
 import { requireOwnRepoPush } from "@/kc/settings-gate-server";
+import { isMediaPathAllowed } from "@/kc/media-types";
 
 /**
  * Renames a file in a GitHub repository.
@@ -90,14 +91,8 @@ export async function POST(
         if (!normalizedPath.startsWith(schema.input)) throw new Error(`Invalid path "${params.path}" for media.`);
         if (!normalizedNewPath.startsWith(schema.input)) throw new Error(`Invalid path "${data.newPath}" for media.`);
         
-        if (
-          schema.extensions?.length > 0 &&
-          !schema.extensions.includes(getFileExtension(normalizedPath))
-        ) throw new Error(`Invalid extension "${getFileExtension(normalizedPath)}" for media.`);
-        if (
-          schema.extensions?.length > 0 &&
-          !schema.extensions.includes(getFileExtension(normalizedNewPath))
-        ) throw new Error(`Invalid extension "${getFileExtension(normalizedNewPath)}" for media.`);
+        if (!isMediaPathAllowed(normalizedPath, schema.extensions)) throw new Error(`Invalid extension "${getFileExtension(normalizedPath)}" for media.`);
+        if (!isMediaPathAllowed(normalizedNewPath, schema.extensions)) throw new Error(`Invalid extension "${getFileExtension(normalizedNewPath)}" for media.`);
         break;
     }
 

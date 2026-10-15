@@ -9,6 +9,7 @@ import { getConfig, updateConfig } from "@/lib/config-store";
 import { getFileExtension, getFileName, normalizePath, serializedTypes, getParentPath } from "@/lib/utils/file";
 import { isSettingsPath } from "@/kc/settings-gate";
 import { requireOwnRepoPush } from "@/kc/settings-gate-server";
+import { isMediaPathAllowed } from "@/kc/media-types";
 import { getToken } from "@/lib/token";
 import { updateFileCache } from "@/lib/github-cache-file";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
@@ -177,10 +178,7 @@ export async function POST(
           // Folder creation
           contentBase64 = "";
         } else {
-          if (
-            schema.extensions?.length > 0 &&
-            !schema.extensions.includes(getFileExtension(normalizedPath))
-          ) throw new Error(`Invalid extension "${getFileExtension(normalizedPath)}" for media.`);
+          if (!isMediaPathAllowed(normalizedPath, schema.extensions)) throw new Error(`Invalid extension "${getFileExtension(normalizedPath)}" for media.`);
 
           contentBase64 = data.content;
         }
