@@ -7,6 +7,7 @@ import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import { requireApiUserSession } from "@/lib/session-server";
 import { resolveActionRef } from "@/lib/actions";
 import { hasGithubIdentity } from "@/lib/authz-shared";
+import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -241,10 +242,16 @@ export async function POST(
       throw createHttpError("Action run not found.", 404);
     }
 
+    const isOwnRun = (row.triggeredBy as { userId?: string | null } | null)?.userId === user.id;
+    if (body.intent === "rerun" || !isOwnRun) {
+      await requireOwnRepoPush(user, params.owner, params.repo, body.intent === "rerun"
+        ? "Only GitHub users can run this action again."
+        : "You can only cancel your own action runs.");
+    }
+
     const { token } = await getToken(user, params.owner, params.repo, true);
     const octokit = createOctokitInstance(token);
     const isGithubUser = hasGithubIdentity(user);
-    const isOwnRun = (row.triggeredBy as { userId?: string | null } | null)?.userId === user.id;
     const isCancelable = ((row.payload as { action?: { cancelable?: boolean } } | null)?.action?.cancelable ?? true);
 
     if (body.intent === "cancel") {
