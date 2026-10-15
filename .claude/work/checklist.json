@@ -208,5 +208,20 @@
     },
     "verified_at": "2026-10-15T20:09:08.846Z",
     "tree": "80cec9c6c2053fb6ae047584edd506de31d2b72b0bba00465ce58d2a23d88e68"
+  },
+  {
+    "id": "14",
+    "title": "otp-disabled-paths",
+    "brief": ".claude/work/14-otp-disabled-paths/brief.md",
+    "start_sha": "32fc9b26aeb03641fd4a30ddd6e25da35de46627",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-15T20:21:04.088Z",
+      "start_sha": "32fc9b26aeb03641fd4a30ddd6e25da35de46627",
+      "mutation_evidence": true,
+      "tree": "126bb0da000fbdb7425c7115444005738dbf4a0f44b401ffbefc7f991a1a34a4"
+    },
+    "verified_at": "2026-10-15T20:33:12.182Z",
+    "tree": "126bb0da000fbdb7425c7115444005738dbf4a0f44b401ffbefc7f991a1a34a4"
   }
 ]

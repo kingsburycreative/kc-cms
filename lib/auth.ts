@@ -13,6 +13,7 @@ import { LoginEmailTemplate } from "@/components/email/login";
 import { render } from "@react-email/render";
 import { BRAND_NAME } from "@/kc/brand";
 import { AUTH_IP_HEADERS } from "@/kc/auth-ip";
+import { AUTH_DISABLED_PATHS } from "@/kc/auth-disabled-paths";
 
 export const auth = betterAuth({
   baseURL: getBaseUrl(),
@@ -22,6 +23,7 @@ export const auth = betterAuth({
       ipAddressHeaders: AUTH_IP_HEADERS,
     },
   },
+  disabledPaths: AUTH_DISABLED_PATHS,
   user: {
     additionalFields: {
       githubUsername: {

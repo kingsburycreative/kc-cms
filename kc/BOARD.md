@@ -5,19 +5,6 @@
 Fixes left from the 2026-10-15 security audit. A risky path (`app/api/`, `lib/auth.ts`): top model tier and a
 `security-auditor` pass on each.
 
-- **otp-disabled-paths**: from the otp-ip-key audit. Many simultaneous wrong
-  guesses at `/email-otp/check-verification-otp` are charged as one of the 5
-  attempts (better-auth reads then writes the counter, `routes.mjs` 233-255),
-  and a right guess there does not use up the code, so it can then sign in.
-  The UI never calls that path (`components/sign-in.tsx`,
-  `components/invite-sign-in.tsx` use only send and sign-in). Fix: put
-  `/email-otp/check-verification-otp`, `/email-otp/request-password-reset`
-  and `/email-otp/reset-password` in better-auth's `disabledPaths` (reset
-  codes are created but never emailed, so they can be guessed silently the day
-  password sign-in is turned on), from a `kc/` constant `lib/auth.ts`
-  imports. Tests: the constant's exact list, and `lib/auth.ts` passes it.
-  Risky path (`lib/auth.ts`): top tier and an audit.
-
 ## Next
 
 - **run-claim**: from the settings-gate audit, older than that card. A run
@@ -37,6 +24,9 @@ Fixes left from the 2026-10-15 security audit. A risky path (`app/api/`, `lib/au
   send-verification-otp and sign-in/email-otp that increments then checks,
   per IP and per recipient email, before the handler runs. In memory is enough
   on the one process (a Postgres counter needs a schema change, which parks).
+  The same hook should also refuse every path in `kc/auth-disabled-paths.ts`
+  by `ctx.path` (from the otp-disabled-paths audit: `disabledPaths` stops
+  applying if the app is ever served under a URL prefix).
   Risky path: top tier and an audit.
 
 From the 2026-10-15 client-view review and Rob's dashboard request. client-branch-lock and client-identity-redact are risky paths.
@@ -131,6 +121,7 @@ From the 2026-10-15 client-view review and Rob's dashboard request. client-branc
 
 ## Done
 
+- **otp-disabled-paths**: committed on feat/14-otp-disabled-paths, gate green, audit found no live attack; five unused email-OTP endpoints now answer 404 (the card's three plus the deprecated forget-password twin and verify-email).
 - **config-exposure**: accepted 2026-10-15. Rob saw the config data a client receives (file paths and field names for their own site, no secrets) and asked for a dashboard and an Advanced toggle instead of trimming it.
 - **media-types**: committed on feat/13-media-types, gate green, audit found no attack; upload and rename now allow only safe image and pdf types when the config names none, and refuse control characters.
 - **otp-ip-key**: committed on feat/12-otp-ip-key, gate green, audit found no attack on the change; two older better-auth races queued (otp-disabled-paths, otp-atomic-limit).
