@@ -35,20 +35,26 @@ export function visitorsCard(res: RunReportResponse): VisitorsCard {
   return { current, previous, changePercent, sentence: `${head}, ${trend}.` };
 }
 
-function listCard(res: RunReportResponse, empty: string, describe: (top: string) => string): ListCard {
-  const items = (res.rows ?? []).map((row) => ({
-    label: row.dimensionValues?.[0]?.value ?? "(not set)",
+// GA4's stand-ins for a value it could not resolve. A missing value counts too.
+const isPlaceholder = (v: string | undefined) => v === undefined || v.trim() === "" || v === "(not set)" || v === "(other)";
+
+function listCard(res: RunReportResponse, empty: string, unknown: string, describe: (top: string) => string): ListCard {
+  const rows = (res.rows ?? []).map((row) => ({
+    raw: row.dimensionValues?.[0]?.value,
     value: num(row.metricValues?.[0]?.value),
   }));
-  return { items, sentence: items.length ? describe(items[0].label) : empty };
+  const items = rows.map(({ raw, value }) => ({ label: isPlaceholder(raw) ? "Unknown" : raw!, value }));
+  if (!items.length) return { items, sentence: empty };
+  const top = rows.find((r) => !isPlaceholder(r.raw));
+  return { items, sentence: top ? describe(top.raw!) : unknown };
 }
 
 export const topPagesCard = (res: RunReportResponse) =>
-  listCard(res, "No page views yet.", (top) => `Your most visited page is ${top}.`);
+  listCard(res, "No page views yet.", "Your most visited pages aren't known yet.", (top) => `Your most visited page is ${top}.`);
 export const topCitiesCard = (res: RunReportResponse) =>
-  listCard(res, "No visitor locations yet.", (top) => `Most visitors come from ${top}.`);
+  listCard(res, "No visitor locations yet.", "Most visitors' towns aren't known yet.", (top) => `Most visitors come from ${top}.`);
 export const channelsCard = (res: RunReportResponse) =>
-  listCard(res, "No traffic sources yet.", (top) => `Most visitors arrive through ${top}.`);
+  listCard(res, "No traffic sources yet.", "Most visitors' traffic sources aren't known yet.", (top) => `Most visitors arrive through ${top}.`);
 
 export function engagementCard(res: RunReportResponse): EngagementCard {
   const metrics = res.rows?.[0]?.metricValues;
