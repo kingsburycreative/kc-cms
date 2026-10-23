@@ -468,8 +468,16 @@
     "id": "email-verified-trust",
     "title": "email-verified-trust",
     "brief": ".claude/work/33-email-verified-trust/brief.md",
-    "start_sha": "06e472e4aca978fc1d0c566692e9470024ac44d2",
-    "passes": false
+    "start_sha": "93ef6c199fc9fbcaee7e1e86c5e7c9f02d6fba32",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T14:52:17.735Z",
+      "start_sha": "93ef6c199fc9fbcaee7e1e86c5e7c9f02d6fba32",
+      "mutation_evidence": false,
+      "tree": "78c5ee3a7afea70d33678237d026ba42fc0fb45ea20f6cf6f537ac14a3fe4b79"
+    },
+    "verified_at": "2026-10-23T14:53:40.621Z",
+    "tree": "78c5ee3a7afea70d33678237d026ba42fc0fb45ea20f6cf6f537ac14a3fe4b79"
   },
   {
     "id": "delete-guard-path",

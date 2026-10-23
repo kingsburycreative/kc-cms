@@ -6,18 +6,20 @@ import type { User } from "@/types/user";
 
 const normalizeEmail = (email: string) => email.trim().toLowerCase();
 
-const collaboratorMatchesUser = (user: Pick<User, "id" | "email">) => (
-  or(
+// An unclaimed invite matches by email only once that email is verified.
+const collaboratorMatchesUser = (user: Pick<User, "id" | "email" | "emailVerified">) => {
+  if (user.emailVerified !== true) return eq(collaboratorTable.userId, user.id);
+  return or(
     eq(collaboratorTable.userId, user.id),
     and(
       isNull(collaboratorTable.userId),
       sql`lower(${collaboratorTable.email}) = lower(${user.email})`,
     ),
-  )
-);
+  );
+};
 
 const collaboratorMatchesUserForRepo = (
-  user: Pick<User, "id" | "email">,
+  user: Pick<User, "id" | "email" | "emailVerified">,
   owner: string,
   repo: string,
 ) => (

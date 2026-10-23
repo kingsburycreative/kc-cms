@@ -36,7 +36,7 @@ export const auth = betterAuth({
   account: {
     accountLinking: {
       enabled: true,
-      trustedProviders: ["github"],
+      trustedProviders: [],
       disableImplicitLinking: false,
       updateUserInfoOnLink: true,
       allowUnlinkingAll: false,
