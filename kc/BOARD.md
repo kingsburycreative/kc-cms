@@ -2,6 +2,7 @@
 
 ## Now
 
+- **26**: Phone menu on the KC pages, and labelled nested fields in History (`.claude/work/15-plan-client-experience/plan.md` card 26)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
