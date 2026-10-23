@@ -46,3 +46,6 @@
 
 ## 2026-10-23 client-third-party (plan card 08, checklist c08)
 - Branch feat/08-client-third-party from main at 0c69f87 (PR #29 merged). Sonnet worker, not a risky path. Scope ok with mutation evidence; diff read, tests all new. viewFor gains githubLinks; the six components hide github.com links and avatars for clients; unavatar.io is gone for everyone; new kc/avatar.ts initialFor gives the email's first letter when the name is empty. Calls: the actions hover card no longer shows triggeredByImage (could be a third-party URL); client history rows are plain, not links. No new copy. Not seen in a browser. Sent to the loop's gate, no audit.
+
+## 2026-10-23 client-signin (plan card 09, checklist c09)
+- Branch feat/09-client-signin from main at 66f3277 (PR #30 merged). Sonnet worker, not a risky path. Scope ok with mutation evidence; diff read, tests all new. Sign-in shows email only; GitHub button and the "Or" divider only at /sign-in?staff=1. Settings hides the whole GitHub identity row for clients. lib/auth.ts untouched, so the GitHub provider still answers a direct call. No new copy. Not seen in a browser. Sent to the loop's gate, no audit.

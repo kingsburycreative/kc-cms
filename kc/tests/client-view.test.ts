@@ -54,6 +54,11 @@ test("github links are for GitHub users only", () => {
   assert.equal(viewFor(false).githubLinks, true);
 });
 
+test("only GitHub users can connect GitHub in settings", () => {
+  assert.equal(viewFor(true).settings.connectGithub, false);
+  assert.equal(viewFor(false).settings.connectGithub, true);
+});
+
 test("each component reads the flag, and none builds an unavatar URL", () => {
   const read = (p: string) => readFileSync(new URL(`../../${p}`, import.meta.url), "utf8");
   for (const p of [

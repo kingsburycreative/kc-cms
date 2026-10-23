@@ -10,6 +10,7 @@ import { OtpVerificationForm } from "@/components/otp-verification-form";
 import { toast } from "sonner";
 import { Loader } from "lucide-react";
 import { BRAND_NAME } from "@/kc/brand";
+import { isStaffParam, signInMethods } from "@/kc/sign-in-methods";
 
 export function SignIn() {
   const [email, setEmail] = useState("");
@@ -21,6 +22,7 @@ export function SignIn() {
   const isSubmitting = submittingMethod !== null;
 
   const searchParams = useSearchParams();
+  const methods = signInMethods({ staff: isStaffParam(searchParams) });
   const error = searchParams.get("error") || "";
   const redirectParam = searchParams.get("redirect") || "";
   const safeRedirect = getSafeRedirect(redirectParam);
@@ -181,6 +183,8 @@ export function SignIn() {
             <h1 className="text-lg font-medium tracking-tight text-center">
               Sign in to {BRAND_NAME}
             </h1>
+            {methods.includes("github") && (
+              <>
             <Button
               type="button"
               className="w-full"
@@ -209,6 +213,8 @@ export function SignIn() {
                 <span className="bg-background px-2 text-muted-foreground">Or</span>
               </div>
             </div>
+              </>
+            )}
             <form
               className="space-y-2"
               onSubmit={async (event) => {

@@ -13,6 +13,9 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { useUser } from "@/contexts/user-context";
+import { hasGithubIdentity } from "@/lib/authz-shared";
+import { viewFor } from "@/kc/client-view";
 import {
   ArrowUpRight,
   EllipsisVertical,
@@ -35,6 +38,7 @@ export function Identities({
   githubManageUrl,
 }: IdentitiesProps) {
   const router = useRouter();
+  const { user } = useUser();
   const [pendingAction, setPendingAction] = useState<
     "connect" | "disconnect" | null
   >(null);
@@ -91,6 +95,7 @@ export function Identities({
         </div>
         <div className="ml-2 truncate text-muted-foreground">{email}</div>
       </li>
+      {viewFor(!hasGithubIdentity(user)).settings.connectGithub && (
       <li className="flex items-center gap-x-3 border first:rounded-t-md last:rounded-b-md px-3 py-2 text-sm">
         <div
           className={cn(
@@ -159,6 +164,7 @@ export function Identities({
           </DropdownMenu>
         )}
       </li>
+      )}
     </ul>
   );
 }

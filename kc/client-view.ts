@@ -39,6 +39,7 @@ export function viewFor(isClient: boolean) {
       branchPicker: !isClient,
       about: !isClient,
     },
+    settings: { connectGithub: !isClient },
     home: {
       templates: false,
       recentVisits: !isClient,
