@@ -2,8 +2,23 @@
 
 ## Now
 
-Fixes left from the 2026-10-15 security audit. A risky path (`app/api/`, `lib/auth.ts`): top model tier and a
-`security-auditor` pass on each.
+- **01**: Lock clients to the default branch (`.claude/work/15-plan-client-experience/plan.md` card 01)
+- **02**: Strip identity from history and actions (`.claude/work/15-plan-client-experience/plan.md` card 02)
+- **08**: No GitHub links or third-party avatars for clients (`.claude/work/15-plan-client-experience/plan.md` card 08)
+- **09**: Clients never see a GitHub sign-in (`.claude/work/15-plan-client-experience/plan.md` card 09)
+- **10**: Clients cannot delete single-file entries (`.claude/work/15-plan-client-experience/plan.md` card 10)
+- **11**: White-label the three emails (`.claude/work/15-plan-client-experience/plan.md` card 11)
+- **12**: Put the KC logo in the emails (`.claude/work/15-plan-client-experience/plan.md` card 12)
+- **13**: Name the client when inviting them (`.claude/work/15-plan-client-experience/plan.md` card 13)
+- **14**: Commits carry the editor's name (`.claude/work/15-plan-client-experience/plan.md` card 14)
+- **15**: History data: site feed and old versions (`.claude/work/15-plan-client-experience/plan.md` card 15)
+- **16**: Site dashboard as the landing page (`.claude/work/15-plan-client-experience/plan.md` card 16)
+- **17**: History pages with the change shown (`.claude/work/15-plan-client-experience/plan.md` card 17)
+- **18**: Restore an old version (`.claude/work/15-plan-client-experience/plan.md` card 18)
+- **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
+- **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
+- **21**: SEO and AI-answer panel beside the editor (`.claude/work/15-plan-client-experience/plan.md` card 21)
+- **23**: Security audit of the feature (`.claude/work/15-plan-client-experience/plan.md` card 23)
 
 ## Next
 
@@ -29,82 +44,6 @@ Fixes left from the 2026-10-15 security audit. A risky path (`app/api/`, `lib/au
   applying if the app is ever served under a URL prefix).
   Risky path: top tier and an audit.
 
-From the 2026-10-15 client-view review and Rob's dashboard request. client-branch-lock and client-identity-redact are risky paths.
-
-- **client-branch-lock**: a client is held to the default branch only in the
-  browser. `getToken` (`lib/token.ts:37-47`) never looks at the branch, so a
-  client who types another branch into the URL reads and writes it with the
-  installation token, and `POST .../branches` (`branches/route.ts:24`) lets
-  them create branches on KC's repo (each one starts a Cloudflare Pages
-  preview build). `app/(main)/[owner]/[repo]/layout.tsx:36-56` also sends
-  them every branch name. Fix: when `getToken` returns
-  `source: "installation"`, refuse any branch but the repo's default branch
-  (one `kc/` helper, called from `lib/api-repo-context.ts` and both repo
-  layouts), refuse the branches POST for anyone without
-  `hasGithubIdentity(user)`, and give clients an empty branch list. Risky
-  path (`app/api/`, `lib/token.ts`): top model tier and a `security-auditor`
-  pass. Tests: the helper's decision as a pure function (installation +
-  default branch passes, installation + other branch refused, user token
-  any branch passes); a source test per route that fails if the helper is
-  not called; the branches POST refuses an email-only user. Mutation check:
-  drop the helper call from one route.
-
-- **client-identity-redact**: two APIs hand clients other people's identity.
-  The entry history route returns GitHub's raw `listCommits` data
-  (`entries/[path]/history/route.ts:60-69`): author and committer emails,
-  logins, profile links. `GET .../actions?all=1` (`actions/route.ts:243-278`)
-  and `actions/[runId]/route.ts:29-31` return the triggering user's email,
-  GitHub username and run link, and the Actions page is only hidden in the
-  browser (`actions/page.tsx:17`). Fix: for an installation-token caller,
-  history returns only sha, date and author name (no links, no emails), and
-  the actions routes refuse `all=1` and blank those three fields. One `kc/`
-  mapper for each shape; `entry-history.tsx` drops the GitHub links when
-  they are absent. Risky path: top tier and a `security-auditor` pass.
-  Tests: the mappers keep exactly the allowed fields; a source test per
-  route that it calls the mapper for clients. Mutation check: return the
-  raw data from one route.
-
-- **client-third-party**: two small leaks to outside services. Every page
-  sends an email user's address to unavatar.io (`components/user.tsx:50`);
-  show initials when there is no `githubUsername`. "View on GitHub" links
-  show to clients (`components/file/file-options.tsx:119`,
-  `fields/core/image/edit-component.tsx:62`,
-  `fields/core/file/edit-component.tsx:68`), naming the repo and landing on
-  a GitHub 404; add a `githubLinks` flag to `viewFor()` in
-  `kc/client-view.ts` and hide them with it. Tests: no unavatar URL is built
-  for a user without a GitHub username; `viewFor` returns
-  `githubLinks: false` for a client and true for a GitHub user; a source
-  test that each of the three files reads the flag.
-
-- **advanced-toggle**: clients already never see Actions, Collaborators or
-  Configuration (`components/repo/repo-nav.tsx:68-84`, gated on
-  `hasGithubIdentity`), so this is for KC's own view. Move the sidebar's
-  whole "Admin" group (those three today) into one "Advanced" section in the sidebar, collapsed by
-  default, its open state remembered per browser (try/catch around
-  storage, works without it). The toggle is a button with
-  `aria-expanded`. The pages stay reachable by URL and their server checks
-  are untouched. Flag lives in `viewFor()` in `kc/client-view.ts`. Tests:
-  `viewFor` puts the admin items under advanced for a GitHub user and
-  exposes none for a client; the nav reads the flag (source test).
-
-- **site-dashboard**: opening a site lands on its first content file
-  (`app/(main)/[owner]/[repo]/[branch]/page.tsx` redirects there), so
-  there is no home screen. Replace the redirect with a dashboard titled by
-  `dashboardName()`: one tile per top-level content item and group (label,
-  link), a Media tile, an Insights tile when `getInsightsAccess` allows it,
-  and the five most recent edits (title, date, author name only, no
-  emails or GitHub links) linking to the entry. Same page for clients and
-  KC staff; nothing on it a client could not already open. Data comes
-  from the config already in `ConfigProvider` plus one server call for the
-  recent edits, made with the caller's existing token. Build it under
-  `kc/`, with a one-line hook in the page. Follow `.claude/rules/
-  accessibility.md` (real headings, tiles are links, 44px targets) and
-  check it at 375 and 1280 wide. Tests: the tile list as a pure function
-  of a config (groups, files, collections, no Insights tile without
-  access); the recent-edits mapper keeps only title, date, author name and
-  path. Not a risky path unless the recent-edits call lands in `app/api/`,
-  in which case it gets the audit.
-
 ## Waiting on Rob
 
 - **nginx limit_req** (from the otp-ip-key audit): an nginx `limit_req` zone on
@@ -117,10 +56,18 @@ From the 2026-10-15 client-view review and Rob's dashboard request. client-branc
 - **media categories** (from the media-types audit): a `.pages.yml` media config using `categories: [image]` still allows `.svg` (and `code` allows `.html`, `.js`), because a config that names its own types is honoured as before. Unchecked whether any client config uses `categories`; listing `extensions` explicitly in KC configs avoids it.
 - **scripts in content** (same audit): the rich-text field saves `<script>` in a markdown body unchanged, so a client can still put script on their own site through content. Whether each Astro site renders it is unchecked. Acceptable, or sanitise?
 
+- **03** (`.claude/work/15-plan-client-experience/plan.md` card 03): deploy the lock to the box (`D:\Dev\htdocs\kc-cms\server\deploy.sh`) and confirm the 403 as the `+kctest` client before any client invite.
+- **06** (`.claude/work/15-plan-client-experience/plan.md` card 06): write the CMS guide page in a session in `D:\Dev\htdocs\kingsburycreative` (`pages/cms-guide.php`, router, sitemap); card 19 waits on it.
+- **07** (`.claude/work/15-plan-client-experience/plan.md` card 07): confirm Henike's client name for its `.pages.yml` (Henike's own session) and update `docs/NEW-CLIENT.md` in `D:\Dev\htdocs\kc-cms`.
+- **22** (`.claude/work/15-plan-client-experience/plan.md` card 22): decide the AI writing helper first: provider and who pays for the key, client consent for text leaving the browser, and a per-site opt-in key. Nothing is built.
+- **24** (`.claude/work/15-plan-client-experience/plan.md` card 24): deploy the finished work to the box and run the final check (invite email, dashboard at 375 and 1280, one restore).
+
 ## Blocked
 
 ## Done
 
+- **04**: resolved by Rob 2026-10-23, the email logo is `D:\Dev\htdocs\kingsburycreative\img\logos\kc-wordmark-logo.png` (copied by card 12).
+- **05**: resolved by Rob 2026-10-23, one nullable `name` column on `collaborator_invite` approved (used by card 13).
 - **otp-disabled-paths**: committed on feat/14-otp-disabled-paths, gate green, audit found no live attack; five unused email-OTP endpoints now answer 404 (the card's three plus the deprecated forget-password twin and verify-email).
 - **config-exposure**: accepted 2026-10-15. Rob saw the config data a client receives (file paths and field names for their own site, no secrets) and asked for a dashboard and an Advanced toggle instead of trimming it.
 - **media-types**: committed on feat/13-media-types, gate green, audit found no attack; upload and rename now allow only safe image and pdf types when the config names none, and refuse control characters.
