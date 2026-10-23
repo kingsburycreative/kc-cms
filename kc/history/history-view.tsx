@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useConfig } from "@/contexts/config-context";
 import { recentEdits, type FeedItem, type RecentEdit } from "../dashboard.ts";
+import { PageHeader } from "../page-header.tsx";
 import { diffEntry, type EntryDiff } from "./diff.ts";
 
 type Node = { type?: string; name?: string; path?: string; fields?: any[]; items?: Node[] };
@@ -52,6 +53,7 @@ export function SiteHistory() {
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-4 p-4 md:p-6">
+      <PageHeader title="History" />
       <h1 className="text-xl font-semibold">History</h1>
       {failed
         ? <p className="text-sm text-muted-foreground">The history could not be loaded.</p>
@@ -140,6 +142,7 @@ export function EntryHistory({ path, sha }: { path: string; sha: string }) {
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-4 p-4 md:p-6">
+      <PageHeader title="History" />
       <Link href={back} className="text-sm underline">All history</Link>
       <h1 className="text-xl font-semibold break-words">{path.split("/").pop()}</h1>
       {meta && (

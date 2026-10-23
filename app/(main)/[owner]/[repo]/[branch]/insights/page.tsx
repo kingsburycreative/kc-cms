@@ -1,6 +1,7 @@
 import { getInsightsAccess, getRepoReadContext } from "@/lib/api-repo-context";
 import { insightsSourcesFor } from "@/kc/insights/map";
 import { defaultCache, defaultCloudflareCache, loadSiteInsights, readKey } from "@/kc/insights/route";
+import { PageHeader } from "@/kc/page-header";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 
 function Message({ title, text }: { title: string; text: string }) {
@@ -84,6 +85,7 @@ export default async function Page(
   const note = result.totalsFrom === "cloudflare" ? CONSENT_LABEL : undefined;
   return (
     <div className="mx-auto max-w-4xl space-y-4">
+      <PageHeader title="Insights" />
       <h1 className="text-lg font-semibold">Insights</h1>
       <div className="grid gap-4 md:grid-cols-2">
         <Card title="Visitors" sentence={visitors.sentence} />
