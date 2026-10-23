@@ -14,6 +14,8 @@ import { render } from "@react-email/render";
 import { BRAND_NAME } from "@/kc/brand";
 import { AUTH_IP_HEADERS } from "@/kc/auth-ip";
 import { AUTH_DISABLED_PATHS } from "@/kc/auth-disabled-paths";
+import { APIError, createAuthMiddleware } from "better-auth/api";
+import { kcAuthBefore } from "@/kc/otp-limit";
 
 export const auth = betterAuth({
   baseURL: getBaseUrl(),
@@ -24,6 +26,18 @@ export const auth = betterAuth({
     },
   },
   disabledPaths: AUTH_DISABLED_PATHS,
+  hooks: {
+    before: createAuthMiddleware(async (ctx) => {
+      const verdict = kcAuthBefore({
+        path: ctx.path,
+        ip: ctx.headers?.get(AUTH_IP_HEADERS[0])?.split(",")[0],
+        email: ctx.body?.email,
+        now: Date.now(),
+      });
+      if (verdict === 404) throw new APIError("NOT_FOUND");
+      if (verdict === 429) throw new APIError("TOO_MANY_REQUESTS");
+    }),
+  },
   user: {
     additionalFields: {
       githubUsername: {
