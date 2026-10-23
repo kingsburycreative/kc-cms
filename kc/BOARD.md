@@ -2,7 +2,6 @@
 
 ## Now
 
-- **09**: Clients never see a GitHub sign-in (`.claude/work/15-plan-client-experience/plan.md` card 09)
 - **10**: Clients cannot delete single-file entries (`.claude/work/15-plan-client-experience/plan.md` card 10)
 - **11**: White-label the three emails (`.claude/work/15-plan-client-experience/plan.md` card 11)
 - **12**: Put the KC logo in the emails (`.claude/work/15-plan-client-experience/plan.md` card 12)
