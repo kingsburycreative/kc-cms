@@ -388,5 +388,20 @@
     },
     "verified_at": "2026-10-23T08:23:52.586Z",
     "tree": "8d0842f56cfeaa63d45d05f297566ebfa20fd7e83b9cda6edc9fd02af0b50a7c"
+  },
+  {
+    "id": "c17",
+    "title": "history-pages",
+    "brief": ".claude/work/27-history-pages/brief.md",
+    "start_sha": "1c62c117e4c9b37a6ee49b2e707242fc40acc2a1",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T08:29:47.837Z",
+      "start_sha": "1c62c117e4c9b37a6ee49b2e707242fc40acc2a1",
+      "mutation_evidence": true,
+      "tree": "583005e2f5b0c0229e84584ffda64168ca5a31ccbf32354c8a4a56136a988903"
+    },
+    "verified_at": "2026-10-23T08:30:35.591Z",
+    "tree": "583005e2f5b0c0229e84584ffda64168ca5a31ccbf32354c8a4a56136a988903"
   }
 ]

@@ -1,0 +1,15 @@
+[
+  { "name": "title", "label": "Page title", "type": "string" },
+  { "name": "subtitle", "type": "string" },
+  { "name": "tagline", "label": "Tagline", "type": "string" },
+  { "name": "phone", "label": "Phone", "type": "string" },
+  { "name": "hero", "label": "Hero", "type": "object", "fields": [
+    { "name": "heading", "label": "Heading", "type": "string" },
+    { "name": "image", "label": "Image", "type": "image" }
+  ] },
+  { "name": "team", "label": "Team", "type": "object", "list": true, "fields": [
+    { "name": "name", "label": "Name", "type": "string" },
+    { "name": "role", "label": "Role", "type": "string" }
+  ] },
+  { "name": "body", "label": "Body", "type": "rich-text" }
+]

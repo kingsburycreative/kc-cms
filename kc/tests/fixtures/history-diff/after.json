@@ -1,0 +1,12 @@
+{
+  "title": "Welcome home",
+  "subtitle": "Unchanged line",
+  "tagline": "Built to last",
+  "hero": { "heading": "New heading", "image": "/a.jpg" },
+  "team": [
+    { "name": "Ann", "role": "Owner" },
+    { "name": "Bo", "role": "Foreman" },
+    { "name": "Cy", "role": "Crew" }
+  ],
+  "body": "One\nTwo and a half\nThree\nFour"
+}

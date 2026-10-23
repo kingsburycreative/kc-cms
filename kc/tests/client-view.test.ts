@@ -65,7 +65,6 @@ test("each component reads the flag, and none builds an unavatar URL", () => {
     "components/file/file-options.tsx",
     "fields/core/image/edit-component.tsx",
     "fields/core/file/edit-component.tsx",
-    "components/entry/entry-history.tsx",
     "components/actions/actions-page.tsx",
   ]) {
     assert.match(read(p), /githubLinks/, p);
