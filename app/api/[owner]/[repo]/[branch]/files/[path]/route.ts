@@ -12,6 +12,7 @@ import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { isMediaPathAllowed } from "@/kc/media-types";
 import { getToken } from "@/lib/token";
 import { assertBranchAllowed } from "@/kc/branch-lock-server";
+import { clientMayDelete } from "@/kc/content-ops";
 import { updateFileCache } from "@/lib/github-cache-file";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import mergeWith from "lodash.mergewith";
@@ -496,9 +497,12 @@ export async function DELETE(
         if (!isContentOperationAllowed("delete", { schema })) {
           throw createHttpError(`Deleting entries isn't allowed for "${name}".`, 403);
         }
+        if (!clientMayDelete({ source, schemaType: schema.type })) {
+          throw createHttpError("This page can't be deleted. Ask Kingsbury Creative if it needs to go.", 403);
+        }
         schemaCommitTemplates = schema?.commit?.templates;
         schemaCommitIdentity = schema?.commit?.identity;
-        
+
         if (!normalizedPath.startsWith(schema.path)) throw new Error(`Invalid path "${params.path}" for ${type} "${name}".`);
         
         if (schema.subfolders === false && getParentPath(normalizedPath) !== schema.path) {
