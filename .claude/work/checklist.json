@@ -469,8 +469,7 @@
     "title": "email-verified-trust",
     "brief": ".claude/work/33-email-verified-trust/brief.md",
     "start_sha": "06e472e4aca978fc1d0c566692e9470024ac44d2",
-    "passes": false,
-    "parked": "permission classifier refused the mutation-check run (Security Weaken); code on wip/email-verified-trust-verified-email"
+    "passes": false
   },
   {
     "id": "delete-guard-path",

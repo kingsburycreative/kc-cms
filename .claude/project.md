@@ -50,3 +50,10 @@ piece of copy written.
 **Never**: real network calls in tests (fixtures only); read or print a secret,
 a `.env` file or `/root/kc-cms-secrets`; run `npm install`; deploy or ssh to the
 box; push to `upstream`; commit `.env*`.
+
+**Decisions** (Rob, 2026-10-23, the rubric Sembr and BeSciWorks use):
+consensus > security > correct long-term > best practice > KC CMS health > UX.
+Consensus means the reviewers who looked at it (audits, a plan review) agree.
+Apply it and act; when audits disagree or a round keeps finding the same
+problem, decide by the rubric instead of parking for Rob, and name the call
+in the log in one line so he can overrule it.

@@ -98,3 +98,6 @@
 
 ## 2026-10-23 run-claim (board Next, checklist run-claim)
 - Cards 19 and 20 still wait on card 06; email-verified-trust parked. Branch feat/run-claim from feat/delete-guard-path at cf512d8. Opus worker, risky path (app/api/). Scope ok with mutation evidence; diff read, tests all new. New kc/action-run-claim.ts: a pending row only claims a run created 30s before to 2 minutes after it; past 2.5 minutes an unmatched row is marked completed/failure (existing values, no migration) and never looks up again. Cancel still 409s with no run id. Sent to the loop's gate with an audit (app/api/).
+
+## 2026-10-23 unpark email-verified-trust, resume otp-atomic-limit
+- Rob asked for the email-verified-trust mutation check; the coordinator window ran it through the runner: all three guards broken, the three new tests failed (215 of 218), restored 218 of 218. Unparked with a Resume note. otp-atomic-limit back in Now with the fix decided by the rubric (now in project.md): IP first, the tight limit keyed on email and IP, a loose per-email ceiling. Box checked: the app listens on 127.0.0.1:3000 only.
