@@ -67,3 +67,4 @@
 
 ## 2026-10-23 history-data (plan card 15, checklist c15)
 - Branch feat/15-history-data from main at 3be961d (PR #36 merged). Opus worker, risky path (app/api/). Built the site feed route and the ref check on the entries route; done-test, tsc and eslint pass. Parked: the auto-mode classifier refused the mutation run that forces refIsOnBranch to true ("Security Test Removal"); not routed around. Code pushed to wip/c15-history-data. Worker also reports the runner ran the whole suite when given a test file. Needs Rob: allow the mutation run, or run it by hand.
+- Resumed 2026-10-23 on feat/15-history-data from main at cc23868 (PR #38 merged). Opus worker brought the six files over from wip/c15-history-data unchanged and ran the mutation check through the runner (two ref-check tests failed with the check skipped, green after restore). Scope ok with mutation evidence; diff read, tests all new. Sent to the loop's gate with an audit (app/api/).

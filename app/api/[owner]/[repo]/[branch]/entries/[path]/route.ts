@@ -9,6 +9,7 @@ import { isSettingsPath } from "@/kc/settings-gate";
 import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { getToken } from "@/lib/token";
 import { assertBranchAllowed } from "@/kc/branch-lock-server";
+import { refOnBranch } from "@/kc/history/ref-check";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import { requireApiUserSession } from "@/lib/session-server";
 
@@ -88,13 +89,17 @@ export async function GET(
     }
     
     const octokit = createOctokitInstance(token);
+    const ref = searchParams.get("ref");
+    if (ref && !(await refOnBranch(octokit, params.owner, params.repo, params.branch, ref))) {
+      throw createHttpError("Not found", 404);
+    }
     let response;
     try {
       response = await octokit.rest.repos.getContent({
         owner: params.owner,
         repo: params.repo,
         path: normalizedPath,
-        ref: params.branch
+        ref: ref || params.branch
       });
     } catch (error: any) {
       if (error?.status === 404) {
