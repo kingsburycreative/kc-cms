@@ -95,3 +95,6 @@
 
 ## 2026-10-23 delete-guard-path (board Next, checklist delete-guard-path)
 - Cards 19 and 20 still wait on card 06; email-verified-trust parked. Branch feat/delete-guard-path from feat/branch-create-gate at b2ce83e (main plus the park commit). Opus worker, risky path (app/api/). Scope ok with mutation evidence; diff read, existing tests unchanged, five new. New isSingleFilePath in kc/content-ops.ts; client DELETE and everyone's rename refuse any path that is a file schema's path whatever name is sent; media DELETE uses isMediaPathAllowed, so with no extensions configured a client can no longer delete e.g. an .svg through it. Route tests are source matches, so only the function test caught the mutation. Sent to the loop's gate with an audit (app/api/).
+
+## 2026-10-23 run-claim (board Next, checklist run-claim)
+- Cards 19 and 20 still wait on card 06; email-verified-trust parked. Branch feat/run-claim from feat/delete-guard-path at cf512d8. Opus worker, risky path (app/api/). Scope ok with mutation evidence; diff read, tests all new. New kc/action-run-claim.ts: a pending row only claims a run created 30s before to 2 minutes after it; past 2.5 minutes an unmatched row is marked completed/failure (existing values, no migration) and never looks up again. Cancel still 409s with no run id. Sent to the loop's gate with an audit (app/api/).

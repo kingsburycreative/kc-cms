@@ -486,5 +486,20 @@
     },
     "verified_at": "2026-10-23T09:17:13.813Z",
     "tree": "a1de609c2c06ab26e32701aecc1cc489649ce7be5e1966b51f74c48272ca4661"
+  },
+  {
+    "id": "run-claim",
+    "title": "run-claim",
+    "brief": ".claude/work/35-run-claim/brief.md",
+    "start_sha": "cf512d85f5efa0f85fbe7833bd9e2cc732ee166c",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T09:20:25.687Z",
+      "start_sha": "cf512d85f5efa0f85fbe7833bd9e2cc732ee166c",
+      "mutation_evidence": true,
+      "tree": "fb9365bda3eb17dfbbe1cc1d786876b4036c9ad8b608d7213ca32feeb5a2d7bd"
+    },
+    "verified_at": "2026-10-23T09:21:25.112Z",
+    "tree": "fb9365bda3eb17dfbbe1cc1d786876b4036c9ad8b608d7213ca32feeb5a2d7bd"
   }
 ]
