@@ -15,11 +15,14 @@ export type ApiResponse<T> =
 
 export type EntryHistoryItem = {
   sha: string;
-  html_url: string;
+  html_url?: string;
+  parentSha?: string | null;
+  date?: string | null;
+  authorName?: string;
   author?: {
     login?: string;
   } | null;
-  commit: {
+  commit?: {
     author?: {
       name?: string | null;
       date?: string | null;

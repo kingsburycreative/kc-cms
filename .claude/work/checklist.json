@@ -238,5 +238,20 @@
     },
     "verified_at": "2026-10-23T06:10:08.683Z",
     "tree": "8c61bf2e2eb8649522b2c25dc76609ae1ec08ab2c118df990fec6906dadd0c56"
+  },
+  {
+    "id": "c02",
+    "title": "client-identity-redact",
+    "brief": ".claude/work/17-client-identity-redact/brief.md",
+    "start_sha": "ef2cb98246fe533a24c049d992de897ec68249b2",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T06:17:27.712Z",
+      "start_sha": "ef2cb98246fe533a24c049d992de897ec68249b2",
+      "mutation_evidence": true,
+      "tree": "807eab47d06611ee058f9b1c0350078e2e64ffa99518a24f8209e30f86c34f4e"
+    },
+    "verified_at": "2026-10-23T06:18:30.201Z",
+    "tree": "807eab47d06611ee058f9b1c0350078e2e64ffa99518a24f8209e30f86c34f4e"
   }
 ]
