@@ -2,7 +2,6 @@
 
 ## Now
 
-- **15**: History data: site feed and old versions (`.claude/work/15-plan-client-experience/plan.md` card 15). Unparked 2026-10-23: code is on `wip/c15-history-data`, only the mutation check is left; see the Resume note in `.claude/work/25-history-data/brief.md`.
 - **16**: Site dashboard as the landing page (`.claude/work/15-plan-client-experience/plan.md` card 16)
 - **17**: History pages with the change shown (`.claude/work/15-plan-client-experience/plan.md` card 17)
 - **18**: Restore an old version (`.claude/work/15-plan-client-experience/plan.md` card 18)
@@ -58,6 +57,7 @@
 
 ## Done
 
+- **15** history-data: committed on feat/15-history-data, gate green, audit found nothing; new site history feed route, and the entries route reads an old version only when its commit is on the branch.
 - **14** commit-identity: committed on feat/14-commit-identity, gate green, no audit (not a risky path); saves are now credited to the signed-in user unless a site sets identity: app.
 - **13** invite-name: committed on feat/13-invite-name, gate green, audit found nothing; the invite form takes an optional name, applied at sign-in only when the user has none. Resending an invite drops the name.
 - **12** email-logo: committed on feat/12-email-logo, gate green, no audit (not a risky path); the three emails show the KC wordmark at 198x40 and the dot generator is gone.

@@ -363,7 +363,15 @@
     "id": "c15",
     "title": "history-data",
     "brief": ".claude/work/25-history-data/brief.md",
-    "start_sha": "3be961d4420d3e3b1c60d541c745ec1d6834157d",
-    "passes": false
+    "start_sha": "cc23868e5f5401e83f576a555b2b23f21ac0a60c",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T08:17:25.421Z",
+      "start_sha": "cc23868e5f5401e83f576a555b2b23f21ac0a60c",
+      "mutation_evidence": true,
+      "tree": "3f470b308e634efcbbfcb2662f37277cabc401668528f9ecb8c2f6f9bbc32988"
+    },
+    "verified_at": "2026-10-23T08:18:48.904Z",
+    "tree": "3f470b308e634efcbbfcb2662f37277cabc401668528f9ecb8c2f6f9bbc32988"
   }
 ]
