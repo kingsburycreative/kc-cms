@@ -2,7 +2,8 @@
 
 import { Fragment, useEffect, useState, useMemo, useCallback, useRef } from "react";
 import type { ReactNode } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { restoreParam, restoreState } from "@/kc/history/restore";
 import Link from "next/link";
 import { useConfig } from "@/contexts/config-context";
 import { parseAndValidateConfig } from "@/lib/config";
@@ -267,6 +268,22 @@ export function Entry({
       setDisplayTitle(`Editing "${getFileName(normalizePath(path))}"`);
     }
   }, [initialPath, path, schema, swrEntryData, title]);
+
+  const restoreSha = restoreParam(useSearchParams());
+  const { data: restoreData } = useSWR<EntryData>(
+    entryApiUrl && restoreSha ? `${entryApiUrl}&ref=${restoreSha}` : null,
+    fetchEntryByUrl,
+    { revalidateOnFocus: false, revalidateOnReconnect: false },
+  );
+  const [isRestored, setIsRestored] = useState(false);
+
+  useEffect(() => {
+    if (!swrEntryData || !restoreData) return;
+    const restored = restoreState(swrEntryData, restoreData);
+    setEntry({ ...swrEntryData, sha: restored.sha, contentObject: restored.values } as EntryData);
+    setHasRegisteredChanges(true);
+    setIsRestored(true);
+  }, [swrEntryData, restoreData]);
 
   useEffect(() => {
     if (!swrEntryError) return;
@@ -844,7 +861,13 @@ export function Entry({
   return (
     isLoading
       ? loadingSkeleton
-      : <EntryForm
+      : <>
+        {isRestored && (
+          <p className="mx-auto mb-4 w-full max-w-screen-md rounded-md border p-3 text-sm">
+            This is an older version. Save to keep it as your latest edit.
+          </p>
+        )}
+        <EntryForm
         fields={entryFields}
         contentObject={entryContentObject}
         onSubmit={onSubmit}
@@ -889,5 +912,6 @@ export function Entry({
           setHasRegisteredChanges(true);
         }}
       />
+      </>
   );
 };

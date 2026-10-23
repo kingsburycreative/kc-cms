@@ -403,5 +403,20 @@
     },
     "verified_at": "2026-10-23T08:30:35.591Z",
     "tree": "583005e2f5b0c0229e84584ffda64168ca5a31ccbf32354c8a4a56136a988903"
+  },
+  {
+    "id": "c18",
+    "title": "restore-version",
+    "brief": ".claude/work/28-restore-version/brief.md",
+    "start_sha": "6f3eba47dc15a08bc6b862bb92d9a58cd69d3b63",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T08:33:56.505Z",
+      "start_sha": "6f3eba47dc15a08bc6b862bb92d9a58cd69d3b63",
+      "mutation_evidence": true,
+      "tree": "c2b013ab6fa51588b4d15b70d3c54c2caffe8b508479578d214dcc8121fe0cf8"
+    },
+    "verified_at": "2026-10-23T08:34:30.833Z",
+    "tree": "c2b013ab6fa51588b4d15b70d3c54c2caffe8b508479578d214dcc8121fe0cf8"
   }
 ]
