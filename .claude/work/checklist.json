@@ -358,5 +358,13 @@
     },
     "verified_at": "2026-10-23T06:54:11.391Z",
     "tree": "e32a95fc0a2923801212e288368b96f565500a8172de9da57572b84a40794a8c"
+  },
+  {
+    "id": "c15",
+    "title": "history-data",
+    "brief": ".claude/work/25-history-data/brief.md",
+    "start_sha": "3be961d4420d3e3b1c60d541c745ec1d6834157d",
+    "passes": false,
+    "parked": "auto-mode classifier refused the mutation run (refIsOnBranch forced true); work on wip/c15-history-data"
   }
 ]

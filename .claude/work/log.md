@@ -64,3 +64,6 @@
 
 ## 2026-10-23 commit-identity (plan card 14, checklist c14)
 - Branch feat/14-commit-identity from main at bc69c48 (PR #35 merged). Sonnet worker, not a risky path. Scope ok with mutation evidence; diff read, tests all new. New kc/commit-identity.ts defaults commits to the signed-in user; explicit identity app or user in .pages.yml or a schema still wins; the routes still fall back to the app when the user has no email. No new copy. Not tried against GitHub. Sent to the loop's gate, no audit.
+
+## 2026-10-23 history-data (plan card 15, checklist c15)
+- Branch feat/15-history-data from main at 3be961d (PR #36 merged). Opus worker, risky path (app/api/). Built the site feed route and the ref check on the entries route; done-test, tsc and eslint pass. Parked: the auto-mode classifier refused the mutation run that forces refIsOnBranch to true ("Security Test Removal"); not routed around. Code pushed to wip/c15-history-data. Worker also reports the runner ran the whole suite when given a test file. Needs Rob: allow the mutation run, or run it by hand.

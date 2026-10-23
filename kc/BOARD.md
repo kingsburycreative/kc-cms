@@ -2,7 +2,6 @@
 
 ## Now
 
-- **15**: History data: site feed and old versions (`.claude/work/15-plan-client-experience/plan.md` card 15)
 - **16**: Site dashboard as the landing page (`.claude/work/15-plan-client-experience/plan.md` card 16)
 - **17**: History pages with the change shown (`.claude/work/15-plan-client-experience/plan.md` card 17)
 - **18**: Restore an old version (`.claude/work/15-plan-client-experience/plan.md` card 18)
