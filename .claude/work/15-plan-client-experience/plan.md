@@ -356,12 +356,13 @@ Role: `security-auditor`. Risky path: yes.
 - `kc/content-ops.ts`
 - `kc/history/site.ts`
 - `kc/history/ref-check.ts`
+- `kc/insights/cloudflare.ts`
 - `lib/collaborator-access.ts`
 - `lib/auth.ts`
 
 Done-test: the result names each finding by file and line, none high left
 open, and `node --test "kc/tests/**/*.test.ts"` is green. It covers cards 01,
-02, 10, 13 and 15, the GitHub email linking in `lib/auth.ts:37-41`, and
+02, 10, 13, 15 and 25, the GitHub email linking in `lib/auth.ts:37-41`, and
 whether a client can reach another branch through `?ref=` or restore.
 
 ### 24. Deploy
@@ -372,3 +373,46 @@ Done-test: the deployed sha matches fork main; an invite to the `+kctest`
 address lands from "Kingsbury Creative" with the logo, the client name, no
 GitHub link and no slug; the dashboard opens at 375 and 1280; one restore on
 kc-test-site shows up as a commit under the editor's name.
+
+### 25. Insights with Cloudflare totals and GA4 detail
+Role: `implementer`. Risky path: yes (a token-bearing outbound call). Added
+by Rob 2026-10-23; runs before card 23's audit and card 24's deploy.
+
+The KC default for a site that has both: Cloudflare Web Analytics gives the
+totals, because its beacon is cookieless and counts every visitor; GA4 gives
+the detail (cities, channels, engagement), shown under the label "from
+visitors who allowed analytics", because GA4 only loads after consent. A site
+with only GA4 looks as it does now. A site with only Cloudflare shows the
+totals cards and no detail.
+
+- `kc/insights/cloudflare.ts` (new: GraphQL request body, response parser, fetch passed in)
+- `kc/insights/map.ts` (a map value may be `{ "ga": "<property id>", "cf": "<site tag>" }`; a bare string still means GA4 only)
+- `kc/insights/route.ts`
+- `kc/tests/insights-cloudflare.test.ts` (new)
+- `kc/tests/fixtures/insights/` (new Cloudflare fixtures)
+- `app/(main)/[owner]/[repo]/[branch]/insights/page.tsx`
+
+Cloudflare's GraphQL Analytics API, `https://api.cloudflare.com/client/v4/graphql`,
+account-scoped with `rumPageloadEventsAdaptiveGroups` filtered by `siteTag`
+and a date range: visits (`sum.visits`) and page views (`count`) for the last
+28 days and the 28 before, and top pages by `requestPath`. Check every dataset
+and field name against Cloudflare's schema docs and cite the URL in a comment,
+as `reports.ts` does for GA4. Token from env `CLOUDFLARE_ANALYTICS_TOKEN`
+(Infisical KC-CMS prod root), account id from env `KC_CF_ACCOUNT_ID`; read
+server-side only, never logged. A failed Cloudflare call logs one line with
+the status code only and falls back to GA4 alone, never a thrown page. Same
+one-hour cache as GA4, keyed by site tag.
+
+Done-test: `node --test kc/tests/insights-cloudflare.test.ts` passes. From
+fixtures it asserts the request body names the site tag, account and both date
+ranges; the parser turns a response into a visits card and a top pages card
+with the same sentence rules as `cards.ts`; the map accepts both value shapes
+and drops a non-numeric GA id or an empty site tag; with both sources the
+loader takes visitors and top pages from Cloudflare and cities, channels and
+engagement from GA4; a Cloudflare failure leaves the GA4 cards in place; a
+source test shows the page renders the label "from visitors who allowed
+analytics" on the GA4 cards only when Cloudflare totals are shown, and that
+no token value reaches a log line. Mutation check: take the totals from GA4
+when both are present. The label copy goes through `prose`,
+`avoid-ai-writing` and `humanizer`. Not tried against Cloudflare's live API;
+card 24's deploy adds the env vars and BeSciWorks's site tag to the map.

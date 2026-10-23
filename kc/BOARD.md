@@ -2,12 +2,14 @@
 
 ## Now
 
+- **15**: History data: site feed and old versions (`.claude/work/15-plan-client-experience/plan.md` card 15). Unparked 2026-10-23: code is on `wip/c15-history-data`, only the mutation check is left; see the Resume note in `.claude/work/25-history-data/brief.md`.
 - **16**: Site dashboard as the landing page (`.claude/work/15-plan-client-experience/plan.md` card 16)
 - **17**: History pages with the change shown (`.claude/work/15-plan-client-experience/plan.md` card 17)
 - **18**: Restore an old version (`.claude/work/15-plan-client-experience/plan.md` card 18)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 - **21**: SEO and AI-answer panel beside the editor (`.claude/work/15-plan-client-experience/plan.md` card 21)
+- **25**: Insights with Cloudflare totals and GA4 detail (`.claude/work/15-plan-client-experience/plan.md` card 25)
 - **23**: Security audit of the feature (`.claude/work/15-plan-client-experience/plan.md` card 23)
 
 ## Next

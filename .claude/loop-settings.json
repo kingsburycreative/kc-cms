@@ -1,3 +1,10 @@
 {
-  "skillOverrides": { "prose": "on", "avoid-ai-writing": "on", "humanizer": "on", "avoid-ai-design": "on" }
+  "skillOverrides": { "prose": "on", "avoid-ai-writing": "on", "humanizer": "on", "avoid-ai-design": "on" },
+  "permissions": {
+    "allow": [
+      "Bash(node .claude/bin/project-test.cjs:*)",
+      "Bash(node C:\\Users\\roban\\.claude\\bin\\project-test.cjs:*)",
+      "Bash(node C:/Users/roban/.claude/bin/project-test.cjs:*)"
+    ]
+  }
 }
