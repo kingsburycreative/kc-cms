@@ -11,38 +11,43 @@ const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
 
-function compare(label: string, before: unknown, after: unknown, field: Field, out: FieldChange[]) {
+// Always recurses into objects and lists, so no row value is ever an object.
+// The schema supplies labels where it names a key; otherwise the key itself.
+function compare(label: string, before: unknown, after: unknown, field: Field | undefined, out: FieldChange[]) {
   if (isEmpty(before) && isEmpty(after)) return;
-  const nested = field.fields?.length ? field.fields : null;
-  if (nested && Array.isArray(before ?? after) && (Array.isArray(before) || isEmpty(before)) && (Array.isArray(after) || isEmpty(after))) {
-    const a = (before as unknown[]) ?? [];
-    const b = (after as unknown[]) ?? [];
+  const container = (value: unknown) => Array.isArray(value) ? "list" : isObject(value) ? "object" : null;
+  const kindA = container(before);
+  const kindB = container(after);
+  if (!isEmpty(before) && !isEmpty(after) && kindA !== kindB) {
+    // The shape changed: show what went and what came, each on its own.
+    compare(label, before, undefined, field, out);
+    compare(label, undefined, after, field, out);
+    return;
+  }
+  if (kindA === "list" || kindB === "list") {
+    const a = Array.isArray(before) ? before : [];
+    const b = Array.isArray(after) ? after : [];
     for (let i = 0; i < Math.max(a.length, b.length); i++) {
-      walk(`${label} > ${i + 1}`, a[i], b[i], nested, out);
+      compare(`${label} > ${i + 1}`, a[i], b[i], field, out);
     }
     return;
   }
-  if (nested && (isObject(before) || isEmpty(before)) && (isObject(after) || isEmpty(after))) {
-    walk(label, before, after, nested, out);
+  if (kindA === "object" || kindB === "object") {
+    const a = isObject(before) ? before : {};
+    const b = isObject(after) ? after : {};
+    const named = field?.fields ?? [];
+    const extra = [...new Set([...Object.keys(a), ...Object.keys(b)])].filter((key) => !named.some((f) => f.name === key));
+    for (const sub of named) {
+      compare(`${label} > ${sub.label || sub.name}`, a[sub.name], b[sub.name], sub, out);
+    }
+    for (const key of extra) {
+      compare(`${label} > ${key}`, a[key], b[key], undefined, out);
+    }
     return;
   }
   if (same(before, after)) return;
   const kind = isEmpty(before) ? "added" : isEmpty(after) ? "removed" : "changed";
   out.push({ label, kind, before: before ?? null, after: after ?? null });
-}
-
-function walk(prefix: string, before: unknown, after: unknown, fields: Field[], out: FieldChange[]) {
-  const a = isObject(before) ? before : {};
-  const b = isObject(after) ? after : {};
-  if (isEmpty(before) && isEmpty(after)) return;
-  // A list item that appeared or vanished whole is one change, not one per field.
-  if (isEmpty(before) !== isEmpty(after)) {
-    out.push({ label: prefix, kind: isEmpty(before) ? "added" : "removed", before: before ?? null, after: after ?? null });
-    return;
-  }
-  for (const field of fields) {
-    compare(`${prefix} > ${field.label || field.name}`, a[field.name], b[field.name], field, out);
-  }
 }
 
 // Line by line, through the longest common run.

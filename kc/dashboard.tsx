@@ -9,6 +9,7 @@ import { hasGithubIdentity } from "@/lib/authz-shared";
 import { isConfigEnabled } from "@/lib/config";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { buttonVariants } from "@/components/ui/button";
+import { PageHeader } from "./page-header.tsx";
 import { dashboardTiles, recentEdits, type RecentEdit } from "./dashboard.ts";
 
 const LIMIT = 8;
@@ -84,6 +85,8 @@ export function Dashboard({ hasInsights = false }: { hasInsights?: boolean }) {
 
   return (
     <div className="mx-auto w-full max-w-5xl space-y-8 p-4 md:p-6">
+      
+      <PageHeader title="Dashboard" />
       <ul className="grid grid-cols-1 gap-3 min-[520px]:grid-cols-2 lg:grid-cols-3">
         {tiles.map((tile) => (
           <li key={tile.key}>

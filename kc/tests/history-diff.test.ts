@@ -36,7 +36,30 @@ test("a field with no label falls back to its name", () => {
 test("a list item added whole is one change", () => {
   const next = { ...before, team: [...before.team, { name: "Di", role: "Crew" }] };
   const changes = diffEntry(before, next, fields).fields;
-  assert.deepEqual(changes.map((c) => [c.label, c.kind]), [["Team > 4", "added"]]);
+  assert.deepEqual(changes.map((c) => [c.label, c.kind]), [["Team > 4 > Name", "added"], ["Team > 4 > Role", "added"]]);
+});
+
+test("a new file whose field is an object of strings is one labelled row per string", () => {
+  const { fields: changes } = diffEntry(null, { hero: { heading: "Hi", image: "/a.jpg" } }, fields);
+  assert.deepEqual(changes.map((c) => [c.label, c.kind, c.after]), [["Hero > Heading", "added", "Hi"], ["Hero > Image", "added", "/a.jpg"]]);
+  assert.ok(!JSON.stringify(changes.map((c) => [c.before, c.after])).includes("{"));
+});
+
+test("a changed nested object with no fields in the schema is labelled by key", () => {
+  const schema = [{ name: "seo", label: "SEO" }];
+  const { fields: changes } = diffEntry({ seo: { title: "a", extra: { deep: "x" } } }, { seo: { title: "b", extra: { deep: "y" } } }, schema);
+  assert.deepEqual(changes.map((c) => [c.label, c.before, c.after]), [["SEO > title", "a", "b"], ["SEO > extra > deep", "x", "y"]]);
+});
+
+test("a nested object uses schema labels, and keys the schema skips use the key", () => {
+  const schema = [{ name: "hero", label: "Hero", fields: [{ name: "breadcrumb", label: "Breadcrumb label" }] }];
+  const { fields: changes } = diffEntry({ hero: { breadcrumb: "Home", alt: "a" } }, { hero: { breadcrumb: "Privacy", alt: "b" } }, schema);
+  assert.deepEqual(changes.map((c) => [c.label, c.after]), [["Hero > Breadcrumb label", "Privacy"], ["Hero > alt", "b"]]);
+});
+
+test("a list of objects with no fields is numbered, and no value is an object", () => {
+  const { fields: changes } = diffEntry({ links: [{ a: "1" }] }, { links: [{ a: "1" }, { a: "2" }] }, [{ name: "links", label: "Links" }]);
+  assert.deepEqual(changes.map((c) => [c.label, c.kind]), [["Links > 2 > a", "added"]]);
 });
 
 test("the body diffs line by line", () => {
