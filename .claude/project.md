@@ -34,6 +34,14 @@ means the card's done-test and the tests it added pass
 (`node --test kc/tests/<file>.test.ts`), and a mutation check names which
 tests failed when the new code was broken on purpose.
 
+**Copy** (Rob, 2026-10-23): every piece of text a client or visitor reads
+(emails, UI labels, help text, empty states, errors) is written with the
+`prose` skill, then run through `avoid-ai-writing` and `humanizer`, invoked
+with the Skill tool, never done by hand. UI a card builds or restyles gets
+`avoid-ai-design`. `.claude/loop-settings.json` switches these on for loop
+passes; if the Skill tool refuses one, park the card. result.md lists each
+piece of copy written.
+
 **Risky paths**, which go to the top model tier and a `security-auditor` pass:
 `kc/insights/` (holds a Google service account key at runtime),
 `.github/workflows/` (tokens and write permissions), anything touching

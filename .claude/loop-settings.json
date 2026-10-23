@@ -1,0 +1,3 @@
+{
+  "skillOverrides": { "prose": "on", "avoid-ai-writing": "on", "humanizer": "on", "avoid-ai-design": "on" }
+}
