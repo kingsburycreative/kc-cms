@@ -2,22 +2,29 @@
 
 ## Now
 
-- **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
-- **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
-
-## Next
-
+- **email-verified-trust**: unparked 2026-10-23; code on `wip/email-verified-trust-verified-email`, mutation check done, the gate and audit are left. See the Resume note in `.claude/work/33-email-verified-trust/brief.md`.
 - **otp-atomic-limit**: from the otp-ip-key audit. better-auth's limiter checks
   before the request and counts after it (`better-call/dist/router.mjs`
   103-107), so a burst of simultaneous sends from one IP all get through, and
   an IPv6 /48 gives 65,536 separate buckets. Fix: a `hooks.before` on
-  send-verification-otp and sign-in/email-otp that increments then checks,
-  per IP and per recipient email, before the handler runs. In memory is enough
-  on the one process (a Postgres counter needs a schema change, which parks).
-  The same hook should also refuse every path in `kc/auth-disabled-paths.ts`
-  by `ctx.path` (from the otp-disabled-paths audit: `disabledPaths` stops
-  applying if the app is ever served under a URL prefix).
-  Risky path: top tier and an audit.
+  send-verification-otp and sign-in/email-otp that increments then checks
+  before the handler runs. In memory is enough on the one process (a Postgres
+  counter needs a schema change, which parks). The same hook also refuses every
+  path in `kc/auth-disabled-paths.ts` by `ctx.path`. Risky path: top tier and
+  an audit. Resumed 2026-10-23 from `wip/otp-atomic-limit-count-first`
+  (b87d389), whose two audit rounds both found a lockout. Decided by the rubric
+  (consensus and security): the per-IP check runs first and a refused request
+  never touches any other counter; the tight limit, 5 per 10 minutes, is keyed
+  on email and IP together, so one attacker cannot lock out a client signing
+  in from elsewhere; a looser ceiling of 30 per email across all IPs stops
+  spread-out guessing. A test proves one IP sending to many emails, and one IP
+  sending to one email, cannot stop that email signing in from a second IP.
+  The app listens on 127.0.0.1:3000 only (checked on the box 2026-10-23), so
+  `x-real-ip` comes from nginx.
+- **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
+- **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
+
+## Next
 
 ## Waiting on Rob
 
