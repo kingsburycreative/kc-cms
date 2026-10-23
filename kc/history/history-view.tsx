@@ -130,6 +130,13 @@ export function EntryHistory({ path, sha }: { path: string; sha: string }) {
 
   if (!config) return null;
   const back = `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/history`;
+  const target = schemaFor(config.object, path);
+  const editor = `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}`;
+  const restore = target?.name
+    ? target.type === "file"
+      ? `${editor}/file/${encodeURIComponent(target.name)}?restore=${encodeURIComponent(sha)}`
+      : `${editor}/collection/${encodeURIComponent(target.name)}/edit/${encodeURIComponent(path)}?restore=${encodeURIComponent(sha)}`
+    : null;
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-4 p-4 md:p-6">
@@ -141,6 +148,7 @@ export function EntryHistory({ path, sha }: { path: string; sha: string }) {
           {meta.authorName ? ` by ${meta.authorName}` : ""}
         </p>
       )}
+      {restore && <Link href={restore} className="block text-sm underline">Restore this version</Link>}
       {failed
         ? <p className="text-sm text-muted-foreground">This edit could not be loaded.</p>
         : diff === null

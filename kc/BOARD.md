@@ -2,7 +2,6 @@
 
 ## Now
 
-- **18**: Restore an old version (`.claude/work/15-plan-client-experience/plan.md` card 18)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 - **21**: SEO and AI-answer panel beside the editor (`.claude/work/15-plan-client-experience/plan.md` card 21)
