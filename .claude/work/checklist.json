@@ -448,5 +448,20 @@
     },
     "verified_at": "2026-10-23T08:47:10.531Z",
     "tree": "fbdfa7d1cddf1ad13d99d0f1677ef3c8b8667a434255f8a0709c385769e5cc72"
+  },
+  {
+    "id": "branch-create-gate",
+    "title": "branch-create-gate",
+    "brief": ".claude/work/32-branch-create-gate/brief.md",
+    "start_sha": "0b26f706c80761d6af1180be44cb727acec22e96",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T09:06:42.129Z",
+      "start_sha": "0b26f706c80761d6af1180be44cb727acec22e96",
+      "mutation_evidence": true,
+      "tree": "3e80b717f0a0f3d082ac65e54bbf6b8376ed69d4365033f3c7edb0968986ccb5"
+    },
+    "verified_at": "2026-10-23T09:08:02.872Z",
+    "tree": "3e80b717f0a0f3d082ac65e54bbf6b8376ed69d4365033f3c7edb0968986ccb5"
   }
 ]

@@ -7,8 +7,6 @@
 
 ## Next
 
-- **branch-create-gate**: from the card 23 audit. `app/api/[owner]/[repo]/[branch]/branches/route.ts:24` trusts `githubUsername` alone, so a client who links GitHub can create branches. Fix: `requireOwnRepoPush` or refuse `source !== "user"`; also decode the branch once in `kc/branch-lock.ts` so `%6Dain` cannot pass as `main`. Risky path (`app/api/`): top tier and an audit.
-
 - **email-verified-trust**: from the card 23 audit, latent. Drop `trustedProviders` (`lib/auth.ts:39`), require `emailVerified` for unclaimed invites (`lib/collaborator-access.ts:12-15`) and admin (`lib/admin.ts:22-24`). Risky path: top tier and an audit.
 
 - **delete-guard-path**: from the card 23 audit, latent. The single-file delete and rename guard (`files/[path]/route.ts:500`, `rename/route.ts:69-98`) checks the schema the client names, not the file; build single-file paths from the config in `kc/content-ops.ts`, and make media DELETE use `isMediaPathAllowed`. Risky path (`app/api/`).
@@ -57,6 +55,7 @@
 
 ## Done
 
+- **branch-create-gate**: committed on feat/branch-create-gate, gate green, audit found nothing; creating a branch now needs a user token with push on the repo, and the branch lock compares the name exactly so %6Dain is not main. The branch layout still decodes a second time.
 - **23** feature security audit: no high finding; ?ref=, restore, other repos, redaction and tokens closed. One live low and two latent fixes queued in Next. Result in `.claude/work/31-feature-audit/result.md`.
 - **25** insights-cloudflare: committed on feat/25-insights-cloudflare, gate green, audit found nothing; Cloudflare gives visits and top pages beside GA4 detail under "From visitors who allowed analytics", GA4 alone on any Cloudflare failure. Only the dataset name is confirmed in Cloudflare docs; the other field names need an introspection check at deploy. Not tried live or seen in a browser.
 - **21** seo-panel: committed on feat/21-seo-panel, gate green, no audit (not a risky path); a panel beside the editor checks title and description length, headings, image descriptions, reading grade (flags above 9, the worker's threshold) and an answer-first opening. Not seen in a browser.

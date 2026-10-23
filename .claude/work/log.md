@@ -86,3 +86,6 @@
 
 ## 2026-10-23 feature security audit (plan card 23)
 - Cards 19 and 20 still wait on card 06. Opus security-auditor, read-only, no code changed. No high; a client can create branches after linking GitHub (low, live); email trusted without emailVerified in three places (latent); delete guard keys on the named schema (latent). Queued as branch-create-gate, email-verified-trust, delete-guard-path. Auditor had no shell, so live probes are unverified.
+
+## 2026-10-23 branch-create-gate (board Next, checklist branch-create-gate)
+- Cards 19 and 20 still wait on card 06, so the top Next card was taken. Branch feat/branch-create-gate from feat/25-insights-cloudflare at 0b26f70 (main plus the card 23 board commit). Opus worker, risky path (app/api/). Scope ok with mutation evidence; diff read. Branches POST now also refuses a non-user token and requires push on the route's repo, before the body or any GitHub call. The lock compares the branch exactly (Next 16 already decodes params once), so %6Dain no longer passes as main; the old feat%2Fx assertion flipped to false by design. Not changed: the branch layout still decodes a second time (not on the list; the API lock still holds). Worker reports the runner ran the whole suite when given two files. Sent to the loop's gate with an audit (app/api/).

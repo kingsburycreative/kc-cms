@@ -1,6 +1,7 @@
 import { createOctokitInstance } from "@/lib/utils/octokit";
 import { getToken } from "@/lib/token";
 import { assertBranchAllowed } from "@/kc/branch-lock-server";
+import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import { requireApiUserSession } from "@/lib/session-server";
 
@@ -26,6 +27,8 @@ export async function POST(
     const { token, source } = await getToken(user, params.owner, params.repo, true);
     await assertBranchAllowed(source, token, params.owner, params.repo, params.branch);
     if (!token) throw createHttpError("Token not found", 401);
+    if (source !== "user") throw createHttpError("Only KC staff can create branches.", 403);
+    await requireOwnRepoPush(user, params.owner, params.repo, "Only KC staff can create branches.");
 
     const data: any = await request.json();
     if (!data.name) throw createHttpError(`"name" is required.`, 400);
