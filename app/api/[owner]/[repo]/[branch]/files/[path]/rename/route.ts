@@ -13,6 +13,7 @@ import { requireApiUserSession } from "@/lib/session-server";
 import { isSettingsPath } from "@/kc/settings-gate";
 import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { isMediaPathAllowed } from "@/kc/media-types";
+import { isSingleFilePath } from "@/kc/content-ops";
 
 /**
  * Renames a file in a GitHub repository.
@@ -74,7 +75,7 @@ export async function POST(
         schemaCommitTemplates = schema?.commit?.templates;
         schemaCommitIdentity = schema?.commit?.identity;
 
-        if (schema.type === "file") throw new Error(`Renaming content of type "file" isn't allowed.`);
+        if (schema.type === "file" || isSingleFilePath(config.object.content, normalizedPath) || isSingleFilePath(config.object.content, normalizedNewPath)) throw new Error(`Renaming content of type "file" isn't allowed.`);
         
         if (!normalizedPath.startsWith(schema.path)) throw new Error(`Invalid path "${params.path}" for ${data.type} "${data.name}".`);
         if (!normalizedNewPath.startsWith(schema.path)) throw new Error(`Invalid path "${data.newPath}" for ${data.type} "${data.name}".`);
