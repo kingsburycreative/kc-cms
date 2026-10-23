@@ -1,0 +1,12 @@
+{
+  "title": "Welcome",
+  "subtitle": "Unchanged line",
+  "phone": "555-0100",
+  "hero": { "heading": "Old heading", "image": "/a.jpg" },
+  "team": [
+    { "name": "Ann", "role": "Owner" },
+    { "name": "Bo", "role": "Crew" },
+    { "name": "Cy", "role": "Crew" }
+  ],
+  "body": "One\nTwo\nThree"
+}
