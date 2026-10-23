@@ -55,3 +55,6 @@
 
 ## 2026-10-23 white-label-emails (plan card 11, checklist c11)
 - Branch feat/11-white-label-emails from main at df4d454 (PR #32 merged). Sonnet worker, not a risky path. Scope ok with mutation evidence; diff read, brand test tightened (whitespace collapsed), new tests added, none weakened. From gets "Kingsbury Creative <...>" when bare; invite and added subjects and bodies use the kc.client name, no owner/repo, no GitHub link, no Pages CMS. Call: client name read from the "main" branch config, so a repo whose default branch differs falls back to the readable repo name. Copy through prose, avoid-ai-writing, humanizer. Not seen in a mail client. Sent to the loop's gate, no audit.
+
+## 2026-10-23 email-logo (plan card 12, checklist c12)
+- Branch feat/12-email-logo from main at 3f6c3c9 (PR #33 merged). Sonnet worker, not a risky path. Scope ok with mutation evidence; diff read, the 96x96 test replaced by an aspect and sharpness check on all three templates. Logo is the 1624x328 wordmark copied byte for byte, shown at 198x40; generator deleted. No new copy. Not seen in a mail client. Sent to the loop's gate, no audit.
