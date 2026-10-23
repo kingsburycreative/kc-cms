@@ -2,24 +2,6 @@
 
 ## Now
 
-- **otp-atomic-limit**: from the otp-ip-key audit. better-auth's limiter checks
-  before the request and counts after it (`better-call/dist/router.mjs`
-  103-107), so a burst of simultaneous sends from one IP all get through, and
-  an IPv6 /48 gives 65,536 separate buckets. Fix: a `hooks.before` on
-  send-verification-otp and sign-in/email-otp that increments then checks
-  before the handler runs. In memory is enough on the one process (a Postgres
-  counter needs a schema change, which parks). The same hook also refuses every
-  path in `kc/auth-disabled-paths.ts` by `ctx.path`. Risky path: top tier and
-  an audit. Resumed 2026-10-23 from `wip/otp-atomic-limit-count-first`
-  (b87d389), whose two audit rounds both found a lockout. Decided by the rubric
-  (consensus and security): the per-IP check runs first and a refused request
-  never touches any other counter; the tight limit, 5 per 10 minutes, is keyed
-  on email and IP together, so one attacker cannot lock out a client signing
-  in from elsewhere; a looser ceiling of 30 per email across all IPs stops
-  spread-out guessing. A test proves one IP sending to many emails, and one IP
-  sending to one email, cannot stop that email signing in from a second IP.
-  The app listens on 127.0.0.1:3000 only (checked on the box 2026-10-23), so
-  `x-real-ip` comes from nginx.
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
@@ -48,6 +30,7 @@
 
 ## Done
 
+- **otp-atomic-limit**: committed on feat/otp-atomic-limit, gate green, audit found nothing; OTP sends and sign-ins are counted before they run: 10 per IP first, then 5 per email and IP together, then 30 per email across IPs, so one attacker cannot lock out a client signing in from elsewhere. Disabled OTP paths 404 in the same hook. In memory on the one process.
 - **email-verified-trust**: committed on feat/email-verified-trust, gate green, audit found nothing; GitHub is no longer trusted for automatic account linking, unclaimed invites match by email only when verified, and admin access needs a verified email.
 - **run-claim**: committed on feat/run-claim, gate green, audit found nothing; a pending action row only claims a GitHub run created from 30 seconds before to 2 minutes after it, and after 2.5 minutes an unmatched row shows as a failed run and stops looking.
 - **delete-guard-path**: committed on feat/delete-guard-path, gate green, audit found nothing; client delete and any rename now refuse a single-file page path whatever schema name is sent, and media delete checks allowed file types. Route tests only match source text.

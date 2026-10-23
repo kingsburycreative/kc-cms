@@ -104,3 +104,6 @@
 
 ## 2026-10-23 email-verified-trust (board Now, resumed)
 - Stale empty feat/email-verified-trust reset to main at 93ef6c1; start_sha moved there. Opus worker restored the four files from the wip branch, done-test green. Scope ok; mutation evidence "no" in this run is accepted because the coordinator window ran the mutation on Rob's instruction (all three guards broken, three new tests failed, restored green). Diff read: trustedProviders empty, unclaimed invites match by email only when verified, hasAdminAccess needs emailVerified; no existing test touched. Sent to the loop's gate with an audit (lib/auth.ts).
+
+## 2026-10-23 otp-atomic-limit (board Now, resumed from wip b87d389)
+- Branch feat/otp-atomic-limit from main at e15bdc3 (PR #50 merged). Opus worker, risky path (lib/auth.ts). Scope ok with mutation evidence (tight limit keyed on email only: three tests failed, restored green); diff read, tests all new. Counts before checking: per IP 10 first, then 5 per email and IP together, then 30 per email across IPs; each refusal stops before the next counter; hooks.before also 404s the disabled paths. Worker reports the runner ignored the file argument and ran the whole kc suite each time. Sent to the loop's gate with an audit (lib/auth.ts).

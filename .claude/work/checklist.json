@@ -508,5 +508,20 @@
     },
     "verified_at": "2026-10-23T09:21:25.112Z",
     "tree": "fb9365bda3eb17dfbbe1cc1d786876b4036c9ad8b608d7213ca32feeb5a2d7bd"
+  },
+  {
+    "id": "otp-atomic-limit",
+    "title": "otp-atomic-limit",
+    "brief": ".claude/work/36-otp-atomic-limit/brief.md",
+    "start_sha": "e15bdc3af1e7c3ebc002c054aa62ca7ff48b3195",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T14:57:14.481Z",
+      "start_sha": "e15bdc3af1e7c3ebc002c054aa62ca7ff48b3195",
+      "mutation_evidence": true,
+      "tree": "3c76b2732ea833d9ea04a1ebc1aa162516953844c6e1ec9ae8ac76e88d2d5e70"
+    },
+    "verified_at": "2026-10-23T14:59:28.237Z",
+    "tree": "3c76b2732ea833d9ea04a1ebc1aa162516953844c6e1ec9ae8ac76e88d2d5e70"
   }
 ]
