@@ -31,6 +31,7 @@ export function dashboardName(kc: { client?: string } | null | undefined, repo: 
 // This shapes the screen only; the server still decides who can open what.
 export function viewFor(isClient: boolean) {
   return {
+    githubLinks: !isClient,
     sidebar: {
       githubLink: !isClient,
       allProjects: !isClient,

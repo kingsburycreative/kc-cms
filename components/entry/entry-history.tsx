@@ -3,6 +3,9 @@
 import { formatDistanceToNow } from "date-fns";
 import { getInitialsFromName } from "@/lib/utils/avatar";
 import { useConfig } from "@/contexts/config-context";
+import { useUser } from "@/contexts/user-context";
+import { hasGithubIdentity } from "@/lib/authz-shared";
+import { viewFor } from "@/kc/client-view";
 import type { EntryHistoryItem } from "@/types/api";
 import {
   Avatar,
@@ -26,6 +29,8 @@ function HistoryItemContent({
   item: EntryHistoryItem;
   compact?: boolean;
 }) {
+  const { user } = useUser();
+  const { githubLinks } = viewFor(!hasGithubIdentity(user));
   const authorName = item.authorName || item.commit?.author?.name || item.author?.login || "Unknown author";
   const rawDate = item.date ?? item.commit?.author?.date;
   const authorDate = rawDate ? new Date(rawDate) : null;
@@ -33,7 +38,7 @@ function HistoryItemContent({
   return (
     <>
       <Avatar className={compact ? "size-7" : "h-8 w-8"}>
-        <AvatarImage src={item.author?.login ? `https://github.com/${item.author.login}.png` : undefined} alt={`${authorName}'s avatar`} />
+        <AvatarImage src={githubLinks && item.author?.login ?`https://github.com/${item.author.login}.png` : undefined} alt={`${authorName}'s avatar`} />
         <AvatarFallback>{getInitialsFromName(authorName)}</AvatarFallback>
       </Avatar>
       <div className={compact ? "text-left overflow-hidden" : "text-left overflow-hidden ml-3"}>
@@ -54,12 +59,14 @@ export function EntryHistoryBlock({
   history: EntryHistoryItem[];
 }) {
   const { config } = useConfig();
+  const { user } = useUser();
+  const { githubLinks } = viewFor(!hasGithubIdentity(user));
 
   if (!history || history.length === 0) return null;
 
   return (
     <div className="flex flex-col gap-y-1 text-sm">
-      {history.slice(0, 3).map((item) => item.html_url ? (
+      {history.slice(0, 3).map((item) => githubLinks && item.html_url ? (
         <a
           href={item.html_url}
           target="_blank"
@@ -74,7 +81,7 @@ export function EntryHistoryBlock({
           <HistoryItemContent item={item} />
         </div>
       ))}
-      {history.length > 3 && (
+      {githubLinks && history.length > 3 && (
         <a
           href={`https://github.com/${config?.owner}/${config?.repo}/commits/${encodeURIComponent(config!.branch)}/${path}`}
           target="_blank"
@@ -101,6 +108,8 @@ export function EntryHistoryDropdown({
   triggerSize?: React.ComponentProps<typeof Button>["size"];
 }) {
   const { config } = useConfig();
+  const { user } = useUser();
+  const { githubLinks } = viewFor(!hasGithubIdentity(user));
 
   if (!history || history.length === 0) return null;
 
@@ -114,7 +123,7 @@ export function EntryHistoryDropdown({
       <DropdownMenuContent align="end" className="max-w-3xs">
         {history.slice(0, 3).map((item) => (
           <DropdownMenuItem key={item.sha} asChild>
-            {item.html_url ? (
+            {githubLinks && item.html_url ? (
               <a href={item.html_url} target="_blank" rel="noopener noreferrer" className="w-full truncate flex items-center gap-3">
                 <HistoryItemContent item={item} compact />
               </a>
@@ -125,18 +134,22 @@ export function EntryHistoryDropdown({
             )}
           </DropdownMenuItem>
         ))}
-        <DropdownMenuSeparator/>
-        <DropdownMenuItem asChild>
-          <a
-            href={`https://github.com/${config?.owner}/${config?.repo}/commits/${encodeURIComponent(config!.branch)}/${path}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center w-full"
-          >
-            View on GitHub
-            <ArrowUpRight className="size-3 text-muted-foreground ml-auto" />
-          </a>
-        </DropdownMenuItem>
+        {githubLinks && (
+          <>
+            <DropdownMenuSeparator/>
+            <DropdownMenuItem asChild>
+              <a
+                href={`https://github.com/${config?.owner}/${config?.repo}/commits/${encodeURIComponent(config!.branch)}/${path}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center w-full"
+              >
+                View on GitHub
+                <ArrowUpRight className="size-3 text-muted-foreground ml-auto" />
+              </a>
+            </DropdownMenuItem>
+          </>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   );
