@@ -58,3 +58,6 @@
 
 ## 2026-10-23 email-logo (plan card 12, checklist c12)
 - Branch feat/12-email-logo from main at 3f6c3c9 (PR #33 merged). Sonnet worker, not a risky path. Scope ok with mutation evidence; diff read, the 96x96 test replaced by an aspect and sharpness check on all three templates. Logo is the 1624x328 wordmark copied byte for byte, shown at 198x40; generator deleted. No new copy. Not seen in a mail client. Sent to the loop's gate, no audit.
+
+## 2026-10-23 invite-name (plan card 13, checklist c13)
+- Branch feat/13-invite-name from main at 297871d (PR #34 merged). Opus worker (sign-in hook). Scope ok with mutation evidence; diff read, tests all new. Migration 0013 adds one nullable name column (approved, card 05). Invite form takes an optional name; sign-in sets user.name from it only when blank, through nameToApply. Copy through prose, avoid-ai-writing, humanizer: "Name (optional)", "Jane Smith", "Keep the name to one line of 80 characters or fewer." Not done: resending an invite drops the name. The sign-in lookup takes any named invite for that email, not scoped to a site or expiry. Not seen in a browser. Sent to the loop's gate with an audit (sign-in hook).

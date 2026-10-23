@@ -47,6 +47,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
+import { Input } from "@/components/ui/input";
 import {
   Tooltip,
   TooltipContent,
@@ -124,6 +125,10 @@ function InviteCollaboratorsDialog({
         <form action={action} className="space-y-4">
           <input type="hidden" name="owner" value={owner} />
           <input type="hidden" name="repo" value={repo} />
+          <label className="grid gap-1.5 text-sm font-medium">
+            Name (optional)
+            <Input name="name" placeholder="Jane Smith" maxLength={80} autoComplete="off" />
+          </label>
           <Textarea
             name="emails"
             placeholder="alice@example.com, bob@example.com"

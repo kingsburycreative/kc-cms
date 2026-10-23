@@ -18,6 +18,7 @@ import { findVerifiedUserByEmail, normalizeEmail } from "@/lib/collaborator-acce
 import { BRAND_NAME } from "@/kc/brand";
 import { addedSubject, inviteSubject } from "@/kc/email";
 import { clientName } from "@/kc/client-view";
+import { cleanInviteName } from "@/kc/invite-name";
 import { getConfig } from "@/lib/config-store";
 
 // The site's kc.client name, falling back to the repo name made readable.
@@ -88,11 +89,13 @@ const createCollaboratorInviteUrl = async ({
   owner,
   repo,
   baseUrl,
+  name = null,
 }: {
   email: string;
   owner: string;
   repo: string;
   baseUrl: string;
+  name?: string | null;
 }) => {
   const token = generateInviteToken();
   const expiresAt = new Date(
@@ -114,6 +117,7 @@ const createCollaboratorInviteUrl = async ({
     email,
     owner,
     repo,
+    name,
     expiresAt,
   });
 
@@ -149,6 +153,7 @@ const handleAddCollaborator = async (prevState: any, formData: FormData) => {
     const emailsValidation = parseInviteEmails(formData.get("emails") ?? formData.get("email"));
 		if (!emailsValidation.success || emailsValidation.data.length === 0) throw new Error("Invalid email list");
     const emails = emailsValidation.data;
+    const inviteName = cleanInviteName(formData.get("name"));
 
     const { repoAccess, installation } = await assertRepoInInstallation(user, owner, repo);
 
@@ -191,6 +196,7 @@ const handleAddCollaborator = async (prevState: any, formData: FormData) => {
           owner,
           repo,
           baseUrl,
+          name: inviteName,
         });
         try {
           const html = await render(
