@@ -2,7 +2,6 @@
 
 ## Now
 
-- **11**: White-label the three emails (`.claude/work/15-plan-client-experience/plan.md` card 11)
 - **12**: Put the KC logo in the emails (`.claude/work/15-plan-client-experience/plan.md` card 12)
 - **13**: Name the client when inviting them (`.claude/work/15-plan-client-experience/plan.md` card 13)
 - **14**: Commits carry the editor's name (`.claude/work/15-plan-client-experience/plan.md` card 14)

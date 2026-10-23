@@ -21,13 +21,11 @@ export const InviteEmailTemplate = ({
   repoName,
   inviteUrl,
   invitedByName,
-  invitedByUrl,
 }: {
   email: string;
   repoName: string;
   inviteUrl: string;
   invitedByName: string;
-  invitedByUrl: string;
 }) => {
   const baseUrl = process.env.BASE_URL
     ? process.env.BASE_URL
@@ -39,7 +37,7 @@ export const InviteEmailTemplate = ({
     <Html>
       <Head />
       <Preview>
-        {invitedByName} invited you to &quot;{repoName}&quot;
+        {invitedByName} invited you to edit {repoName}
       </Preview>
       <Tailwind>
         <Body
@@ -63,21 +61,14 @@ export const InviteEmailTemplate = ({
               className="text-[24px] font-semibold p-0 my-[30px] mx-0 text-center tracking-tight"
               style={{ color: emailTheme.foreground }}
             >
-              Join &quot;{repoName}&quot; on {BRAND_NAME}
+              Edit {repoName} on {BRAND_NAME}
             </Heading>
             <Text
               className="text-[16px] leading-[24px]"
               style={{ color: emailTheme.foreground }}
             >
-              <Link
-                href={invitedByUrl}
-                className="underline rounded-md"
-                style={{ color: emailTheme.link }}
-              >
-                {invitedByName}
-              </Link>{" "}
-              has invited you to the &quot;{repoName}&quot; project on Pages
-              CMS. Use the following link to start collaborating:
+              {invitedByName} invited you to edit {repoName} on {BRAND_NAME}.
+              Use this link to get started:
             </Text>
             <Section className="text-center mt-[24px] mb-[24px]">
               <Button
@@ -89,7 +80,7 @@ export const InviteEmailTemplate = ({
                   color: emailTheme.buttonForeground,
                 }}
               >
-                Join &quot;{repoName}&quot;
+                Edit {repoName}
               </Button>
             </Section>
             <Text

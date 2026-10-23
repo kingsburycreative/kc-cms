@@ -52,3 +52,6 @@
 
 ## 2026-10-23 client-no-delete-file (plan card 10, checklist c10)
 - Branch feat/10-client-no-delete-file from main at a88ea85 (PR #31 merged). Opus worker, risky path. Scope ok with mutation evidence; diff read, tests all new. Files DELETE refuses a client (installation token) on a type: file schema with a 403; collection entries and media unchanged; the editor hides delete for anyone without a GitHub identity. 403 text through prose, avoid-ai-writing and humanizer: "This page can't be deleted. Ask Kingsbury Creative if it needs to go." Not seen in a browser. Sent to the loop's gate with an audit (app/api/).
+
+## 2026-10-23 white-label-emails (plan card 11, checklist c11)
+- Branch feat/11-white-label-emails from main at df4d454 (PR #32 merged). Sonnet worker, not a risky path. Scope ok with mutation evidence; diff read, brand test tightened (whitespace collapsed), new tests added, none weakened. From gets "Kingsbury Creative <...>" when bare; invite and added subjects and bodies use the kc.client name, no owner/repo, no GitHub link, no Pages CMS. Call: client name read from the "main" branch config, so a repo whose default branch differs falls back to the readable repo name. Copy through prose, avoid-ai-writing, humanizer. Not seen in a mail client. Sent to the loop's gate, no audit.

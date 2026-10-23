@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import nodemailer from "nodemailer";
+import { withSenderName } from "@/kc/email";
 
 type MailProvider = "resend" | "smtp";
 
@@ -41,7 +42,7 @@ const getFromEmail = () => {
   if (!from) {
     throw new Error("Missing sender email. Set EMAIL_FROM (or RESEND_FROM_EMAIL for compatibility).");
   }
-  return from;
+  return withSenderName(from);
 };
 
 const getEmailProvider = (): MailProvider => {
