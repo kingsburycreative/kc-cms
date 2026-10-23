@@ -463,5 +463,13 @@
     },
     "verified_at": "2026-10-23T09:08:02.872Z",
     "tree": "3e80b717f0a0f3d082ac65e54bbf6b8376ed69d4365033f3c7edb0968986ccb5"
+  },
+  {
+    "id": "email-verified-trust",
+    "title": "email-verified-trust",
+    "brief": ".claude/work/33-email-verified-trust/brief.md",
+    "start_sha": "06e472e4aca978fc1d0c566692e9470024ac44d2",
+    "passes": false,
+    "parked": "permission classifier refused the mutation-check run (Security Weaken); code on wip/email-verified-trust-verified-email"
   }
 ]

@@ -7,8 +7,6 @@
 
 ## Next
 
-- **email-verified-trust**: from the card 23 audit, latent. Drop `trustedProviders` (`lib/auth.ts:39`), require `emailVerified` for unclaimed invites (`lib/collaborator-access.ts:12-15`) and admin (`lib/admin.ts:22-24`). Risky path: top tier and an audit.
-
 - **delete-guard-path**: from the card 23 audit, latent. The single-file delete and rename guard (`files/[path]/route.ts:500`, `rename/route.ts:69-98`) checks the schema the client names, not the file; build single-file paths from the config in `kc/content-ops.ts`, and make media DELETE use `isMediaPathAllowed`. Risky path (`app/api/`).
 
 - **run-claim**: from the settings-gate audit, older than that card. A run
@@ -52,6 +50,8 @@
 - **24** (`.claude/work/15-plan-client-experience/plan.md` card 24): deploy the finished work to the box and run the final check (invite email, dashboard at 375 and 1280, one restore).
 
 ## Blocked
+
+- **email-verified-trust**: from the card 23 audit, latent. Drop `trustedProviders` (`lib/auth.ts:39`), require `emailVerified` for unclaimed invites (`lib/collaborator-access.ts:12-15`) and admin (`lib/admin.ts:22-24`). Risky path: top tier and an audit. PARKED: the permission check refused the mutation run; code on wip/email-verified-trust-verified-email. Needs Rob to allow or run the mutation check.
 
 ## Done
 
