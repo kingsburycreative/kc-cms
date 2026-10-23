@@ -61,3 +61,6 @@
 
 ## 2026-10-23 invite-name (plan card 13, checklist c13)
 - Branch feat/13-invite-name from main at 297871d (PR #34 merged). Opus worker (sign-in hook). Scope ok with mutation evidence; diff read, tests all new. Migration 0013 adds one nullable name column (approved, card 05). Invite form takes an optional name; sign-in sets user.name from it only when blank, through nameToApply. Copy through prose, avoid-ai-writing, humanizer: "Name (optional)", "Jane Smith", "Keep the name to one line of 80 characters or fewer." Not done: resending an invite drops the name. The sign-in lookup takes any named invite for that email, not scoped to a site or expiry. Not seen in a browser. Sent to the loop's gate with an audit (sign-in hook).
+
+## 2026-10-23 commit-identity (plan card 14, checklist c14)
+- Branch feat/14-commit-identity from main at bc69c48 (PR #35 merged). Sonnet worker, not a risky path. Scope ok with mutation evidence; diff read, tests all new. New kc/commit-identity.ts defaults commits to the signed-in user; explicit identity app or user in .pages.yml or a schema still wins; the routes still fall back to the app when the user has no email. No new copy. Not tried against GitHub. Sent to the loop's gate, no audit.
