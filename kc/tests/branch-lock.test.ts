@@ -17,7 +17,13 @@ const lockCall = "await assertBranchAllowed(source, token, params.owner, params.
 test("a client may use the default branch only", () => {
   assert.equal(isBranchAllowed({ source: "installation", branch: "main", defaultBranch: "main" }), true);
   assert.equal(isBranchAllowed({ source: "installation", branch: "draft", defaultBranch: "main" }), false);
-  assert.equal(isBranchAllowed({ source: "installation", branch: "feat%2Fx", defaultBranch: "feat/x" }), true);
+  assert.equal(isBranchAllowed({ source: "installation", branch: "feat%2Fx", defaultBranch: "feat/x" }), false);
+});
+
+test("the lock compares the already-decoded branch exactly, so %6Dain is not main", () => {
+  assert.equal(isBranchAllowed({ source: "installation", branch: "%6Dain", defaultBranch: "main" }), false);
+  assert.equal(isBranchAllowed({ source: "installation", branch: "feat/x", defaultBranch: "feat/x" }), true);
+  assert.doesNotMatch(read("kc/branch-lock.ts"), /decodeURIComponent/);
 });
 
 test("a user token may use any branch", () => {
