@@ -433,5 +433,20 @@
     },
     "verified_at": "2026-10-23T08:41:02.550Z",
     "tree": "8e3a85de8197b5418510c64318ffb2a594d69821f1b46c34e98e37d5f604444c"
+  },
+  {
+    "id": "c25",
+    "title": "insights-cloudflare",
+    "brief": ".claude/work/30-insights-cloudflare/brief.md",
+    "start_sha": "14265be9d033614066f744c5309b3450f417f39e",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T08:46:18.466Z",
+      "start_sha": "14265be9d033614066f744c5309b3450f417f39e",
+      "mutation_evidence": true,
+      "tree": "fbdfa7d1cddf1ad13d99d0f1677ef3c8b8667a434255f8a0709c385769e5cc72"
+    },
+    "verified_at": "2026-10-23T08:47:10.531Z",
+    "tree": "fbdfa7d1cddf1ad13d99d0f1677ef3c8b8667a434255f8a0709c385769e5cc72"
   }
 ]

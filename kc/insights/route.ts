@@ -6,6 +6,7 @@ import * as reports from "./reports.ts";
 import * as cards from "./cards.ts";
 import type { RunReportRequest } from "./reports.ts";
 import type { RunReportResponse } from "./cards.ts";
+import { CF_GRAPHQL_URL, cloudflareCards, cloudflareRequest, type CloudflareResponse } from "./cloudflare.ts";
 
 type Fetch = (url: string, init: { method: string; headers: Record<string, string>; body: string }) => Promise<{
   ok: boolean;
@@ -130,3 +131,68 @@ export async function loadInsights(opts: LoadOptions): Promise<InsightsResult> {
 }
 
 export const defaultCache = createCache<InsightsCards>();
+
+// Cloudflare totals beside GA4 detail. Totals come from Cloudflare when it
+// answers; the GA4 detail cards are shown under the consent label then.
+export type CloudflareTotals = { visitors: cards.VisitorsCard; pages: cards.ListCard };
+export type SiteInsights =
+  | {
+      ok: true;
+      totalsFrom: "cloudflare" | "ga4";
+      visitors: cards.VisitorsCard;
+      pages: cards.ListCard;
+      detail: { cities: cards.ListCard; channels: cards.ListCard; engagement: cards.EngagementCard } | null;
+    }
+  | { ok: false; message: string };
+
+export type CloudflareOptions = {
+  siteTag: string;
+  accountId: string | undefined;
+  token: string | undefined;
+  cache: ReturnType<typeof createCache<CloudflareTotals>>;
+};
+
+async function loadCloudflare(cf: CloudflareOptions, fetchFn: Fetch, now: () => number, log: (line: string) => void) {
+  const { siteTag, accountId, token, cache } = cf;
+  if (!accountId || !token) return null;
+  try {
+    return await cache(siteTag, async () => {
+      const res = await fetchFn(CF_GRAPHQL_URL, {
+        method: "POST",
+        headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
+        body: JSON.stringify(cloudflareRequest(accountId, siteTag, now())),
+      });
+      if (!res.ok) throw new GoogleError(res.status);
+      const data = (await res.json()) as CloudflareResponse;
+      // GraphQL reports query errors inside a 200.
+      if (data.errors?.length || !data.data) throw new GoogleError(res.status);
+      return cloudflareCards(data, trimPagePath);
+    });
+  } catch (error) {
+    // One line, the status code only: no body, no URL, no token.
+    const status = error instanceof GoogleError && error.status ? error.status : "unknown";
+    log(`Insights: Cloudflare request failed with status ${status}`);
+    return null;
+  }
+}
+
+export type SiteLoadOptions = Omit<LoadOptions, "propertyId"> & {
+  propertyId: string | null | undefined;
+  cloudflare: CloudflareOptions | null;
+};
+
+export async function loadSiteInsights(opts: SiteLoadOptions): Promise<SiteInsights> {
+  const { propertyId, cloudflare, now = Date.now, log = console.error } = opts;
+  const [ga, cf] = await Promise.all([
+    propertyId ? loadInsights({ ...opts, propertyId, now, log }) : null,
+    cloudflare ? loadCloudflare(cloudflare, opts.fetchFn, now, log) : null,
+  ]);
+  const detail = ga?.ok
+    ? { cities: ga.cards.cities, channels: ga.cards.channels, engagement: ga.cards.engagement }
+    : null;
+  if (cf) return { ok: true, totalsFrom: "cloudflare", visitors: cf.visitors, pages: cf.pages, detail };
+  if (ga?.ok) return { ok: true, totalsFrom: "ga4", visitors: ga.cards.visitors, pages: ga.cards.pages, detail };
+  return { ok: false, message: LOAD_FAILED };
+}
+
+export const defaultCloudflareCache = createCache<CloudflareTotals>();
