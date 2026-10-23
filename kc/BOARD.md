@@ -2,7 +2,6 @@
 
 ## Now
 
-- **16**: Site dashboard as the landing page (`.claude/work/15-plan-client-experience/plan.md` card 16)
 - **17**: History pages with the change shown (`.claude/work/15-plan-client-experience/plan.md` card 17)
 - **18**: Restore an old version (`.claude/work/15-plan-client-experience/plan.md` card 18)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
@@ -57,6 +56,7 @@
 
 ## Done
 
+- **16** site-dashboard: committed on feat/16-site-dashboard, gate green, no audit (not a risky path); the branch home shows content, Media, History and Insights tiles with recent edits instead of jumping to the first item. Not seen in a browser.
 - **15** history-data: committed on feat/15-history-data, gate green, audit found nothing; new site history feed route, and the entries route reads an old version only when its commit is on the branch.
 - **14** commit-identity: committed on feat/14-commit-identity, gate green, no audit (not a risky path); saves are now credited to the signed-in user unless a site sets identity: app.
 - **13** invite-name: committed on feat/13-invite-name, gate green, audit found nothing; the invite form takes an optional name, applied at sign-in only when the user has none. Resending an invite drops the name.
