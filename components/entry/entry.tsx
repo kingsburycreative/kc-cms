@@ -7,6 +7,9 @@ import Link from "next/link";
 import { useConfig } from "@/contexts/config-context";
 import { parseAndValidateConfig } from "@/lib/config";
 import { resolveContentOperations } from "@/lib/operations";
+import { useUser } from "@/contexts/user-context";
+import { hasGithubIdentity } from "@/lib/authz-shared";
+import { clientMayDelete } from "@/kc/content-ops";
 import { requireApiSuccess } from "@/lib/api-client";
 import { getSchemaActions } from "@/lib/actions";
 import {
@@ -115,6 +118,7 @@ export function Entry({
   const router = useRouter();
   
   const { config } = useConfig();
+  const { user } = useUser();
   if (!config) throw new Error(`Configuration not found.`);
   
   const schema = useMemo(() => {
@@ -135,7 +139,7 @@ export function Entry({
   );
   const canCreate = operations.create;
   const canRename = operations.rename;
-  const canDelete = operations.delete;
+  const canDelete = operations.delete && clientMayDelete({ source: hasGithubIdentity(user) ? "user" : "installation", schemaType });
   const isFileEditorMode = !schema?.fields || schema.fields.length === 0;
   const filenameFieldMode = useMemo(() => {
     if (!schema || schema.type !== "collection") return "hidden";

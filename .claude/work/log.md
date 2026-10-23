@@ -49,3 +49,6 @@
 
 ## 2026-10-23 client-signin (plan card 09, checklist c09)
 - Branch feat/09-client-signin from main at 66f3277 (PR #30 merged). Sonnet worker, not a risky path. Scope ok with mutation evidence; diff read, tests all new. Sign-in shows email only; GitHub button and the "Or" divider only at /sign-in?staff=1. Settings hides the whole GitHub identity row for clients. lib/auth.ts untouched, so the GitHub provider still answers a direct call. No new copy. Not seen in a browser. Sent to the loop's gate, no audit.
+
+## 2026-10-23 client-no-delete-file (plan card 10, checklist c10)
+- Branch feat/10-client-no-delete-file from main at a88ea85 (PR #31 merged). Opus worker, risky path. Scope ok with mutation evidence; diff read, tests all new. Files DELETE refuses a client (installation token) on a type: file schema with a 403; collection entries and media unchanged; the editor hides delete for anyone without a GitHub identity. 403 text through prose, avoid-ai-writing and humanizer: "This page can't be deleted. Ask Kingsbury Creative if it needs to go." Not seen in a browser. Sent to the loop's gate with an audit (app/api/).

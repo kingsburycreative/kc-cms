@@ -283,5 +283,20 @@
     },
     "verified_at": "2026-10-23T06:32:33.885Z",
     "tree": "60132517c6c98e75300caf9d86fba578f8b76b1522a580631b9499c45ac4fd4b"
+  },
+  {
+    "id": "c10",
+    "title": "client-no-delete-file",
+    "brief": ".claude/work/20-client-no-delete-file/brief.md",
+    "start_sha": "a88ea85c91d18d9d1e6a07c4d878828e1f5fc1a0",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T06:35:52.682Z",
+      "start_sha": "a88ea85c91d18d9d1e6a07c4d878828e1f5fc1a0",
+      "mutation_evidence": true,
+      "tree": "736b27ab69ef98ff1a3264b33dcfef66d09fbcc093a3d9ed65e10394396a9cf3"
+    },
+    "verified_at": "2026-10-23T06:37:08.860Z",
+    "tree": "736b27ab69ef98ff1a3264b33dcfef66d09fbcc093a3d9ed65e10394396a9cf3"
   }
 ]

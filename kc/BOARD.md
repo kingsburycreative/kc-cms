@@ -2,7 +2,6 @@
 
 ## Now
 
-- **10**: Clients cannot delete single-file entries (`.claude/work/15-plan-client-experience/plan.md` card 10)
 - **11**: White-label the three emails (`.claude/work/15-plan-client-experience/plan.md` card 11)
 - **12**: Put the KC logo in the emails (`.claude/work/15-plan-client-experience/plan.md` card 12)
 - **13**: Name the client when inviting them (`.claude/work/15-plan-client-experience/plan.md` card 13)
@@ -62,6 +61,7 @@
 
 ## Done
 
+- **10** client-no-delete-file: committed on feat/10-client-no-delete-file, gate green, audit found nothing; clients get a 403 deleting single-file entries and the editor hides the button.
 - **08** client-third-party: committed on feat/08-client-third-party, gate green, no audit (not a risky path); clients get no GitHub links, nobody gets unavatar.io avatars.
 - **02** client-identity-redact: PR #29, merged.
 - **01** client-branch-lock: committed on feat/01-client-branch-lock, gate green, audit found nothing; clients work on the default branch only. Card 03 (deploy) still gates any client invite.
