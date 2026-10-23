@@ -1,0 +1,1 @@
+ALTER TABLE "collaborator_invite" ADD COLUMN "name" text;

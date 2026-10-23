@@ -104,6 +104,7 @@ const collaboratorInviteTable = pgTable("collaborator_invite", {
   email: text("email").notNull(),
   owner: text("owner").notNull(),
   repo: text("repo").notNull(),
+  name: text("name"),
   expiresAt: timestamp("expires_at").notNull(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow()

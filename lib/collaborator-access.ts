@@ -1,4 +1,5 @@
-import { and, eq, isNull, or, sql } from "drizzle-orm";
+import { and, eq, isNotNull, isNull, or, sql } from "drizzle-orm";
+import { nameToApply } from "@/kc/invite-name";
 import { db } from "@/db";
 import { collaboratorInviteTable, collaboratorTable, userTable } from "@/db/schema";
 import type { User } from "@/types/user";
@@ -44,8 +45,19 @@ const findVerifiedUserByEmail = async (email: string) => {
   });
 };
 
-const bindCollaboratorInvitesToUser = async (user: Pick<User, "id" | "email" | "emailVerified">) => {
+const bindCollaboratorInvitesToUser = async (user: Pick<User, "id" | "email" | "emailVerified" | "name">) => {
   if (!user.emailVerified) return;
+
+  const invite = await db.query.collaboratorInviteTable.findFirst({
+    where: and(
+      sql`lower(${collaboratorInviteTable.email}) = lower(${normalizeEmail(user.email)})`,
+      isNotNull(collaboratorInviteTable.name),
+    ),
+  });
+  const newName = nameToApply(user.name, invite?.name);
+  if (newName) {
+    await db.update(userTable).set({ name: newName }).where(eq(userTable.id, user.id));
+  }
 
   await db
     .update(collaboratorTable)
