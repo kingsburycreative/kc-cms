@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { actionRunTable } from "@/db/schema";
 import { createOctokitInstance } from "@/lib/utils/octokit";
 import { getToken } from "@/lib/token";
+import { assertBranchAllowed } from "@/kc/branch-lock-server";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import { requireApiUserSession } from "@/lib/session-server";
 import { resolveActionRef } from "@/lib/actions";
@@ -203,7 +204,8 @@ export async function GET(
     if ("response" in sessionResult) return sessionResult.response;
     const user = sessionResult.user;
     const isGithubUser = hasGithubIdentity(user);
-    const { token } = await getToken(user, params.owner, params.repo, true);
+    const { token, source } = await getToken(user, params.owner, params.repo, true);
+    await assertBranchAllowed(source, token, params.owner, params.repo, params.branch);
     const octokit = createOctokitInstance(token);
 
     const url = new URL(request.url);
@@ -352,7 +354,8 @@ export async function POST(
     const user = sessionResult.user;
     await requireOwnRepoPush(user, params.owner, params.repo, "Only GitHub users can run actions.");
 
-    const { token } = await getToken(user, params.owner, params.repo, true);
+    const { token, source } = await getToken(user, params.owner, params.repo, true);
+    await assertBranchAllowed(source, token, params.owner, params.repo, params.branch);
     const octokit = createOctokitInstance(token);
 
     const body = (await request.json()) as {

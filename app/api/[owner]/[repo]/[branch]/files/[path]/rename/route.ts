@@ -4,6 +4,7 @@ import { getSchemaByName } from "@/lib/schema";
 import { getConfig } from "@/lib/config-store";
 import { getFileExtension, normalizePath } from "@/lib/utils/file";
 import { getToken } from "@/lib/token";
+import { assertBranchAllowed } from "@/kc/branch-lock-server";
 import { updateFileCache } from "@/lib/github-cache-file";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import { getBranchHeadSha, setBranchHeadSha } from "@/lib/github-cache-file";
@@ -31,7 +32,8 @@ export async function POST(
     if ("response" in sessionResult) return sessionResult.response;
     const user = sessionResult.user;
 
-    const { token } = await getToken(user, params.owner, params.repo, true);
+    const { token, source } = await getToken(user, params.owner, params.repo, true);
+    await assertBranchAllowed(source, token, params.owner, params.repo, params.branch);
     if (!token) throw new Error("Token not found");
 
     const normalizedPath = normalizePath(params.path);

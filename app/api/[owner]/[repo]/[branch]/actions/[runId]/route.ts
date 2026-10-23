@@ -3,6 +3,7 @@ import { db } from "@/db";
 import { actionRunTable } from "@/db/schema";
 import { createOctokitInstance } from "@/lib/utils/octokit";
 import { getToken } from "@/lib/token";
+import { assertBranchAllowed } from "@/kc/branch-lock-server";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import { requireApiUserSession } from "@/lib/session-server";
 import { resolveActionRef } from "@/lib/actions";
@@ -156,7 +157,8 @@ export async function GET(
     let syncedRow = row;
 
     if (row.status !== "completed") {
-      const { token } = await getToken(user, params.owner, params.repo, true);
+      const { token, source } = await getToken(user, params.owner, params.repo, true);
+      await assertBranchAllowed(source, token, params.owner, params.repo, params.branch);
       const octokit = createOctokitInstance(token);
       if (!row.workflowRunId) {
         const workflowRun = await findWorkflowRun(
@@ -249,7 +251,8 @@ export async function POST(
         : "You can only cancel your own action runs.");
     }
 
-    const { token } = await getToken(user, params.owner, params.repo, true);
+    const { token, source } = await getToken(user, params.owner, params.repo, true);
+    await assertBranchAllowed(source, token, params.owner, params.repo, params.branch);
     const octokit = createOctokitInstance(token);
     const isGithubUser = hasGithubIdentity(user);
     const isCancelable = ((row.payload as { action?: { cancelable?: boolean } } | null)?.action?.cancelable ?? true);
