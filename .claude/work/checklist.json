@@ -298,5 +298,20 @@
     },
     "verified_at": "2026-10-23T06:37:08.860Z",
     "tree": "736b27ab69ef98ff1a3264b33dcfef66d09fbcc093a3d9ed65e10394396a9cf3"
+  },
+  {
+    "id": "c11",
+    "title": "white-label-emails",
+    "brief": ".claude/work/21-white-label-emails/brief.md",
+    "start_sha": "df4d4548f148458306e6661f3f88b6f0e9ef88fa",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T06:40:42.123Z",
+      "start_sha": "df4d4548f148458306e6661f3f88b6f0e9ef88fa",
+      "mutation_evidence": true,
+      "tree": "c6a99f93bb9c05741bde276e8fd51f2cf087142d6073a03d28c4141854419d48"
+    },
+    "verified_at": "2026-10-23T06:41:17.557Z",
+    "tree": "c6a99f93bb9c05741bde276e8fd51f2cf087142d6073a03d28c4141854419d48"
   }
 ]

@@ -85,10 +85,8 @@ function cssColour(css: string, selector: string, name: string): string {
 
 test("no user-facing Pages CMS string outside the About credit", () => {
   for (const file of branded) {
-    const hits = read(file)
-      .split("\n")
-      .filter((line) => line.includes("Pages CMS"));
-    assert.deepEqual(hits, [], file);
+    const collapsed = read(file).replace(/\s+/g, " ");
+    assert.ok(!collapsed.includes("Pages CMS"), file);
   }
   assert.equal(UPSTREAM_NAME, "Pages CMS");
 });

@@ -21,13 +21,11 @@ export const CollaboratorAddedEmailTemplate = ({
   repoName,
   repoUrl,
   invitedByName,
-  invitedByUrl,
 }: {
   email: string;
   repoName: string;
   repoUrl: string;
   invitedByName: string;
-  invitedByUrl: string;
 }) => {
   const baseUrl = process.env.BASE_URL
     ? process.env.BASE_URL
@@ -39,7 +37,7 @@ export const CollaboratorAddedEmailTemplate = ({
     <Html>
       <Head />
       <Preview>
-        You were added to &quot;{repoName}&quot; on {BRAND_NAME}
+        You now have access to {repoName}
       </Preview>
       <Tailwind>
         <Body
@@ -63,21 +61,14 @@ export const CollaboratorAddedEmailTemplate = ({
               className="text-[24px] font-semibold p-0 my-[30px] mx-0 text-center tracking-tight"
               style={{ color: emailTheme.foreground }}
             >
-              You were added to &quot;{repoName}&quot;
+              You now have access to {repoName}
             </Heading>
             <Text
               className="text-[16px] leading-[24px]"
               style={{ color: emailTheme.foreground }}
             >
-              <Link
-                href={invitedByUrl}
-                className="underline rounded-md"
-                style={{ color: emailTheme.link }}
-              >
-                {invitedByName}
-              </Link>{" "}
-              added you to the &quot;{repoName}&quot; project on {BRAND_NAME}.
-              You already have access, so there is nothing to accept.
+              {invitedByName} gave you access to {repoName} on {BRAND_NAME}.
+              There is nothing to accept.
             </Text>
             <Section className="text-center mt-[24px] mb-[24px]">
               <Button
@@ -89,7 +80,7 @@ export const CollaboratorAddedEmailTemplate = ({
                   color: emailTheme.buttonForeground,
                 }}
               >
-                Open &quot;{repoName}&quot;
+                Open {repoName}
               </Button>
             </Section>
             <Text

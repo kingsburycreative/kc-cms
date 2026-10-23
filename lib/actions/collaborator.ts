@@ -16,6 +16,20 @@ import { z } from "zod";
 import { randomBytes } from "crypto";
 import { findVerifiedUserByEmail, normalizeEmail } from "@/lib/collaborator-access";
 import { BRAND_NAME } from "@/kc/brand";
+import { addedSubject, inviteSubject } from "@/kc/email";
+import { clientName } from "@/kc/client-view";
+import { getConfig } from "@/lib/config-store";
+
+// The site's kc.client name, falling back to the repo name made readable.
+const clientNameFor = async (owner: string, repo: string) => {
+  try {
+    const config = await getConfig(owner, repo, "main", { bootstrapOnMiss: false });
+    const kc = (config?.object as { kc?: { client?: string } } | null | undefined)?.kc;
+    return clientName(kc, repo);
+  } catch {
+    return clientName(null, repo);
+  }
+};
 
 const parseInviteEmails = (raw: FormDataEntryValue | null) => {
   const value = typeof raw === "string" ? raw : "";
@@ -140,6 +154,7 @@ const handleAddCollaborator = async (prevState: any, formData: FormData) => {
 
 		const baseUrl = getBaseUrl();
     const repoUrl = new URL(`/${owner}/${repo}`, baseUrl).toString();
+    const client = await clientNameFor(owner, repo);
     const createdCollaborators: (typeof collaboratorTable.$inferSelect)[] = [];
     const errors: string[] = [];
     let immediateAccessCount = 0;
@@ -181,15 +196,14 @@ const handleAddCollaborator = async (prevState: any, formData: FormData) => {
           const html = await render(
             InviteEmailTemplate({
               inviteUrl,
-              repoName: `${formData.get("owner")}/${formData.get("repo")}`,
+              repoName: client,
               email: normalizedEmail,
               invitedByName: user.name || user.githubUsername || user.email,
-              invitedByUrl: `https://github.com/${user.githubUsername}`,
             }),
           );
           await sendEmail({
             to: normalizedEmail,
-            subject: `Join "${owner}/${repo}" on ${BRAND_NAME}`,
+            subject: inviteSubject(client),
             html,
           });
         } catch (error: any) {
@@ -202,15 +216,14 @@ const handleAddCollaborator = async (prevState: any, formData: FormData) => {
           const html = await render(
             CollaboratorAddedEmailTemplate({
               email: normalizedEmail,
-              repoName: `${formData.get("owner")}/${formData.get("repo")}`,
+              repoName: client,
               repoUrl,
               invitedByName: user.name || user.githubUsername || user.email,
-              invitedByUrl: `https://github.com/${user.githubUsername}`,
             }),
           );
           await sendEmail({
             to: normalizedEmail,
-            subject: `You were added to "${owner}/${repo}" on ${BRAND_NAME}`,
+            subject: addedSubject(client),
             html,
           });
         } catch (error: any) {
@@ -327,19 +340,19 @@ const handleResendCollaboratorInvite = async (collaboratorId: number, owner: str
       baseUrl,
     });
 
+    const client = await clientNameFor(owner, repo);
     const html = await render(
       InviteEmailTemplate({
         inviteUrl,
-        repoName: `${owner}/${repo}`,
+        repoName: client,
         email: collaborator.email,
         invitedByName: user.name || user.githubUsername || user.email,
-        invitedByUrl: `https://github.com/${user.githubUsername}`,
       }),
     );
 
     await sendEmail({
       to: collaborator.email,
-      subject: `Join "${owner}/${repo}" on ${BRAND_NAME}`,
+      subject: inviteSubject(client),
       html,
     });
 
