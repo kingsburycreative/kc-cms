@@ -12,7 +12,7 @@ import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { isMediaPathAllowed } from "@/kc/media-types";
 import { getToken } from "@/lib/token";
 import { assertBranchAllowed } from "@/kc/branch-lock-server";
-import { clientMayDelete } from "@/kc/content-ops";
+import { clientMayDelete, isSingleFilePath } from "@/kc/content-ops";
 import { updateFileCache } from "@/lib/github-cache-file";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import mergeWith from "lodash.mergewith";
@@ -500,6 +500,9 @@ export async function DELETE(
         if (!clientMayDelete({ source, schemaType: schema.type })) {
           throw createHttpError("This page can't be deleted. Ask Kingsbury Creative if it needs to go.", 403);
         }
+        if (source === "installation" && isSingleFilePath(config.object.content, normalizedPath)) {
+          throw createHttpError("This page can't be deleted. Ask Kingsbury Creative if it needs to go.", 403);
+        }
         schemaCommitTemplates = schema?.commit?.templates;
         schemaCommitIdentity = schema?.commit?.identity;
 
@@ -521,10 +524,7 @@ export async function DELETE(
 
         if (!normalizedPath.startsWith(schema.input)) throw new Error(`Invalid path "${params.path}" for media "${name}".`);
 
-        if (
-          schema.extensions?.length > 0 &&
-          !schema.extensions.includes(getFileExtension(normalizedPath))
-        ) throw new Error(`Invalid extension "${getFileExtension(normalizedPath)}" for media.`);
+        if (!isMediaPathAllowed(normalizedPath, schema.extensions)) throw new Error(`Invalid extension "${getFileExtension(normalizedPath)}" for media.`);
         break;
     }
 

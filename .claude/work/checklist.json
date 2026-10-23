@@ -471,5 +471,20 @@
     "start_sha": "06e472e4aca978fc1d0c566692e9470024ac44d2",
     "passes": false,
     "parked": "permission classifier refused the mutation-check run (Security Weaken); code on wip/email-verified-trust-verified-email"
+  },
+  {
+    "id": "delete-guard-path",
+    "title": "delete-guard-path",
+    "brief": ".claude/work/34-delete-guard-path/brief.md",
+    "start_sha": "b2ce83edda0e7c0fae1ed1a30fae2dc6dd8dac6f",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T09:15:58.526Z",
+      "start_sha": "b2ce83edda0e7c0fae1ed1a30fae2dc6dd8dac6f",
+      "mutation_evidence": true,
+      "tree": "a1de609c2c06ab26e32701aecc1cc489649ce7be5e1966b51f74c48272ca4661"
+    },
+    "verified_at": "2026-10-23T09:17:13.813Z",
+    "tree": "a1de609c2c06ab26e32701aecc1cc489649ce7be5e1966b51f74c48272ca4661"
   }
 ]
