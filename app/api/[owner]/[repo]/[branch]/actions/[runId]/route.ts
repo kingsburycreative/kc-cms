@@ -10,6 +10,7 @@ import { requireApiUserSession } from "@/lib/session-server";
 import { resolveActionRef } from "@/lib/actions";
 import { hasGithubIdentity } from "@/lib/authz-shared";
 import { requireOwnRepoPush } from "@/kc/settings-gate-server";
+import { expiredClaimUpdate, isClaimWindowOver, pickWorkflowRun } from "@/kc/action-run-claim";
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -52,7 +53,6 @@ const findWorkflowRun = async (
   claimedRunIds: number[],
 ) => {
   const startedAtMs = row.createdAt.getTime();
-  const claimedRunIdsSet = new Set(claimedRunIds);
 
   for (let attempt = 0; attempt < 6; attempt++) {
     const response = await octokit.rest.actions.listWorkflowRuns({
@@ -64,12 +64,7 @@ const findWorkflowRun = async (
       per_page: 10,
     });
 
-    const run = response.data.workflow_runs
-      .filter((item) => (
-        Date.parse(item.created_at) >= startedAtMs - 30_000
-        && !claimedRunIdsSet.has(item.id)
-      ))
-      .sort((left, right) => Date.parse(right.created_at) - Date.parse(left.created_at))[0];
+    const run = pickWorkflowRun(response.data.workflow_runs, startedAtMs, claimedRunIds);
 
     if (run) return run;
     await sleep(1500);
@@ -162,7 +157,11 @@ export async function GET(
     await assertBranchAllowed(source, token, params.owner, params.repo, params.branch);
     if (row.status !== "completed") {
       const octokit = createOctokitInstance(token);
-      if (!row.workflowRunId) {
+      if (!row.workflowRunId && isClaimWindowOver(row.createdAt.getTime(), Date.now())) {
+        const [expired] = await db.update(actionRunTable).set(expiredClaimUpdate())
+          .where(eq(actionRunTable.id, row.id)).returning();
+        if (expired) syncedRow = expired;
+      } else if (!row.workflowRunId) {
         const workflowRun = await findWorkflowRun(
           octokit,
           row,

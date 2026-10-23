@@ -7,16 +7,6 @@
 
 ## Next
 
-- **run-claim**: from the settings-gate audit, older than that card. A run
-  row whose dispatch threw or whose 9-second lookup missed keeps a null
-  `workflowRunId` (`actions/route.ts` around 412, 430, 472); a later GET
-  attaches the newest unclaimed run on that workflow and ref, checking only
-  a lower time bound (`actions/route.ts` around 72, `actions/[runId]/route.ts`
-  around 67). A client holding such a row can claim Rob's run, and then cancel
-  it as their "own" run without the push check. Fix: attach only runs created
-  within a short window after the row's `createdAt`, and expire rows whose run
-  id is still null. Risky path (`app/api/`): top tier and an audit.
-
 - **otp-atomic-limit**: from the otp-ip-key audit. better-auth's limiter checks
   before the request and counts after it (`better-call/dist/router.mjs`
   103-107), so a burst of simultaneous sends from one IP all get through, and
@@ -53,6 +43,7 @@
 
 ## Done
 
+- **run-claim**: committed on feat/run-claim, gate green, audit found nothing; a pending action row only claims a GitHub run created from 30 seconds before to 2 minutes after it, and after 2.5 minutes an unmatched row shows as a failed run and stops looking.
 - **delete-guard-path**: committed on feat/delete-guard-path, gate green, audit found nothing; client delete and any rename now refuse a single-file page path whatever schema name is sent, and media delete checks allowed file types. Route tests only match source text.
 - **branch-create-gate**: committed on feat/branch-create-gate, gate green, audit found nothing; creating a branch now needs a user token with push on the repo, and the branch lock compares the name exactly so %6Dain is not main. The branch layout still decodes a second time.
 - **23** feature security audit: no high finding; ?ref=, restore, other repos, redaction and tokens closed. One live low and two latent fixes queued in Next. Result in `.claude/work/31-feature-audit/result.md`.
