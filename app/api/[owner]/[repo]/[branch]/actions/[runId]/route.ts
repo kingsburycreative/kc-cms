@@ -4,6 +4,7 @@ import { actionRunTable } from "@/db/schema";
 import { createOctokitInstance } from "@/lib/utils/octokit";
 import { getToken } from "@/lib/token";
 import { assertBranchAllowed } from "@/kc/branch-lock-server";
+import { forSource } from "@/kc/redact";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import { requireApiUserSession } from "@/lib/session-server";
 import { resolveActionRef } from "@/lib/actions";
@@ -156,9 +157,10 @@ export async function GET(
 
     let syncedRow = row;
 
+    // Token fetched for completed runs too: the response depends on its source.
+    const { token, source } = await getToken(user, params.owner, params.repo, true);
+    await assertBranchAllowed(source, token, params.owner, params.repo, params.branch);
     if (row.status !== "completed") {
-      const { token, source } = await getToken(user, params.owner, params.repo, true);
-      await assertBranchAllowed(source, token, params.owner, params.repo, params.branch);
       const octokit = createOctokitInstance(token);
       if (!row.workflowRunId) {
         const workflowRun = await findWorkflowRun(
@@ -205,7 +207,7 @@ export async function GET(
     return Response.json({
       status: "success",
       message: "Action run fetched successfully.",
-      data: toSummary(syncedRow, user),
+      data: forSource(source, toSummary(syncedRow, user)),
     });
   } catch (error) {
     console.error(error);
@@ -284,7 +286,7 @@ export async function POST(
       return Response.json({
         status: "success",
         message: "Action run cancelled successfully.",
-        data: updated ? toSummary(updated, user) : toSummary(row, user),
+        data: forSource(source, toSummary(updated ?? row, user)),
       });
     }
 

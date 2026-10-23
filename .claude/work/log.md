@@ -40,3 +40,6 @@
 
 ## 2026-10-23 client-branch-lock (plan card 01, checklist c01)
 - Branch feat/01-client-branch-lock from main at 08d19dd. Opus worker. Scope ok with mutation evidence; diff read, tests all new. Lock sits after every getToken in the seven [branch] API routes and in getRepoReadContext; branches POST refuses users without githubUsername; repo layout gives clients an empty branch list, branch layout shows Access denied off the default branch. A client is refused when the default branch is unknown. Not seen in a browser. Sent to the loop's gate with an audit (app/api/).
+
+## 2026-10-23 client-identity-redact (plan card 02, checklist c02)
+- Branch feat/02-client-identity-redact from main at ef2cb98. Opus worker. Scope ok with mutation evidence; diff read, tests all new. Clients get sha, parentSha, date and authorName from entry history; action runs blank email, GitHub username, avatar and run link; all=1 refused with 403. The single-run GET now looks up the token for finished runs too, so it knows the caller is a client. Actions POST routes return only an id, nothing to redact. The 403 text went through prose, avoid-ai-writing and humanizer: "Only Kingsbury Creative can see the full list of site actions." Not seen in a browser. Sent to the loop's gate with an audit (app/api/).

@@ -26,8 +26,9 @@ function HistoryItemContent({
   item: EntryHistoryItem;
   compact?: boolean;
 }) {
-  const authorName = item.commit.author?.name || item.author?.login || "Unknown author";
-  const authorDate = item.commit.author?.date ? new Date(item.commit.author.date) : null;
+  const authorName = item.authorName || item.commit?.author?.name || item.author?.login || "Unknown author";
+  const rawDate = item.date ?? item.commit?.author?.date;
+  const authorDate = rawDate ? new Date(rawDate) : null;
 
   return (
     <>
@@ -58,7 +59,7 @@ export function EntryHistoryBlock({
 
   return (
     <div className="flex flex-col gap-y-1 text-sm">
-      {history.slice(0, 3).map((item) => (
+      {history.slice(0, 3).map((item) => item.html_url ? (
         <a
           href={item.html_url}
           target="_blank"
@@ -68,6 +69,10 @@ export function EntryHistoryBlock({
         >
           <HistoryItemContent item={item} />
         </a>
+      ) : (
+        <div key={item.sha} className="flex items-center rounded-lg px-3 py-2">
+          <HistoryItemContent item={item} />
+        </div>
       ))}
       {history.length > 3 && (
         <a
@@ -109,9 +114,15 @@ export function EntryHistoryDropdown({
       <DropdownMenuContent align="end" className="max-w-3xs">
         {history.slice(0, 3).map((item) => (
           <DropdownMenuItem key={item.sha} asChild>
-            <a href={item.html_url} target="_blank" rel="noopener noreferrer" className="w-full truncate flex items-center gap-3">
-              <HistoryItemContent item={item} compact />
-            </a>
+            {item.html_url ? (
+              <a href={item.html_url} target="_blank" rel="noopener noreferrer" className="w-full truncate flex items-center gap-3">
+                <HistoryItemContent item={item} compact />
+              </a>
+            ) : (
+              <div className="w-full truncate flex items-center gap-3">
+                <HistoryItemContent item={item} compact />
+              </div>
+            )}
           </DropdownMenuItem>
         ))}
         <DropdownMenuSeparator/>

@@ -7,6 +7,7 @@ import { isSettingsPath } from "@/kc/settings-gate";
 import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { getToken } from "@/lib/token";
 import { assertBranchAllowed } from "@/kc/branch-lock-server";
+import { redactHistory } from "@/kc/redact";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import { requireApiUserSession } from "@/lib/session-server";
 
@@ -69,7 +70,7 @@ export async function GET(
 
     return Response.json({
       status: "success",
-      data: response.data
+      data: source === "installation" ? redactHistory(response.data) : response.data
     });
   } catch (error: any) {
     console.error(error);

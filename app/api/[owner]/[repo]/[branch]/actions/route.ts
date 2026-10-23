@@ -4,6 +4,7 @@ import { actionRunTable } from "@/db/schema";
 import { createOctokitInstance } from "@/lib/utils/octokit";
 import { getToken } from "@/lib/token";
 import { assertBranchAllowed } from "@/kc/branch-lock-server";
+import { forSource } from "@/kc/redact";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import { requireApiUserSession } from "@/lib/session-server";
 import { resolveActionRef } from "@/lib/actions";
@@ -218,6 +219,7 @@ export async function GET(
     const contextPath = url.searchParams.get("contextPath");
 
     const listAll = url.searchParams.get("all") === "1";
+    if (listAll && source === "installation") throw createHttpError("Only Kingsbury Creative can see the full list of site actions.", 403);
 
     if (!listAll && (actionNames.length === 0 || !contextType)) {
       throw createHttpError("actionNames and contextType are required.", 400);
@@ -250,7 +252,7 @@ export async function GET(
       return Response.json({
         status: "success",
         message: "Action runs fetched successfully.",
-        data: syncedRows.map((row) => ({
+        data: syncedRows.map((row) => forSource(source, {
           id: row.id,
           actionName: row.actionName,
           contextType: row.contextType,
@@ -305,7 +307,7 @@ export async function GET(
       message: "Action runs fetched successfully.",
       data: actionNames.reduce<Record<string, any[]>>((accumulator, actionName) => {
         accumulator[actionName] = (syncedTopRowsByAction[actionName] || [])
-          .map((row) => ({
+          .map((row) => forSource(source, {
             id: row.id,
             actionName: row.actionName,
             contextType: row.contextType,
