@@ -2,7 +2,6 @@
 
 ## Now
 
-- **12**: Put the KC logo in the emails (`.claude/work/15-plan-client-experience/plan.md` card 12)
 - **13**: Name the client when inviting them (`.claude/work/15-plan-client-experience/plan.md` card 13)
 - **14**: Commits carry the editor's name (`.claude/work/15-plan-client-experience/plan.md` card 14)
 - **15**: History data: site feed and old versions (`.claude/work/15-plan-client-experience/plan.md` card 15)
@@ -60,6 +59,7 @@
 
 ## Done
 
+- **12** email-logo: committed on feat/12-email-logo, gate green, no audit (not a risky path); the three emails show the KC wordmark at 198x40 and the dot generator is gone.
 - **10** client-no-delete-file: committed on feat/10-client-no-delete-file, gate green, audit found nothing; clients get a 403 deleting single-file entries and the editor hides the button.
 - **08** client-third-party: committed on feat/08-client-third-party, gate green, no audit (not a risky path); clients get no GitHub links, nobody gets unavatar.io avatars.
 - **02** client-identity-redact: PR #29, merged.

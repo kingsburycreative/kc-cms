@@ -46,8 +46,8 @@ export const LoginEmailTemplate = ({
             <Section className="mt-[24px]">
               <Img
                 src={`${baseUrl}/images/email-logo.png`}
-                width="42"
-                height="42"
+                width="198"
+                height="40"
                 alt={BRAND_NAME}
                 className="my-0 mx-auto"
               />

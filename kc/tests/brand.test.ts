@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import {
   BRAND_MARK,
   BRAND_NAME,
@@ -129,10 +129,24 @@ for (const selector of [":root", ".dark"]) {
   });
 }
 
-test("the email logo is a 96x96 PNG", () => {
+test("the email logo is a PNG and each email shows it at the right shape and sharpness", () => {
   const png = readFileSync(new URL("../../public/images/email-logo.png", import.meta.url));
   assert.deepEqual([...png.subarray(0, 8)], [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]);
   assert.equal(png.toString("ascii", 12, 16), "IHDR");
-  assert.equal(png.readUInt32BE(16), 96);
-  assert.equal(png.readUInt32BE(20), 96);
+  const pw = png.readUInt32BE(16);
+  const ph = png.readUInt32BE(20);
+  for (const file of ["invite", "login", "collaborator-added"]) {
+    const src = read(`components/email/${file}.tsx`);
+    const img = src.match(/<Img[\s\S]*?\/>/);
+    assert.ok(img, `${file}: no <Img>`);
+    const w = Number(img[0].match(/width="(\d+)"/)?.[1]);
+    const h = Number(img[0].match(/height="(\d+)"/)?.[1]);
+    assert.ok(w > 0 && h > 0, `${file}: width/height missing`);
+    assert.ok(Math.abs(w / h / (pw / ph) - 1) <= 0.01, `${file}: ${w}x${h} vs PNG ${pw}x${ph}`);
+    assert.ok(pw >= 2 * w, `${file}: PNG ${pw} wide is under twice ${w}`);
+  }
+});
+
+test("the old email logo generator is gone", () => {
+  assert.ok(!existsSync(new URL("../brand/make-email-logo.ts", import.meta.url)));
 });

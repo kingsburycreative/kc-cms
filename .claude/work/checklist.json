@@ -313,5 +313,20 @@
     },
     "verified_at": "2026-10-23T06:41:17.557Z",
     "tree": "c6a99f93bb9c05741bde276e8fd51f2cf087142d6073a03d28c4141854419d48"
+  },
+  {
+    "id": "c12",
+    "title": "email-logo",
+    "brief": ".claude/work/22-email-logo/brief.md",
+    "start_sha": "3f6c3c906d6c967b820b43f28af24496849bbda0",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T06:43:56.086Z",
+      "start_sha": "3f6c3c906d6c967b820b43f28af24496849bbda0",
+      "mutation_evidence": true,
+      "tree": "c35682abb5f93cbfe9e7e27c56b3764f0b27cfd3d12105a6dca5e9d60c23fb3c"
+    },
+    "verified_at": "2026-10-23T06:44:28.154Z",
+    "tree": "c35682abb5f93cbfe9e7e27c56b3764f0b27cfd3d12105a6dca5e9d60c23fb3c"
   }
 ]
