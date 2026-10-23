@@ -416,3 +416,35 @@ no token value reaches a log line. Mutation check: take the totals from GA4
 when both are present. The label copy goes through `prose`,
 `avoid-ai-writing` and `humanizer`. Not tried against Cloudflare's live API;
 card 24's deploy adds the env vars and BeSciWorks's site tag to the map.
+
+### 26. Phone menu on the KC pages, and labelled nested fields in History
+Role: `implementer`. Risky path: no. Rob's walk test, 2026-10-23.
+
+(a) On a phone there is no way to open the sidebar from the site dashboard,
+History or Insights. `RepoHeader` in `components/repo/repo-layout.tsx:18-33`
+renders the header, and with it the `md:hidden` `SidebarTrigger`, only when the
+page sets header content through `useRepoHeader` /
+`useOptionalRepoHeader` (`components/repo/repo-header-context.tsx`), as the
+upstream pages do (`components/media/media-view.tsx:600`). The three KC pages
+set none. Add one small client component in `kc/` that sets the page title as
+the header ("Dashboard", "History", "Insights") and render it from each page;
+no upstream file changes.
+(b) The History change view shows a nested object as raw JSON (the privacy
+page's Hero reads `{"crumb":"Privacy","heading":...}`). Nested objects and list
+items are labelled by path with the schema's labels, as card 17 asked, down to
+plain values: "Hero > Breadcrumb label: Privacy".
+
+- `kc/page-header.tsx` (new)
+- `kc/dashboard.tsx`
+- `kc/history/history-view.tsx`
+- `kc/history/diff.ts`
+- `app/(main)/[owner]/[repo]/[branch]/insights/page.tsx`
+- `kc/tests/page-header.test.ts` (new)
+- `kc/tests/history-diff.test.ts`
+
+Done-test: `node --test kc/tests/page-header.test.ts kc/tests/history-diff.test.ts`
+passes. Source tests show the dashboard, History and Insights each render the
+header component with their title; a diff test turns a new file whose field is
+an object of strings into one labelled row per string, with no `{` in any
+value. Checked at 375 that the menu button shows on all three pages and opens
+the sidebar. Mutation check: drop the header component from the dashboard.
