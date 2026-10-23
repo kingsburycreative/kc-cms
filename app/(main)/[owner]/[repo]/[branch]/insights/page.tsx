@@ -1,6 +1,6 @@
 import { getInsightsAccess, getRepoReadContext } from "@/lib/api-repo-context";
-import { insightsPropertyFor } from "@/kc/insights/map";
-import { defaultCache, loadInsights, readKey } from "@/kc/insights/route";
+import { insightsSourcesFor } from "@/kc/insights/map";
+import { defaultCache, defaultCloudflareCache, loadSiteInsights, readKey } from "@/kc/insights/route";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 
 function Message({ title, text }: { title: string; text: string }) {
@@ -14,10 +14,23 @@ function Message({ title, text }: { title: string; text: string }) {
   );
 }
 
-function Card({ title, sentence, items }: { title: string; sentence: string; items?: { label: string; value: number }[] }) {
+const CONSENT_LABEL = "From visitors who allowed analytics";
+
+function Card({
+  title,
+  sentence,
+  items,
+  note,
+}: {
+  title: string;
+  sentence: string;
+  items?: { label: string; value: number }[];
+  note?: string;
+}) {
   return (
     <section className="rounded-lg border p-4">
       <h2 className="text-sm font-medium text-muted-foreground">{title}</h2>
+      {note && <p className="text-xs text-muted-foreground">{note}</p>}
       <p className="mt-2">{sentence}</p>
       {items && items.length > 0 && (
         <ul className="mt-3 space-y-1 text-sm">
@@ -47,27 +60,39 @@ export default async function Page(
     return <Message title="Access denied" text="You do not have permission to access this repository." />;
   }
 
-  const propertyId = insightsPropertyFor(owner, repo);
-  if (!propertyId) return <Message title="Insights not set up" text="Insights aren't set up for this site yet." />;
+  const sources = insightsSourcesFor(owner, repo);
+  if (!sources) return <Message title="Insights not set up" text="Insights aren't set up for this site yet." />;
 
-  const result = await loadInsights({
-    propertyId,
+  const result = await loadSiteInsights({
+    propertyId: sources.ga,
     key: readKey(process.env.KC_GA4_KEY_FILE),
     fetchFn: fetch,
     cache: defaultCache,
+    cloudflare: sources.cf
+      ? {
+          siteTag: sources.cf,
+          accountId: process.env.KC_CF_ACCOUNT_ID,
+          token: process.env.CLOUDFLARE_ANALYTICS_TOKEN,
+          cache: defaultCloudflareCache,
+        }
+      : null,
   });
   if (!result.ok) return <Message title="Insights" text={result.message} />;
 
-  const { visitors, cities, pages, channels, engagement } = result.cards;
+  const { visitors, pages, detail } = result;
+  // GA4 only loads after consent, so its cards cover fewer people than Cloudflare's totals.
+  const note = result.totalsFrom === "cloudflare" ? CONSENT_LABEL : undefined;
   return (
     <div className="mx-auto max-w-4xl space-y-4">
       <h1 className="text-lg font-semibold">Insights</h1>
       <div className="grid gap-4 md:grid-cols-2">
         <Card title="Visitors" sentence={visitors.sentence} />
-        <Card title="Average time on site" sentence={engagement.sentence} />
-        <Card title="Top towns" sentence={cities.sentence} items={cities.items} />
+        {detail && <Card title="Average time on site" sentence={detail.engagement.sentence} note={note} />}
+        {detail && <Card title="Top towns" sentence={detail.cities.sentence} items={detail.cities.items} note={note} />}
         <Card title="Top pages" sentence={pages.sentence} items={pages.items} />
-        <Card title="How people found the site" sentence={channels.sentence} items={channels.items} />
+        {detail && (
+          <Card title="How people found the site" sentence={detail.channels.sentence} items={detail.channels.items} note={note} />
+        )}
       </div>
     </div>
   );

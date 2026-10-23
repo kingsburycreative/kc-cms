@@ -4,7 +4,6 @@
 
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
-- **25**: Insights with Cloudflare totals and GA4 detail (`.claude/work/15-plan-client-experience/plan.md` card 25)
 - **23**: Security audit of the feature (`.claude/work/15-plan-client-experience/plan.md` card 23)
 
 ## Next
@@ -53,6 +52,7 @@
 
 ## Done
 
+- **25** insights-cloudflare: committed on feat/25-insights-cloudflare, gate green, audit found nothing; Cloudflare gives visits and top pages beside GA4 detail under "From visitors who allowed analytics", GA4 alone on any Cloudflare failure. Only the dataset name is confirmed in Cloudflare docs; the other field names need an introspection check at deploy. Not tried live or seen in a browser.
 - **21** seo-panel: committed on feat/21-seo-panel, gate green, no audit (not a risky path); a panel beside the editor checks title and description length, headings, image descriptions, reading grade (flags above 9, the worker's threshold) and an answer-first opening. Not seen in a browser.
 - **17** history-pages: committed on feat/17-history-pages, gate green, no audit (not a risky path); new site history and one-edit pages show what changed field by field, and the editor history panel links there instead of GitHub. Not seen in a browser.
 - **16** site-dashboard: committed on feat/16-site-dashboard, gate green, no audit (not a risky path); the branch home shows content, Media, History and Insights tiles with recent edits instead of jumping to the first item. Not seen in a browser.
