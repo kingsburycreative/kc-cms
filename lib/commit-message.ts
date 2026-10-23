@@ -1,5 +1,6 @@
 import { getFileName, normalizePath } from "@/lib/utils/file";
 import { BRAND_SHORT_NAME } from "@/kc/brand";
+import { kcCommitIdentity } from "@/kc/commit-identity";
 
 type CommitAction = "create" | "update" | "delete" | "rename";
 type CommitTemplates = Partial<Record<CommitAction, string>>;
@@ -26,8 +27,7 @@ const resolveCommitIdentity = ({
 }): CommitIdentity => {
   if (identityOverride === "app" || identityOverride === "user") return identityOverride;
 
-  const identity = configObject?.settings?.commit?.identity;
-  return identity === "user" ? "user" : "app";
+  return kcCommitIdentity(configObject?.settings?.commit?.identity);
 };
 
 const renderCommitTemplate = (

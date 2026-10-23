@@ -343,5 +343,20 @@
     },
     "verified_at": "2026-10-23T06:50:02.900Z",
     "tree": "8a000a9ab38c620af04073553603618ec17280aaa45565b984a25c3d52150f7d"
+  },
+  {
+    "id": "c14",
+    "title": "commit-identity",
+    "brief": ".claude/work/24-commit-identity/brief.md",
+    "start_sha": "bc69c4868e729eecfb1fc7edb1d6c8f9e3d9eb31",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T06:53:41.364Z",
+      "start_sha": "bc69c4868e729eecfb1fc7edb1d6c8f9e3d9eb31",
+      "mutation_evidence": true,
+      "tree": "e32a95fc0a2923801212e288368b96f565500a8172de9da57572b84a40794a8c"
+    },
+    "verified_at": "2026-10-23T06:54:11.391Z",
+    "tree": "e32a95fc0a2923801212e288368b96f565500a8172de9da57572b84a40794a8c"
   }
 ]
