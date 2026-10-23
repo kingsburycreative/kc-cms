@@ -418,5 +418,20 @@
     },
     "verified_at": "2026-10-23T08:34:30.833Z",
     "tree": "c2b013ab6fa51588b4d15b70d3c54c2caffe8b508479578d214dcc8121fe0cf8"
+  },
+  {
+    "id": "c21",
+    "title": "seo-panel",
+    "brief": ".claude/work/29-seo-panel/brief.md",
+    "start_sha": "706df1fd564a055d1a9368bac0b15a35a1f88619",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T08:40:26.534Z",
+      "start_sha": "706df1fd564a055d1a9368bac0b15a35a1f88619",
+      "mutation_evidence": true,
+      "tree": "8e3a85de8197b5418510c64318ffb2a594d69821f1b46c34e98e37d5f604444c"
+    },
+    "verified_at": "2026-10-23T08:41:02.550Z",
+    "tree": "8e3a85de8197b5418510c64318ffb2a594d69821f1b46c34e98e37d5f604444c"
   }
 ]

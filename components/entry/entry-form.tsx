@@ -17,6 +17,7 @@ import {
   useWatch,
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { SeoPanel } from "@/kc/seo/panel";
 import { editComponents } from "@/fields/registry";
 import {
   initializeState,
@@ -1160,19 +1161,22 @@ const EntryForm = ({
 
   return (
     <Form {...form}>
-      <form
-        id="entry-form"
-        onSubmit={handleFormSubmit}
-        className="w-full max-w-screen-md mx-auto grid items-start gap-6"
-      >
-        {filePath && (
-          <div className="space-y-2 overflow-hidden">
-            <FormLabel>Filename</FormLabel>
-            {filePath}
-          </div>
-        )}
-        {renderFields(fields, undefined, registerBeforeSubmitHook, runBeforeValidationHooks)}
-      </form>
+      <div className="grid grid-cols-1 gap-6 min-[1280px]:grid-cols-[minmax(0,1fr)_20rem] min-[1280px]:items-start">
+        <form
+          id="entry-form"
+          onSubmit={handleFormSubmit}
+          className="w-full max-w-screen-md mx-auto grid items-start gap-6"
+        >
+          {filePath && (
+            <div className="space-y-2 overflow-hidden">
+              <FormLabel>Filename</FormLabel>
+              {filePath}
+            </div>
+          )}
+          {renderFields(fields, undefined, registerBeforeSubmitHook, runBeforeValidationHooks)}
+        </form>
+        <SeoPanel fields={fields} />
+      </div>
     </Form>
   );
 };
