@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useUser } from "@/contexts/user-context";
 import { signOut } from "@/lib/auth-client";
-import { getInitialsFromName } from "@/lib/utils/avatar";
+import { initialFor } from "@/kc/avatar";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -47,12 +47,12 @@ export function User({
               src={
                 user?.githubUsername
                   ? `https://github.com/${user.githubUsername}.png`
-                  : `https://unavatar.io/${user?.email}?fallback=false`
+                  : undefined
               }
               alt={user?.name || user.email}
             />
             <AvatarFallback>
-              {getInitialsFromName(user.name ?? undefined)}
+              {initialFor({ name: user.name, email: user.email })}
             </AvatarFallback>
           </Avatar>
         </Button>

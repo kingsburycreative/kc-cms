@@ -8,6 +8,9 @@ import { MediaUpload } from "@/components/media/media-upload";
 import { MediaDialog } from "@/components/media/media-dialog";
 import { Upload, FolderOpen, ArrowUpRight, Trash2 } from "lucide-react";
 import { useConfig } from "@/contexts/config-context";
+import { useUser } from "@/contexts/user-context";
+import { hasGithubIdentity } from "@/lib/authz-shared";
+import { viewFor } from "@/kc/client-view";
 import { normalizeMediaPath, normalizePath } from "@/lib/utils/file";
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, rectSortingStrategy } from '@dnd-kit/sortable';
@@ -52,10 +55,12 @@ const ImageTeaser = ({ file, config, onRemove }: {
   config: Pick<Config, "owner" | "repo" | "branch">;
   onRemove?: () => void;
 }) => {
+  const { user } = useUser();
+  const { githubLinks } = viewFor(!hasGithubIdentity(user));
   return (
     <div className="absolute bottom-1 right-1 rounded-md bg-background/95 backdrop-blur-sm">
       <ButtonGroup>
-        <Tooltip>
+        {githubLinks && <Tooltip>
           <TooltipTrigger asChild>
             <Button type="button" variant="ghost" size="icon-xs" asChild className="text-muted-foreground hover:text-foreground">
               <a
@@ -69,7 +74,7 @@ const ImageTeaser = ({ file, config, onRemove }: {
             </Button>
           </TooltipTrigger>
           <TooltipContent>View on GitHub</TooltipContent>
-        </Tooltip>
+        </Tooltip>}
         {onRemove && (
           <Tooltip>
             <TooltipTrigger asChild>

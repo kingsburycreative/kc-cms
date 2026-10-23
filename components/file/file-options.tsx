@@ -2,6 +2,9 @@
 
 import { useMemo, useState } from "react";
 import { useConfig } from "@/contexts/config-context";
+import { useUser } from "@/contexts/user-context";
+import { hasGithubIdentity } from "@/lib/authz-shared";
+import { viewFor } from "@/kc/client-view";
 import { getParentPath, getRelativePath, joinPathSegments, normalizePath } from "@/lib/utils/file";
 import { getSchemaByName } from "@/lib/schema";
 import { requireApiSuccess } from "@/lib/api-client";
@@ -51,6 +54,8 @@ export function FileOptions({
   children: React.ReactNode;
 }) {
   const { config } = useConfig();
+  const { user } = useUser();
+  const { githubLinks } = viewFor(!hasGithubIdentity(user));
   if (!config) throw new Error(`Configuration not found.`);
 
   const normalizedPath = useMemo(() => normalizePath(path), [path]);
@@ -115,15 +120,17 @@ export function FileOptions({
             {children}
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" portalProps={portalProps}>
-            <DropdownMenuItem asChild>
-              <a href={`https://github.com/${config.owner}/${config.repo}/blob/${encodeURIComponent(config.branch)}/${path}`} target="_blank">
-                View on GitHub
-                <ArrowUpRight className="size-3 text-muted-foreground ml-auto" />
-              </a>
-            </DropdownMenuItem>
+            {githubLinks && (
+              <DropdownMenuItem asChild>
+                <a href={`https://github.com/${config.owner}/${config.repo}/blob/${encodeURIComponent(config.branch)}/${path}`} target="_blank">
+                  View on GitHub
+                  <ArrowUpRight className="size-3 text-muted-foreground ml-auto" />
+                </a>
+              </DropdownMenuItem>
+            )}
             {(showRename || showDelete)
               ? <>
-                  <DropdownMenuSeparator />
+                  {githubLinks && <DropdownMenuSeparator />}
                   {showRename &&
                     <DropdownMenuItem onSelect={() => setIsRenameOpen(true)}>
                       Rename

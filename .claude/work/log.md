@@ -43,3 +43,6 @@
 
 ## 2026-10-23 client-identity-redact (plan card 02, checklist c02)
 - Branch feat/02-client-identity-redact from main at ef2cb98. Opus worker. Scope ok with mutation evidence; diff read, tests all new. Clients get sha, parentSha, date and authorName from entry history; action runs blank email, GitHub username, avatar and run link; all=1 refused with 403. The single-run GET now looks up the token for finished runs too, so it knows the caller is a client. Actions POST routes return only an id, nothing to redact. The 403 text went through prose, avoid-ai-writing and humanizer: "Only Kingsbury Creative can see the full list of site actions." Not seen in a browser. Sent to the loop's gate with an audit (app/api/).
+
+## 2026-10-23 client-third-party (plan card 08, checklist c08)
+- Branch feat/08-client-third-party from main at 0c69f87 (PR #29 merged). Sonnet worker, not a risky path. Scope ok with mutation evidence; diff read, tests all new. viewFor gains githubLinks; the six components hide github.com links and avatars for clients; unavatar.io is gone for everyone; new kc/avatar.ts initialFor gives the email's first letter when the name is empty. Calls: the actions hover card no longer shows triggeredByImage (could be a third-party URL); client history rows are plain, not links. No new copy. Not seen in a browser. Sent to the loop's gate, no audit.

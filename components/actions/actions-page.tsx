@@ -15,7 +15,10 @@ import {
 import { toast } from "sonner";
 import { useRepoHeader } from "@/components/repo/repo-header-context";
 import { useActionToasts } from "@/contexts/action-toast-context";
-import { getInitialsFromName } from "@/lib/utils/avatar";
+import { useUser } from "@/contexts/user-context";
+import { hasGithubIdentity } from "@/lib/authz-shared";
+import { viewFor } from "@/kc/client-view";
+import { initialFor } from "@/kc/avatar";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -314,6 +317,8 @@ export function ActionsPage({
   contextLabels = {},
 }: ActionsPageProps) {
   const { trackActionRun } = useActionToasts();
+  const { user } = useUser();
+  const { githubLinks } = viewFor(!hasGithubIdentity(user));
   const [runs, setRuns] = useState<ActionRunSummary[] | null>(null);
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -690,25 +695,24 @@ export function ActionsPage({
                           <Avatar className="size-10">
                             <AvatarImage
                               src={
-                                run.triggeredByGithubUsername
+                                githubLinks && run.triggeredByGithubUsername
                                   ? `https://github.com/${run.triggeredByGithubUsername}.png`
-                                  : run.triggeredByEmail
-                                    ? `https://unavatar.io/${run.triggeredByEmail}?fallback=false`
-                                    : (run.triggeredByImage ?? undefined)
+                                  : undefined
                               }
                               alt={run.triggeredByName}
                             />
                             <AvatarFallback>
-                              {getInitialsFromName(
-                                run.triggeredByName ?? undefined,
-                              )}
+                              {initialFor({
+                                name: run.triggeredByName,
+                                email: run.triggeredByEmail,
+                              })}
                             </AvatarFallback>
                           </Avatar>
                           <div className="grid gap-1 text-sm">
                             <div className="font-medium">
                               {run.triggeredByName}
                             </div>
-                            {run.triggeredByGithubUsername ? (
+                            {githubLinks && run.triggeredByGithubUsername ? (
                               <Link
                                 href={`https://github.com/${run.triggeredByGithubUsername}`}
                                 target="_blank"
@@ -734,7 +738,7 @@ export function ActionsPage({
                   )}
                 </TableCell>
                 <TableCell>
-                  {run.sha ? (
+                  {githubLinks && run.sha ? (
                     <Link
                       href={getShaUrl(owner, repo, run.sha)!}
                       target="_blank"
@@ -760,17 +764,21 @@ export function ActionsPage({
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem asChild disabled={!run.htmlUrl}>
-                        <Link
-                          href={run.htmlUrl ?? "#"}
-                          target="_blank"
-                          rel="noreferrer"
-                        >
-                          View on GitHub
-                          <ArrowUpRight className="ml-auto size-3 text-muted-foreground" />
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
+                      {githubLinks && (
+                        <>
+                          <DropdownMenuItem asChild disabled={!run.htmlUrl}>
+                            <Link
+                              href={run.htmlUrl ?? "#"}
+                              target="_blank"
+                              rel="noreferrer"
+                            >
+                              View on GitHub
+                              <ArrowUpRight className="ml-auto size-3 text-muted-foreground" />
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                        </>
+                      )}
                       <DropdownMenuItem
                         disabled={!run.canRerun}
                         onClick={() => void handleRunAction(run, "rerun")}

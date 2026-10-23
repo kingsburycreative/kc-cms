@@ -8,6 +8,9 @@ import { MediaUpload } from "@/components/media/media-upload";
 import { MediaDialog } from "@/components/media/media-dialog";
 import { Upload, File, FileText, FileVideo, FileImage, FileAudio, FileArchive, FileCode, FileType, FileSpreadsheet, GripVertical, FolderOpen, ArrowUpRight, Trash2 } from "lucide-react";
 import { useConfig } from "@/contexts/config-context";
+import { useUser } from "@/contexts/user-context";
+import { hasGithubIdentity } from "@/lib/authz-shared";
+import { viewFor } from "@/kc/client-view";
 import { getFileExtension, getFileName, extensionCategories, normalizeMediaPath, normalizePath } from "@/lib/utils/file";
 import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
@@ -53,6 +56,8 @@ const FileTeaser = ({ file, config, onRemove, getFileIcon }: {
   onRemove?: () => void;
   getFileIcon: (file: string) => React.ReactNode;
 }) => {
+  const { user } = useUser();
+  const { githubLinks } = viewFor(!hasGithubIdentity(user));
   return (
     <>
       <div title={file} className="flex items-center gap-x-1 px-2 h-9 rounded-md bg-muted truncate text-sm">
@@ -61,7 +66,7 @@ const FileTeaser = ({ file, config, onRemove, getFileIcon }: {
       </div>
 
       <ButtonGroup>
-        <Tooltip>
+        {githubLinks && <Tooltip>
           <TooltipTrigger asChild>
             <Button type="button" variant="ghost" size="icon" asChild className="text-muted-foreground hover:text-foreground">
               <a
@@ -75,7 +80,7 @@ const FileTeaser = ({ file, config, onRemove, getFileIcon }: {
             </Button>
           </TooltipTrigger>
           <TooltipContent>View on GitHub</TooltipContent>
-        </Tooltip>
+        </Tooltip>}
         {onRemove && (
           <Tooltip>
             <TooltipTrigger asChild>

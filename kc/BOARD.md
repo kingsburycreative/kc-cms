@@ -2,8 +2,6 @@
 
 ## Now
 
-- **02**: Strip identity from history and actions (`.claude/work/15-plan-client-experience/plan.md` card 02)
-- **08**: No GitHub links or third-party avatars for clients (`.claude/work/15-plan-client-experience/plan.md` card 08)
 - **09**: Clients never see a GitHub sign-in (`.claude/work/15-plan-client-experience/plan.md` card 09)
 - **10**: Clients cannot delete single-file entries (`.claude/work/15-plan-client-experience/plan.md` card 10)
 - **11**: White-label the three emails (`.claude/work/15-plan-client-experience/plan.md` card 11)
@@ -65,6 +63,8 @@
 
 ## Done
 
+- **08** client-third-party: committed on feat/08-client-third-party, gate green, no audit (not a risky path); clients get no GitHub links, nobody gets unavatar.io avatars.
+- **02** client-identity-redact: PR #29, merged.
 - **01** client-branch-lock: committed on feat/01-client-branch-lock, gate green, audit found nothing; clients work on the default branch only. Card 03 (deploy) still gates any client invite.
 - **04**: resolved by Rob 2026-10-23, the email logo is `D:\Dev\htdocs\kingsburycreative\img\logos\kc-wordmark-logo.png` (copied by card 12).
 - **05**: resolved by Rob 2026-10-23, one nullable `name` column on `collaborator_invite` approved (used by card 13).

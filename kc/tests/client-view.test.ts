@@ -49,6 +49,28 @@ test("a client sees less than Rob", () => {
   assert.equal(rob.home.templates, false);
 });
 
+test("github links are for GitHub users only", () => {
+  assert.equal(viewFor(true).githubLinks, false);
+  assert.equal(viewFor(false).githubLinks, true);
+});
+
+test("each component reads the flag, and none builds an unavatar URL", () => {
+  const read = (p: string) => readFileSync(new URL(`../../${p}`, import.meta.url), "utf8");
+  for (const p of [
+    "components/file/file-options.tsx",
+    "fields/core/image/edit-component.tsx",
+    "fields/core/file/edit-component.tsx",
+    "components/entry/entry-history.tsx",
+    "components/actions/actions-page.tsx",
+  ]) {
+    assert.match(read(p), /githubLinks/, p);
+  }
+  for (const p of ["components/user.tsx", "components/actions/actions-page.tsx"]) {
+    assert.doesNotMatch(read(p), /unavatar\.io/, p);
+  }
+  assert.match(read("components/user.tsx"), /initialFor/);
+});
+
 test("a client with one unfiltered repo is redirected, nobody else", () => {
   const one = [{ owner: "kc", repo: "henike-tree-service", defaultBranch: "main" }];
   const two = [...one, { owner: "kc", repo: "other" }];
