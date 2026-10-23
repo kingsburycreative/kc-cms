@@ -4,6 +4,7 @@ import { getToken } from "@/lib/token";
 import { RepoProvider } from "@/contexts/repo-context";
 import { getServerSession } from "@/lib/session-server";
 import { getRepoSnapshot } from "@/lib/github-cache-file";
+import { visibleBranches } from "@/kc/branch-lock";
 import { GithubAuthExpired } from "@/components/github-auth-expired";
 import { isGithubAuthError } from "@/lib/github-auth";
 import { invalidateSessionForGithubAuthError } from "@/lib/github-auth-server";
@@ -30,7 +31,7 @@ export default async function Layout({
   if (!user) return redirect(signInUrl);
 
   try {
-    const { token } = await getToken(user, owner, repo);
+    const { token, source } = await getToken(user, owner, repo);
     if (!token) throw new Error("Token not found");
 
     const repoInfo = await getRepoSnapshot(owner, repo, token);
@@ -53,7 +54,7 @@ export default async function Layout({
     }
 
     return (
-      <RepoProvider repo={repoInfo}>
+      <RepoProvider repo={{ ...repoInfo, branches: visibleBranches(source, repoInfo.branches) }}>
         {children}
       </RepoProvider>
     );

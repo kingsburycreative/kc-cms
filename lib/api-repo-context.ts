@@ -2,6 +2,7 @@ import { createHttpError } from "@/lib/api-error";
 import { hasAdminAccess } from "@/lib/admin";
 import { createOctokitInstance } from "@/lib/utils/octokit";
 import { canSeeInsights } from "@/kc/insights/gate";
+import { assertBranchAllowed } from "@/kc/branch-lock-server";
 import { getConfig } from "@/lib/config-store";
 import { getGithubId } from "@/lib/github-account";
 import { checkRepoAccess } from "@/lib/github-cache-permissions";
@@ -31,6 +32,7 @@ const getRepoReadContext = async ({ owner, repo, branch }: RepoRef): Promise<Rep
   const user = sessionResult.user as User;
   const { token, source } = await getToken(user, owner, repo);
   if (!token) throw createHttpError("Token not found", 401);
+  await assertBranchAllowed(source, token, owner, repo, branch);
 
   const githubId = await getGithubId(user.id);
   if (githubId && source === "user") {

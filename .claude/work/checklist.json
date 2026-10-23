@@ -223,5 +223,20 @@
     },
     "verified_at": "2026-10-15T20:33:12.182Z",
     "tree": "126bb0da000fbdb7425c7115444005738dbf4a0f44b401ffbefc7f991a1a34a4"
+  },
+  {
+    "id": "c01",
+    "title": "client-branch-lock",
+    "brief": ".claude/work/16-client-branch-lock/brief.md",
+    "start_sha": "08d19dd692ff6bcd9c22fc1db5f22b45d61ae1a8",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-23T06:07:55.779Z",
+      "start_sha": "08d19dd692ff6bcd9c22fc1db5f22b45d61ae1a8",
+      "mutation_evidence": true,
+      "tree": "8c61bf2e2eb8649522b2c25dc76609ae1ec08ab2c118df990fec6906dadd0c56"
+    },
+    "verified_at": "2026-10-23T06:10:08.683Z",
+    "tree": "8c61bf2e2eb8649522b2c25dc76609ae1ec08ab2c118df990fec6906dadd0c56"
   }
 ]

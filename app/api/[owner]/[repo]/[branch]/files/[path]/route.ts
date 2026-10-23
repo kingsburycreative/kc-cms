@@ -11,6 +11,7 @@ import { isSettingsPath } from "@/kc/settings-gate";
 import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { isMediaPathAllowed } from "@/kc/media-types";
 import { getToken } from "@/lib/token";
+import { assertBranchAllowed } from "@/kc/branch-lock-server";
 import { updateFileCache } from "@/lib/github-cache-file";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import mergeWith from "lodash.mergewith";
@@ -36,7 +37,8 @@ export async function POST(
     if ("response" in sessionResult) return sessionResult.response;
     const user = sessionResult.user;
 
-    const { token } = await getToken(user, params.owner, params.repo, true);
+    const { token, source } = await getToken(user, params.owner, params.repo, true);
+    await assertBranchAllowed(source, token, params.owner, params.repo, params.branch);
     if (!token) throw new Error("Token not found");
 
     const normalizedPath = normalizePath(params.path);
@@ -456,7 +458,8 @@ export async function DELETE(
     if ("response" in sessionResult) return sessionResult.response;
     const user = sessionResult.user;
 
-    const { token } = await getToken(user, params.owner, params.repo, true);
+    const { token, source } = await getToken(user, params.owner, params.repo, true);
+    await assertBranchAllowed(source, token, params.owner, params.repo, params.branch);
     if (!token) throw new Error("Token not found");
 
     const normalizedPath = normalizePath(params.path);

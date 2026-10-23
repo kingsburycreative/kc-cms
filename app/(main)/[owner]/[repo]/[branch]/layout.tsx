@@ -5,6 +5,7 @@ import { ConfigProvider } from "@/contexts/config-context";
 import { RepoLayout } from "@/components/repo/repo-layout";
 import { getServerSession } from "@/lib/session-server";
 import { getToken } from "@/lib/token";
+import { assertBranchAllowed } from "@/kc/branch-lock-server";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
@@ -43,7 +44,8 @@ export default async function Layout({
   let errorMessage = null;
 
   try {
-    const { token } = await getToken(user, owner, repo);
+    const { token, source } = await getToken(user, owner, repo);
+    await assertBranchAllowed(source, token, owner, repo, decodedBranch);
     const syncedConfig = await getConfig(
       owner,
       repo,
