@@ -101,3 +101,6 @@
 
 ## 2026-10-23 unpark email-verified-trust, resume otp-atomic-limit
 - Rob asked for the email-verified-trust mutation check; the coordinator window ran it through the runner: all three guards broken, the three new tests failed (215 of 218), restored 218 of 218. Unparked with a Resume note. otp-atomic-limit back in Now with the fix decided by the rubric (now in project.md): IP first, the tight limit keyed on email and IP, a loose per-email ceiling. Box checked: the app listens on 127.0.0.1:3000 only.
+
+## 2026-10-23 email-verified-trust (board Now, resumed)
+- Stale empty feat/email-verified-trust reset to main at 93ef6c1; start_sha moved there. Opus worker restored the four files from the wip branch, done-test green. Scope ok; mutation evidence "no" in this run is accepted because the coordinator window ran the mutation on Rob's instruction (all three guards broken, three new tests failed, restored green). Diff read: trustedProviders empty, unclaimed invites match by email only when verified, hasAdminAccess needs emailVerified; no existing test touched. Sent to the loop's gate with an audit (lib/auth.ts).

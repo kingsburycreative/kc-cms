@@ -2,7 +2,6 @@
 
 ## Now
 
-- **email-verified-trust**: unparked 2026-10-23; code on `wip/email-verified-trust-verified-email`, mutation check done, the gate and audit are left. See the Resume note in `.claude/work/33-email-verified-trust/brief.md`.
 - **otp-atomic-limit**: from the otp-ip-key audit. better-auth's limiter checks
   before the request and counts after it (`better-call/dist/router.mjs`
   103-107), so a burst of simultaneous sends from one IP all get through, and
@@ -46,10 +45,10 @@
 
 ## Blocked
 
-- **email-verified-trust**: from the card 23 audit, latent. Drop `trustedProviders` (`lib/auth.ts:39`), require `emailVerified` for unclaimed invites (`lib/collaborator-access.ts:12-15`) and admin (`lib/admin.ts:22-24`). Risky path: top tier and an audit. PARKED: the permission check refused the mutation run; code on wip/email-verified-trust-verified-email. Needs Rob to allow or run the mutation check.
 
 ## Done
 
+- **email-verified-trust**: committed on feat/email-verified-trust, gate green, audit found nothing; GitHub is no longer trusted for automatic account linking, unclaimed invites match by email only when verified, and admin access needs a verified email.
 - **run-claim**: committed on feat/run-claim, gate green, audit found nothing; a pending action row only claims a GitHub run created from 30 seconds before to 2 minutes after it, and after 2.5 minutes an unmatched row shows as a failed run and stops looking.
 - **delete-guard-path**: committed on feat/delete-guard-path, gate green, audit found nothing; client delete and any rename now refuse a single-file page path whatever schema name is sent, and media delete checks allowed file types. Route tests only match source text.
 - **branch-create-gate**: committed on feat/branch-create-gate, gate green, audit found nothing; creating a branch now needs a user token with push on the repo, and the branch lock compares the name exactly so %6Dain is not main. The branch layout still decodes a second time.

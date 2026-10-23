@@ -19,8 +19,8 @@ const isBootstrapAdminEmail = (email: string | null | undefined) => {
   return getAdminEmails().has(email.trim().toLowerCase());
 };
 
-const hasAdminAccess = (user: Pick<User, "email"> | null | undefined) => {
-  return Boolean(user && isBootstrapAdminEmail(user.email));
+const hasAdminAccess = (user: Pick<User, "email" | "emailVerified"> | null | undefined) => {
+  return Boolean(user && user.emailVerified === true && isBootstrapAdminEmail(user.email));
 };
 
 const requireAdminSession = async () => {
