@@ -10,6 +10,7 @@ verify_max_age_min: 30
 board: kc/BOARD.md
 ci: none
 extra_checks: npx tsc --noEmit && npx eslint kc
+gate_narrow: public/images/ => kc/tests/brand.test.ts
 afk_log: .claude/work/log.md
 scope_ignore: .claude/settings.json, .claude/settings.local.json, tsconfig.tsbuildinfo
 ---
