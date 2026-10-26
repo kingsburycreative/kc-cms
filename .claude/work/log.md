@@ -160,3 +160,6 @@
 
 ## 2026-10-26 59 sidebar-pages (board Now)
 - Skipped 53: waits on 19, which waits on Rob's card 06. Branch feat/59-sidebar-pages from feat/51-link-guard at 1233d5a. Sonnet worker, Normal, no risky path. Scope ok with mutation evidence (file entry back at top level, h-8 item height each failed). Diff read: pure helper in kc/, one-line hook in repo-sidebar, aria-expanded on both disclosures, h-11 in ui/sidebar.tsx; Pages opens on its own path through the existing isActive default. Not checked in a browser. Sent to the gate, no audit.
+
+## 2026-10-26 54 short-url audit (board Now)
+- 53 still waits on 19. Opus security-auditor, read-only, on feat/59-sidebar-pages. No high; one low (auth-redirect backslash open redirect, predates feature), two bugs that should land before deploy 55 (dotted-file short links 404 via proxy.ts:19, segments[5] off by one at short-url.ts:79), latent notes. Cards queued on the board. Committed board, result and log only.
