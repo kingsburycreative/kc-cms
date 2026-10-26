@@ -2,17 +2,26 @@
 
 ## Now
 
-- **28**: Insights history series from Cloudflare and GA4, 7, 30 and 90 days (`.claude/work/38-plan-insights-charts/plan.md` card 28)
-- **29**: Insights chart component on uPlot with a range toggle (`.claude/work/38-plan-insights-charts/plan.md` card 29)
-- **30**: Charts on the Insights page, with their copy (`.claude/work/38-plan-insights-charts/plan.md` card 30)
-- **31**: Security audit of kc/insights/ (`.claude/work/38-plan-insights-charts/plan.md` card 31)
+- **33**: Dashboard design mockup at 375 and 1280 for Rob's approval (`.claude/work/39-plan-dashboard/plan.md` card 33)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
 ## Next
 
+- **35**: Dashboard model: quick actions and visits summary (`.claude/work/39-plan-dashboard/plan.md` card 35; waits on 34 and on PRs #56 to #58 merged)
+- **36**: Search health model (`.claude/work/39-plan-dashboard/plan.md` card 36; waits on 34 and on PRs #56 to #58 merged)
+- **37**: Version status (`.claude/work/39-plan-dashboard/plan.md` card 37; waits on 34 and on PRs #56 to #58 merged)
+- **38**: Sparkline from the Insights chart (`.claude/work/39-plan-dashboard/plan.md` card 38; waits on 34 and on PRs #56 to #58 merged)
+- **39**: Server loaders and skeletons (`.claude/work/39-plan-dashboard/plan.md` card 39; waits on 34 and on PRs #56 to #58 merged)
+- **40**: Dashboard layout and page wiring (`.claude/work/39-plan-dashboard/plan.md` card 40; waits on 34 and on PRs #56 to #58 merged)
+- **41**: Security audit of the dashboard (`.claude/work/39-plan-dashboard/plan.md` card 41; waits on 34 and on PRs #56 to #58 merged)
+- **series-cache-case** (from the card 31 audit, low): key the Insights series cache on the resolved sources (`cf:siteTag|ga:propertyId`) instead of owner/repo as typed, so changing capitals cannot skip the cache and burn the shared Cloudflare token; evict expired entries. `kc/insights/route.ts:257`, page.tsx:87. Risky path.
+
 ## Waiting on Rob
 
+- **28 to 30** (`.claude/work/38-plan-insights-charts/plan.md`): built and gated, in PRs #56, #57 and #58; merge them. Card 31's audit passed with one low item (series-cache-case, in Next).
+- **34** (`.claude/work/39-plan-dashboard/plan.md` card 34): approve the dashboard mockup from card 33.
+- **42** (`.claude/work/39-plan-dashboard/plan.md` card 42): deploy the dashboard, live check as the +kctest client at 375 and as Rob.
 - **32** (`.claude/work/38-plan-insights-charts/plan.md` card 32): deploy the Insights charts to the box, then a live check with BeSciWorks's numbers at 375px.
 
 - **nginx limit_req** (from the otp-ip-key audit): an nginx `limit_req` zone on
