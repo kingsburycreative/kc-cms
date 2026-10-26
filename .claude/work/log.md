@@ -171,3 +171,5 @@
 - Branch feat/60-dashboard-mockup from main at 361c004. Opus worker, Risky (kc/insights/, publish token, staff-only server gate). Scope ok with mutation evidence (all four plan mutations failed their named tests). Diff read: a few old assertions rewritten to the new shapes, none dropped. Worker's calls: publish token KC_CF_PAGES_TOKEN falling back to CLOUDFLARE_ANALYTICS_TOKEN; pages counts only beside ga or cf; client history always says "changed"; Insights page still keys its series mixed-case. Not seen in a browser. Sent to the gate with an audit.
 
 - 2026-10-26 park proxy-rewrite-origin: worker (Opus) found the briefed cause does not match Next 16.2.1 source; the real mismatch needs a log on the box, which the Never list keeps from the loop. No code changed.
+
+- 2026-10-26 pass: no card to take. Now holds 53, 19 and 20, all waiting on Rob's card 06 (CMS guide page); Next is not pulled up without Rob.
