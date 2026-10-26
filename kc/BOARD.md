@@ -2,6 +2,7 @@
 
 ## Now
 
+- **proxy-rewrite-origin** (blocks the BeSciWorks review email): every short address 500s on the box; proxy.ts rewrites to https://localhost:3000 behind nginx. Brief `.claude/work/60-proxy-rewrite-origin/brief.md`. Risky path (proxy.ts).
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
