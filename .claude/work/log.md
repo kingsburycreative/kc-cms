@@ -154,3 +154,6 @@
 
 ## 2026-10-26 50 editor-links (board Now)
 - Branch feat/50-editor-links from feat/49-link-helper at 9369fe8. Sonnet worker, Normal, no risky path (page hrefs in upstream editor files; layout access code untouched). Card 51's guard not written yet, so the brief gave a scoped source test (short-href-editor.test.ts, /api/ count pinned at 12). Scope ok with mutation evidence (unwrapped links in entry.tsx and collection.tsx failed the wrap test). Diff read: import plus wrapped hrefs only. Sent to the gate, no audit.
+
+## 2026-10-26 51 link-guard (board Now)
+- Branch feat/51-link-guard from feat/50-editor-links at 17054e0. Sonnet worker, Normal, test only, no risky path. Scope ok with mutation evidence (unwrapped entry.tsx and repo-sidebar links and a stale allowlist entry each failed). Diff read: one new test, allowlist adds kc/dashboard.ts's base (only used through link(), which wraps). No unwrapped links found. Sent to the gate, no audit.

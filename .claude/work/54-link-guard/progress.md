@@ -1,0 +1,1 @@
+- wrote kc/tests/short-url-links.test.ts. Next: run, then mutation.

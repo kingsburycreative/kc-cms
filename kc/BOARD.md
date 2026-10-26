@@ -2,7 +2,6 @@
 
 ## Now
 
-- **51**: Link coverage guard (`.claude/work/40-plan-short-urls/plan.md` card 51)
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **59**: Sidebar: fold the single pages under one Pages entry, 44px items (`.claude/work/40-plan-short-urls/plan.md` card 59)
 - **54**: Security audit of short addresses (`.claude/work/40-plan-short-urls/plan.md` card 54)
@@ -50,6 +49,7 @@
 
 ## Done
 
+- **51**: Link coverage guard, a source scan fails on any page link not using the short address (`.claude/work/54-link-guard/`)
 - **49**: Link helper in `kc/` and the repo chrome, KC links use the short address (`.claude/work/52-link-helper/`)
 - **48**: Hook the proxy, short addresses rewrite and full ones 308 (`.claude/work/51-proxy-hook/`)
 - **47**: Short-URL core, pure rewrite and redirect functions (`.claude/work/50-short-url-core/`)
