@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { resolveShort } from "./kc/short-url.ts";
 
 function isAllowedOrigin(originHeader: string, hostHeader: string): boolean {
 	try {
@@ -34,6 +35,17 @@ export function proxy(request: NextRequest) {
 	const requestHeaders = new Headers(request.headers);
 	const returnTo = `${request.nextUrl.pathname}${request.nextUrl.search}`;
 	requestHeaders.set("x-return-to", returnTo);
+
+	const short = resolveShort(pathname, request.method);
+	if (short) {
+		const url = request.nextUrl.clone();
+		if ("redirect" in short) {
+			url.pathname = short.redirect;
+			return NextResponse.redirect(url, 308);
+		}
+		url.pathname = short.rewrite;
+		return NextResponse.rewrite(url, { request: { headers: requestHeaders } });
+	}
 
 	return NextResponse.next({
 		request: {

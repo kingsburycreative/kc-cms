@@ -145,3 +145,6 @@
 
 ## 2026-10-26 47 short-url-core (board Now)
 - Branch feat/47-short-url-core from main at 4fbdb06. Sonnet worker, Normal, not a risky path (pure functions). Scope ok with mutation evidence (admin unreserved, decoded branch, no method check each failed their tests). Diff read, all new files. Worker's call: a short path whose third segment is main gives null so /other-owner/x/main is never rewritten; a collection named main gets no short form on that deep path. Sent to the gate, no audit.
+
+## 2026-10-26 48 proxy-hook (board Now)
+- Branch feat/48-proxy-hook from feat/47-short-url-core at c362f14. Opus worker, Risky (proxy.ts holds the /api/ Origin check). Scope ok with mutation evidence (hook above Origin check, return-to after rewrite, redirect on POST each failed their test). Diff read: 11-line hook after the Origin check and x-return-to; test loads a patched copy of proxy.ts against real NextRequest. Order check is a source test since every /api/ path is reserved. Sent to the gate with an audit.

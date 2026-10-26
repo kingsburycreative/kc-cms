@@ -742,5 +742,22 @@
     "verified_at": "2026-10-26T20:04:41.397Z",
     "tree": "c71c629016fdf4642c6629473038dc7b4f8d9991d5aaa05a61ec2f1814e6b830",
     "gate": "full"
+  },
+  {
+    "id": "48",
+    "title": "Hook the proxy",
+    "brief": ".claude/work/51-proxy-hook/brief.md",
+    "start_sha": "c362f14fb6389b684e5735bd5d6079eb678c5e80",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T20:08:33.243Z",
+      "start_sha": "c362f14fb6389b684e5735bd5d6079eb678c5e80",
+      "mutation_evidence": true,
+      "tree": "627f31d84552bae1ae2c7627a4acdbf41ede727cdf9b469abad7a68560787cf4",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-26T20:09:45.857Z",
+    "tree": "627f31d84552bae1ae2c7627a4acdbf41ede727cdf9b469abad7a68560787cf4",
+    "gate": "full"
   }
 ]
