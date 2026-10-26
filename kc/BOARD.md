@@ -2,14 +2,25 @@
 
 ## Now
 
-- **31**: Security audit of kc/insights/ (`.claude/work/38-plan-insights-charts/plan.md` card 31)
+- **33**: Dashboard design mockup at 375 and 1280 for Rob's approval (`.claude/work/39-plan-dashboard/plan.md` card 33)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
 ## Next
 
+- **35**: Dashboard model: quick actions and visits summary (`.claude/work/39-plan-dashboard/plan.md` card 35; waits on 34 and on PRs #56 to #58 merged)
+- **36**: Search health model (`.claude/work/39-plan-dashboard/plan.md` card 36; waits on 34 and on PRs #56 to #58 merged)
+- **37**: Version status (`.claude/work/39-plan-dashboard/plan.md` card 37; waits on 34 and on PRs #56 to #58 merged)
+- **38**: Sparkline from the Insights chart (`.claude/work/39-plan-dashboard/plan.md` card 38; waits on 34 and on PRs #56 to #58 merged)
+- **39**: Server loaders and skeletons (`.claude/work/39-plan-dashboard/plan.md` card 39; waits on 34 and on PRs #56 to #58 merged)
+- **40**: Dashboard layout and page wiring (`.claude/work/39-plan-dashboard/plan.md` card 40; waits on 34 and on PRs #56 to #58 merged)
+- **41**: Security audit of the dashboard (`.claude/work/39-plan-dashboard/plan.md` card 41; waits on 34 and on PRs #56 to #58 merged)
+- **series-cache-case** (from the card 31 audit, low): key the Insights series cache on the resolved sources (`cf:siteTag|ga:propertyId`) instead of owner/repo as typed, so changing capitals cannot skip the cache and burn the shared Cloudflare token; evict expired entries. `kc/insights/route.ts:257`, page.tsx:87. Risky path.
+
 ## Waiting on Rob
 
+- **34** (`.claude/work/39-plan-dashboard/plan.md` card 34): approve the dashboard mockup from card 33.
+- **42** (`.claude/work/39-plan-dashboard/plan.md` card 42): deploy the dashboard, live check as the +kctest client at 375 and as Rob.
 - **32** (`.claude/work/38-plan-insights-charts/plan.md` card 32): deploy the Insights charts to the box, then a live check with BeSciWorks's numbers at 375px.
 
 - **nginx limit_req** (from the otp-ip-key audit): an nginx `limit_req` zone on
@@ -33,8 +44,7 @@
 
 ## Done
 
-- **30** insights-page: committed on feat/30-insights-page; the Insights page loads the 90-day series and shows a Daily traffic section (chart, visit versus page view note, consent note for GA4 data) above the text cards, and drops only the charts on a failure. Heading changed after the copy skills ran. Not seen at 375, 768 or 1024.
-- **29** insights-chart: committed on feat/29-insights-chart; chart component on uPlot (loaded lazily) with a 7/30/90 toggle, summary sentence, shimmer skeleton and a numbers table. Not wired into the page yet (card 30), not seen in a browser.
+- **28 to 31**: Insights history series, uPlot chart component, charts on the Insights page, audit (`.claude/work/38-plan-insights-charts/plan.md`); PRs #56 to #58
 - **26** phone-menu: committed on feat/26-phone-menu, gate green, no audit (not a risky path); dashboard, History and Insights set the page header so the phone menu button shows, and History labels every nested value by path instead of printing JSON. Not seen at 375; History and Insights show their title twice on desktop.
 - **otp-atomic-limit**: committed on feat/otp-atomic-limit, gate green, audit found nothing; OTP sends and sign-ins are counted before they run: 10 per IP first, then 5 per email and IP together, then 30 per email across IPs, so one attacker cannot lock out a client signing in from elsewhere. Disabled OTP paths 404 in the same hook. In memory on the one process.
 - **email-verified-trust**: committed on feat/email-verified-trust, gate green, audit found nothing; GitHub is no longer trusted for automatic account linking, unclaimed invites match by email only when verified, and admin access needs a verified email.
