@@ -130,3 +130,6 @@
 
 ## 2026-10-26 37 version-status (board Now)
 - Branch feat/37-version-status from feat/36-seo-site at d5fc358. Sonnet worker, Normal, not a risky path (public GET, no token). Scope ok with mutation evidence (failed fetch as current failed five failure tests). Diff read, all new files; warn lines use fixed text so no URL or header reaches the log. Sent to the gate, no audit.
+
+## 2026-10-26 38 sparkline (board Now)
+- Branch feat/38-sparkline from feat/37-version-status at d3054ea. Opus worker, Risky (kc/insights/). Scope ok with mutation evidence (value import of uplot failed the lazy-load test). Diff read, two tests added, none changed. Worker dropped the "Touch or hover the chart for a day." hint since the tooltip replaces it; accepted by the rubric, no new copy written. Sent to the gate with an audit.

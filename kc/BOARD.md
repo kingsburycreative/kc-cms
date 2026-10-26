@@ -2,7 +2,6 @@
 
 ## Now
 
-- **38**: Sparkline from the Insights chart (`.claude/work/39-plan-dashboard/plan.md` card 38)
 - **39**: Server loaders and skeletons (`.claude/work/39-plan-dashboard/plan.md` card 39)
 - **40**: Dashboard layout and page wiring (`.claude/work/39-plan-dashboard/plan.md` card 40)
 - **43**: Publish status from Cloudflare Pages (`.claude/work/39-plan-dashboard/plan.md` card 43)
@@ -42,6 +41,8 @@
 
 
 ## Done
+
+- **38** sparkline: on feat/38-sparkline; MetricChart exported with a 72px compact sparkline, and the full chart fades on range change, draws in once and shows a cursor tooltip, all off under reduced motion. The old "Touch or hover" hint line is gone, replaced by the tooltip. Not seen in a browser.
 
 - **37** version-status: on feat/37-version-status; kc/update/status.ts says current, behind with the tag, or unknown against upstream Pages CMS releases (prereleases and drafts ignored); the server fetch revalidates hourly and any failure gives unknown with one warn line, never current.
 - **36** seo-site: on feat/36-seo-site; kc/seo/site.ts scores a site's entries for search health (title, description, headings, image text counted; opening answer and reading level as advice), skips entries without title and description, caps at 200 and lists the worst first.

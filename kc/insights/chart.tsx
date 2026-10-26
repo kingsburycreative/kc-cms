@@ -7,20 +7,27 @@ import { RANGES, slice, type Range, type SeriesPoint } from "./series.ts";
 import { METRIC_TITLES, axisLabel, compact, summarySentence, tableRows, tooltipText, total, type Metric } from "./chart-model.ts";
 
 const SM_QUERY = "(min-width: 640px)";
-const heightNow = () => (window.matchMedia(SM_QUERY).matches ? 200 : 170);
+const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
+const SPARK_HEIGHT = 72;
+const heightNow = (spark: boolean) => (spark ? SPARK_HEIGHT : window.matchMedia(SM_QUERY).matches ? 200 : 170);
 const toSeconds = (day: string) => Date.parse(`${day}T12:00:00Z`) / 1000;
+const toData = (days: SeriesPoint[], metric: Metric): uPlot.AlignedData => [days.map((p) => toSeconds(p.day)), days.map((p) => p[metric])];
 
-function MetricChart({ days, metric, range }: { days: SeriesPoint[]; metric: Metric; range: Range }) {
+type Tip = { text: string; left: number; top: number };
+
+export function MetricChart({ days, metric, range, compact: spark = false }: { days: SeriesPoint[]; metric: Metric; range: Range; compact?: boolean }) {
   const box = useRef<HTMLDivElement>(null);
+  const plotRef = useRef<uPlot | undefined>(undefined);
+  const daysRef = useRef(days);
   const [ready, setReady] = useState(false);
-  const [hint, setHint] = useState("");
+  const [fading, setFading] = useState(false);
+  const [tip, setTip] = useState<Tip | null>(null);
   const sum = total(days, metric);
   const summary = summarySentence(metric, sum, range);
 
   useEffect(() => {
     const el = box.current;
     if (!el) return;
-    let plot: uPlot | undefined;
     let observer: ResizeObserver | undefined;
     let cancelled = false;
 
@@ -29,31 +36,36 @@ function MetricChart({ days, metric, range }: { days: SeriesPoint[]; metric: Met
       if (cancelled) return;
       const colour = getComputedStyle(el).color;
       const muted = getComputedStyle(el).getPropertyValue("--chart-grid") || "rgba(128,128,128,0.25)";
-      plot = new UPlot(
+      plotRef.current = new UPlot(
         {
           width: el.clientWidth,
-          height: heightNow(),
+          height: heightNow(spark),
           legend: { show: false },
-          cursor: { drag: { x: false, y: false }, points: { size: 9 } },
+          cursor: spark ? { show: false } : { drag: { x: false, y: false }, points: { size: 9 } },
           scales: { x: { time: false }, y: { range: (_u, _min, max) => [0, Math.max(max, 1)] } },
-          axes: [
-            { stroke: colour, grid: { stroke: muted }, ticks: { show: false }, values: (_u, splits) => splits.map((s) => axisLabel(new Date(s * 1000).toISOString().slice(0, 10))) },
-            { stroke: colour, grid: { stroke: muted }, ticks: { show: false }, size: 44, values: (_u, splits) => splits.map((s) => compact(Math.round(s))) },
-          ],
+          axes: spark
+            ? [{ show: false }, { show: false }]
+            : [
+                { stroke: colour, grid: { stroke: muted }, ticks: { show: false }, values: (_u, splits) => splits.map((s) => axisLabel(new Date(s * 1000).toISOString().slice(0, 10))) },
+                { stroke: colour, grid: { stroke: muted }, ticks: { show: false }, size: 44, values: (_u, splits) => splits.map((s) => compact(Math.round(s))) },
+              ],
           series: [{}, { stroke: colour, width: 2, fill: `color-mix(in srgb, ${colour} 15%, transparent)`, points: { show: false } }],
-          hooks: {
-            setCursor: [
-              (u) => {
-                const i = u.cursor.idx;
-                setHint(i == null ? "" : tooltipText(days[i].day, metric, days[i][metric]));
+          hooks: spark
+            ? {}
+            : {
+                setCursor: [
+                  (u) => {
+                    const i = u.cursor.idx;
+                    const p = i == null ? undefined : daysRef.current[i];
+                    setTip(p ? { text: tooltipText(p.day, metric, p[metric]), left: u.over.offsetLeft + (u.cursor.left ?? 0), top: u.over.offsetTop + (u.cursor.top ?? 0) } : null);
+                  },
+                ],
               },
-            ],
-          },
         },
-        [days.map((p) => toSeconds(p.day)), days.map((p) => p[metric])],
+        toData(daysRef.current, metric),
         el,
       );
-      observer = new ResizeObserver(() => plot?.setSize({ width: el.clientWidth, height: heightNow() }));
+      observer = new ResizeObserver(() => plotRef.current?.setSize({ width: el.clientWidth, height: heightNow(spark) }));
       observer.observe(el);
       setReady(true);
     })();
@@ -61,21 +73,63 @@ function MetricChart({ days, metric, range }: { days: SeriesPoint[]; metric: Met
     return () => {
       cancelled = true;
       observer?.disconnect();
-      plot?.destroy();
+      plotRef.current?.destroy();
+      plotRef.current = undefined;
       setReady(false);
     };
+  }, [metric, spark]);
+
+  // A new range swaps the data in place; the wrapper fades unless the user asked for less motion.
+  useEffect(() => {
+    daysRef.current = days;
+    const plot = plotRef.current;
+    if (!plot) return;
+    if (window.matchMedia(REDUCED_QUERY).matches) {
+      plot.setData(toData(days, metric));
+      return;
+    }
+    const out = window.setTimeout(() => setFading(true), 0);
+    const swap = window.setTimeout(() => {
+      plot.setData(toData(days, metric));
+      setFading(false);
+    }, 150);
+    return () => {
+      window.clearTimeout(out);
+      window.clearTimeout(swap);
+    };
   }, [days, metric]);
+
+  const skeleton = !ready && <div className="absolute inset-0 animate-pulse rounded bg-current opacity-10 motion-reduce:animate-none" />;
+
+  if (spark) {
+    return (
+      <div role="img" aria-label={summary} className="relative h-[72px] text-primary">
+        {skeleton}
+        <div ref={box} className="h-full w-full" />
+      </div>
+    );
+  }
 
   return (
     <section className="rounded-lg border p-3 sm:p-4">
       <h3 className="text-sm font-medium">{METRIC_TITLES[metric]}</h3>
       <p className="text-2xl font-semibold">{compact(sum)}</p>
-      <p className="min-h-5 text-sm text-muted-foreground" aria-hidden="true">
-        {hint || "Touch or hover the chart for a day."}
-      </p>
       <div role="img" aria-label={summary} className="relative mt-2 h-[170px] text-primary sm:h-[200px]">
-        {!ready && <div className="absolute inset-0 animate-pulse rounded bg-current opacity-10 motion-reduce:animate-none" />}
-        <div ref={box} className="h-full w-full" />
+        {skeleton}
+        <div
+          className={`h-full w-full transition-[opacity,clip-path] duration-500 motion-reduce:transition-none ${fading ? "opacity-40" : "opacity-100"} ${ready ? "[clip-path:inset(0_0_0_0)]" : "[clip-path:inset(0_100%_0_0)] motion-reduce:[clip-path:none]"}`}
+        >
+          <div ref={box} className="h-full w-full" />
+        </div>
+        {tip && (
+          <p
+            aria-hidden="true"
+            className="pointer-events-none absolute z-10 -translate-x-1/2 -translate-y-full rounded border bg-background px-2 py-1 text-xs whitespace-nowrap shadow-sm"
+            style={{ left: tip.left, top: tip.top - 8 }}
+          >
+            {tip.text}
+          </p>
+        )}
       </div>
       <p className="mt-2 text-sm">{summary}</p>
     </section>
