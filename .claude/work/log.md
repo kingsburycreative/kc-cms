@@ -142,3 +142,6 @@
 
 ## 2026-10-26 41 dashboard audit (board Now)
 - Opus security-auditor, read-only, on the working branch feat/43-publish-status. No high finding; one low (series cache key case), two latent (branch decoded twice, pagesProject from client config), three observations. Fixes queued in Next. Committed board, result and log only; suite left to the next card's gate.
+
+## 2026-10-26 47 short-url-core (board Now)
+- Branch feat/47-short-url-core from main at 4fbdb06. Sonnet worker, Normal, not a risky path (pure functions). Scope ok with mutation evidence (admin unreserved, decoded branch, no method check each failed their tests). Diff read, all new files. Worker's call: a short path whose third segment is main gives null so /other-owner/x/main is never rewritten; a collection named main gets no short form on that deep path. Sent to the gate, no audit.

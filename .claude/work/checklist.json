@@ -725,5 +725,22 @@
     "verified_at": "2026-10-26T19:45:32.088Z",
     "tree": "f60428e50a869dfd6fe4723023dc99480fa59349c56af325daadc955fcdf1b35",
     "gate": "full"
+  },
+  {
+    "id": "47",
+    "title": "Short-URL core",
+    "brief": ".claude/work/50-short-url-core/brief.md",
+    "start_sha": "4fbdb06cb97034f1e6aab8d7ec88be3edb77caab",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T20:04:00.855Z",
+      "start_sha": "4fbdb06cb97034f1e6aab8d7ec88be3edb77caab",
+      "mutation_evidence": true,
+      "tree": "c71c629016fdf4642c6629473038dc7b4f8d9991d5aaa05a61ec2f1814e6b830",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T20:04:41.397Z",
+    "tree": "c71c629016fdf4642c6629473038dc7b4f8d9991d5aaa05a61ec2f1814e6b830",
+    "gate": "full"
   }
 ]
