@@ -2,6 +2,7 @@
 
 ## Now
 
+- **33**: Dashboard design mockup at 375 and 1280 for Rob's approval (`.claude/work/39-plan-dashboard/plan.md` card 33)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
@@ -18,7 +19,6 @@
 
 ## Waiting on Rob
 
-- **28 to 30** (`.claude/work/38-plan-insights-charts/plan.md`): built and gated, in PRs #56, #57 and #58; merge them. Card 31's audit passed with one low item (series-cache-case, in Next).
 - **34** (`.claude/work/39-plan-dashboard/plan.md` card 34): approve the dashboard mockup from card 33.
 - **42** (`.claude/work/39-plan-dashboard/plan.md` card 42): deploy the dashboard, live check as the +kctest client at 375 and as Rob.
 - **32** (`.claude/work/38-plan-insights-charts/plan.md` card 32): deploy the Insights charts to the box, then a live check with BeSciWorks's numbers at 375px.
@@ -44,6 +44,7 @@
 
 ## Done
 
+- **28 to 31**: Insights history series, uPlot chart component, charts on the Insights page, audit (`.claude/work/38-plan-insights-charts/plan.md`); PRs #56 to #58
 - **26** phone-menu: committed on feat/26-phone-menu, gate green, no audit (not a risky path); dashboard, History and Insights set the page header so the phone menu button shows, and History labels every nested value by path instead of printing JSON. Not seen at 375; History and Insights show their title twice on desktop.
 - **otp-atomic-limit**: committed on feat/otp-atomic-limit, gate green, audit found nothing; OTP sends and sign-ins are counted before they run: 10 per IP first, then 5 per email and IP together, then 30 per email across IPs, so one attacker cannot lock out a client signing in from elsewhere. Disabled OTP paths 404 in the same hook. In memory on the one process.
 - **email-verified-trust**: committed on feat/email-verified-trust, gate green, audit found nothing; GitHub is no longer trusted for automatic account linking, unclaimed invites match by email only when verified, and admin access needs a verified email.

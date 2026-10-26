@@ -39,6 +39,17 @@ export const visitorsReport = (): RunReportRequest => ({
 export const topPagesReport = (): RunReportRequest => topBy("pagePath", 5);
 export const topCitiesReport = (): RunReportRequest => topBy("city", 5);
 export const channelsReport = (): RunReportRequest => topBy(CHANNEL, 10);
+// Daily history for the charts: dimension date (YYYYMMDD), metrics sessions
+// and screenPageViews, the last 90 days including today.
+// https://developers.google.com/analytics/devguides/reporting/data/v1/api-schema
+export const DAILY_VISITS = "sessions";
+export const DAILY_VIEWS = "screenPageViews";
+export const dailyReport = (): RunReportRequest => ({
+  dateRanges: [{ startDate: "89daysAgo", endDate: "today" }],
+  dimensions: [{ name: "date" }],
+  metrics: [{ name: DAILY_VISITS }, { name: DAILY_VIEWS }],
+  limit: 100,
+});
 export const engagementReport = (): RunReportRequest => ({
   dateRanges: [LAST_28],
   metrics: [{ name: ENGAGEMENT }, { name: VISITORS }],

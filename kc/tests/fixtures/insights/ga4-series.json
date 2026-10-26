@@ -1,0 +1,6 @@
+{
+  "rows": [
+    { "dimensionValues": [{ "value": "20261021" }], "metricValues": [{ "value": "7" }, { "value": "9" }] },
+    { "dimensionValues": [{ "value": "20261023" }], "metricValues": [{ "value": "3" }, { "value": "4" }] }
+  ]
+}

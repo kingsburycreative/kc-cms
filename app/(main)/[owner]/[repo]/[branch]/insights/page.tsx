@@ -1,6 +1,7 @@
 import { getInsightsAccess, getRepoReadContext } from "@/lib/api-repo-context";
 import { insightsSourcesFor } from "@/kc/insights/map";
-import { defaultCache, defaultCloudflareCache, loadSiteInsights, readKey } from "@/kc/insights/route";
+import { defaultCache, defaultCloudflareCache, defaultSeriesCache, loadSeries, loadSiteInsights, readKey } from "@/kc/insights/route";
+import { ChartsSection } from "@/kc/insights/charts-section";
 import { PageHeader } from "@/kc/page-header";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 
@@ -64,9 +65,10 @@ export default async function Page(
   const sources = insightsSourcesFor(owner, repo);
   if (!sources) return <Message title="Insights not set up" text="Insights aren't set up for this site yet." />;
 
+  const key = readKey(process.env.KC_GA4_KEY_FILE);
   const result = await loadSiteInsights({
     propertyId: sources.ga,
-    key: readKey(process.env.KC_GA4_KEY_FILE),
+    key,
     fetchFn: fetch,
     cache: defaultCache,
     cloudflare: sources.cf
@@ -80,6 +82,18 @@ export default async function Page(
   });
   if (!result.ok) return <Message title="Insights" text={result.message} />;
 
+  // The charts are extra: any failure drops them and keeps the text cards.
+  const series = await loadSeries({
+    site: `${owner}/${repo}`,
+    propertyId: sources.ga,
+    key,
+    fetchFn: fetch,
+    cache: defaultSeriesCache,
+    cloudflare: sources.cf
+      ? { siteTag: sources.cf, accountId: process.env.KC_CF_ACCOUNT_ID, token: process.env.CLOUDFLARE_ANALYTICS_TOKEN }
+      : null,
+  }).catch(() => null);
+
   const { visitors, pages, detail } = result;
   // GA4 only loads after consent, so its cards cover fewer people than Cloudflare's totals.
   const note = result.totalsFrom === "cloudflare" ? CONSENT_LABEL : undefined;
@@ -87,6 +101,7 @@ export default async function Page(
     <div className="mx-auto max-w-4xl space-y-4">
       <PageHeader title="Insights" />
       <h1 className="text-lg font-semibold">Insights</h1>
+      {series && <ChartsSection series={series} />}
       <div className="grid gap-4 md:grid-cols-2">
         <Card title="Visitors" sentence={visitors.sentence} />
         {detail && <Card title="Average time on site" sentence={detail.engagement.sentence} note={note} />}
