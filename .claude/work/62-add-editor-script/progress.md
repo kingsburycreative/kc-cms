@@ -1,0 +1,3 @@
+- started: reading done; npm install tsx --save-exact running; next: shared invite module
+- done: tsx 4.23.15 installed (lock: esbuild 0.27.4->0.28.2), lib/actions/collaborator-invite.ts, collaborator.ts uses it, scripts/add-editor.mts, kc/tests/add-editor.test.ts; next: run tests, doc, mutation
+- done: tests green, mutation (owner check) failed 'another owner is refused' then green, tsc+eslint clean, docs/add-editor.md, result.md written. Nothing half-written.

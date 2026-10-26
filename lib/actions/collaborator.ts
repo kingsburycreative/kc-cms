@@ -13,35 +13,11 @@ import { db } from "@/db";
 import { and, eq, sql } from "drizzle-orm";
 import { collaboratorInviteTable, collaboratorTable } from "@/db/schema";
 import { z } from "zod";
-import { randomBytes } from "crypto";
 import { findVerifiedUserByEmail, normalizeEmail } from "@/lib/collaborator-access";
 import { BRAND_NAME } from "@/kc/brand";
 import { addedSubject, inviteSubject } from "@/kc/email";
-import { clientName } from "@/kc/client-view";
 import { cleanInviteName } from "@/kc/invite-name";
-import { getConfig } from "@/lib/config-store";
-
-// The site's kc.client name, falling back to the repo name made readable.
-const clientNameFor = async (owner: string, repo: string) => {
-  try {
-    const config = await getConfig(owner, repo, "main", { bootstrapOnMiss: false });
-    const kc = (config?.object as { kc?: { client?: string } } | null | undefined)?.kc;
-    return clientName(kc, repo);
-  } catch {
-    return clientName(null, repo);
-  }
-};
-
-const parseInviteEmails = (raw: FormDataEntryValue | null) => {
-  const value = typeof raw === "string" ? raw : "";
-  const parts = value
-    .split(/[\n,]+/)
-    .map((part) => part.trim())
-    .filter(Boolean);
-
-  const unique = Array.from(new Set(parts.map((email) => email.toLowerCase())));
-  return z.array(z.string().email()).safeParse(unique);
-};
+import { clientNameFor, createCollaboratorInviteUrl, isRepoInInstallation, parseInviteEmails } from "@/lib/actions/collaborator-invite";
 
 const assertRepoInInstallation = async (
   user: { id: string; githubUsername?: string | null },
@@ -57,74 +33,13 @@ const assertRepoInInstallation = async (
   const installations = await getInstallations(token, [owner]);
   if (installations.length !== 1) throw new Error(`"${owner}" is not part of your GitHub App installations`);
   const installationRepos = await getInstallationRepos(token, installations[0].id);
-  const isInstalledForRepo = installationRepos.some((installationRepo) =>
-    installationRepo.id === repoAccess.repoId ||
-    (
-      installationRepo.owner?.login?.toLowerCase() === owner.toLowerCase() &&
-      installationRepo.name?.toLowerCase() === repo.toLowerCase()
-    )
-  );
+  const isInstalledForRepo = isRepoInInstallation(installationRepos, repoAccess.repoId, owner, repo);
   if (!isInstalledForRepo) throw new Error(`"${owner}/${repo}" is not part of your ${BRAND_NAME} installation.`);
 
   return {
     repoAccess,
     installation: installations[0],
   };
-};
-
-const generateInviteToken = () => {
-  const alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-  const bytes = randomBytes(32);
-  let token = "";
-
-  for (let i = 0; i < 32; i += 1) {
-    token += alphabet[bytes[i] % alphabet.length];
-  }
-
-  return token;
-};
-
-const createCollaboratorInviteUrl = async ({
-  email,
-  owner,
-  repo,
-  baseUrl,
-  name = null,
-}: {
-  email: string;
-  owner: string;
-  repo: string;
-  baseUrl: string;
-  name?: string | null;
-}) => {
-  const token = generateInviteToken();
-  const expiresAt = new Date(
-    Date.now() + ((Number(process.env.COLLABORATOR_INVITE_LINK_EXPIRES_IN) || 86400) * 1000),
-  );
-
-  await db
-    .delete(collaboratorInviteTable)
-    .where(
-      and(
-        sql`lower(${collaboratorInviteTable.email}) = lower(${email})`,
-        sql`lower(${collaboratorInviteTable.owner}) = lower(${owner})`,
-        sql`lower(${collaboratorInviteTable.repo}) = lower(${repo})`,
-      ),
-    );
-
-  await db.insert(collaboratorInviteTable).values({
-    token,
-    email,
-    owner,
-    repo,
-    name,
-    expiresAt,
-  });
-
-  const inviteUrl = new URL("/sign-in/collaborator", baseUrl);
-  inviteUrl.searchParams.set("token", token);
-
-  return inviteUrl.toString();
 };
 
 // Invite a collaborator to a repository.
@@ -191,7 +106,7 @@ const handleAddCollaborator = async (prevState: any, formData: FormData) => {
       }
 
       if (!existingUser) {
-        const inviteUrl = await createCollaboratorInviteUrl({
+        const inviteUrl = await createCollaboratorInviteUrl(db, {
           email: normalizedEmail,
           owner,
           repo,
@@ -339,7 +254,7 @@ const handleResendCollaboratorInvite = async (collaboratorId: number, owner: str
     }
 
     const baseUrl = getBaseUrl();
-    const inviteUrl = await createCollaboratorInviteUrl({
+    const inviteUrl = await createCollaboratorInviteUrl(db, {
       email: collaborator.email,
       owner,
       repo,

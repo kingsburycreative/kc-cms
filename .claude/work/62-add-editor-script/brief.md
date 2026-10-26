@@ -22,9 +22,9 @@ Re-brief, 2026-10-26: the first run parked because the box cannot load `lib/` (p
 
 ## Files you may touch
 - new `D:\Dev\htdocs\kc-cms-app\scripts\add-editor.mts` and a test under `kc\tests\` (or the project's test folder for scripts)
-- `lib/actions/collaborator.ts` and a new plain module beside it, only to share the invite logic
+- `lib/actions/collaborator.ts` and a new plain module beside it, `lib/actions/collaborator-invite.ts`, only to share the invite logic
 - one doc file under `docs\`
-- `package.json` and the lock file (the `tsx` dependency only)
+- `package.json` and `package-lock.json` (the `tsx` dependency only)
 - `D:\Dev\htdocs\kc-cms-app\.claude\work\62-add-editor-script\result.md` and `progress.md` (new)
 
 ## Done-test

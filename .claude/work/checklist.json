@@ -903,5 +903,22 @@
     "verified_at": "2026-10-26T21:55:32.044Z",
     "tree": "6e6aaa6c53bf500d42b45eb41544e3d87859fff880ef8b3d53e098ba60e5864d",
     "gate": "full"
+  },
+  {
+    "id": "add-editor-script",
+    "title": "Add a client editor from the command line",
+    "brief": ".claude/work/62-add-editor-script/brief.md",
+    "start_sha": "32d0c4578864eaeb832eeaa48c927821de198a49",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T23:44:28.540Z",
+      "start_sha": "32d0c4578864eaeb832eeaa48c927821de198a49",
+      "mutation_evidence": true,
+      "tree": "eddf7ca4f14d051396f0ae62d987dd12c90209a444f9be1be5085f9c77e004a9",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-26T23:45:51.412Z",
+    "tree": "eddf7ca4f14d051396f0ae62d987dd12c90209a444f9be1be5085f9c77e004a9",
+    "gate": "full"
   }
 ]
