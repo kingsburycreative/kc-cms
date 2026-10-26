@@ -31,7 +31,8 @@ export function publishStatus(deployments: unknown, now: Date): PublishStatus {
   if (!latest) return { state: "unknown" };
 
   const status = latest.latest_stage?.status;
-  const at = latest.latest_stage?.ended_on || latest.created_on!;
+  const ended = latest.latest_stage?.ended_on;
+  const at = typeof ended === "string" && !Number.isNaN(Date.parse(ended)) ? ended : latest.created_on!;
   switch (status) {
     case "success":
       return { state: "published", at };
@@ -45,4 +46,36 @@ export function publishStatus(deployments: unknown, now: Date): PublishStatus {
     default:
       return { state: "unknown" };
   }
+}
+
+const MINUTE = 60_000;
+const HOUR = 60 * MINUTE;
+const DAY = 24 * HOUR;
+const plural = (n: number, word: string) => `${n} ${word}${n === 1 ? "" : "s"} ago`;
+
+// "just now", "5 minutes ago", "yesterday", "on 3 Oct". Lower case; callers capitalise.
+export function timeAgo(iso: string | null | undefined, now: Date): string {
+  const t = Date.parse(iso ?? "");
+  if (Number.isNaN(t)) return "";
+  const diff = Math.max(0, now.getTime() - t);
+  if (diff < MINUTE) return "just now";
+  if (diff < HOUR) return plural(Math.floor(diff / MINUTE), "minute");
+  if (diff < DAY) return plural(Math.floor(diff / HOUR), "hour");
+  const days = Math.floor(diff / DAY);
+  if (days === 1) return "yesterday";
+  if (days < 7) return plural(days, "day");
+  if (days < 14) return "last week";
+  return `on ${new Date(t).toLocaleDateString("en-GB", { day: "numeric", month: "short", timeZone: "America/Toronto" })}`;
+}
+
+export type PublishLine = { text: string; busy: boolean; failed: boolean };
+
+// The one line under the site name. Nothing when the state is unknown.
+export function publishLine(status: PublishStatus, now: Date): PublishLine | null {
+  if (status.state === "published") return { text: `Published ${timeAgo(status.at, now)}`, busy: false, failed: false };
+  if (status.state === "publishing") return { text: "Publishing your change...", busy: true, failed: false };
+  if (status.state === "failed") {
+    return { text: "Your last change didn't publish. Your site still shows the version before it.", busy: false, failed: true };
+  }
+  return null;
 }

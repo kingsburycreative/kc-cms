@@ -166,3 +166,6 @@
 
 ## 2026-10-26 short-url-dotted (board Now)
 - 53 still waits on 19. On feat/59-sidebar-pages at 6a1ba48. Opus worker, Risky (proxy.ts). Scope ok with mutation evidence (old dotted rule failed dotted-file and dotted-root tests; unreserving images failed the public-file test). Diff read: isStaticPath helper in kc/short-url.ts, one-line proxy call, tests only added. Worker's call: no separate public/ guard since public names are in RESERVED; dotted /api/ paths now get the Origin check, which they skipped before. Worker did not write progress.md. Sent to the gate with an audit.
+
+## 2026-10-26 60 dashboard-mockup (board Now)
+- Branch feat/60-dashboard-mockup from main at 361c004. Opus worker, Risky (kc/insights/, publish token, staff-only server gate). Scope ok with mutation evidence (all four plan mutations failed their named tests). Diff read: a few old assertions rewritten to the new shapes, none dropped. Worker's calls: publish token KC_CF_PAGES_TOKEN falling back to CLOUDFLARE_ANALYTICS_TOKEN; pages counts only beside ga or cf; client history always says "changed"; Insights page still keys its series mixed-case. Not seen in a browser. Sent to the gate with an audit.

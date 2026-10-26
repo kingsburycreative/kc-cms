@@ -136,6 +136,49 @@ export function MetricChart({ days, metric, range, compact: spark = false }: { d
   );
 }
 
+// The dashboard's visits chart: the same range toggle, visits only, and the
+// slice the button says.
+export function DashboardVisits({ days }: { days: SeriesPoint[] }) {
+  const [range, setRange] = useState<Range>(30);
+  return (
+    <div className="space-y-3">
+      <div role="group" aria-label="Date range" className="flex flex-wrap gap-2">
+        {RANGES.map((r) => (
+          <button
+            key={r}
+            type="button"
+            aria-pressed={range === r}
+            onClick={() => setRange(r)}
+            className="min-h-11 rounded-md border px-4 text-sm aria-pressed:bg-primary aria-pressed:text-primary-foreground"
+          >
+            {r} days
+          </button>
+        ))}
+      </div>
+      <MetricChart days={slice(days, range)} metric="visits" range={range} />
+    </div>
+  );
+}
+
+// Counts up to the value once on load; shows it at once under reduced motion
+// and before the script runs.
+export function CountUp({ value }: { value: number }) {
+  const [shown, setShown] = useState(value);
+  useEffect(() => {
+    if (window.matchMedia(REDUCED_QUERY).matches || value <= 0) return;
+    const start = performance.now();
+    let frame = 0;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / 800);
+      setShown(Math.round(value * (1 - (1 - p) ** 3)));
+      if (p < 1) frame = requestAnimationFrame(tick);
+    };
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [value]);
+  return <>{shown.toLocaleString("en-US")}</>;
+}
+
 export function InsightsChart({ days }: { days: SeriesPoint[] }) {
   const [range, setRange] = useState<Range>(30);
   const shown = slice(days, range);

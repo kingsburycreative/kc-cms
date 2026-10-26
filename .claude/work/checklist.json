@@ -844,5 +844,22 @@
     "verified_at": "2026-10-26T20:40:34.620Z",
     "tree": "2c9ad92ce42786d1b51a8d27cc880a7ceb738b3d0e4a81692fee2227842ca69f",
     "gate": "full"
+  },
+  {
+    "id": "60",
+    "title": "Dashboard matches the approved mockup",
+    "brief": ".claude/work/58-dashboard-mockup/brief.md",
+    "start_sha": "361c00484e49166b46d1dca0c72aa1b4ede722fd",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T20:55:29.953Z",
+      "start_sha": "361c00484e49166b46d1dca0c72aa1b4ede722fd",
+      "mutation_evidence": true,
+      "tree": "53fc287ff38a848e84b2d0b9e98387393ea51e24556f93e3ffe55f38129bc767",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-26T20:57:00.484Z",
+    "tree": "53fc287ff38a848e84b2d0b9e98387393ea51e24556f93e3ffe55f38129bc767",
+    "gate": "full"
   }
 ]

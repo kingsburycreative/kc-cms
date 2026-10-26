@@ -2,7 +2,6 @@
 
 ## Now
 
-- **60**: Dashboard matches the approved mockup (`.claude/work/41-plan-dashboard-fix/plan.md` card 60)
 - **short-url-main-segment** (card 54 audit A, before deploy): kc/short-url.ts:79 checks segments[5], should be [4]; add a redirect-then-rewrite round-trip test.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
@@ -50,6 +49,8 @@
 
 
 ## Done
+
+- **60**: dashboard brought to the approved mockup on feat/60-dashboard-mockup (`.claude/work/58-dashboard-mockup/result.md`). Not seen in a browser; needs the map `pages` entry and a Pages-read token before the publish line shows.
 
 - **47 to 59**: short addresses, link helper and guard, folded Pages sidebar, audit (`.claude/work/40-plan-short-urls/plan.md`); PRs #67 to #72
 

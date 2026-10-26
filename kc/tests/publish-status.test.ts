@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { publishStatus, type Deployment } from "../publish/status.ts";
+import { publishLine, publishStatus, timeAgo, type Deployment } from "../publish/status.ts";
 import { fetchPublishStatus } from "../publish/status-fetch.ts";
 import { KcSchema } from "../client-view.ts";
 
@@ -101,6 +101,43 @@ test("a bad or missing project, token or account makes no call", async () => {
     assert.deepEqual(await fetchPublishStatus(t, impl, () => {}), { state: "unknown" });
   }
   assert.equal(calls, 0);
+});
+
+test("an unparseable ended_on falls back to the created time", () => {
+  const d = { ...prod("success"), latest_stage: { status: "success", ended_on: "not a date" } };
+  assert.deepEqual(publishStatus([d], NOW), { state: "published", at: "2026-01-05T00:00:00Z" });
+});
+
+test("the publish line for published, publishing, failed and unknown", () => {
+  const now = new Date("2026-01-05T00:03:00Z");
+  assert.deepEqual(publishLine({ state: "published", at: "2026-01-05T00:01:00Z" }, now), { text: "Published 2 minutes ago", busy: false, failed: false });
+  assert.deepEqual(publishLine({ state: "publishing" }, now), { text: "Publishing your change...", busy: true, failed: false });
+  assert.deepEqual(publishLine({ state: "failed", at: "2026-01-05T00:01:00Z" }, now), {
+    text: "Your last change didn't publish. Your site still shows the version before it.",
+    busy: false,
+    failed: true,
+  });
+  assert.equal(publishLine({ state: "unknown" }, now), null);
+});
+
+test("a failed fetch never reads as published", async () => {
+  for (const [, impl] of failures) {
+    const line = publishLine(await fetchPublishStatus(target, impl, () => {}), NOW);
+    assert.equal(line, null);
+  }
+});
+
+test("timeAgo steps from minutes to dates", () => {
+  const now = new Date("2026-10-26T12:00:00Z");
+  const ago = (ms: number) => new Date(now.getTime() - ms).toISOString();
+  assert.equal(timeAgo(ago(10_000), now), "just now");
+  assert.equal(timeAgo(ago(60_000), now), "1 minute ago");
+  assert.equal(timeAgo(ago(3 * 3_600_000), now), "3 hours ago");
+  assert.equal(timeAgo(ago(30 * 3_600_000), now), "yesterday");
+  assert.equal(timeAgo(ago(3 * 86_400_000), now), "3 days ago");
+  assert.equal(timeAgo(ago(9 * 86_400_000), now), "last week");
+  assert.equal(timeAgo("2026-10-03T12:00:00Z", now), "on 3 Oct");
+  assert.equal(timeAgo(null, now), "");
 });
 
 test("KcSchema accepts pagesProject", () => {

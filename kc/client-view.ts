@@ -3,7 +3,8 @@ import { shortHref } from "./short-url.ts";
 
 // The optional top-level `kc:` object in .pages.yml. Three keys, nothing else:
 // `client` (display name), `site` (public site URL) and `actions` (labels for
-// the dashboard's quick actions, by collection name).
+// the dashboard's quick actions, by collection name). `pagesProject` is still
+// accepted but ignored: the Pages project comes from the KC_INSIGHTS_MAP entry.
 export const KcSchema = z
   .object({
     client: z.string({ message: "'client' must be a string." }).optional(),

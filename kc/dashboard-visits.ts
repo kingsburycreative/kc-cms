@@ -22,3 +22,24 @@ export function weekSummary(days: SeriesPoint[]): WeekSummary {
   const tail = change > 0 ? `up ${change}% on` : change < 0 ? `down ${-change}% on` : "the same as";
   return { last, previous, change, sentence: `${visits(last)} in the last 7 days, ${tail} the week before.` };
 }
+
+export type RangeChange = { last: number; previous: number; change: number | "new" | null };
+
+// The last n days of one metric against the n before. Same rules as weekSummary.
+export function rangeChange(days: SeriesPoint[], n: number, metric: "visits" | "views" = "visits"): RangeChange {
+  const total = (list: SeriesPoint[]) => list.reduce((t, d) => t + d[metric], 0);
+  const last = total(days.slice(-n));
+  const previous = total(days.slice(-2 * n, -n));
+  if (last === 0 && previous === 0) return { last, previous, change: null };
+  if (previous === 0) return { last, previous, change: "new" };
+  return { last, previous, change: Math.round(((last - previous) / previous) * 100) };
+}
+
+// An SVG path for a sparkline in a width by height box, oldest value first.
+export function sparkPath(values: number[], width = 120, height = 36): string {
+  if (values.length < 2) return "";
+  const max = Math.max(...values, 1);
+  const step = width / (values.length - 1);
+  const y = (v: number) => +(height - 2 - (v / max) * (height - 4)).toFixed(1);
+  return values.map((v, i) => `${i === 0 ? "M" : "L"}${+(i * step).toFixed(1)} ${y(v)}`).join(" ");
+}
