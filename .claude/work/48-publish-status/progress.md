@@ -1,0 +1,1 @@
+- Wrote kc/publish/status.ts, status-fetch.ts, client-view.ts pagesProject, test + fixture. Next: run done-test, mutation.

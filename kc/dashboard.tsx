@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useConfig } from "@/contexts/config-context";
@@ -10,11 +10,14 @@ import { isConfigEnabled } from "@/lib/config";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { buttonVariants } from "@/components/ui/button";
 import { PageHeader } from "./page-header.tsx";
-import { dashboardTiles, recentEdits, type RecentEdit } from "./dashboard.ts";
+import { quickActions, recentEdits, type RecentEdit } from "./dashboard.ts";
+import { dashboardName, siteUrl } from "./client-view.ts";
 
 const LIMIT = 8;
 
-export function Dashboard({ hasInsights = false }: { hasInsights?: boolean }) {
+type Props = { hasInsights?: boolean; visits?: ReactNode; searchHealth?: ReactNode; version?: ReactNode };
+
+export function Dashboard({ hasInsights = false, visits, searchHealth, version }: Props) {
   const { config } = useConfig();
   const { user } = useUser();
   const router = useRouter();
@@ -81,31 +84,59 @@ export function Dashboard({ hasInsights = false }: { hasInsights?: boolean }) {
         );
   }
 
-  const tiles = dashboardTiles(object, { owner: config.owner, repo: config.repo, branch: config.branch, hasInsights });
+  const actions = quickActions(object, { owner: config.owner, repo: config.repo, branch: config.branch, hasInsights });
+  const site = siteUrl(object.kc);
 
   return (
-    <div className="mx-auto w-full max-w-5xl space-y-8 p-4 md:p-6">
-      
-      <PageHeader title="Dashboard" />
-      <ul className="grid grid-cols-1 gap-3 min-[520px]:grid-cols-2 lg:grid-cols-3">
-        {tiles.map((tile) => (
-          <li key={tile.key}>
-            <Link
-              href={tile.href}
-              className="block rounded-md border p-4 font-medium hover:bg-muted focus-visible:outline-2 focus-visible:outline-offset-2"
-            >
-              {tile.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
+    <div className="@container mx-auto w-full max-w-6xl space-y-6 p-4 md:p-6">
+      <header className="flex flex-col gap-2 @[600px]:flex-row @[600px]:items-baseline @[600px]:justify-between">
+        <div>
+          <PageHeader title="Dashboard" />
+          <p className="text-sm text-muted-foreground">{dashboardName(object.kc, config.repo)}</p>
+        </div>
+        {/* Publish status (card 43) goes here. */}
+        {site && (
+          <a href={site} target="_blank" rel="noopener" className="inline-flex min-h-11 items-center text-sm font-medium underline-offset-4 hover:underline">
+            See live site
+          </a>
+        )}
+      </header>
+      {actions.length > 0 && (
+        <nav aria-label="Quick actions">
+          <ul className="flex flex-wrap gap-2">
+            {actions.map((action) => (
+              <li key={action.key}>
+                <Link
+                  href={action.href}
+                  className="inline-flex min-h-11 items-center rounded-md bg-primary/10 px-3 text-sm font-medium text-primary hover:bg-primary/15 focus-visible:outline-2 focus-visible:outline-offset-2"
+                >
+                  {action.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
+      <div className="grid grid-cols-1 gap-4 @[900px]:grid-cols-3">
+        <div className="@[900px]:col-span-2">{visits}</div>
+        <div>{searchHealth}</div>
+      </div>
       {hasContent && (
         <section>
-          <h2 className="mb-3 text-lg font-semibold">Recent edits</h2>
+          <h2 className="mb-3 text-lg font-semibold">Recent changes</h2>
           {failed
-            ? <p className="text-sm text-muted-foreground">Recent edits could not be loaded.</p>
+            ? <p className="text-sm text-muted-foreground">Recent changes could not be loaded.</p>
             : edits === null
-              ? <p className="text-sm text-muted-foreground">Loading recent edits</p>
+              ? (
+                <ul aria-busy="true" aria-label="Loading recent changes" className="divide-y rounded-md border">
+                  {Array.from({ length: LIMIT }, (_, index) => (
+                    <li key={index} className="flex flex-col gap-1.5 p-3 min-[520px]:flex-row min-[520px]:items-center min-[520px]:gap-4">
+                      <span className="h-4 w-40 animate-pulse rounded bg-muted motion-reduce:animate-none" />
+                      <span className="h-3 w-28 animate-pulse rounded bg-muted motion-reduce:animate-none" />
+                    </li>
+                  ))}
+                </ul>
+              )
               : edits.length === 0
                 ? <p className="text-sm text-muted-foreground">Nothing has been edited yet.</p>
                 : (
@@ -124,6 +155,7 @@ export function Dashboard({ hasInsights = false }: { hasInsights?: boolean }) {
                 )}
         </section>
       )}
+      {version}
     </div>
   );
 }

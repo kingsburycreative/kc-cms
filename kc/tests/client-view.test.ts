@@ -11,6 +11,7 @@ import {
   repoHref,
   repoListLabel,
   soleRepoRedirect,
+  siteUrl,
 } from "../client-view.ts";
 
 test("repo name falls back to words, capitalised", () => {
@@ -31,6 +32,21 @@ test("kc schema accepts client and rejects other keys", () => {
   assert.equal(KcSchema.safeParse({}).success, true);
   assert.equal(KcSchema.safeParse({ client: "Acme", other: 1 }).success, false);
   assert.equal(KcSchema.safeParse({ client: 5 }).success, false);
+});
+
+test("kc schema takes site and action labels", () => {
+  assert.equal(KcSchema.safeParse({ site: "https://besciworks.com", actions: { posts: "New post" } }).success, true);
+  assert.equal(KcSchema.safeParse({ actions: { posts: 1 } }).success, false);
+});
+
+test("siteUrl keeps https and drops everything else", () => {
+  assert.equal(siteUrl({ site: "https://besciworks.com" }), "https://besciworks.com");
+  assert.equal(siteUrl({ site: "javascript:alert(1)" }), null);
+  assert.equal(siteUrl({ site: "http://besciworks.com" }), null);
+  assert.equal(siteUrl({ site: "" }), null);
+  assert.equal(siteUrl({}), null);
+  assert.equal(siteUrl(undefined), null);
+  assert.equal(siteUrl({ site: 5 }), null);
 });
 
 test("config schema wires in the kc piece", () => {

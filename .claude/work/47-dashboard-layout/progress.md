@@ -1,0 +1,2 @@
+- page.tsx, kc/dashboard.tsx, kc/tests/dashboard.test.ts edited (not committed). Next: run done-test, mutation, copy skills, result.md.
+- Round two: copy skills run, skeleton rows + test added (dashboard.tsx, dashboard.test.ts), mutation done, result.md updated. Done.

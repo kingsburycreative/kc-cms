@@ -48,3 +48,21 @@ test("chart.tsx source markers", () => {
   assert.match(src, /<details/);
   assert.match(src, /<table/);
 });
+
+test("MetricChart is exported with a 72px compact mode", () => {
+  assert.match(src, /export function MetricChart\(/);
+  assert.match(src, /compact: spark = false/);
+  assert.match(src, /SPARK_HEIGHT = 72/);
+  assert.match(src, /spark \? SPARK_HEIGHT :/);
+  assert.match(src, /h-\[72px\]/);
+  assert.match(src, /axes: spark\s*\?\s*\[\{ show: false \}, \{ show: false \}\]/);
+});
+
+test("range change fades and swaps data only when motion is allowed", () => {
+  assert.match(src, /matchMedia\(REDUCED_QUERY\)/);
+  assert.match(src, /REDUCED_QUERY = "\(prefers-reduced-motion: reduce\)"/);
+  assert.match(src, /plot\.setData\(/);
+  assert.match(src, /clip-path[^"]*duration-500[^"]*motion-reduce:transition-none/);
+  assert.match(src, /setCursor:/);
+  assert.match(src, /style=\{\{ left: tip\.left/);
+});

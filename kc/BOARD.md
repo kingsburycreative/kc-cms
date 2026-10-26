@@ -2,14 +2,6 @@
 
 ## Now
 
-- **35**: Dashboard model: quick actions and visits summary (`.claude/work/39-plan-dashboard/plan.md` card 35)
-- **36**: Search health model (`.claude/work/39-plan-dashboard/plan.md` card 36)
-- **37**: Version status (`.claude/work/39-plan-dashboard/plan.md` card 37)
-- **38**: Sparkline from the Insights chart (`.claude/work/39-plan-dashboard/plan.md` card 38)
-- **39**: Server loaders and skeletons (`.claude/work/39-plan-dashboard/plan.md` card 39)
-- **40**: Dashboard layout and page wiring (`.claude/work/39-plan-dashboard/plan.md` card 40)
-- **43**: Publish status from Cloudflare Pages (`.claude/work/39-plan-dashboard/plan.md` card 43)
-- **41**: Security audit of the dashboard (`.claude/work/39-plan-dashboard/plan.md` card 41)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
@@ -18,7 +10,10 @@
 - **44**: Edit markers on the visits chart, after launch (`.claude/work/39-plan-dashboard/plan.md` card 44)
 - **45**: PDF downloads per paper, after launch (`.claude/work/39-plan-dashboard/plan.md` card 45)
 - **46**: Top Google searches from Search Console, after launch (`.claude/work/39-plan-dashboard/plan.md` card 46)
-- **series-cache-case** (from the card 31 audit, low): key the Insights series cache on the resolved sources (`cf:siteTag|ga:propertyId`) instead of owner/repo as typed, so changing capitals cannot skip the cache and burn the shared Cloudflare token; evict expired entries. `kc/insights/route.ts:257`, page.tsx:87. Risky path.
+- **series-cache-case** (card 31 and card 41 audits, low, live): key the series cache on lowercased owner/repo in seriesSiteKey, used by the dashboard (kc/dashboard-server.tsx:25) and Insights page (page.tsx:87), and cap the Map (kc/insights/route.ts:53-61). Risky path.
+- **pages-project-in-map** (card 41 audit, latent): move the Pages project from kc.pagesProject in .pages.yml to the KC_INSIGHTS_MAP entry before card 43's status is shown, so push on one repo cannot read another client's publish state. Risky path.
+- **branch-decode-once** (card 41 audit, latent): decode the branch once and pass the same string to the access check and getCollectionCache (kc/dashboard-server.tsx:44,85; page.tsx:18).
+- **dashboard-polish** (card 41 audit, observations): key recent changes by index and drop the file path line for clients (dashboard-server.tsx:106-107, dashboard.tsx:151); ISO-parse ended_on (kc/publish/status.ts:34); sparkline gets 30 days not 90 (dashboard-server.tsx:70).
 
 ## Waiting on Rob
 
@@ -46,6 +41,19 @@
 
 ## Done
 
+- **41** dashboard audit: no high finding; one low (cache key case, folded into series-cache-case), two latent and three observations queued in Next. Result in .claude/work/49-dashboard-audit/result.md.
+
+- **43** publish-status: on feat/43-publish-status; kc/publish/status.ts gives published, publishing, failed or unknown from the latest production Pages deployment (previews ignored), and status-fetch.ts calls the deployments API with any failure as unknown and one fixed warn line. kc.pagesProject added to the config schema. Not rendered on the dashboard yet, and whether the analytics token can read Pages is unchecked.
+
+- **40** dashboard-layout: on feat/40-dashboard-layout; the branch page checks repo read access on the server before any panel, then renders visits, search health and the version line each in Suspense with its skeleton. kc/dashboard.tsx has the new header with See live site, quick actions as tinted links, a container-query grid, and recent changes behind pulsing skeleton rows. Not seen in a browser.
+
+- **39** dashboard-loaders: on feat/39-dashboard-loaders; kc/dashboard-server.tsx holds the visits, search health and version panels (visits only behind the Insights gate, series cached per site, clients see only whether an update exists) and kc/dashboard-skeleton.tsx a pulsing skeleton per panel. Count-up, ring fill and bar growth left for card 40; not seen in a browser.
+
+- **38** sparkline: on feat/38-sparkline; MetricChart exported with a 72px compact sparkline, and the full chart fades on range change, draws in once and shows a cursor tooltip, all off under reduced motion. The old "Touch or hover" hint line is gone, replaced by the tooltip. Not seen in a browser.
+
+- **37** version-status: on feat/37-version-status; kc/update/status.ts says current, behind with the tag, or unknown against upstream Pages CMS releases (prereleases and drafts ignored); the server fetch revalidates hourly and any failure gives unknown with one warn line, never current.
+- **36** seo-site: on feat/36-seo-site; kc/seo/site.ts scores a site's entries for search health (title, description, headings, image text counted; opening answer and reading level as advice), skips entries without title and description, caps at 200 and lists the worst first.
+- **35** dashboard-model: on feat/35-dashboard-model; quick actions from the config (kc.actions labels, Upload a PDF when media takes PDFs), a one-week visits sentence, and kc.site kept only when https. KcSchema now accepts site and actions.
 - **33 to 34**: Dashboard mockup, approved by Rob 2026-10-26 (`.claude/work/39-plan-dashboard/plan.md`); PR #59
 - **28 to 31**: Insights history series, uPlot chart component, charts on the Insights page, audit (`.claude/work/38-plan-insights-charts/plan.md`); PRs #56 to #58
 - **26** phone-menu: committed on feat/26-phone-menu, gate green, no audit (not a risky path); dashboard, History and Insights set the page header so the phone menu button shows, and History labels every nested value by path instead of printing JSON. Not seen at 375; History and Insights show their title twice on desktop.

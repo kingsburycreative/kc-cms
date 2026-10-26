@@ -120,3 +120,25 @@
 
 ## 2026-10-26 33 dashboard-mockup (board Now)
 - Cards 19 and 20 still wait on card 06. Branch feat/33-dashboard-mockup from main at 0e7f0a7. Sonnet worker, Normal. Scope ok with mutation evidence (uppercase and max-width each failed their test). First phone screenshot looked clipped at the right; second round found Chrome's window-size cropped a wider layout, retook with a true 375 viewport and hardened the grid. Viewed: nothing clipped. Sent to the loop's gate, no audit (not a risky path).
+
+## 2026-10-26 35 dashboard-model (board Now)
+- approved.md for card 34 was never written; the board records Rob approved the mockup 2026-10-26, taken as the approval. Branch feat/35-dashboard-model from main at 2cab416. Sonnet worker, Normal, not a risky path. Scope ok with mutation evidence (collection filter dropped failed two tests; weeks swapped failed three). Diff read, tests all new. Worker added site and actions to the strict KcSchema so configs with them still parse. Sent to the gate, no audit.
+
+## 2026-10-26 36 seo-site (board Now)
+- Branch feat/36-seo-site from feat/35-dashboard-model at ab1fda5. Sonnet worker, Normal, not a risky path. Scope ok with mutation evidence (counting reading grade failed the page-file and advice tests; dropping the advice no-body guard failed the page-file test). The counted no-body guard is redundant today since body checks pass on an empty body. Diff read, all new files. Sent to the gate, no audit.
+- Round two: tsc flagged two dead status comparisons in the test after assert.equal had already narrowed; Sonnet worker removed them, no assertion changed. Scope ok; back to the gate.
+
+## 2026-10-26 37 version-status (board Now)
+- Branch feat/37-version-status from feat/36-seo-site at d5fc358. Sonnet worker, Normal, not a risky path (public GET, no token). Scope ok with mutation evidence (failed fetch as current failed five failure tests). Diff read, all new files; warn lines use fixed text so no URL or header reaches the log. Sent to the gate, no audit.
+
+## 2026-10-26 38 sparkline (board Now)
+- Branch feat/38-sparkline from feat/37-version-status at d3054ea. Opus worker, Risky (kc/insights/). Scope ok with mutation evidence (value import of uplot failed the lazy-load test). Diff read, two tests added, none changed. Worker dropped the "Touch or hover the chart for a day." hint since the tooltip replaces it; accepted by the rubric, no new copy written. Sent to the gate with an audit.
+
+## 2026-10-26 39 dashboard-loaders (board Now)
+- Branch feat/39-dashboard-loaders from feat/38-sparkline at d5032de. Opus worker, Risky (calls loadSeries in kc/insights/ with the GA and Cloudflare credentials). PublishStatus left to card 43, which owns its state. Scope ok with mutation evidence (full version to clients failed the client-props test; dropped access check failed the gate test). Diff read, all new files; credentials read from env on the server only, never props. Count-up, ring fill and bar growth not built, left for card 40. Sent to the gate with an audit.
+
+## 2026-10-26 43 publish-status (board Now)
+- Branch feat/43-publish-status from feat/40-dashboard-layout at 8e6df34. Opus worker, Risky (new Cloudflare call with a token). Scope ok with mutation evidence (previews counted failed the preview tests; failed fetch as published failed the three failure tests). Diff read, tests all new; result holds only state and time, project name checked against [a-z0-9-]+. No UI built: card 39 shipped without the PublishStatus render, so the dashboard still needs a small card to show it. Sent to the gate with an audit.
+
+## 2026-10-26 41 dashboard audit (board Now)
+- Opus security-auditor, read-only, on the working branch feat/43-publish-status. No high finding; one low (series cache key case), two latent (branch decoded twice, pagesProject from client config), three observations. Fixes queued in Next. Committed board, result and log only; suite left to the next card's gate.

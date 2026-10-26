@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { dashboardTiles, recentEdits } from "../dashboard.ts";
+import { dashboardTiles, quickActions, recentEdits } from "../dashboard.ts";
 
 const ctx = { owner: "kc", repo: "henike", branch: "main" };
 const config = {
@@ -46,8 +46,92 @@ test("recent edits keep title, date, author name and path only, capped", () => {
   assert.equal(recentEdits(items, 3, config)[2].title, "odd");
 });
 
+const besci = {
+  kc: { actions: { weekly: "New Weekly post", papers: "New paper", briefs: "New Insight Brief" } },
+  content: [
+    { type: "file", name: "home", label: "Home" },
+    { type: "collection", name: "weekly", label: "Weekly" },
+    { type: "group", name: "g", items: [{ type: "collection", name: "papers", label: "Papers" }] },
+    { type: "collection", name: "what works", label: "What Works" },
+    { type: "collection", name: "briefs", label: "Briefs" },
+  ],
+  media: [{ name: "files", extensions: ["pdf"] }],
+};
+
+test("quick actions: labelled collections in config order, then Upload a PDF", () => {
+  const actions = quickActions(besci, ctx);
+  assert.deepEqual(actions.map((a) => a.label), ["New Weekly post", "New paper", "New Insight Brief", "Upload a PDF"]);
+  assert.equal(actions[0].href, "/kc/henike/main/collection/weekly/new");
+  assert.equal(actions[3].href, "/kc/henike/main/media/files");
+  assert.equal(quickActions({ ...besci, content: [{ type: "collection", name: "what works" }], kc: {} }, ctx)[0].href, "/kc/henike/main/collection/what%20works/new");
+});
+
+test("quick actions fall back to Add to <label>", () => {
+  const labels = quickActions({ ...config, media: [] }, ctx).map((a) => a.label);
+  assert.deepEqual(labels, ["Add to Posts"]);
+});
+
+test("quick actions skip file nodes and need a collection", () => {
+  const onlyFiles = { content: [{ type: "file", name: "home", label: "Home" }] };
+  assert.deepEqual(quickActions(onlyFiles, ctx), []);
+  assert.deepEqual(quickActions({}, ctx), []);
+});
+
+test("no Upload a PDF when the media folder is images only", () => {
+  const images = { content: [], media: [{ name: "images", extensions: ["png", "jpg"] }] };
+  assert.deepEqual(quickActions(images, ctx), []);
+});
+
 test("the branch page no longer redirects to the first content item", () => {
   const src = readFileSync(new URL("../../app/(main)/[owner]/[repo]/[branch]/page.tsx", import.meta.url), "utf8");
   assert.doesNotMatch(src, /router\.replace/);
   assert.match(src, /Dashboard/);
+});
+
+const pageSrc = () => readFileSync(new URL("../../app/(main)/[owner]/[repo]/[branch]/page.tsx", import.meta.url), "utf8");
+const layoutSrc = () => readFileSync(new URL("../dashboard.tsx", import.meta.url), "utf8");
+
+test("the branch page runs getRepoReadContext before any panel", () => {
+  const src = pageSrc();
+  const check = src.indexOf("await getRepoReadContext(");
+  assert.ok(check > 0);
+  for (const panel of ["<VisitsPanel", "<SearchHealthPanel", "<VersionLine"]) {
+    assert.ok(src.indexOf(panel) > check, panel);
+  }
+});
+
+test("each panel sits in Suspense with its skeleton", () => {
+  const src = pageSrc();
+  for (const [skeleton, panel] of [["VisitsSkeleton", "VisitsPanel"], ["SearchHealthSkeleton", "SearchHealthPanel"], ["VersionSkeleton", "VersionLine"]]) {
+    assert.match(src, new RegExp(`<Suspense fallback={<${skeleton} />}><${panel}\\b`), panel);
+  }
+});
+
+test("the layout is mobile first with no tile grid", () => {
+  const src = layoutSrc();
+  assert.doesNotMatch(src, /max-width|max-\[|uppercase/);
+  assert.doesNotMatch(src, /dashboardTiles|lg:grid-cols-3/);
+  assert.doesNotMatch(src, /—/);
+  assert.match(src, /@container/);
+  assert.match(src, /history\?limit=/);
+});
+
+test("quick actions render before the visits panel", () => {
+  const src = layoutSrc();
+  const actions = src.indexOf("actions.map(");
+  assert.ok(actions > 0 && actions < src.indexOf("{visits}"));
+});
+
+test("See live site only from an https kc.site", () => {
+  const src = layoutSrc();
+  assert.match(src, /siteUrl\(object\.kc\)/);
+  assert.match(src, /\{site && \(/);
+});
+
+test("recent changes load behind pulsing skeleton rows, not text", () => {
+  const src = layoutSrc();
+  assert.doesNotMatch(src, /Loading recent edits/);
+  const loading = src.slice(src.indexOf("edits === null"), src.indexOf("edits.length === 0"));
+  assert.match(loading, /Array\.from\(\{ length: LIMIT \}/);
+  assert.match(loading, /animate-pulse[^"]*motion-reduce:animate-none/);
 });

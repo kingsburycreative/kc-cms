@@ -606,5 +606,124 @@
     "verified_at": "2026-10-26T18:31:30.418Z",
     "tree": "4e7bd2c63d2a8d4ac2c9ab5984d61e1e05e91c38bea9f95aa82b7880dbc60e33",
     "gate": "full"
+  },
+  {
+    "id": "35",
+    "title": "Dashboard model: quick actions and visits summary",
+    "brief": ".claude/work/42-dashboard-model/brief.md",
+    "start_sha": "2cab41618e69fc1aa8496b3064575a9bc54b4fca",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:14:47.994Z",
+      "start_sha": "2cab41618e69fc1aa8496b3064575a9bc54b4fca",
+      "mutation_evidence": true,
+      "tree": "9b9cd32a679d2dd9d76ffa9c28f5d4d44979adaf04384f767c50f99a50460609",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T19:16:05.010Z",
+    "tree": "9b9cd32a679d2dd9d76ffa9c28f5d4d44979adaf04384f767c50f99a50460609",
+    "gate": "full"
+  },
+  {
+    "id": "36",
+    "title": "Search health model",
+    "brief": ".claude/work/43-seo-site/brief.md",
+    "start_sha": "ab1fda5f41bba2d6c53838ed43620c4415d4c2d7",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:20:57.869Z",
+      "start_sha": "ab1fda5f41bba2d6c53838ed43620c4415d4c2d7",
+      "mutation_evidence": true,
+      "tree": "b616b9ca55308be668444ca14a99f44be409a2f9c5e4b284e52e3f3aca1b6e01",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T19:21:34.509Z",
+    "tree": "b616b9ca55308be668444ca14a99f44be409a2f9c5e4b284e52e3f3aca1b6e01",
+    "gate": "full"
+  },
+  {
+    "id": "37",
+    "title": "Version status",
+    "brief": ".claude/work/44-version-status/brief.md",
+    "start_sha": "d5fc358fef927a0d1a0905a3f850ff9f6f758c64",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:24:22.357Z",
+      "start_sha": "d5fc358fef927a0d1a0905a3f850ff9f6f758c64",
+      "mutation_evidence": true,
+      "tree": "7e8de18875de133eaeac39f2920c23e99191ca90bb1964ff4e6dd861cf177c8d",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T19:25:16.793Z",
+    "tree": "7e8de18875de133eaeac39f2920c23e99191ca90bb1964ff4e6dd861cf177c8d",
+    "gate": "full"
+  },
+  {
+    "id": "38",
+    "title": "Sparkline and chart motion",
+    "brief": ".claude/work/45-sparkline/brief.md",
+    "start_sha": "d3054ea5a116b7e85053d67335d1a016f0984f4f",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:28:01.145Z",
+      "start_sha": "d3054ea5a116b7e85053d67335d1a016f0984f4f",
+      "mutation_evidence": true,
+      "tree": "2480065b3fefa66009c113af56291a753817cc2a02121630a1872b2411ccbcc6",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-26T19:28:57.391Z",
+    "tree": "2480065b3fefa66009c113af56291a753817cc2a02121630a1872b2411ccbcc6",
+    "gate": "full"
+  },
+  {
+    "id": "39",
+    "title": "Server loaders and skeletons",
+    "brief": ".claude/work/46-dashboard-loaders/brief.md",
+    "start_sha": "d5032de6bdf852be584803b83cc46c9874dd7c7a",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:33:29.977Z",
+      "start_sha": "d5032de6bdf852be584803b83cc46c9874dd7c7a",
+      "mutation_evidence": true,
+      "tree": "66a468860d4ad96d117b9706e69d52337d7387d848ceb5a16852d16ce196f56f",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-26T19:34:37.864Z",
+    "tree": "66a468860d4ad96d117b9706e69d52337d7387d848ceb5a16852d16ce196f56f",
+    "gate": "full"
+  },
+  {
+    "id": "40",
+    "title": "Dashboard layout and page wiring",
+    "brief": ".claude/work/47-dashboard-layout/brief.md",
+    "start_sha": "35d6264225a8cbf6cf180930a77dac683c86f502",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:39:52.292Z",
+      "start_sha": "35d6264225a8cbf6cf180930a77dac683c86f502",
+      "mutation_evidence": true,
+      "tree": "ffd0cebd2c1eacc42eb395a2e63e860e10f3f488b2cc5e6e1cc28a33809ab27e",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-26T19:41:21.638Z",
+    "tree": "ffd0cebd2c1eacc42eb395a2e63e860e10f3f488b2cc5e6e1cc28a33809ab27e",
+    "gate": "full"
+  },
+  {
+    "id": "43",
+    "title": "Publish status from Cloudflare Pages",
+    "brief": ".claude/work/48-publish-status/brief.md",
+    "start_sha": "8e6df34d3936b0a1537463fec288cc4a76f66f2a",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:44:25.896Z",
+      "start_sha": "8e6df34d3936b0a1537463fec288cc4a76f66f2a",
+      "mutation_evidence": true,
+      "tree": "f60428e50a869dfd6fe4723023dc99480fa59349c56af325daadc955fcdf1b35",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-26T19:45:32.088Z",
+    "tree": "f60428e50a869dfd6fe4723023dc99480fa59349c56af325daadc955fcdf1b35",
+    "gate": "full"
   }
 ]
