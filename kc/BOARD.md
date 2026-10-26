@@ -2,6 +2,8 @@
 
 ## Now
 
+- **live-site-header**: "See live site" moves into the top bar, right (Rob 2026-10-26). Brief `.claude/work/61-live-site-header/brief.md`.
+- **add-editor-script** (Risky): add a client editor from the command line on the box, no browser session (Rob 2026-10-26). Brief `.claude/work/62-add-editor-script/brief.md`.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -46,9 +48,9 @@
 
 ## Blocked
 
-- **proxy-rewrite-origin** (blocks the BeSciWorks review email): proxy.ts cannot fix it, Next normalizes 127.0.0.1 to localhost on every path. Needs Rob: change kc-cms `server/deploy.sh` ExecStart to `-H localhost` (untested; check localhost is not ::1 on the box). `.claude/work/60-proxy-rewrite-origin/result.md`.
-
 ## Done
+
+- **proxy-rewrite-origin**: resolved on the box by starting Next with `-H localhost` (kc-cms commit e265178); short addresses live 200. No code change here.
 
 - **short-url-main-segment**: the full-path redirect now checks the right segment, with a round-trip test (`.claude/work/59-short-url-main-segment/result.md`).
 
