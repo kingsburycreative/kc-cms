@@ -2,7 +2,6 @@
 
 ## Now
 
-- **41**: Security audit of the dashboard (`.claude/work/39-plan-dashboard/plan.md` card 41)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
@@ -11,7 +10,10 @@
 - **44**: Edit markers on the visits chart, after launch (`.claude/work/39-plan-dashboard/plan.md` card 44)
 - **45**: PDF downloads per paper, after launch (`.claude/work/39-plan-dashboard/plan.md` card 45)
 - **46**: Top Google searches from Search Console, after launch (`.claude/work/39-plan-dashboard/plan.md` card 46)
-- **series-cache-case** (from the card 31 audit, low): key the Insights series cache on the resolved sources (`cf:siteTag|ga:propertyId`) instead of owner/repo as typed, so changing capitals cannot skip the cache and burn the shared Cloudflare token; evict expired entries. `kc/insights/route.ts:257`, page.tsx:87. Risky path.
+- **series-cache-case** (card 31 and card 41 audits, low, live): key the series cache on lowercased owner/repo in seriesSiteKey, used by the dashboard (kc/dashboard-server.tsx:25) and Insights page (page.tsx:87), and cap the Map (kc/insights/route.ts:53-61). Risky path.
+- **pages-project-in-map** (card 41 audit, latent): move the Pages project from kc.pagesProject in .pages.yml to the KC_INSIGHTS_MAP entry before card 43's status is shown, so push on one repo cannot read another client's publish state. Risky path.
+- **branch-decode-once** (card 41 audit, latent): decode the branch once and pass the same string to the access check and getCollectionCache (kc/dashboard-server.tsx:44,85; page.tsx:18).
+- **dashboard-polish** (card 41 audit, observations): key recent changes by index and drop the file path line for clients (dashboard-server.tsx:106-107, dashboard.tsx:151); ISO-parse ended_on (kc/publish/status.ts:34); sparkline gets 30 days not 90 (dashboard-server.tsx:70).
 
 ## Waiting on Rob
 
@@ -38,6 +40,8 @@
 
 
 ## Done
+
+- **41** dashboard audit: no high finding; one low (cache key case, folded into series-cache-case), two latent and three observations queued in Next. Result in .claude/work/49-dashboard-audit/result.md.
 
 - **43** publish-status: on feat/43-publish-status; kc/publish/status.ts gives published, publishing, failed or unknown from the latest production Pages deployment (previews ignored), and status-fetch.ts calls the deployments API with any failure as unknown and one fixed warn line. kc.pagesProject added to the config schema. Not rendered on the dashboard yet, and whether the analytics token can read Pages is unchecked.
 

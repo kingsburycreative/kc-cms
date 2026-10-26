@@ -139,3 +139,6 @@
 
 ## 2026-10-26 43 publish-status (board Now)
 - Branch feat/43-publish-status from feat/40-dashboard-layout at 8e6df34. Opus worker, Risky (new Cloudflare call with a token). Scope ok with mutation evidence (previews counted failed the preview tests; failed fetch as published failed the three failure tests). Diff read, tests all new; result holds only state and time, project name checked against [a-z0-9-]+. No UI built: card 39 shipped without the PublishStatus render, so the dashboard still needs a small card to show it. Sent to the gate with an audit.
+
+## 2026-10-26 41 dashboard audit (board Now)
+- Opus security-auditor, read-only, on the working branch feat/43-publish-status. No high finding; one low (series cache key case), two latent (branch decoded twice, pagesProject from client config), three observations. Fixes queued in Next. Committed board, result and log only; suite left to the next card's gate.
