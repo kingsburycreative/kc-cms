@@ -225,6 +225,20 @@ test("See live site only from an https kc.site", () => {
   assert.match(src, /if \(!site\) return null;/);
 });
 
+test("See live site sits in the PageHeader bar, not the dashboard header", () => {
+  const src = layoutSrc();
+  assert.match(src, /<PageHeader title="Dashboard" action=\{liveSite\} \/>/);
+  assert.match(src, /site \? <LiveSiteLink site=\{site\} \/> : undefined/);
+  const header = src.slice(src.indexOf("<header"), src.indexOf("</header>"));
+  assert.doesNotMatch(header, /LiveSiteLink/);
+  assert.equal(header.match(/<h1\b/g)?.length, 1);
+  assert.match(src, /target="_blank" rel="noopener"/);
+  assert.match(src, /min-h-11/);
+  const bar = readFileSync(new URL("../page-header.tsx", import.meta.url), "utf8");
+  assert.match(bar, /action\?: ReactNode/);
+  assert.match(bar, /\{action\}/);
+});
+
 test("recent changes load behind pulsing skeleton rows, not text", () => {
   const src = layoutSrc();
   assert.doesNotMatch(src, /Loading recent edits/);

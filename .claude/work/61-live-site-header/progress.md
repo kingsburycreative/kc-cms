@@ -1,0 +1,1 @@
+Round 3 done: CRLF split fixed in kc/tests/dashboard-sections.test.ts; mutation run failed "See live site sits in the PageHeader bar, not the dashboard header" (1 fail); restored; full suite 418 pass, 0 fail.
