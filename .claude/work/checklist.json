@@ -623,5 +623,22 @@
     "verified_at": "2026-10-26T19:16:05.010Z",
     "tree": "9b9cd32a679d2dd9d76ffa9c28f5d4d44979adaf04384f767c50f99a50460609",
     "gate": "full"
+  },
+  {
+    "id": "36",
+    "title": "Search health model",
+    "brief": ".claude/work/43-seo-site/brief.md",
+    "start_sha": "ab1fda5f41bba2d6c53838ed43620c4415d4c2d7",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:20:57.869Z",
+      "start_sha": "ab1fda5f41bba2d6c53838ed43620c4415d4c2d7",
+      "mutation_evidence": true,
+      "tree": "b616b9ca55308be668444ca14a99f44be409a2f9c5e4b284e52e3f3aca1b6e01",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T19:21:34.509Z",
+    "tree": "b616b9ca55308be668444ca14a99f44be409a2f9c5e4b284e52e3f3aca1b6e01",
+    "gate": "full"
   }
 ]

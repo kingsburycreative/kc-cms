@@ -2,7 +2,6 @@
 
 ## Now
 
-- **36**: Search health model (`.claude/work/39-plan-dashboard/plan.md` card 36)
 - **37**: Version status (`.claude/work/39-plan-dashboard/plan.md` card 37)
 - **38**: Sparkline from the Insights chart (`.claude/work/39-plan-dashboard/plan.md` card 38)
 - **39**: Server loaders and skeletons (`.claude/work/39-plan-dashboard/plan.md` card 39)
@@ -45,6 +44,7 @@
 
 ## Done
 
+- **36** seo-site: on feat/36-seo-site; kc/seo/site.ts scores a site's entries for search health (title, description, headings, image text counted; opening answer and reading level as advice), skips entries without title and description, caps at 200 and lists the worst first.
 - **35** dashboard-model: on feat/35-dashboard-model; quick actions from the config (kc.actions labels, Upload a PDF when media takes PDFs), a one-week visits sentence, and kc.site kept only when https. KcSchema now accepts site and actions.
 - **33 to 34**: Dashboard mockup, approved by Rob 2026-10-26 (`.claude/work/39-plan-dashboard/plan.md`); PR #59
 - **28 to 31**: Insights history series, uPlot chart component, charts on the Insights page, audit (`.claude/work/38-plan-insights-charts/plan.md`); PRs #56 to #58

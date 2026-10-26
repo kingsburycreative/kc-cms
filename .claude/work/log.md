@@ -123,3 +123,7 @@
 
 ## 2026-10-26 35 dashboard-model (board Now)
 - approved.md for card 34 was never written; the board records Rob approved the mockup 2026-10-26, taken as the approval. Branch feat/35-dashboard-model from main at 2cab416. Sonnet worker, Normal, not a risky path. Scope ok with mutation evidence (collection filter dropped failed two tests; weeks swapped failed three). Diff read, tests all new. Worker added site and actions to the strict KcSchema so configs with them still parse. Sent to the gate, no audit.
+
+## 2026-10-26 36 seo-site (board Now)
+- Branch feat/36-seo-site from feat/35-dashboard-model at ab1fda5. Sonnet worker, Normal, not a risky path. Scope ok with mutation evidence (counting reading grade failed the page-file and advice tests; dropping the advice no-body guard failed the page-file test). The counted no-body guard is redundant today since body checks pass on an empty body. Diff read, all new files. Sent to the gate, no audit.
+- Round two: tsc flagged two dead status comparisons in the test after assert.equal had already narrowed; Sonnet worker removed them, no assertion changed. Scope ok; back to the gate.
