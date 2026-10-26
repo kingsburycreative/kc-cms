@@ -157,3 +157,6 @@
 
 ## 2026-10-26 51 link-guard (board Now)
 - Branch feat/51-link-guard from feat/50-editor-links at 17054e0. Sonnet worker, Normal, test only, no risky path. Scope ok with mutation evidence (unwrapped entry.tsx and repo-sidebar links and a stale allowlist entry each failed). Diff read: one new test, allowlist adds kc/dashboard.ts's base (only used through link(), which wraps). No unwrapped links found. Sent to the gate, no audit.
+
+## 2026-10-26 59 sidebar-pages (board Now)
+- Skipped 53: waits on 19, which waits on Rob's card 06. Branch feat/59-sidebar-pages from feat/51-link-guard at 1233d5a. Sonnet worker, Normal, no risky path. Scope ok with mutation evidence (file entry back at top level, h-8 item height each failed). Diff read: pure helper in kc/, one-line hook in repo-sidebar, aria-expanded on both disclosures, h-11 in ui/sidebar.tsx; Pages opens on its own path through the existing isActive default. Not checked in a browser. Sent to the gate, no audit.

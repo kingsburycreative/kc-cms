@@ -810,5 +810,22 @@
     "verified_at": "2026-10-26T20:21:14.594Z",
     "tree": "4568d2decbc703b645ab64c35116601defce2adedead4dce3cd5efd6834df2c2",
     "gate": "full"
+  },
+  {
+    "id": "59",
+    "title": "Sidebar: fold single pages under Pages, 44px items",
+    "brief": ".claude/work/55-sidebar-pages/brief.md",
+    "start_sha": "1233d5a99628f54845213588fc8620079beeaf51",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T20:24:49.437Z",
+      "start_sha": "1233d5a99628f54845213588fc8620079beeaf51",
+      "mutation_evidence": true,
+      "tree": "982d2d751bda6ebe93eeb6b2537a54c5d885f40582b66111866934f8ebccef00",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T20:25:31.491Z",
+    "tree": "982d2d751bda6ebe93eeb6b2537a54c5d885f40582b66111866934f8ebccef00",
+    "gate": "full"
   }
 ]

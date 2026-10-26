@@ -17,6 +17,7 @@ import { hasGithubIdentity } from "@/lib/authz-shared";
 import { dashboardName, viewFor } from "@/kc/client-view";
 import { BRAND_MARK } from "@/kc/brand";
 import { shortHref } from "@/kc/short-url";
+import { groupNavigation } from "@/kc/sidebar-groups";
 import { isCacheEnabled, isConfigEnabled } from "@/lib/config";
 import { getRootActions } from "@/lib/actions";
 import { getVisits } from "@/lib/tracker";
@@ -489,7 +490,7 @@ export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) 
               <SidebarMenuSubButton
                 asChild
               >
-                <button type="button" onClick={() => toggleGroup(key)}>
+                <button type="button" aria-expanded={isOpen} onClick={() => toggleGroup(key)}>
                   <ChevronRight className={cn("size-4 transition-transform", isOpen && "rotate-90")} />
                   <span>{node.label || node.name}</span>
               </button>
@@ -508,7 +509,7 @@ export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) 
           <SidebarMenuButton
             asChild
           >
-            <button type="button" onClick={() => toggleGroup(key)}>
+            <button type="button" aria-expanded={isOpen} onClick={() => toggleGroup(key)}>
               <ChevronRight className={cn("size-4 transition-transform", isOpen && "rotate-90")} />
               <span>{node.label || node.name}</span>
             </button>
@@ -593,7 +594,7 @@ export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) 
   };
 
   const groups = [
-    renderNavigationGroup("Content", contentNavigation),
+    renderNavigationGroup("Content", groupNavigation(contentNavigation, pathname, getNodeHref).nodes as NavigationNode[]),
     renderNavigationGroup("Media", mediaNavigation),
     rootActions.length > 0 && config
       ? (
