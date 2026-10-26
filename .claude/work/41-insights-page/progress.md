@@ -1,0 +1,3 @@
+- Read brief and files. Next: copy via skills, then charts-section.tsx, page, test.
+- Copy skills ran. Wrote charts-section.tsx, page edit, insights-page.test.ts. Green.
+- Mutation done (3 fails), restored green, tsc+eslint 0. result.md written. Done, uncommitted.

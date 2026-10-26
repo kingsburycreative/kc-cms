@@ -114,3 +114,6 @@
 
 ## 2026-10-26 insights-chart (plan 38 card 29, checklist 29)
 - Top Now card; uplot 1.6.32 already installed. Branch feat/29-insights-chart from feat/28-insights-series at d80de1d. Sonnet worker, Normal, not a risky path. Scope ok with mutation evidence (top-level uplot import failed the lazy-load test; dropping the table failed the markers test). Diff read, three new files, no existing file touched. Copy skills ran per the worker. tsc and eslint left to the loop's gate. Sent to the gate.
+
+## 2026-10-26 insights-page (plan 38 card 30, checklist 30)
+- Top Now card. Branch feat/30-insights-page from feat/29-insights-chart at 4972453. Opus worker, Risky (new file under kc/insights/). Scope ok with mutation evidence (removing the section failed three tests). Diff read, tests all new; only series.days reaches the client chart. The worker renamed the heading to "Daily traffic" after the copy skills reviewed "Visits by day"; accepted by the rubric (two plain words, no banned pattern), Rob may overrule. Sent to the loop's gate with an audit.

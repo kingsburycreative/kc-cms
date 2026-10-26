@@ -2,7 +2,6 @@
 
 ## Now
 
-- **30**: Charts on the Insights page, with their copy (`.claude/work/38-plan-insights-charts/plan.md` card 30)
 - **31**: Security audit of kc/insights/ (`.claude/work/38-plan-insights-charts/plan.md` card 31)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -34,6 +33,7 @@
 
 ## Done
 
+- **30** insights-page: committed on feat/30-insights-page; the Insights page loads the 90-day series and shows a Daily traffic section (chart, visit versus page view note, consent note for GA4 data) above the text cards, and drops only the charts on a failure. Heading changed after the copy skills ran. Not seen at 375, 768 or 1024.
 - **29** insights-chart: committed on feat/29-insights-chart; chart component on uPlot (loaded lazily) with a 7/30/90 toggle, summary sentence, shimmer skeleton and a numbers table. Not wired into the page yet (card 30), not seen in a browser.
 - **26** phone-menu: committed on feat/26-phone-menu, gate green, no audit (not a risky path); dashboard, History and Insights set the page header so the phone menu button shows, and History labels every nested value by path instead of printing JSON. Not seen at 375; History and Insights show their title twice on desktop.
 - **otp-atomic-limit**: committed on feat/otp-atomic-limit, gate green, audit found nothing; OTP sends and sign-ins are counted before they run: 10 per IP first, then 5 per email and IP together, then 30 per email across IPs, so one attacker cannot lock out a client signing in from elsewhere. Disabled OTP paths 404 in the same hook. In memory on the one process.
