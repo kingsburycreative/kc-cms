@@ -12,8 +12,10 @@ On a phone (375px) the link stays visible in the top bar, does not wrap the titl
 
 ## Files you may touch
 - `D:\Dev\htdocs\kc-cms-app\kc\dashboard.tsx`
-- the file defining `PageHeader` (optional right slot only)
-- the dashboard test file(s) under `kc\tests\`
+- `D:\Dev\htdocs\kc-cms-app\kc\page-header.tsx` (defines `PageHeader`; optional right slot only)
+- `D:\Dev\htdocs\kc-cms-app\kc\tests\dashboard.test.ts`
+- `D:\Dev\htdocs\kc-cms-app\kc\tests\page-header.test.ts`
+- `D:\Dev\htdocs\kc-cms-app\kc\tests\dashboard-sections.test.ts` (only the line-ending fix: line 123 splits on "\n" and a CRLF checkout leaves "\r" before `$`)
 - `D:\Dev\htdocs\kc-cms-app\.claude\work\61-live-site-header\result.md` and `progress.md` (new)
 
 ## Done-test

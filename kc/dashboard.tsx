@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useMemo, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useConfig } from "@/contexts/config-context";
@@ -62,6 +62,10 @@ export function Dashboard({ hasInsights = false, publish, visits, searchHealth, 
     }
   }, [toConfiguration, config, router]);
 
+  // Memoised: PageHeader pushes it into the repo header, and a new element each render would re-push forever.
+  const site = siteUrl(object.kc);
+  const liveSite = useMemo(() => (site ? <LiveSiteLink site={site} /> : undefined), [site]);
+
   if (!config) return null;
 
   if (!hasContent && !hasMedia) {
@@ -95,20 +99,16 @@ export function Dashboard({ hasInsights = false, publish, visits, searchHealth, 
   }
 
   const actions = quickActions(object, { owner: config.owner, repo: config.repo, branch: config.branch, hasInsights });
-  const site = siteUrl(object.kc);
   const staff = hasGithubIdentity(user);
   const now = new Date();
   const historyHref = shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/history`);
 
   return (
     <div className="@container mx-auto w-full max-w-6xl space-y-6 p-4 md:p-6">
-      <PageHeader title="Dashboard" />
-      <header className="flex flex-col gap-2 @[600px]:flex-row @[600px]:items-end @[600px]:justify-between">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-semibold tracking-tight">{clientName(object.kc, config.repo)}</h1>
-          {publish}
-        </div>
-        <LiveSiteLink site={site} />
+      <PageHeader title="Dashboard" action={liveSite} />
+      <header className="space-y-1">
+        <h1 className="text-2xl font-semibold tracking-tight">{clientName(object.kc, config.repo)}</h1>
+        {publish}
       </header>
       {actions.length > 0 && (
         <section aria-labelledby="actions-h">

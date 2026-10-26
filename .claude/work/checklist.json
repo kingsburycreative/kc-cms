@@ -886,5 +886,22 @@
     "start_sha": "344c4e514c0534a197ad4821d3c6d14c5bc740e2",
     "passes": false,
     "parked": "needs the box start command changed (kc-cms server/deploy.sh -H localhost); proxy.ts cannot fix it"
+  },
+  {
+    "id": "live-site-header",
+    "title": "See live site sits in the top bar, right",
+    "brief": ".claude/work/61-live-site-header/brief.md",
+    "start_sha": "d94e87da6313f66a7f76465b11cb47bed702766d",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T21:54:52.579Z",
+      "start_sha": "d94e87da6313f66a7f76465b11cb47bed702766d",
+      "mutation_evidence": true,
+      "tree": "6e6aaa6c53bf500d42b45eb41544e3d87859fff880ef8b3d53e098ba60e5864d",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T21:55:32.044Z",
+    "tree": "6e6aaa6c53bf500d42b45eb41544e3d87859fff880ef8b3d53e098ba60e5864d",
+    "gate": "full"
   }
 ]

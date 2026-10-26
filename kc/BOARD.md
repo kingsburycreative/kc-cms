@@ -2,7 +2,6 @@
 
 ## Now
 
-- **live-site-header**: "See live site" moves into the top bar, right (Rob 2026-10-26). Brief `.claude/work/61-live-site-header/brief.md`.
 - **add-editor-script** (Risky): add a client editor from the command line on the box, no browser session (Rob 2026-10-26). Brief `.claude/work/62-add-editor-script/brief.md`.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
@@ -49,6 +48,8 @@
 ## Blocked
 
 ## Done
+
+- **live-site-header**: "See live site" moved into the top bar, right, through an optional action slot on PageHeader; also fixed a line-ending bug in a dashboard test (`.claude/work/61-live-site-header/result.md`). Not seen in a browser at 375px.
 
 - **proxy-rewrite-origin**: resolved on the box by starting Next with `-H localhost` (kc-cms commit e265178); short addresses live 200. No code change here.
 

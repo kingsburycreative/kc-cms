@@ -21,7 +21,7 @@ for (const [name, file, title] of pages) {
   test(`the ${name} page renders the header component with its title`, () => {
     const source = read(file);
     assert.match(source, /import \{ PageHeader \} from/);
-    assert.ok(source.includes(`<PageHeader title="${title}" />`), file);
+    assert.match(source, new RegExp(`<PageHeader title="${title}"( action=\\{\\w+\\})? />`), file);
   });
 }
 
