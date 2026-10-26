@@ -16,6 +16,7 @@ export const RESERVED: ReadonlySet<string> = new Set([
   "admin",
   "_next",
   "images",
+  "guides",
   "favicon.ico",
   "icon.svg",
   OWNER,

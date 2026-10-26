@@ -1,0 +1,289 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BeSciWorks CMS Guide</title>
+<meta name="description" content="How to sign in to the BeSciWorks website editor, add Weekly posts and papers, change page text, undo a change, see who visits and check how the pages look in search.">
+<style>
+  :root {
+    --color-text: #1d1d1b;
+    --color-muted: #5b5b57;
+    --color-line: #dedcd6;
+    --color-surface: #ffffff;
+    --color-tint: #f4f1fa;
+    --color-accent: #a84f24;
+    --space-1: 0.5rem;
+    --space-2: 1rem;
+    --space-3: 1.5rem;
+    --space-4: 2.5rem;
+    --space-5: 4rem;
+    --measure: 40rem;
+    --radius: 6px;
+    --font: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--color-surface); color: var(--color-text); font: 1rem/1.6 var(--font); }
+  main { max-width: var(--measure); margin: 0 auto; padding: var(--space-4) var(--space-2) var(--space-5); }
+  h1 { font-size: 1.875rem; line-height: 1.2; margin: 0 0 var(--space-2); letter-spacing: -0.01em; }
+  h2 { font-size: 1.375rem; line-height: 1.3; margin: var(--space-5) 0 var(--space-2); padding-top: var(--space-3); border-top: 1px solid var(--color-line); }
+  h3 { font-size: 1.0625rem; margin: var(--space-3) 0 var(--space-1); }
+  p, ol, ul, table { margin: 0 0 var(--space-2); }
+  ol, ul { padding-left: 1.25rem; }
+  li + li { margin-top: 0.375rem; }
+  a { color: var(--color-accent); text-underline-offset: 0.15em; }
+  a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .lead { font-size: 1.125rem; color: var(--color-muted); }
+  .meta { font-size: 0.875rem; color: var(--color-muted); }
+  figure { margin: var(--space-3) 0; }
+  figure img { display: block; width: 100%; height: auto; border: 1px solid var(--color-line); border-radius: var(--radius); }
+  figcaption { font-size: 0.875rem; color: var(--color-muted); margin-top: var(--space-1); }
+  .note { background: var(--color-tint); border-radius: var(--radius); padding: var(--space-2); }
+  .note p:last-child { margin-bottom: 0; }
+  code { font-family: ui-monospace, Consolas, monospace; font-size: 0.9em; background: var(--color-tint); padding: 0.1em 0.3em; border-radius: 3px; }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.9375rem; }
+  th, td { text-align: left; vertical-align: top; padding: var(--space-1); border-bottom: 1px solid var(--color-line); }
+  th { font-weight: 600; }
+  nav ol { columns: 1; }
+  nav li + li { margin-top: 0; }
+  nav li a { display: inline-block; min-height: 44px; padding: 0.625rem 0; }
+  @media (min-width: 768px) {
+    main { padding-top: var(--space-5); }
+    h1 { font-size: 2.25rem; }
+    nav ol { columns: 2; column-gap: var(--space-4); }
+  }
+  @media print {
+    @page { margin: 18mm 16mm; }
+    body { font-size: 10.5pt; }
+    main { max-width: none; padding: 0; }
+    h2 { break-before: page; border-top: 0; margin-top: 0; padding-top: 0; }
+    figure, .note, table { break-inside: avoid; }
+    a { color: var(--color-text); }
+    nav ol { columns: 2; }
+    nav li a { min-height: 0; padding: 0.125rem 0; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1>Editing the BeSciWorks website</h1>
+  <p class="lead">This guide shows you how to change the BeSciWorks website yourself: adding Weekly posts and papers, editing the text on a page, checking how the site shows up in search, and undoing a change if something goes wrong.</p>
+  <p class="meta">For David Mills and the BeSciWorks team. Prepared by Kingsbury Creative, October 2026.</p>
+
+  <div class="note">
+    <p>Everything you save goes live on the website about a minute later. There is no separate publish button, so save only when you're happy for people to see it. If you save something by mistake, <a href="#undo">Undo a change</a> shows how to put it back.</p>
+  </div>
+
+  <nav aria-label="Contents">
+    <h3>In this guide</h3>
+    <ol>
+      <li><a href="#sign-in">Sign in</a></li>
+      <li><a href="#around">Find your way around</a></li>
+      <li><a href="#post">Add a Weekly post</a></li>
+      <li><a href="#format">Format the text</a></li>
+      <li><a href="#paper">Add a paper and its PDF</a></li>
+      <li><a href="#page">Change the text on a page</a></li>
+      <li><a href="#undo">Undo a change</a></li>
+      <li><a href="#delete">Remove a post or paper</a></li>
+      <li><a href="#insights">See who visits</a></li>
+      <li><a href="#search">Check search health</a></li>
+      <li><a href="#help">Getting help</a></li>
+    </ol>
+  </nav>
+
+  <section id="sign-in">
+    <h2>1. Sign in</h2>
+    <p>You don't need a password. The editor emails you a six-digit code each time you sign in.</p>
+    <p>The first email you get is an invitation from Kingsbury Creative, with the subject <em>You're invited to edit BeSciWorks</em> and a button marked <strong>Edit BeSciWorks</strong>. You can use that button, or just follow these steps with the same email address.</p>
+    <ol>
+      <li>Go to <a href="https://cms.kingsburycreative.com/besciworks">cms.kingsburycreative.com/besciworks</a>. Bookmark this address, because it's the one you'll use every time.</li>
+      <li>Type the email address we set up for you and choose <strong>Continue with email</strong>.</li>
+      <li>Check your inbox for an email from Kingsbury Creative with the code. It can take a minute to arrive, and it may land in your junk folder the first time.</li>
+      <li>Type the code into the box and sign in. The code stops working after 5 minutes, so if it has expired, ask for a new one.</li>
+    </ol>
+    <figure>
+      <img src="/guides/besciworks/img/01-sign-in.png" width="1165" height="874" alt="The sign-in page, with an email box and a Continue with email button.">
+      <figcaption>The sign-in page asks only for your email address.</figcaption>
+    </figure>
+    <p>After a few wrong codes in a row the editor makes you wait before you can try again. That's a security measure. Wait a few minutes, then ask for a fresh code.</p>
+  </section>
+
+  <section id="around">
+    <h2>2. Find your way around</h2>
+    <p>After you sign in you land on the dashboard. It's the front page of the editor: it shows how the site is doing and has buttons for the jobs you do most.</p>
+    <figure>
+      <img src="/guides/besciworks/img/02-dashboard.jpg" width="1316" height="915" alt="The BeSciWorks dashboard. At the top are the site name and a See live site button, then four quick action buttons, a chart of visits with 7, 30 and 90 day buttons, tiles for visitors, pages viewed and time on site, a list of recent changes and a search health panel.">
+      <figcaption>The dashboard, from the site name at the top to search health further down.</figcaption>
+    </figure>
+    <p>From the top down, the dashboard shows:</p>
+    <ul>
+      <li><strong>The site name and See live site.</strong> The name of your site is at the top. <strong>See live site</strong> opens the BeSciWorks website in a new tab.</li>
+      <li><strong>Quick actions.</strong> <strong>New Weekly post</strong>, <strong>New paper</strong>, <strong>New Insight Brief</strong> and <strong>Upload a PDF</strong> take you straight to a blank form or the upload screen.</li>
+      <li><strong>Visits.</strong> A chart of how many people visited, which you can show for 7, 30 or 90 days, with tiles beside it for visitors, pages viewed and time on site. <a href="#insights">See who visits</a> has more.</li>
+      <li><strong>Recent changes.</strong> Who changed what, and when. Choose <strong>See all changes</strong> under the list to see every change on the site.</li>
+      <li><strong>Search health.</strong> Pages that need a fix so Google can describe them properly. <a href="#search">Check search health</a> explains it.</li>
+      <li><strong>Most viewed pages</strong> and <strong>Where visitors come from.</strong> The pages people read most, and the towns they visit from.</li>
+    </ul>
+    <p>The menu runs down the left side of every screen, so you can jump to another part of the site at any time. On a phone, choose the menu button at the top left to open it.</p>
+    <figure>
+      <img src="/guides/besciworks/img/14-pages-menu.jpg" width="1316" height="915" alt="The left menu with Pages opened. Weekly, What Works, Insight Briefs and Papers are listed first, and Home page, About page and the other single pages sit under Pages.">
+      <figcaption>The menu. Pages is open here to show the single pages inside it.</figcaption>
+    </figure>
+    <p>The collections come first: <strong>Weekly</strong>, <strong>What Works</strong>, <strong>Insight Briefs</strong> and <strong>Papers</strong>. Each holds many entries, you can add new ones, and each entry gets its own page on the site. <strong>Media</strong> holds the PDF files for your papers.</p>
+    <p>The single pages, such as the Home page and About page, are folded under one entry called <strong>Pages</strong>. Choose it to open the list, then pick the page you want. You can change the text on these pages, but you can't add or remove the page itself. The short introductions at the top of the Weekly, What Works, Insight Briefs and Papers pages are in there too.</p>
+  </section>
+
+  <section id="post">
+    <h2>3. Add a Weekly post</h2>
+    <p>These steps work the same way for What Works and Insight Briefs. Only the name in the list changes.</p>
+    <div class="note">
+      <p>The fast way in is the <strong>New Weekly post</strong> button on the dashboard. It opens a blank post, so you can skip to step 3.</p>
+    </div>
+    <ol>
+      <li>Choose <strong>Weekly</strong> in the list on the left.</li>
+      <li>Choose <strong>Add an entry</strong> at the top right.</li>
+      <li>Fill in the <strong>Title</strong>. This becomes the heading of the post and part of its web address.</li>
+      <li>Write the <strong>Description</strong>. It's the short summary Google shows under your link in search results, and it must be between 120 and 155 characters. The box tells you if it's too short or too long.</li>
+      <li>Check the <strong>Date</strong>. It fills in today's date for you.</li>
+      <li>Under <strong>Authors</strong>, choose <strong>Add an item</strong> and type each author's name.</li>
+      <li>Write or paste the post into the <strong>Text</strong> box. <a href="#format">Format the text</a> shows how to add headings, links and lists.</li>
+      <li>Choose <strong>Save</strong> at the top right.</li>
+    </ol>
+    <figure>
+      <img src="/guides/besciworks/img/03-new-weekly.jpg" width="1165" height="874" alt="A new Weekly entry form with Title, Description, Date, Updated, Authors, Abbreviations, References and Text fields.">
+      <figcaption>A new Weekly post. Fields marked Required have to be filled in before it will save.</figcaption>
+    </figure>
+    <p>If something is missing or in the wrong format, the box turns red and a message under it says what to fix. Nothing is saved until every red box is fixed.</p>
+    <h3>Changing a post later</h3>
+    <p>Open the collection, choose the post's title in the list, make your change and save. When you correct a post that's already been published, change the <strong>Updated</strong> date as well, so readers can see it was revised.</p>
+    <h3>References and abbreviations</h3>
+    <p><strong>References</strong> adds a reference list at the end of the post: author, year, title and, if there is one, a link or DOI. <strong>Abbreviations</strong> lets you spell out a short form (for example OECD) once, and the site shows the full name to readers who hover over it or use a screen reader.</p>
+  </section>
+
+  <section id="format">
+    <h2>4. Format the text</h2>
+    <p>The Text box uses a few simple symbols for formatting. Type them as shown, and the website turns them into headings, links and lists when it publishes.</p>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">To get</th><th scope="col">Type</th></tr></thead>
+      <tbody>
+        <tr><td>A heading</td><td><code>## Why this matters</code> on its own line</td></tr>
+        <tr><td>A smaller heading</td><td><code>### What we found</code></td></tr>
+        <tr><td>Bold</td><td><code>**important words**</code></td></tr>
+        <tr><td>Italics</td><td><code>*a book title*</code></td></tr>
+        <tr><td>A link</td><td><code>[Statistics Canada](https://www.statcan.gc.ca)</code></td></tr>
+        <tr><td>A bulleted list</td><td>Start each line with <code>- </code></td></tr>
+        <tr><td>A numbered list</td><td>Start each line with <code>1. </code>, <code>2. </code> and so on</td></tr>
+        <tr><td>A quotation</td><td>Start the line with <code>&gt; </code></td></tr>
+        <tr><td>A footnote</td><td><code>[^1]</code> in the sentence, then <code>[^1]: The note.</code> at the end of the text</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p>Leave a blank line between paragraphs. Pasting from Word works, but bold, italics and links won't carry over, so add them again with the symbols above.</p>
+  </section>
+
+  <section id="paper">
+    <h2>5. Add a paper and its PDF</h2>
+    <p>Each paper has its own page on the site, with its abstract, citation details and a download link for the PDF.</p>
+    <ol>
+      <li>Choose <strong>Papers</strong> in the list on the left, then <strong>Add an entry</strong>. The <strong>New paper</strong> button on the dashboard gets you to the same blank form in one step.</li>
+      <li>Fill in the <strong>Title</strong>, then add each author in order under <strong>Authors, in order</strong>. Their ORCID and affiliation are optional.</li>
+      <li>Choose the <strong>Type</strong> and the <strong>Status</strong>. Every type except a preprint needs the journal, publisher or series filled in.</li>
+      <li>Fill in whatever citation details you have: volume, issue, pages, a link, ISBN or ISSN, keywords and JEL codes. Leave the rest blank.</li>
+      <li>Paste the <strong>Abstract</strong>.</li>
+      <li>Under <strong>PDF</strong>, choose <strong>Upload</strong> and pick the file from your computer. It has to be a PDF of 25 MB or less. Wait until the file name appears in the box.</li>
+      <li>Add the <strong>DOI</strong> if the paper has one, then choose <strong>Save</strong>.</li>
+    </ol>
+    <figure>
+      <img src="/guides/besciworks/img/05-paper-pdf.jpg" width="1165" height="874" alt="The bottom of a paper entry, showing the Abstract, the uploaded PDF file and the DOI field.">
+      <figcaption>Once the upload finishes, the file name shows in the PDF box.</figcaption>
+    </figure>
+    <p>The file is renamed when it uploads: <code>Mills Paper 2026 Final.PDF</code> becomes <code>mills-paper-2026-final.pdf</code>. That's on purpose, so the download link works everywhere.</p>
+    <p>To use a PDF you've already uploaded, choose <strong>Select</strong> instead of Upload and pick it from the list. The <strong>Upload a PDF</strong> button on the dashboard adds a file to Media without starting a paper, which helps when you want the file there before you write the entry.</p>
+  </section>
+
+  <section id="page">
+    <h2>6. Change the text on a page</h2>
+    <ol>
+      <li>Choose <strong>Pages</strong> in the list on the left to open it, then choose the page, for example <strong>Home page</strong>.</li>
+      <li>Each box is labelled with the part of the page it controls: the heading, the paragraph under it, a button's wording and so on. Change the words you want.</li>
+      <li>Choose <strong>Save</strong>.</li>
+    </ol>
+    <figure>
+      <img src="/guides/besciworks/img/06-page-editor.jpg" width="699" height="524" alt="The Home page editor, with boxes for the page title, description, and the hero's label, heading, lead and link.">
+      <figcaption>The Home page. The boxes run in the same order as the page itself, top to bottom.</figcaption>
+    </figure>
+    <p>The <strong>Page title</strong> (50 to 60 characters) is what shows in the browser tab and as the blue link in Google. The <strong>Description</strong> is the summary under that link. Both affect how the page appears in search, so change them with care.</p>
+    <h3>Longer writing on Our Approach</h3>
+    <p>Most pages have short boxes for headings and a few lines of text. <strong>Our Approach</strong> also has a <strong>Main text</strong> box for longer writing, such as the Theory of Change. It works like the Text box in a Weekly post, so <a href="#format">Format the text</a> shows how to add headings, links and lists.</p>
+  </section>
+
+  <section id="undo">
+    <h2>7. Undo a change</h2>
+    <p>Every save is kept, so nothing you change is lost for good.</p>
+    <ol>
+      <li>Open the post or page you want to put back.</li>
+      <li>Choose the clock button at the top right, next to Save. It lists the most recent changes and who made them.</li>
+      <li>Choose the change you want to go back to. If it isn't in the short list, choose <strong>See all changes</strong> to see every change on the site.</li>
+      <li>The change opens and shows the wording as it was then. Choose <strong>Restore this version</strong>.</li>
+      <li>The editor opens with the older wording filled in. Check it, then choose <strong>Save</strong>. It goes live again about a minute later.</li>
+    </ol>
+    <figure>
+      <img src="/guides/besciworks/img/08-page-history.jpg" width="699" height="524" alt="The Home page editor with the history list open, showing three recent changes and a See all changes link.">
+      <figcaption>The clock button shows recent changes to this page.</figcaption>
+    </figure>
+    <figure>
+      <img src="/guides/besciworks/img/09-restore.jpg" width="699" height="524" alt="An earlier version of the Home page, listing its wording section by section, with a Restore this version link at the top.">
+      <figcaption>An earlier version, with Restore this version at the top.</figcaption>
+    </figure>
+    <p><strong>Recent changes</strong> on the dashboard shows the latest changes across the whole site, and <strong>See all changes</strong> under it lists every one, newest first.</p>
+  </section>
+
+  <section id="delete">
+    <h2>8. Remove a post or paper</h2>
+    <ol>
+      <li>Open the post or paper.</li>
+      <li>Choose the three dots at the top right, then <strong>Delete</strong>, and confirm.</li>
+    </ol>
+    <figure>
+      <img src="/guides/besciworks/img/10-delete.jpg" width="1165" height="874" alt="A paper entry with the three-dot menu open, showing Rename and Delete.">
+      <figcaption>Delete is in the three-dot menu.</figcaption>
+    </figure>
+    <p>Deleting a paper leaves its PDF in <strong>Media</strong>. To remove the file as well, open Media, choose the three dots next to the file and delete it there.</p>
+    <div class="note">
+      <p>Avoid <strong>Rename</strong> on anything already published. Renaming changes the page's web address, so links people have shared or saved stop working. If a title needs to change, edit the Title box and leave the name alone.</p>
+    </div>
+  </section>
+
+  <section id="insights">
+    <h2>9. See who visits</h2>
+    <p>Choose <strong>Insights</strong> to see how many people visited, the pages they read most, roughly where they are, and how they found the site. The charts can show the last 7, 30 or 90 days: choose the number of days above the chart. Move your pointer over the chart (or touch it on a phone) to see the visits for a single day.</p>
+    <figure>
+      <img src="/guides/besciworks/img/13-insights-charts.jpg" width="1316" height="915" alt="The Insights page with buttons for the last 7, 30 and 90 days above two charts, one of visits and one of page views, and panels below for visitors, time on site, top towns, top pages and how people found the site.">
+      <figcaption>Insights, drawn from Cloudflare and Google Analytics. The dashboard shows a shorter version of the visits chart.</figcaption>
+    </figure>
+    <p>The visitor count includes everyone. Numbers from visitors who allowed analytics are marked <em>From visitors who allowed analytics</em>. They count only people who said yes to the cookie card, so they are lower than the visitor count.</p>
+  </section>
+
+  <section id="search">
+    <h2>10. Check search health</h2>
+    <p>When someone searches for BeSciWorks, Google shows a page's title and a short description under its link. <strong>Search health</strong> on the dashboard checks that each page has them, and that the headings and picture descriptions on the page are in order. It shows how many pages pass, for example 12 of 14.</p>
+    <figure>
+      <img src="/guides/besciworks/img/12-search-health.png" width="545" height="330" alt="The Search health panel, showing 9 of 9 pages pass, the words Every checked page passes, and no pages to fix.">
+      <figcaption>Search health when every page passes: 9 of 9, and nothing to fix. Any page that needs a fix is listed here, with its name to choose.</figcaption>
+    </figure>
+    <p>The <strong>pages to fix</strong> are the ones that need attention first, and the list shows at most three. Each has a short reason beside it, such as <em>No description</em>. Pages that pass are folded away. Choose the line that counts them to see which ones they are.</p>
+    <p>You fix a page on the page itself. Choose its name in the list, fill in the box the reason points to (for a missing description, the <strong>Description</strong> box, which has to be 120 to 155 characters), and choose <strong>Save</strong>.</p>
+    <p>Below the list, a note may say that some posts are hard to read. That is advice for easier reading and does not count against the score. Papers aren't part of this check. If the panel says it couldn't check your pages, your site is still live, so try again in a few minutes.</p>
+  </section>
+
+  <section id="help">
+    <h2>11. Getting help</h2>
+    <p>If something won't save, looks wrong on the site, or you'd like a new field or page added, email Rob at Kingsbury Creative: <a href="mailto:hello@kingsburycreative.com">hello@kingsburycreative.com</a>. A screenshot of the screen you're on helps.</p>
+    <p>You can't break the website from the editor. If a change has a problem the site can't publish, the last working version stays live. A wrong edit can be put back with the clock button on the page, and if you delete something by accident, email Rob and he can restore it.</p>
+  </section>
+</main>
+</body>
+</html>
