@@ -72,6 +72,35 @@ test("shortHref leaves other paths alone", () => {
   assert.equal(shortHref("/KingsburyCreative/x/main/y?q=1#h"), "/x/y?q=1#h");
 });
 
+test("a full path with main as its fifth segment gives null", () => {
+  assert.equal(resolveShort("/kingsburycreative/site/main/x/main", "GET"), null);
+  assert.equal(resolveShort("/kingsburycreative/site/main/edit/main", "GET"), null);
+});
+
+test("every redirect rewrites back to the same full path", () => {
+  const paths = [
+    "/kingsburycreative/site/main",
+    "/kingsburycreative/site/main/x",
+    "/kingsburycreative/site/main/x/main",
+    "/kingsburycreative/site/main/main",
+    "/kingsburycreative/site/main/edit/main",
+    "/kingsburycreative/site/main/x/y/main",
+    "/kingsburycreative/site/main/x/y/main/z",
+    "/kingsburycreative/site/main/x/%6Dain",
+    "/kingsburycreative/site/main/history?a=1#b",
+    "/kingsburycreative/site/main/x/main?q=1",
+  ];
+  let redirects = 0;
+  for (const p of paths) {
+    const r = resolveShort(p, "GET");
+    if (r && "redirect" in r) {
+      redirects++;
+      assert.deepEqual(resolveShort(r.redirect, "GET"), { rewrite: p }, p);
+    }
+  }
+  assert.ok(redirects >= 4);
+});
+
 test("20 sample full paths round trip", () => {
   const rests = [
     "",

@@ -861,5 +861,22 @@
     "verified_at": "2026-10-26T20:57:00.484Z",
     "tree": "53fc287ff38a848e84b2d0b9e98387393ea51e24556f93e3ffe55f38129bc767",
     "gate": "full"
+  },
+  {
+    "id": "short-url-main-segment",
+    "title": "Full-path redirect checks the right segment",
+    "brief": ".claude/work/59-short-url-main-segment/brief.md",
+    "start_sha": "fb97379663578d84226204c052426cff7f445dcb",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T20:59:33.223Z",
+      "start_sha": "fb97379663578d84226204c052426cff7f445dcb",
+      "mutation_evidence": true,
+      "tree": "7221e25938c0a1230d8a085400014e60a8f10418f05245878c677080864a0249",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T21:00:09.037Z",
+    "tree": "7221e25938c0a1230d8a085400014e60a8f10418f05245878c677080864a0249",
+    "gate": "full"
   }
 ]

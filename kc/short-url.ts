@@ -76,7 +76,7 @@ export function resolveShort(pathname: string, method: string): ShortResult {
     if (m !== "GET" && m !== "HEAD") return null;
     if (segments.length < 3) return null;
     if (repoName(segments[1]) === null) return null;
-    if (segments[2] !== BRANCH || looksLikeBranch(segments[5])) return null;
+    if (segments[2] !== BRANCH || looksLikeBranch(segments[4])) return null;
     const rest = segments.slice(3).join("/");
     return { redirect: `/${segments[1]}${rest ? `/${rest}` : ""}${suffix}` };
   }
