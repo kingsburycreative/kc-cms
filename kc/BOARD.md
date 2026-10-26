@@ -2,7 +2,6 @@
 
 ## Now
 
-- **short-url-main-segment** (card 54 audit A, before deploy): kc/short-url.ts:79 checks segments[5], should be [4]; add a redirect-then-rewrite round-trip test.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -49,6 +48,8 @@
 
 
 ## Done
+
+- **short-url-main-segment**: the full-path redirect now checks the right segment, with a round-trip test (`.claude/work/59-short-url-main-segment/result.md`).
 
 - **60**: dashboard brought to the approved mockup on feat/60-dashboard-mockup (`.claude/work/58-dashboard-mockup/result.md`). Not seen in a browser; needs the map `pages` entry and a Pages-read token before the publish line shows.
 
