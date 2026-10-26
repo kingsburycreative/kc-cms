@@ -555,5 +555,22 @@
     "verified_at": "2026-10-26T18:01:47.770Z",
     "tree": "3095fbb6f12da22a52ac65f30b27048b5218cd489780b8e31c4c96d8d8999888",
     "gate": "full"
+  },
+  {
+    "id": "29",
+    "title": "Insights chart component on uPlot",
+    "brief": ".claude/work/40-insights-chart/brief.md",
+    "start_sha": "d80de1d17a88540984434c6405b3e0a6f5dee728",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T18:05:19.701Z",
+      "start_sha": "d80de1d17a88540984434c6405b3e0a6f5dee728",
+      "mutation_evidence": true,
+      "tree": "5efd1fe753cd935cb830a8f7928bc1ca1fd90040d148850e7cc6c5d2f63b5ca7",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T18:06:09.762Z",
+    "tree": "5efd1fe753cd935cb830a8f7928bc1ca1fd90040d148850e7cc6c5d2f63b5ca7",
+    "gate": "full"
   }
 ]

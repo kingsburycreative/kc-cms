@@ -2,7 +2,6 @@
 
 ## Now
 
-- **29**: Insights chart component on uPlot with a range toggle (`.claude/work/38-plan-insights-charts/plan.md` card 29)
 - **30**: Charts on the Insights page, with their copy (`.claude/work/38-plan-insights-charts/plan.md` card 30)
 - **31**: Security audit of kc/insights/ (`.claude/work/38-plan-insights-charts/plan.md` card 31)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
@@ -35,6 +34,7 @@
 
 ## Done
 
+- **29** insights-chart: committed on feat/29-insights-chart; chart component on uPlot (loaded lazily) with a 7/30/90 toggle, summary sentence, shimmer skeleton and a numbers table. Not wired into the page yet (card 30), not seen in a browser.
 - **26** phone-menu: committed on feat/26-phone-menu, gate green, no audit (not a risky path); dashboard, History and Insights set the page header so the phone menu button shows, and History labels every nested value by path instead of printing JSON. Not seen at 375; History and Insights show their title twice on desktop.
 - **otp-atomic-limit**: committed on feat/otp-atomic-limit, gate green, audit found nothing; OTP sends and sign-ins are counted before they run: 10 per IP first, then 5 per email and IP together, then 30 per email across IPs, so one attacker cannot lock out a client signing in from elsewhere. Disabled OTP paths 404 in the same hook. In memory on the one process.
 - **email-verified-trust**: committed on feat/email-verified-trust, gate green, audit found nothing; GitHub is no longer trusted for automatic account linking, unclaimed invites match by email only when verified, and admin access needs a verified email.

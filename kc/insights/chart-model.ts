@@ -1,0 +1,49 @@
+// Pure text and row helpers for the Insights chart. No React and no uplot,
+// so the test runner can load it.
+
+import type { Range, SeriesPoint } from "./series.ts";
+
+export type Metric = "visits" | "views";
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const NAMES: Record<Metric, { one: string; many: string }> = {
+  visits: { one: "visit", many: "visits" },
+  views: { one: "page view", many: "page views" },
+};
+
+export const METRIC_TITLES: Record<Metric, string> = { visits: "Visits", views: "Page views" };
+
+const trim = (n: number, digits: number) => n.toFixed(digits).replace(/\.?0+$/, "");
+
+// 950 -> 950, 3690 -> 3.69k, 12345 -> 12.3k, 250000 -> 250k.
+export function compact(n: number): string {
+  if (n < 1000) return String(n);
+  if (n < 10000) return `${trim(n / 1000, 2)}k`;
+  if (n < 100000) return `${trim(n / 1000, 1)}k`;
+  return `${Math.round(n / 1000)}k`;
+}
+
+// "2026-10-26" -> "Oct 26".
+export function axisLabel(day: string): string {
+  const [, m, d] = day.split("-");
+  return `${MONTHS[Number(m) - 1]} ${Number(d)}`;
+}
+
+export const total = (days: SeriesPoint[], metric: Metric) => days.reduce((sum, p) => sum + p[metric], 0);
+
+const noun = (metric: Metric, n: number) => (n === 1 ? NAMES[metric].one : NAMES[metric].many);
+
+export function summarySentence(metric: Metric, sum: number, range: Range): string {
+  return `${sum === 0 ? "No" : compact(sum)} ${noun(metric, sum)} in the last ${range} days`;
+}
+
+export function tooltipText(day: string, metric: Metric, value: number): string {
+  return `${axisLabel(day)}: ${compact(value)} ${noun(metric, value)}`;
+}
+
+export type TableRow = { day: string; label: string; visits: number; views: number };
+
+// One row per day, newest first.
+export function tableRows(days: SeriesPoint[]): TableRow[] {
+  return days.map((p) => ({ day: p.day, label: axisLabel(p.day), visits: p.visits, views: p.views })).reverse();
+}

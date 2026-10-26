@@ -111,3 +111,6 @@
 ## 2026-10-26 insights-series (plan 38 card 28, checklist 28)
 - Top Now card. Branch feat/28-insights-series from main at 329cfed. Opus worker, risky path (kc/insights/). Scope ok with mutation evidence (UTC bucketing failed the late-evening test; GA4-first failed both-sources and fallback). Diff read, tests all new, existing query untouched. Cache keyed by a caller-given site string; failures not cached. Sent to the loop's gate with an audit.
 - Round two: tsc failed on the test helper's return type; Opus worker made it generic, one line, no assertion changed. Scope ok; back to the gate with the audit.
+
+## 2026-10-26 insights-chart (plan 38 card 29, checklist 29)
+- Top Now card; uplot 1.6.32 already installed. Branch feat/29-insights-chart from feat/28-insights-series at d80de1d. Sonnet worker, Normal, not a risky path. Scope ok with mutation evidence (top-level uplot import failed the lazy-load test; dropping the table failed the markers test). Diff read, three new files, no existing file touched. Copy skills ran per the worker. tsc and eslint left to the loop's gate. Sent to the gate.
