@@ -1,0 +1,2 @@
+- Skills run (prose, avoid-ai-writing, humanizer, avoid-ai-design). Wrote index.html and mockup.css.
+- Round 2: hardened mockup.css grids, retook both PNGs full-page via CDP, viewed phone-375.png (no clipping), done-test green. Finished.

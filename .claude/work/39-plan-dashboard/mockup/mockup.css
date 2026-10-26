@@ -1,0 +1,105 @@
+/* Dashboard mockup. Mobile first: base styles are the phone, desktop is layered on with min-width. */
+:root {
+  --ink: #17212b;
+  --muted: #566573;
+  --line: #d9e0e6;
+  --tint: #eef6f6;
+  --accent: #0e6b6b;
+  --warn: #8a3b00;
+  --bad: #a11d2e;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font: 16px/1.5 system-ui, "Segoe UI", sans-serif;
+  color: var(--ink);
+  background: #fff;
+}
+a, button {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  font: inherit;
+  color: var(--accent);
+}
+a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+button {
+  padding: 0 16px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--accent);
+  color: #fff;
+  cursor: pointer;
+}
+main { padding: 16px; max-width: 72rem; margin: 0 auto; }
+h1 { font-size: 1.75rem; margin: 0 0 4px; }
+h2 { font-size: 1.25rem; margin: 32px 0 12px; }
+h3 { font-size: 1rem; margin: 0 0 8px; }
+.site { color: var(--muted); margin: 0 0 16px; }
+.note { color: var(--muted); font-size: 0.875rem; margin: 0 0 12px; }
+
+.tiles, .cards, .edits { list-style: none; margin: 0; padding: 0; }
+.tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.tile, .card, .edits li { min-width: 0; overflow-wrap: anywhere; }
+.tile {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 12px;
+}
+.tile .num { display: block; font-size: 2rem; font-weight: 700; line-height: 1.1; }
+.tile .label { color: var(--muted); font-size: 0.875rem; }
+.tile.fix { border-color: var(--warn); }
+.tile.fix .num { color: var(--warn); }
+
+.cards { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; margin-top: 12px; }
+.card {
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 16px;
+  min-height: 9rem;
+}
+.card p { margin: 0 0 8px; }
+.card.staff { background: var(--tint); }
+.big { font-size: 1.75rem; font-weight: 700; margin: 0; }
+.ok { color: var(--accent); }
+.problem { color: var(--bad); }
+
+.edits { border: 1px solid var(--line); border-radius: 6px; }
+.edits li { padding: 12px; border-top: 1px solid var(--line); display: grid; gap: 2px; }
+.edits li:first-child { border-top: 0; }
+.edits .when { color: var(--muted); font-size: 0.875rem; }
+.edits .path { color: var(--muted); font-size: 0.75rem; overflow-wrap: anywhere; }
+
+.skeleton {
+  display: block;
+  height: 1rem;
+  margin: 0 0 10px;
+  border-radius: 4px;
+  background: var(--line);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+.skeleton.wide { width: 80%; }
+.skeleton.short { width: 40%; }
+.skeleton.tall { height: 2rem; width: 50%; }
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+}
+
+@media (min-width: 640px) {
+  main { padding: 24px; }
+  .tiles { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .edits li { grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; column-gap: 16px; }
+  .edits .path { grid-column: 1 / -1; }
+}
+@media (min-width: 1024px) {
+  main { padding: 32px; }
+  h1 { font-size: 2.25rem; }
+  .edits li { grid-template-columns: minmax(0, 2fr) minmax(0, 1fr) minmax(0, 2fr); }
+  .edits .path { grid-column: auto; text-align: right; }
+}

@@ -2,7 +2,6 @@
 
 ## Now
 
-- **33**: Dashboard design mockup at 375 and 1280 for Rob's approval (`.claude/work/39-plan-dashboard/plan.md` card 33)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 

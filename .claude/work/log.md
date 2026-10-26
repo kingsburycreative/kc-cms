@@ -107,3 +107,6 @@
 
 ## 2026-10-23 otp-atomic-limit (board Now, resumed from wip b87d389)
 - Branch feat/otp-atomic-limit from main at e15bdc3 (PR #50 merged). Opus worker, risky path (lib/auth.ts). Scope ok with mutation evidence (tight limit keyed on email only: three tests failed, restored green); diff read, tests all new. Counts before checking: per IP 10 first, then 5 per email and IP together, then 30 per email across IPs; each refusal stops before the next counter; hooks.before also 404s the disabled paths. Worker reports the runner ignored the file argument and ran the whole kc suite each time. Sent to the loop's gate with an audit (lib/auth.ts).
+
+## 2026-10-26 33 dashboard-mockup (board Now)
+- Cards 19 and 20 still wait on card 06. Branch feat/33-dashboard-mockup from main at 0e7f0a7. Sonnet worker, Normal. Scope ok with mutation evidence (uppercase and max-width each failed their test). First phone screenshot looked clipped at the right; second round found Chrome's window-size cropped a wider layout, retook with a true 375 viewport and hardened the grid. Viewed: nothing clipped. Sent to the loop's gate, no audit (not a risky path).

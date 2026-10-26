@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard mockup</title>
+<link rel="stylesheet" href="mockup.css">
+</head>
+<body>
+<main>
+  <h1>Dashboard</h1>
+  <p class="site">BeSciWorks</p>
+
+  <h2>Client view</h2>
+  <ul class="tiles">
+    <li class="tile"><span class="num">3</span><span class="label">Collections</span></li>
+    <li class="tile"><span class="num">14</span><span class="label">Pages</span></li>
+    <li class="tile"><span class="num">412</span><span class="label">Visits this month</span></li>
+    <li class="tile fix"><span class="num">2</span><span class="label">Pages to fix</span></li>
+  </ul>
+  <ul class="cards">
+    <li class="card">
+      <h3>Visits</h3>
+      <p class="big">412</p>
+      <p class="note">Visits to your site in the last 30 days.</p>
+      <a href="#insights">See the full report</a>
+    </li>
+    <li class="card">
+      <h3>Search health</h3>
+      <p class="big problem">2 pages to fix</p>
+      <p class="note">12 of your 14 pages are fine for Google.</p>
+      <a href="#search">See which pages</a>
+    </li>
+    <li class="card">
+      <h3>Version</h3>
+      <p class="big ok">Up to date</p>
+      <p class="note">Your site was last published on 21 October.</p>
+    </li>
+  </ul>
+
+  <h2>Recent edits</h2>
+  <ul class="edits">
+    <li><span>Home</span><span class="when">26 Oct by Dana</span><span class="path">content/pages/home.md</span></li>
+    <li><span>About the lab</span><span class="when">24 Oct by Dana</span><span class="path">content/pages/about.md</span></li>
+    <li><span>Contact</span><span class="when">22 Oct by Sam</span><span class="path">content/pages/contact.md</span></li>
+    <li><span>Spring workshop</span><span class="when">21 Oct by Sam</span><span class="path">content/events/spring-workshop.md</span></li>
+    <li><span>Team</span><span class="when">18 Oct by Dana</span><span class="path">content/pages/team.md</span></li>
+    <li><span>Kit list</span><span class="when">15 Oct by Dana</span><span class="path">content/resources/kit-list.md</span></li>
+    <li><span>Safety</span><span class="when">12 Oct by Sam</span><span class="path">content/pages/safety.md</span></li>
+    <li><span>Newsletter</span><span class="when">9 Oct by Dana</span><span class="path">content/pages/newsletter.md</span></li>
+  </ul>
+
+  <h2>Staff view</h2>
+  <p class="note">Staff see everything the client sees, plus these cards.</p>
+  <ul class="cards">
+    <li class="card staff">
+      <h3>Visits</h3>
+      <p class="big">412</p>
+      <p class="note">Last 30 days. Read from Google Analytics property 4471.</p>
+    </li>
+    <li class="card staff">
+      <h3>Search health</h3>
+      <p class="big problem">2 pages to fix</p>
+      <p class="note">Missing description on Safety and Newsletter.</p>
+    </li>
+    <li class="card staff">
+      <h3>Version</h3>
+      <p class="big ok">Up to date</p>
+      <p class="note">Running 1.4.2 on cms.kingsburycreative.com.</p>
+      <a href="#repo">Open the repository</a>
+    </li>
+  </ul>
+
+  <h2>Loading</h2>
+  <p class="note">Each card keeps its shape until the data arrives.</p>
+  <ul class="cards">
+    <li class="card" aria-busy="true">
+      <h3>Visits</h3>
+      <span class="skeleton tall"></span>
+      <span class="skeleton wide"></span>
+      <span class="skeleton short"></span>
+    </li>
+    <li class="card" aria-busy="true">
+      <h3>Search health</h3>
+      <span class="skeleton tall"></span>
+      <span class="skeleton wide"></span>
+      <span class="skeleton short"></span>
+    </li>
+    <li class="card" aria-busy="true">
+      <h3>Version</h3>
+      <span class="skeleton tall"></span>
+      <span class="skeleton wide"></span>
+      <span class="skeleton short"></span>
+    </li>
+  </ul>
+
+  <h2>Empty or failed</h2>
+  <ul class="cards">
+    <li class="card">
+      <h3>Visits</h3>
+      <p class="big">0</p>
+      <p class="note">No visits yet. They will show here once people find your site.</p>
+    </li>
+    <li class="card">
+      <h3>Search health</h3>
+      <p class="big problem">Not available</p>
+      <p class="note">We could not check your pages just now.</p>
+      <button type="button">Try again</button>
+    </li>
+    <li class="card">
+      <h3>Version</h3>
+      <p class="big problem">Not available</p>
+      <p class="note">We could not read the version. Your site is still live.</p>
+      <button type="button">Try again</button>
+    </li>
+  </ul>
+</main>
+</body>
+</html>
