@@ -58,8 +58,25 @@ test("no filled and outline buttons in one parent", () => {
   assert.doesNotMatch(css, /\.(btn-)?(outline|ghost)/);
 });
 
-test("screenshots exist at 375 and 1280 wide", () => {
-  for (const [name, width] of [["phone-375.png", 375], ["desktop-1280.png", 1280]] as const) {
+test("motion runs only without a reduced-motion request", () => {
+  const js = readFileSync(new URL("mockup.js", dir), "utf8");
+  assert.match(js, /matchMedia\('\(prefers-reduced-motion: reduce\)'\)/);
+  assert.match(js, /if \(still\) return;/);
+  const block = css.match(/@media \(prefers-reduced-motion: no-preference\)\s*\{([^]*?)\n\}/);
+  assert.ok(block, "no-preference block");
+  for (const name of ["draw", "ring", "grow", "beat"]) {
+    const use = new RegExp(`animation:\\s*${name}\\b`);
+    assert.match(block[1], use, `${name} sits inside the no-preference block`);
+    assert.doesNotMatch(css.replace(block[0], ""), use, `${name} is not used outside it`);
+  }
+});
+
+test("the live site link opens a new tab safely", () => {
+  assert.match(html, /<a class="live-link" href="https:\/\/besciworks\.com" target="_blank" rel="noopener">/);
+});
+
+test("screenshots exist at 375, 1024 and 1280 wide", () => {
+  for (const [name, width] of [["phone-375.png", 375], ["desktop-1024.png", 1024], ["desktop-1280.png", 1280]] as const) {
     const url = new URL(name, dir);
     assert.ok(existsSync(url), name);
     const buf = readFileSync(url);

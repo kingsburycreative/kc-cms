@@ -5,204 +5,261 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dashboard mockup</title>
 <link rel="stylesheet" href="mockup.css">
+<script src="mockup.js" defer></script>
 </head>
 <body>
-<main>
-  <header class="top">
-    <h1>BeSciWorks</h1>
-    <p class="status"><svg class="status-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8.5l3 3 7-7"/></svg>Your site is up to date</p>
-    <p class="sample">Sample numbers for this mockup.</p>
+<div class="app">
+  <header class="topbar">
+    <button type="button" class="menu-btn" aria-expanded="false" aria-controls="sidebar">
+      <svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      <span class="visually-hidden">Open the menu</span>
+    </button>
+    <span class="topbar-name">BeSciWorks Dashboard</span>
   </header>
 
-  <section class="actions" aria-labelledby="actions-h">
-    <h2 id="actions-h" class="visually-hidden">Add something new</h2>
-    <ul class="action-list">
-      <li><a class="action" href="#new-weekly"><span class="action-icon" aria-hidden="true">+</span>New Weekly post</a></li>
-      <li><a class="action" href="#new-paper"><span class="action-icon" aria-hidden="true">+</span>New paper</a></li>
-      <li><a class="action" href="#new-brief"><span class="action-icon" aria-hidden="true">+</span>New Insight Brief</a></li>
-      <li><a class="action" href="#upload"><span class="action-icon" aria-hidden="true">&#8593;</span>Upload a PDF</a></li>
-    </ul>
-  </section>
+  <nav id="sidebar" class="sidebar" aria-label="Site sections">
+    <a class="side-head" href="#dashboard" aria-current="page"><svg class="mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><circle cx="16" cy="16" r="12"/></svg><span>BeSciWorks Dashboard</span></a>
+    <div class="side-group">
+      <p class="side-label">Content</p>
+      <ul>
+        <li><a class="nav-link" href="#pages"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 3h8l4 4v14H6z"/><path d="M14 3v4h4"/></svg><span>Pages</span><svg class="nav-chevron" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9 6l6 6-6 6"/></svg></a></li>
+        <li><a class="nav-link" href="#weekly"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h12v12H4z"/><path d="M8 3h12v12"/></svg><span>Weekly</span></a></li>
+        <li><a class="nav-link" href="#what-works"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h12v12H4z"/><path d="M8 3h12v12"/></svg><span>What Works</span></a></li>
+        <li><a class="nav-link" href="#insight-briefs"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h12v12H4z"/><path d="M8 3h12v12"/></svg><span>Insight Briefs</span></a></li>
+        <li><a class="nav-link" href="#papers"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 6h12v12H4z"/><path d="M8 3h12v12"/></svg><span>Papers</span></a></li>
+      </ul>
+    </div>
+    <div class="side-group">
+      <p class="side-label">Media</p>
+      <ul><li><a class="nav-link" href="#media"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M3 6h6l2 2h10v11H3z"/></svg><span>Media</span></a></li></ul>
+    </div>
+    <div class="side-group">
+      <p class="side-label">Site</p>
+      <ul><li><a class="nav-link" href="#insights"><svg class="nav-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg><span>Insights</span></a></li></ul>
+    </div>
+    <div class="side-foot"><span class="avatar">DM</span><span>David Mills</span></div>
+  </nav>
+  <div class="backdrop" hidden></div>
 
-  <div class="grid">
-    <section class="panel visits" aria-labelledby="visits-h">
-      <div class="visits-head">
-        <div>
-          <h2 id="visits-h">Visits</h2>
-          <p class="visits-total"><span class="big">412</span> <span class="delta up"><span aria-hidden="true">&#9650;</span> 24%<span class="visually-hidden"> more than the 30 days before</span></span></p>
-          <p class="note">Last 30 days. 333 the 30 days before.</p>
-        </div>
-        <div class="range" role="group" aria-label="Date range">
-          <button type="button" class="range-btn" aria-pressed="false">7 days</button>
-          <button type="button" class="range-btn" aria-pressed="true">30 days</button>
-          <button type="button" class="range-btn" aria-pressed="false">90 days</button>
-        </div>
+  <main class="main" id="dashboard">
+  <div class="dash">
+    <header class="top">
+      <div class="top-text">
+        <h1>BeSciWorks</h1>
+        <p class="publish"><svg class="publish-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 8.5l3 3 7-7"/></svg>Published 2 minutes ago</p>
       </div>
-      <figure class="chart" role="img" aria-label="Visits per day from 27 September to 26 October. 412 in total. Busiest day 16 October with 24 visits.">
-        <div class="chart-plot">
-          <span class="gridline" style="--y:0%"><span>30</span></span>
-          <span class="gridline" style="--y:33.33%"><span>20</span></span>
-          <span class="gridline" style="--y:66.67%"><span>10</span></span>
-          <svg class="chart-svg" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <path class="chart-prev" d="M0 146.7 L20.7 126.7 L41.4 120 L62.1 113.3 L82.8 120 L103.4 133.3 L124.1 153.3 L144.8 160 L165.5 120 L186.2 113.3 L206.9 106.7 L227.6 120 L248.3 126.7 L269 146.7 L289.7 153.3 L310.3 120 L331 113.3 L351.7 113.3 L372.4 100 L393.1 106.7 L413.8 120 L434.5 146.7 L455.2 140 L475.9 120 L496.6 113.3 L517.2 106.7 L537.9 113.3 L558.6 120 L579.3 146.7 L600 140"/>
-            <path class="chart-area" d="M0 140 L20.7 106.7 L41.4 100 L62.1 93.3 L82.8 113.3 L103.4 120 L124.1 146.7 L144.8 153.3 L165.5 113.3 L186.2 100 L206.9 86.7 L227.6 106.7 L248.3 120 L269 140 L289.7 146.7 L310.3 106.7 L331 93.3 L351.7 100 L372.4 73.3 L393.1 40 L413.8 113.3 L434.5 140 L455.2 133.3 L475.9 100 L496.6 93.3 L517.2 80 L537.9 86.7 L558.6 106.7 L579.3 106.7 L600 93.3 L600 200 L0 200 Z"/>
-            <path class="chart-line" d="M0 140 L20.7 106.7 L41.4 100 L62.1 93.3 L82.8 113.3 L103.4 120 L124.1 146.7 L144.8 153.3 L165.5 113.3 L186.2 100 L206.9 86.7 L227.6 106.7 L248.3 120 L269 140 L289.7 146.7 L310.3 106.7 L331 93.3 L351.7 100 L372.4 73.3 L393.1 40 L413.8 113.3 L434.5 140 L455.2 133.3 L475.9 100 L496.6 93.3 L517.2 80 L537.9 86.7 L558.6 106.7 L579.3 106.7 L600 93.3"/>
+      <a class="live-link" href="https://besciworks.com" target="_blank" rel="noopener">See live site<svg class="live-icon" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M6 3h7v7M13 3L5 11"/></svg><span class="visually-hidden"> (opens in a new tab)</span></a>
+    </header>
+
+    <section class="actions" aria-labelledby="actions-h">
+      <h2 id="actions-h" class="visually-hidden">Add something new</h2>
+      <ul class="action-list">
+        <li><a class="action" href="#new-weekly"><span class="action-icon" aria-hidden="true">+</span>New Weekly post</a></li>
+        <li><a class="action" href="#new-paper"><span class="action-icon" aria-hidden="true">+</span>New paper</a></li>
+        <li><a class="action" href="#new-brief"><span class="action-icon" aria-hidden="true">+</span>New Insight Brief</a></li>
+        <li><a class="action" href="#upload"><span class="action-icon" aria-hidden="true">&#8593;</span>Upload a PDF</a></li>
+      </ul>
+    </section>
+
+    <div class="grid">
+      <section class="panel visits" aria-labelledby="visits-h" data-skeleton>
+        <div class="visits-head">
+          <div>
+            <h2 id="visits-h">Visits</h2>
+            <p class="visits-total"><span class="big" data-count="412" id="visits-total">412</span> <span class="delta up" id="visits-delta"><span aria-hidden="true">&#9650;</span> 24%<span class="visually-hidden"> on the period before</span></span></p>
+            <p class="note" id="visits-note">Last 30 days. 333 the 30 days before.</p>
+          </div>
+          <div class="range" role="group" aria-label="Date range">
+            <button type="button" class="range-btn" aria-pressed="false" data-range="7">7 days</button>
+            <button type="button" class="range-btn" aria-pressed="true" data-range="30">30 days</button>
+            <button type="button" class="range-btn" aria-pressed="false" data-range="90">90 days</button>
+          </div>
+        </div>
+        <figure class="chart" role="img" id="chart" aria-label="Visits per day from 27 September to 26 October. 412 in total. Busiest day 16 October with 24 visits.">
+          <div class="chart-plot" id="chart-plot">
+            <span class="gridline" style="--y:0%"><span>30</span></span>
+            <span class="gridline" style="--y:33.33%"><span>20</span></span>
+            <span class="gridline" style="--y:66.67%"><span>10</span></span>
+            <svg class="chart-svg" viewBox="0 0 600 200" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+              <path class="chart-prev" d="M0 146.7 L20.7 126.7 L41.4 120 L62.1 113.3 L82.8 120 L103.4 133.3 L124.1 153.3 L144.8 160 L165.5 120 L186.2 113.3 L206.9 106.7 L227.6 120 L248.3 126.7 L269 146.7 L289.7 153.3 L310.3 120 L331 113.3 L351.7 113.3 L372.4 100 L393.1 106.7 L413.8 120 L434.5 146.7 L455.2 140 L475.9 120 L496.6 113.3 L517.2 106.7 L537.9 113.3 L558.6 120 L579.3 146.7 L600 140"/>
+              <path class="chart-area" d="M0 140 L20.7 106.7 L41.4 100 L62.1 93.3 L82.8 113.3 L103.4 120 L124.1 146.7 L144.8 153.3 L165.5 113.3 L186.2 100 L206.9 86.7 L227.6 106.7 L248.3 120 L269 140 L289.7 146.7 L310.3 106.7 L331 93.3 L351.7 100 L372.4 73.3 L393.1 40 L413.8 113.3 L434.5 140 L455.2 133.3 L475.9 100 L496.6 93.3 L517.2 80 L537.9 86.7 L558.6 106.7 L579.3 106.7 L600 93.3 L600 200 L0 200 Z"/>
+              <path class="chart-line" d="M0 140 L20.7 106.7 L41.4 100 L62.1 93.3 L82.8 113.3 L103.4 120 L124.1 146.7 L144.8 153.3 L165.5 113.3 L186.2 100 L206.9 86.7 L227.6 106.7 L248.3 120 L269 140 L289.7 146.7 L310.3 106.7 L331 93.3 L351.7 100 L372.4 73.3 L393.1 40 L413.8 113.3 L434.5 140 L455.2 133.3 L475.9 100 L496.6 93.3 L517.2 80 L537.9 86.7 L558.6 106.7 L579.3 106.7 L600 93.3"/>
+            </svg>
+            <span class="crosshair" style="--x:65.52%"></span>
+            <span class="marker" style="--x:65.52%;--y:20.00%"></span>
+            <span class="tip" style="--x:65.52%;--y:20.00%">16 Oct<strong>24 visits</strong></span>
+          </div>
+          <div class="chart-x" aria-hidden="true"><span>27 Sep</span><span>4 Oct</span><span>11 Oct</span><span>18 Oct</span><span>26 Oct</span></div>
+        </figure>
+        <p class="legend"><span class="key key-now"></span>This period <span class="key key-prev"></span>Period before</p>
+        <a class="more" href="#insights">Open Insights</a>
+      </section>
+
+      <section class="kpis" aria-labelledby="kpis-h">
+        <h2 id="kpis-h" class="visually-hidden">Last 30 days compared with the 30 before</h2>
+        <ul class="kpi-list">
+          <li class="kpi" data-skeleton>
+            <span class="kpi-label">Visitors</span>
+            <span class="kpi-value" data-count="287">287</span>
+            <span class="delta up"><span aria-hidden="true">&#9650;</span> 12%<span class="visually-hidden"> on the 30 days before</span></span>
+            <svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="spark-area" d="M0 15.7 L13.3 13.6 L26.7 12.5 L40 14.6 L53.3 11.8 L66.7 9.3 L80 10.8 L93.3 7.9 L106.7 9 L120 6.2 L120 36 L0 36 Z"/><path class="spark-line" d="M0 15.7 L13.3 13.6 L26.7 12.5 L40 14.6 L53.3 11.8 L66.7 9.3 L80 10.8 L93.3 7.9 L106.7 9 L120 6.2"/></svg>
+          </li>
+          <li class="kpi" data-skeleton>
+            <span class="kpi-label">Pages viewed</span>
+            <span class="kpi-value" data-count="1036">1,036</span>
+            <span class="delta up"><span aria-hidden="true">&#9650;</span> 9%<span class="visually-hidden"> on the 30 days before</span></span>
+            <svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="spark-area" d="M0 13.3 L13.3 14.2 L26.7 11.5 L40 10.4 L53.3 12.4 L66.7 9.4 L80 7.6 L93.3 8.6 L106.7 6.9 L120 6.2 L120 36 L0 36 Z"/><path class="spark-line" d="M0 13.3 L13.3 14.2 L26.7 11.5 L40 10.4 L53.3 12.4 L66.7 9.4 L80 7.6 L93.3 8.6 L106.7 6.9 L120 6.2"/></svg>
+          </li>
+          <li class="kpi" data-skeleton>
+            <span class="kpi-label">Time on site</span>
+            <span class="kpi-value">1m 42s</span>
+            <span class="delta down"><span aria-hidden="true">&#9660;</span> 4%<span class="visually-hidden"> on the 30 days before</span></span>
+            <svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="spark-area" d="M0 6.7 L13.3 7.2 L26.7 6.2 L40 8.2 L53.3 7.7 L66.7 8.9 L80 8.4 L93.3 9.4 L106.7 8.7 L120 9.2 L120 36 L0 36 Z"/><path class="spark-line" d="M0 6.7 L13.3 7.2 L26.7 6.2 L40 8.2 L53.3 7.7 L66.7 8.9 L80 8.4 L93.3 9.4 L106.7 8.7 L120 9.2"/></svg>
+          </li>
+        </ul>
+        <p class="note">Last 30 days against the 30 before.</p>
+      </section>
+
+      <section class="panel activity" aria-labelledby="activity-h" data-skeleton>
+        <h2 id="activity-h">Recent changes</h2>
+        <ol class="feed">
+          <li><span class="avatar">DM</span><span class="feed-text">David updated the Home page</span><span class="when">2 hours ago</span></li>
+          <li><span class="avatar">DM</span><span class="feed-text">David added a Weekly post</span><span class="when">Yesterday</span></li>
+          <li><span class="avatar">DM</span><span class="feed-text">David uploaded a PDF to Papers</span><span class="when">3 days ago</span></li>
+          <li><span class="avatar avatar-staff">RK</span><span class="feed-text">Rob updated Pathways Connect</span><span class="when">5 days ago</span></li>
+          <li><span class="avatar">DM</span><span class="feed-text">David updated What We Do</span><span class="when">Last week</span></li>
+        </ol>
+        <a class="more" href="#history">See all changes</a>
+      </section>
+
+      <section class="panel health" aria-labelledby="health-h" data-skeleton>
+        <h2 id="health-h">Search health</h2>
+        <div class="health-top">
+          <svg class="ring" viewBox="0 0 100 100" role="img" aria-label="12 of 14 pages pass">
+            <circle class="ring-track" cx="50" cy="50" r="42"/>
+            <circle class="ring-fill" cx="50" cy="50" r="42" pathLength="100" style="--ring:85.7" transform="rotate(-90 50 50)"/>
+            <text x="50" y="50" class="ring-num">12/14</text>
+            <text x="50" y="64" class="ring-cap">pages pass</text>
           </svg>
-          <span class="marker" style="--x:65.52%;--y:20.00%"></span>
-          <span class="tip" style="--x:65.52%;--y:20.00%">16 Oct<strong>24 visits</strong></span>
+          <p class="health-line">Two pages need a short description for Google. Fix these first.</p>
         </div>
-        <div class="chart-x" aria-hidden="true"><span>27 Sep</span><span>4 Oct</span><span>11 Oct</span><span>18 Oct</span><span>26 Oct</span></div>
-      </figure>
-      <p class="legend"><span class="key key-now"></span>This period <span class="key key-prev"></span>Previous period</p>
-      <a class="more" href="#insights">Open Insights</a>
-    </section>
+        <ul class="page-checks">
+          <li class="check check-fix"><span class="check-dot" aria-hidden="true"></span><a href="#edit-privacy">Privacy</a><span class="check-why">No description</span></li>
+          <li class="check check-fix"><span class="check-dot" aria-hidden="true"></span><a href="#edit-terms">Terms</a><span class="check-why">No description</span></li>
+        </ul>
+        <details class="passing">
+          <summary><span class="check-dot check-dot-ok" aria-hidden="true"></span>12 pages pass</summary>
+          <p class="note">Home, What We Do, Our Approach, About, Contact, Research &amp; Evidence, Pathways Connect and five Weekly posts.</p>
+        </details>
+        <p class="note advice">Three Weekly posts read above grade 12. That is advice for easier reading and does not count against the score.</p>
+      </section>
 
-    <section class="kpis" aria-labelledby="kpis-h">
-      <h2 id="kpis-h" class="visually-hidden">Compared with the 30 days before</h2>
-      <ul class="kpi-list">
-        <li class="kpi">
-          <span class="kpi-label">Visitors</span>
-          <span class="kpi-value">287</span>
-          <span class="delta up"><span aria-hidden="true">&#9650;</span> 12%<span class="visually-hidden"> on the 30 days before</span></span>
-          <svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="spark-area" d="M0 15.7 L13.3 13.6 L26.7 12.5 L40 14.6 L53.3 11.8 L66.7 9.3 L80 10.8 L93.3 7.9 L106.7 9 L120 6.2 L120 36 L0 36 Z"/><path class="spark-line" d="M0 15.7 L13.3 13.6 L26.7 12.5 L40 14.6 L53.3 11.8 L66.7 9.3 L80 10.8 L93.3 7.9 L106.7 9 L120 6.2"/></svg>
+      <section class="panel pages" aria-labelledby="pages-h" data-skeleton>
+        <h2 id="pages-h">Most viewed pages</h2>
+        <ul class="bars">
+            <li class="bar-row" style="--i:0">
+              <span class="bar" style="--w:100%"></span>
+              <span class="bar-label"><span class="bar-name">Home</span> <span class="bar-path">/</span></span>
+              <span class="bar-value">388</span>
+            </li>
+            <li class="bar-row" style="--i:1">
+              <span class="bar" style="--w:55%"></span>
+              <span class="bar-label"><span class="bar-name">Pathways Connect</span> <span class="bar-path">/pathways-connect/</span></span>
+              <span class="bar-value">214</span>
+            </li>
+            <li class="bar-row" style="--i:2">
+              <span class="bar" style="--w:41%"></span>
+              <span class="bar-label"><span class="bar-name">Weekly</span> <span class="bar-path">/research/weekly/</span></span>
+              <span class="bar-value">161</span>
+            </li>
+            <li class="bar-row" style="--i:3">
+              <span class="bar" style="--w:25%"></span>
+              <span class="bar-label"><span class="bar-name">What We Do</span> <span class="bar-path">/what-we-do/</span></span>
+              <span class="bar-value">97</span>
+            </li>
+            <li class="bar-row" style="--i:4">
+              <span class="bar" style="--w:16%"></span>
+              <span class="bar-label"><span class="bar-name">About</span> <span class="bar-path">/about/</span></span>
+              <span class="bar-value">64</span>
+            </li>
+        </ul>
+      </section>
+
+      <section class="panel towns" aria-labelledby="towns-h" data-skeleton>
+        <h2 id="towns-h">Where visitors come from</h2>
+        <ul class="bars">
+            <li class="bar-row" style="--i:0">
+              <span class="bar" style="--w:41%"></span>
+              <span class="bar-label"><span class="bar-name">Ottawa</span></span>
+              <span class="bar-value">41%</span>
+            </li>
+            <li class="bar-row" style="--i:1">
+              <span class="bar" style="--w:24%"></span>
+              <span class="bar-label"><span class="bar-name">Toronto</span></span>
+              <span class="bar-value">24%</span>
+            </li>
+            <li class="bar-row" style="--i:2">
+              <span class="bar" style="--w:10%"></span>
+              <span class="bar-label"><span class="bar-name">Arnprior</span></span>
+              <span class="bar-value">10%</span>
+            </li>
+            <li class="bar-row" style="--i:3">
+              <span class="bar" style="--w:26%"></span>
+              <span class="bar-label"><span class="bar-name">Other places</span></span>
+              <span class="bar-value">26%</span>
+            </li>
+        </ul>
+      </section>
+    </div>
+
+    <p class="cms-line">Your CMS is up to date.</p>
+
+    <aside class="staff" aria-labelledby="staff-h">
+      <h2 id="staff-h">Staff only</h2>
+      <dl class="staff-list">
+        <div><dt>Version</dt><dd>2.1.8 (latest release)</dd></div>
+        <div><dt>Repository</dt><dd><a href="#repo">kingsburycreative/besciworks</a></dd></div>
+        <div><dt>Google Analytics</dt><dd>Property 560329854</dd></div>
+        <div><dt>Cloudflare</dt><dd>besciworks.pages.dev</dd></div>
+      </dl>
+    </aside>
+
+    <p class="sample">Sample numbers for this mockup.</p>
+
+    <section class="states" aria-labelledby="states-h">
+      <h2 id="states-h">Other states</h2>
+      <p class="note">How a panel looks while it loads or when something goes wrong.</p>
+      <ul class="state-list">
+        <li class="panel state" aria-busy="true">
+          <h3>Loading</h3>
+          <span class="skeleton sk-num"></span>
+          <span class="skeleton sk-chart"></span>
+          <span class="skeleton sk-line"></span>
         </li>
-        <li class="kpi">
-          <span class="kpi-label">Pages viewed</span>
-          <span class="kpi-value">1,036</span>
-          <span class="delta up"><span aria-hidden="true">&#9650;</span> 9%<span class="visually-hidden"> on the 30 days before</span></span>
-          <svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="spark-area" d="M0 13.3 L13.3 14.2 L26.7 11.5 L40 10.4 L53.3 12.4 L66.7 9.4 L80 7.6 L93.3 8.6 L106.7 6.9 L120 6.2 L120 36 L0 36 Z"/><path class="spark-line" d="M0 13.3 L13.3 14.2 L26.7 11.5 L40 10.4 L53.3 12.4 L66.7 9.4 L80 7.6 L93.3 8.6 L106.7 6.9 L120 6.2"/></svg>
+        <li class="panel state">
+          <h3>Publishing</h3>
+          <p class="publish publish-busy"><span class="pulse-dot" aria-hidden="true"></span>Publishing your change...</p>
+          <p class="note">This usually takes a minute or two.</p>
         </li>
-        <li class="kpi">
-          <span class="kpi-label">Time on site</span>
-          <span class="kpi-value">1m 42s</span>
-          <span class="delta down"><span aria-hidden="true">&#9660;</span> 4%<span class="visually-hidden"> on the 30 days before</span></span>
-          <svg class="spark" viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true" focusable="false"><path class="spark-area" d="M0 6.7 L13.3 7.2 L26.7 6.2 L40 8.2 L53.3 7.7 L66.7 8.9 L80 8.4 L93.3 9.4 L106.7 8.7 L120 9.2 L120 36 L0 36 Z"/><path class="spark-line" d="M0 6.7 L13.3 7.2 L26.7 6.2 L40 8.2 L53.3 7.7 L66.7 8.9 L80 8.4 L93.3 9.4 L106.7 8.7 L120 9.2"/></svg>
+        <li class="panel state">
+          <h3>Publish failed</h3>
+          <p class="note">Your last change didn't publish. Your site still shows the version before it.</p>
+          <a class="more" href="#help">Get help from Kingsbury Creative</a>
         </li>
-      </ul>
-      <p class="note">Change against the 30 days before.</p>
-    </section>
-
-    <section class="panel activity" aria-labelledby="activity-h">
-      <h2 id="activity-h">Recent changes</h2>
-      <ol class="feed">
-        <li><span class="avatar">DM</span><span class="feed-text">David updated the Home page</span><span class="when">2 hours ago</span></li>
-        <li><span class="avatar">DM</span><span class="feed-text">David added a Weekly post</span><span class="when">Yesterday</span></li>
-        <li><span class="avatar">DM</span><span class="feed-text">David uploaded a PDF to Papers</span><span class="when">3 days ago</span></li>
-        <li><span class="avatar avatar-staff">RK</span><span class="feed-text">Rob updated Pathways Connect</span><span class="when">5 days ago</span></li>
-        <li><span class="avatar">DM</span><span class="feed-text">David updated What We Do</span><span class="when">Last week</span></li>
-      </ol>
-      <a class="more" href="#history">See all changes</a>
-    </section>
-
-    <section class="panel health" aria-labelledby="health-h">
-      <h2 id="health-h">Search health</h2>
-      <div class="health-body">
-        <svg class="ring" viewBox="0 0 100 100" role="img" aria-label="12 of 14 pages pass">
-          <circle class="ring-track" cx="50" cy="50" r="42"/>
-          <circle class="ring-fill" cx="50" cy="50" r="42" stroke-dasharray="226.2 263.9" transform="rotate(-90 50 50)"/>
-          <text x="50" y="49" class="ring-num">12/14</text>
-          <text x="50" y="65" class="ring-cap">pages pass</text>
-        </svg>
-        <div>
-          <p class="health-line">Two pages need a short description for Google.</p>
-          <ul class="fix-list">
-            <li><a href="#edit-privacy">Privacy</a></li>
-            <li><a href="#edit-terms">Terms</a></li>
-          </ul>
-        </div>
-      </div>
-      <p class="note advice">Three Weekly posts read above grade 12. That is advice for easier reading and does not count against the score.</p>
-    </section>
-
-    <section class="panel pages" aria-labelledby="pages-h">
-      <h2 id="pages-h">Most viewed pages</h2>
-      <ul class="bars">
-          <li class="bar-row">
-            <span class="bar" style="--w:100%"></span>
-            <span class="bar-label"><span class="bar-name">Home</span> <span class="bar-path">/</span></span>
-            <span class="bar-value">388</span>
-          </li>
-          <li class="bar-row">
-            <span class="bar" style="--w:55%"></span>
-            <span class="bar-label"><span class="bar-name">Pathways Connect</span> <span class="bar-path">/pathways-connect/</span></span>
-            <span class="bar-value">214</span>
-          </li>
-          <li class="bar-row">
-            <span class="bar" style="--w:41%"></span>
-            <span class="bar-label"><span class="bar-name">Weekly</span> <span class="bar-path">/research/weekly/</span></span>
-            <span class="bar-value">161</span>
-          </li>
-          <li class="bar-row">
-            <span class="bar" style="--w:25%"></span>
-            <span class="bar-label"><span class="bar-name">What We Do</span> <span class="bar-path">/what-we-do/</span></span>
-            <span class="bar-value">97</span>
-          </li>
-          <li class="bar-row">
-            <span class="bar" style="--w:16%"></span>
-            <span class="bar-label"><span class="bar-name">About</span> <span class="bar-path">/about/</span></span>
-            <span class="bar-value">64</span>
-          </li>
-      </ul>
-    </section>
-
-    <section class="panel towns" aria-labelledby="towns-h">
-      <h2 id="towns-h">Where visitors come from</h2>
-      <ul class="bars">
-          <li class="bar-row">
-            <span class="bar" style="--w:41%"></span>
-            <span class="bar-label"><span class="bar-name">Ottawa</span></span>
-            <span class="bar-value">41%</span>
-          </li>
-          <li class="bar-row">
-            <span class="bar" style="--w:24%"></span>
-            <span class="bar-label"><span class="bar-name">Toronto</span></span>
-            <span class="bar-value">24%</span>
-          </li>
-          <li class="bar-row">
-            <span class="bar" style="--w:10%"></span>
-            <span class="bar-label"><span class="bar-name">Arnprior</span></span>
-            <span class="bar-value">10%</span>
-          </li>
-          <li class="bar-row">
-            <span class="bar" style="--w:26%"></span>
-            <span class="bar-label"><span class="bar-name">Other places</span></span>
-            <span class="bar-value">26%</span>
-          </li>
+        <li class="panel state">
+          <h3>No visits yet</h3>
+          <p class="note">Visits show here once people find the site. That can take a few days after launch.</p>
+        </li>
+        <li class="panel state">
+          <h3>Check failed</h3>
+          <p class="note">We couldn't check your pages just now. Your site is still live.</p>
+          <button type="button" class="retry">Try again</button>
+        </li>
       </ul>
     </section>
   </div>
-
-  <aside class="staff" aria-labelledby="staff-h">
-    <h2 id="staff-h">Staff only</h2>
-    <dl class="staff-list">
-      <div><dt>Version</dt><dd>2.1.8 (latest release)</dd></div>
-      <div><dt>Repository</dt><dd><a href="#repo">kingsburycreative/besciworks</a></dd></div>
-      <div><dt>Google Analytics</dt><dd>Property 560329854</dd></div>
-      <div><dt>Cloudflare</dt><dd>besciworks.pages.dev</dd></div>
-    </dl>
-  </aside>
-
-  <section class="states" aria-labelledby="states-h">
-    <h2 id="states-h">Other states</h2>
-    <p class="note">How a panel looks while it loads or when there is nothing to show.</p>
-    <ul class="state-list">
-      <li class="panel state" aria-busy="true">
-        <h3>Loading</h3>
-        <span class="skeleton sk-num"></span>
-        <span class="skeleton sk-chart"></span>
-        <span class="skeleton sk-line"></span>
-      </li>
-      <li class="panel state">
-        <h3>No visits yet</h3>
-        <p class="note">Visits show here once people find the site. That can take a few days after launch.</p>
-      </li>
-      <li class="panel state">
-        <h3>Check failed</h3>
-        <p class="note">We couldn't check your pages just now. Your site is still live.</p>
-        <button type="button" class="retry">Try again</button>
-      </li>
-    </ul>
-  </section>
-</main>
+  </main>
+</div>
+<script type="application/json" id="series">{"end":"2026-10-26","series":[8,10,8,2,5,10,7,7,10,9,2,4,10,8,6,9,10,3,3,10,9,7,8,10,5,3,9,10,8,7,10,6,3,8,11,9,7,9,7,4,7,10,10,7,8,7,6,7,9,11,9,7,6,7,8,8,11,10,7,5,7,9,7,10,11,8,4,7,11,8,9,11,10,3,6,11,9,8,11,11,4,5,11,10,8,10,12,5,4,11,11,8,9,12,7,4,10,12,10,8,11,8,5,9,12,11,8,10,8,6,8,11,12,9,9,8,8,9,9,12,11,8,7,8,10,9,12,12,9,5,8,11,9,10,13,10,5,8,12,10,9,12,12,5,6,13,11,9,11,13,8,11,12,13,12,10,7,6,12,13,14,12,11,8,7,12,13,13,15,14,12,8,9,12,13,14,13,12,8,9,9,14,15,16,13,12,8,7,13,15,17,14,12,9,8,14,16,15,19,24,13,9,10,15,16,18,17,14,14,16]}</script>
 </body>
 </html>
