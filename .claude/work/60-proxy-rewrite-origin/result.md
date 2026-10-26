@@ -1,14 +1,10 @@
-# 60 result: stopped, the brief's cause does not match Next's source
+# 60 result: stopped, no code changed
 
-No files changed. No tests added. No mutation run.
+The brief's fix cannot work. Two places in the Next source show why.
 
-The brief says the clone of `request.nextUrl` picks up `https` from the forwarded proto while `initUrl` stays `http://localhost:3000`. Next 16.2.1 does not work that way.
+1. `request.url` is normalized too. `spec-extension/request.js:50` stores `url: process.env.__NEXT_NO_MIDDLEWARE_URL_NORMALIZE ? url : nextUrl.toString()`, and the `url` getter (line 94) returns that value. So `new URL(request.url)` gives `https://localhost:3000`, the same as `nextUrl.clone()`. Line 42's `super(url)` keeps the raw URL only inside undici.
+2. Even a raw `127.0.0.1` target gets turned back into localhost. `web/adapter.js:287-295` rebuilds the rewrite as a `NextURL`, which normalizes it to localhost. Its host then matches `request.nextUrl.host`, so the adapter writes the localhost URL back into `x-middleware-rewrite`. Nothing `proxy.ts` returns gets past that.
 
-- `resolve-routes.js:114-116`: `initUrl` takes its protocol from `socket.encrypted || x-forwarded-proto` and its host from `opts.hostname || 'localhost'`.
-- `next-server.js:1132`: the URL the middleware sees is `${initProtocol}://${this.fetchHostname || 'localhost'}:${this.port}...`, and `initProtocol` is set from the same variable (`resolve-routes.js:121`).
-- `adapter.js:105-153`: `request.url` and `request.nextUrl` both come from that URL, so they share one origin. Switching to `request.url` would send the same `https://localhost:3000` rewrite, and nothing would change.
-- A relative rewrite will not work either: `adapter.js:287` parses it with `new NextURL`.
+So the fix has to be in how the box starts Next, not in `proxy.ts`. My recommendation is to change kc-cms `server/deploy.sh` ExecStart from `-H 127.0.0.1` to `-H localhost`. The initUrl at `resolve-routes.js:116` then reads `https://localhost:3000`, which is the same origin the adapter writes, so the rewrite stays inside the app. I have not tested this. One more thing to check on the box: whether `localhost` resolves to `::1` there, which would change the address Next binds to. The other way is `experimental.trustHostHeader`, but that makes initUrl depend on the Host header, so it is riskier.
 
-So the two origins can only differ in the host part (`opts.hostname`, the router server's, against `this.hostname`, the Next server's, for example `0.0.0.0` from `HOSTNAME`), or in the protocol if `x-forwarded-proto` changes between the two steps. I could not check which from here.
-
-Next step: on the box, log `initURL` against `request.url` for one short address, or check `HOSTNAME` and the start command. Then re-brief with the cause that is actually seen.
+Files changed: none. Tests added: none. Mutation check: not run, because no code changed.

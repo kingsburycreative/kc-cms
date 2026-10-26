@@ -173,3 +173,5 @@
 - 2026-10-26 park proxy-rewrite-origin: worker (Opus) found the briefed cause does not match Next 16.2.1 source; the real mismatch needs a log on the box, which the Never list keeps from the loop. No code changed.
 
 - 2026-10-26 pass: no card to take. Now holds 53, 19 and 20, all waiting on Rob's card 06 (CMS guide page); Next is not pulled up without Rob.
+
+- 2026-10-26 park proxy-rewrite-origin again: Opus worker found request.url is normalized to localhost too (spec-extension/request.js:50) and the adapter rewrites any rewrite host back to localhost (adapter.js:287-295), so proxy.ts cannot fix it. Its recommendation, untested: kc-cms server/deploy.sh ExecStart `-H localhost` instead of `-H 127.0.0.1` (check localhost resolves to 127.0.0.1, not ::1, on the box). Box change, Rob's. No code changed.

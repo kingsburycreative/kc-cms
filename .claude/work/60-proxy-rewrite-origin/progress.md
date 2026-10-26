@@ -1,0 +1,1 @@
+- Read brief and Next source. request.url is normalized (request.js:50) and adapter.js:287-295 re-normalizes the rewrite to localhost. Fix cannot live in proxy.ts. Stopped; result.md written. No code touched.

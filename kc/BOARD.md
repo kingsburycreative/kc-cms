@@ -46,7 +46,7 @@
 
 ## Blocked
 
-- **proxy-rewrite-origin** (blocks the BeSciWorks review email, re-briefed): every short address 500s on the box; NextURL turns 127.0.0.1 into localhost so the rewrite leaves the app. Brief `.claude/work/60-proxy-rewrite-origin/brief.md`. Risky path (proxy.ts).
+- **proxy-rewrite-origin** (blocks the BeSciWorks review email): proxy.ts cannot fix it, Next normalizes 127.0.0.1 to localhost on every path. Needs Rob: change kc-cms `server/deploy.sh` ExecStart to `-H localhost` (untested; check localhost is not ::1 on the box). `.claude/work/60-proxy-rewrite-origin/result.md`.
 
 ## Done
 

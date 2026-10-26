@@ -883,7 +883,8 @@
     "id": "proxy-rewrite-origin",
     "title": "Short-address rewrite stays inside the app behind nginx",
     "brief": ".claude/work/60-proxy-rewrite-origin/brief.md",
-    "start_sha": "3eccf0de638e80203984a2b95b2374d6f5025100",
-    "passes": false
+    "start_sha": "344c4e514c0534a197ad4821d3c6d14c5bc740e2",
+    "passes": false,
+    "parked": "needs the box start command changed (kc-cms server/deploy.sh -H localhost); proxy.ts cannot fix it"
   }
 ]
