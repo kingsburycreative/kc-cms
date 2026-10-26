@@ -88,6 +88,17 @@ export function resolveShort(pathname: string, method: string): ShortResult {
   return { rewrite: `/${OWNER}/${first}/${BRANCH}${tail}${suffix}` };
 }
 
+// True when the proxy should pass the request through untouched. A dotted path
+// skips only when it is not a short address; public/ names are in RESERVED, so
+// resolveShort already gives nothing for them. /api/ never skips, so the
+// Origin check runs on every /api/ path.
+export function isStaticPath(pathname: string, method: string): boolean {
+  if (pathname.startsWith("/api/")) return false;
+  if (pathname.startsWith("/_next/") || pathname === "/favicon.ico") return true;
+  if (!/\.[^/]+$/.test(pathname)) return false;
+  return resolveShort(pathname, method) === null;
+}
+
 export function shortHref(fullPath: string): string {
   const [path, suffix] = splitSuffix(fullPath);
   const segments = path.split("/");

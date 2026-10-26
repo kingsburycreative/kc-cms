@@ -827,5 +827,22 @@
     "verified_at": "2026-10-26T20:25:31.491Z",
     "tree": "982d2d751bda6ebe93eeb6b2537a54c5d885f40582b66111866934f8ebccef00",
     "gate": "full"
+  },
+  {
+    "id": "short-url-dotted",
+    "title": "Short links to dotted paths reach the proxy",
+    "brief": ".claude/work/57-short-url-dotted/brief.md",
+    "start_sha": "6a1ba48e7f2322d9aba5d774ed21b86dd28d1e49",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T20:39:24.458Z",
+      "start_sha": "6a1ba48e7f2322d9aba5d774ed21b86dd28d1e49",
+      "mutation_evidence": true,
+      "tree": "2c9ad92ce42786d1b51a8d27cc880a7ceb738b3d0e4a81692fee2227842ca69f",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-26T20:40:34.620Z",
+    "tree": "2c9ad92ce42786d1b51a8d27cc880a7ceb738b3d0e4a81692fee2227842ca69f",
+    "gate": "full"
   }
 ]

@@ -163,3 +163,6 @@
 
 ## 2026-10-26 54 short-url audit (board Now)
 - 53 still waits on 19. Opus security-auditor, read-only, on feat/59-sidebar-pages. No high; one low (auth-redirect backslash open redirect, predates feature), two bugs that should land before deploy 55 (dotted-file short links 404 via proxy.ts:19, segments[5] off by one at short-url.ts:79), latent notes. Cards queued on the board. Committed board, result and log only.
+
+## 2026-10-26 short-url-dotted (board Now)
+- 53 still waits on 19. On feat/59-sidebar-pages at 6a1ba48. Opus worker, Risky (proxy.ts). Scope ok with mutation evidence (old dotted rule failed dotted-file and dotted-root tests; unreserving images failed the public-file test). Diff read: isStaticPath helper in kc/short-url.ts, one-line proxy call, tests only added. Worker's call: no separate public/ guard since public names are in RESERVED; dotted /api/ paths now get the Origin check, which they skipped before. Worker did not write progress.md. Sent to the gate with an audit.

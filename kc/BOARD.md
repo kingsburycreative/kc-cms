@@ -3,7 +3,6 @@
 ## Now
 
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
-- **short-url-dotted** (card 54 audit B, blocks deploy 55): proxy.ts:19 static-asset skip lets short links to dotted files and dotted repo roots 404; narrow the skip to /_next/, favicon and real public/app files. Risky path (proxy.ts).
 - **short-url-main-segment** (card 54 audit A, before deploy): kc/short-url.ts:79 checks segments[5], should be [4]; add a redirect-then-rewrite round-trip test.
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)

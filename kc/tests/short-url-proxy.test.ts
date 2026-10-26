@@ -95,6 +95,43 @@ test("/sign-in and /_next/x pass through", () => {
   }
 });
 
+function untouched(res: Response, p: string) {
+  assert.equal(res.status, 200, p);
+  assert.equal(rewriteTarget(res), null, p);
+  assert.equal(res.headers.get("location"), null, p);
+}
+
+test("dotted file: a short edit link to a .md file is rewritten", () => {
+  const res = proxy(req("/site/edit/papers/content%2Fpapers%2Fa.md"));
+  const target = rewriteTarget(res);
+  assert.ok(target);
+  assert.equal(new URL(target).pathname, "/kingsburycreative/site/main/edit/papers/content%2Fpapers%2Fa.md");
+  const full = proxy(req("/kingsburycreative/site/main/edit/papers/content%2Fpapers%2Fa.md"));
+  assert.equal(full.status, 308);
+  assert.equal(new URL(full.headers.get("location")!).pathname, "/site/edit/papers/content%2Fpapers%2Fa.md");
+});
+
+test("dotted root: /my.site is rewritten and its full form 308s", () => {
+  const target = rewriteTarget(proxy(req("/my.site")));
+  assert.ok(target);
+  assert.equal(new URL(target).pathname, "/kingsburycreative/my.site/main");
+  const full = proxy(req("/kingsburycreative/my.site/main"));
+  assert.equal(full.status, 308);
+  assert.equal(new URL(full.headers.get("location")!).pathname, "/my.site");
+});
+
+test("static files pass through untouched", () => {
+  for (const p of ["/_next/static/x.js", "/favicon.ico"]) untouched(proxy(req(p)), p);
+});
+
+test("public file: /images/logo.png passes through untouched", () => {
+  untouched(proxy(req("/images/logo.png")), "/images/logo.png");
+});
+
+test("a POST to dotted /api/x.json without Origin answers 403", () => {
+  assert.equal(proxy(req("/api/x.json", "POST")).status, 403);
+});
+
 test("proxy.ts imports nothing about sessions, tokens or fetch", () => {
   const imports = [...source.matchAll(/^import .* from "([^"]+)";$/gm)].map((m) => m[1]);
   assert.deepEqual(imports.sort(), ["./kc/short-url.ts", "next/server", "next/server"]);

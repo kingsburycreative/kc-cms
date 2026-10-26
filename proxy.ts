@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { resolveShort } from "./kc/short-url.ts";
+import { isStaticPath, resolveShort } from "./kc/short-url.ts";
 
 function isAllowedOrigin(originHeader: string, hostHeader: string): boolean {
 	try {
@@ -13,12 +13,7 @@ function isAllowedOrigin(originHeader: string, hostHeader: string): boolean {
 
 export function proxy(request: NextRequest) {
 	const pathname = request.nextUrl.pathname;
-	const isStaticAsset =
-		pathname.startsWith("/_next/") ||
-		pathname === "/favicon.ico" ||
-		/\.[^/]+$/.test(pathname);
-
-	if (isStaticAsset) {
+	if (isStaticPath(pathname, request.method)) {
 		return NextResponse.next();
 	}
 
