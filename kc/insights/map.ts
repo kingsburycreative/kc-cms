@@ -1,10 +1,11 @@
 // The server-side map of "owner/repo" to its analytics, from the file at env
 // KC_INSIGHTS_MAP. A value is a GA4 property ID, or { "ga": "<property id>",
-// "cf": "<Cloudflare site tag>" } with either half optional. Anything wrong with
-// it means "not set up", never a throw.
+// "cf": "<Cloudflare site tag>", "pages": "<Pages project>" } with each part
+// optional; "pages" only rides along with "ga" or "cf". Anything wrong with it
+// means "not set up", never a throw.
 import { readFileSync } from "node:fs";
 
-export type InsightsSources = { ga?: string; cf?: string };
+export type InsightsSources = { ga?: string; cf?: string; pages?: string };
 export type InsightsMap = Record<string, string | InsightsSources>;
 type Read = (path: string) => string;
 
@@ -16,6 +17,8 @@ const gaId = (id: unknown): string | undefined => {
 };
 const siteTag = (tag: unknown): string | undefined =>
   typeof tag === "string" && tag.trim() !== "" ? tag.trim() : undefined;
+const pagesProject = (name: unknown): string | undefined =>
+  typeof name === "string" && /^[a-z0-9-]+$/.test(name) ? name : undefined;
 
 export function parseInsightsMap(text: string): InsightsMap {
   let data: unknown;
@@ -30,7 +33,8 @@ export function parseInsightsMap(text: string): InsightsMap {
     if (value && typeof value === "object" && !Array.isArray(value)) {
       const ga = gaId((value as Record<string, unknown>).ga);
       const cf = siteTag((value as Record<string, unknown>).cf);
-      if (ga || cf) map[repo.toLowerCase()] = { ...(ga && { ga }), ...(cf && { cf }) };
+      const pages = pagesProject((value as Record<string, unknown>).pages);
+      if (ga || cf) map[repo.toLowerCase()] = { ...(ga && { ga }), ...(cf && { cf }), ...(pages && { pages }) };
       continue;
     }
     const ga = gaId(value);

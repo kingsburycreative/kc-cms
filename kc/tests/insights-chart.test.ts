@@ -58,6 +58,22 @@ test("MetricChart is exported with a 72px compact mode", () => {
   assert.match(src, /axes: spark\s*\?\s*\[\{ show: false \}, \{ show: false \}\]/);
 });
 
+test("the dashboard chart toggles 7, 30 and 90 days and charts the slice it names", () => {
+  const start = src.indexOf("export function DashboardVisits(");
+  assert.ok(start > 0);
+  const body = src.slice(start, src.indexOf("export function CountUp("));
+  assert.match(body, /role="group" aria-label="Date range"/);
+  assert.match(body, /aria-pressed=\{range === r\}/);
+  assert.match(body, /min-h-11/);
+  assert.match(body, /<MetricChart days=\{slice\(days, range\)\} metric="visits" range=\{range\} \/>/);
+});
+
+test("count-up shows the value at once under reduced motion", () => {
+  const body = src.slice(src.indexOf("export function CountUp("), src.indexOf("export function InsightsChart("));
+  assert.match(body, /useState\(value\)/);
+  assert.match(body, /if \(window\.matchMedia\(REDUCED_QUERY\)\.matches/);
+});
+
 test("range change fades and swaps data only when motion is allowed", () => {
   assert.match(src, /matchMedia\(REDUCED_QUERY\)/);
   assert.match(src, /REDUCED_QUERY = "\(prefers-reduced-motion: reduce\)"/);

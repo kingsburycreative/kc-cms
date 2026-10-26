@@ -10,19 +10,28 @@ import { isConfigEnabled } from "@/lib/config";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
 import { buttonVariants } from "@/components/ui/button";
 import { PageHeader } from "./page-header.tsx";
-import { quickActions, recentEdits, type RecentEdit } from "./dashboard.ts";
-import { dashboardName, siteUrl } from "./client-view.ts";
+import { quickActions, recentActivity, type Activity } from "./dashboard.ts";
+import { clientName, siteUrl } from "./client-view.ts";
+import { timeAgo } from "./publish/status.ts";
 import { shortHref } from "./short-url.ts";
 
-const LIMIT = 8;
+const LIMIT = 5;
 
-type Props = { hasInsights?: boolean; visits?: ReactNode; searchHealth?: ReactNode; version?: ReactNode };
+type Props = {
+  hasInsights?: boolean;
+  publish?: ReactNode;
+  visits?: ReactNode;
+  searchHealth?: ReactNode;
+  topLists?: ReactNode;
+  version?: ReactNode;
+  staffStrip?: ReactNode;
+};
 
-export function Dashboard({ hasInsights = false, visits, searchHealth, version }: Props) {
+export function Dashboard({ hasInsights = false, publish, visits, searchHealth, topLists, version, staffStrip }: Props) {
   const { config } = useConfig();
   const { user } = useUser();
   const router = useRouter();
-  const [edits, setEdits] = useState<RecentEdit[] | null>(null);
+  const [edits, setEdits] = useState<Activity[] | null>(null);
   const [failed, setFailed] = useState(false);
 
   const object = (config?.object ?? {}) as any;
@@ -35,7 +44,7 @@ export function Dashboard({ hasInsights = false, visits, searchHealth, version }
     fetch(`/api/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/history?limit=${LIMIT}`)
       .then((response) => (response.ok ? response.json() : Promise.reject(new Error("feed"))))
       .then((body) => {
-        if (!cancelled) setEdits(recentEdits(body.data ?? [], LIMIT, object));
+        if (!cancelled) setEdits(recentActivity(body.data ?? [], LIMIT, object));
       })
       .catch(() => {
         if (!cancelled) setFailed(true);
@@ -87,76 +96,99 @@ export function Dashboard({ hasInsights = false, visits, searchHealth, version }
 
   const actions = quickActions(object, { owner: config.owner, repo: config.repo, branch: config.branch, hasInsights });
   const site = siteUrl(object.kc);
+  const staff = hasGithubIdentity(user);
+  const now = new Date();
+  const historyHref = shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/history`);
 
   return (
     <div className="@container mx-auto w-full max-w-6xl space-y-6 p-4 md:p-6">
-      <header className="flex flex-col gap-2 @[600px]:flex-row @[600px]:items-baseline @[600px]:justify-between">
-        <div>
-          <PageHeader title="Dashboard" />
-          <p className="text-sm text-muted-foreground">{dashboardName(object.kc, config.repo)}</p>
+      <PageHeader title="Dashboard" />
+      <header className="flex flex-col gap-2 @[600px]:flex-row @[600px]:items-end @[600px]:justify-between">
+        <div className="space-y-1">
+          <h1 className="text-2xl font-semibold tracking-tight">{clientName(object.kc, config.repo)}</h1>
+          {publish}
         </div>
-        {/* Publish status (card 43) goes here. */}
-        {site && (
-          <a href={site} target="_blank" rel="noopener" className="inline-flex min-h-11 items-center text-sm font-medium underline-offset-4 hover:underline">
-            See live site
-          </a>
-        )}
+        <LiveSiteLink site={site} />
       </header>
       {actions.length > 0 && (
-        <nav aria-label="Quick actions">
-          <ul className="flex flex-wrap gap-2">
+        <section aria-labelledby="actions-h">
+          <h2 id="actions-h" className="sr-only">Add something new</h2>
+          <ul className="flex flex-col gap-1 @[600px]:flex-row @[600px]:flex-wrap @[600px]:gap-x-6">
             {actions.map((action) => (
               <li key={action.key}>
                 <Link
                   href={action.href}
-                  className="inline-flex min-h-11 items-center rounded-md bg-primary/10 px-3 text-sm font-medium text-primary hover:bg-primary/15 focus-visible:outline-2 focus-visible:outline-offset-2"
+                  className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
                 >
+                  <span aria-hidden="true" className="text-primary">{action.key === "upload-pdf" ? "↑" : "+"}</span>
                   {action.label}
                 </Link>
               </li>
             ))}
           </ul>
-        </nav>
-      )}
-      <div className="grid grid-cols-1 gap-4 @[900px]:grid-cols-3">
-        <div className="@[900px]:col-span-2">{visits}</div>
-        <div>{searchHealth}</div>
-      </div>
-      {hasContent && (
-        <section>
-          <h2 className="mb-3 text-lg font-semibold">Recent changes</h2>
-          {failed
-            ? <p className="text-sm text-muted-foreground">Recent changes could not be loaded.</p>
-            : edits === null
-              ? (
-                <ul aria-busy="true" aria-label="Loading recent changes" className="divide-y rounded-md border">
-                  {Array.from({ length: LIMIT }, (_, index) => (
-                    <li key={index} className="flex flex-col gap-1.5 p-3 min-[520px]:flex-row min-[520px]:items-center min-[520px]:gap-4">
-                      <span className="h-4 w-40 animate-pulse rounded bg-muted motion-reduce:animate-none" />
-                      <span className="h-3 w-28 animate-pulse rounded bg-muted motion-reduce:animate-none" />
-                    </li>
-                  ))}
-                </ul>
-              )
-              : edits.length === 0
-                ? <p className="text-sm text-muted-foreground">Nothing has been edited yet.</p>
-                : (
-                  <ul className="divide-y rounded-md border">
-                    {edits.map((edit, index) => (
-                      <li key={`${edit.path}-${edit.date}-${index}`} className="flex flex-col gap-0.5 p-3 min-[520px]:flex-row min-[520px]:items-baseline min-[520px]:gap-4">
-                        <span className="font-medium">{edit.title}</span>
-                        <span className="text-sm text-muted-foreground">
-                          {edit.date ? new Date(edit.date).toLocaleDateString() : ""}
-                          {edit.authorName ? ` by ${edit.authorName}` : ""}
-                        </span>
-                        <span className="truncate text-xs text-muted-foreground min-[520px]:ml-auto">{edit.path}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
         </section>
       )}
+      {visits}
+      <div className="grid grid-cols-1 gap-4 @[900px]:grid-cols-2">
+        {hasContent && (
+          <RecentChanges failed={failed} items={edits} staff={staff} now={now} historyHref={historyHref} />
+        )}
+        {searchHealth}
+      </div>
+      {topLists}
       {version}
+      {staff && staffStrip}
     </div>
+  );
+}
+
+// The one panel allowed to vanish here: no https kc.site, no link.
+function LiveSiteLink({ site }: { site: string | null }) {
+  if (!site) return null;
+  return (
+    <a href={site} target="_blank" rel="noopener" className="inline-flex min-h-11 items-center gap-1 text-sm font-medium underline-offset-4 hover:underline">
+      See live site<span aria-hidden="true">{"↗"}</span>
+      <span className="sr-only"> (opens in a new tab)</span>
+    </a>
+  );
+}
+
+const capitalise = (text: string) => text.charAt(0).toUpperCase() + text.slice(1);
+
+function RecentChanges({ failed, items, staff, now, historyHref }: { failed: boolean; items: Activity[] | null; staff: boolean; now: Date; historyHref: string }) {
+  return (
+    <section aria-labelledby="activity-h" className="rounded-lg border p-4">
+      <h2 id="activity-h" className="text-base font-semibold">Recent changes</h2>
+      {failed
+        ? <p className="mt-2 text-sm text-muted-foreground">Recent changes couldn&apos;t load.</p>
+        : items === null
+          ? (
+            <ul aria-busy="true" aria-label="Loading recent changes" className="mt-3 space-y-3">
+              {Array.from({ length: LIMIT }, (_, index) => (
+                <li key={index} className="flex items-center gap-3">
+                  <span className="size-8 shrink-0 animate-pulse rounded-full bg-muted motion-reduce:animate-none" />
+                  <span className="h-4 w-48 animate-pulse rounded bg-muted motion-reduce:animate-none" />
+                </li>
+              ))}
+            </ul>
+          )
+          : items.length === 0
+            ? <p className="mt-2 text-sm text-muted-foreground">Nothing has been edited yet.</p>
+            : (
+              <ol className="mt-3 space-y-3">
+                {items.map((item, index) => (
+                  <li key={`${item.path}-${item.date}-${index}`} className="flex items-start gap-3">
+                    <span aria-hidden="true" className="grid size-8 shrink-0 place-items-center rounded-full bg-primary/10 text-xs font-semibold text-primary">{item.initials}</span>
+                    <span className="flex min-w-0 flex-1 flex-col @[600px]:flex-row @[600px]:items-baseline @[600px]:gap-3">
+                      <span className="text-sm">{item.sentence}</span>
+                      <span className="text-xs text-muted-foreground @[600px]:ml-auto">{capitalise(timeAgo(item.date, now))}</span>
+                      {staff && <span className="truncate text-xs text-muted-foreground">{item.path}</span>}
+                    </span>
+                  </li>
+                ))}
+              </ol>
+            )}
+      <Link href={historyHref} className="mt-2 inline-flex min-h-11 items-center text-sm font-medium underline-offset-4 hover:underline">See all changes</Link>
+    </section>
   );
 }

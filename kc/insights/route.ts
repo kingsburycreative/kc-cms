@@ -50,13 +50,22 @@ export function readKey(path: string | undefined, read = (p: string) => readFile
   }
 }
 
-export function createCache<T>(now: () => number = Date.now) {
+export const CACHE_MAX = 500;
+
+// The series cache is shared by everyone who can see a site, so its key is the
+// site, lowercased as GitHub treats owner and repo.
+export const seriesSiteKey = (owner: string, repo: string) => `${owner}/${repo}`.toLowerCase();
+
+// Holds at most `max` entries; the oldest written is dropped first.
+export function createCache<T>(now: () => number = Date.now, max = CACHE_MAX) {
   const entries = new Map<string, { value: T; expiresAt: number }>();
   return async (id: string, load: () => Promise<T>): Promise<T> => {
     const hit = entries.get(id);
     if (hit && hit.expiresAt > now()) return hit.value;
     const value = await load();
+    entries.delete(id);
     entries.set(id, { value, expiresAt: now() + TTL_MS });
+    while (entries.size > max) entries.delete(entries.keys().next().value as string);
     return value;
   };
 }

@@ -2,8 +2,8 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { generateKeyPairSync } from "node:crypto";
-import { loadInsightsMap, parseInsightsMap, propertyFor } from "../insights/map.ts";
-import { createCache, LOAD_FAILED, loadInsights, readKey, trimPagePath, TTL_MS } from "../insights/route.ts";
+import { loadInsightsMap, parseInsightsMap, propertyFor, sourcesFor } from "../insights/map.ts";
+import { CACHE_MAX, createCache, LOAD_FAILED, loadInsights, readKey, seriesSiteKey, trimPagePath, TTL_MS } from "../insights/route.ts";
 
 const path = (name: string) => new URL(`./fixtures/insights-route/${name}`, import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, "$1");
 const fixture = (name: string) =>
@@ -42,6 +42,34 @@ test("the cache holds a report for one hour, then reloads", async () => {
   assert.equal(await cache("456", load), 2);
   now += 1;
   assert.equal(await cache("123", load), 3);
+});
+
+test("the cache drops its oldest entry past the cap", async () => {
+  let loads = 0;
+  const cache = createCache<number>(() => 0, 2);
+  const load = async () => ++loads;
+  await cache("a", load);
+  await cache("b", load);
+  await cache("c", load);
+  assert.equal(await cache("b", load), 2);
+  assert.equal(await cache("c", load), 3);
+  assert.equal(await cache("a", load), 4);
+  assert.equal(CACHE_MAX, 500);
+});
+
+test("seriesSiteKey lowercases owner and repo", () => {
+  assert.equal(seriesSiteKey("KingsburyCreative", "BeSciWorks"), "kingsburycreative/besciworks");
+});
+
+test("the map reads a valid pages project beside ga or cf", () => {
+  const map = parseInsightsMap(JSON.stringify({
+    "Kc/One": { ga: "1", pages: "besciworks" },
+    "kc/two": { cf: "tag", pages: "Bad Name" },
+    "kc/three": { pages: "alone" },
+  }));
+  assert.deepEqual(sourcesFor(map, "kc", "one"), { ga: "1", pages: "besciworks" });
+  assert.deepEqual(sourcesFor(map, "kc", "two"), { cf: "tag" });
+  assert.equal(sourcesFor(map, "kc", "three"), null);
 });
 
 test("pagePath is cut to 80 characters", () => {

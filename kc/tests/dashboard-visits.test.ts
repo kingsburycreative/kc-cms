@@ -1,8 +1,26 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { weekSummary } from "../dashboard-visits.ts";
+import { rangeChange, sparkPath, weekSummary } from "../dashboard-visits.ts";
 
 const days = (visits: number[]) => visits.map((v, i) => ({ day: `2026-10-${String(i + 1).padStart(2, "0")}`, visits: v, views: v }));
+
+test("rangeChange compares the last n days with the n before, exactly", () => {
+  const list = [...Array(30).fill(10), ...Array(30).fill(12)].map((v, i) => ({ day: `d${i}`, visits: v, views: v * 3 }));
+  assert.deepEqual(rangeChange(list, 30), { last: 360, previous: 300, change: 20 });
+  assert.deepEqual(rangeChange(list, 30, "views"), { last: 1080, previous: 900, change: 20 });
+  assert.deepEqual(rangeChange(days([4, 4, 2, 3]), 2), { last: 5, previous: 8, change: -37 });
+});
+
+test("rangeChange: previous zero is new, all zeros is none", () => {
+  assert.deepEqual(rangeChange(days([0, 0, 3, 1]), 2), { last: 4, previous: 0, change: "new" });
+  assert.deepEqual(rangeChange(days([0, 0, 0, 0]), 2), { last: 0, previous: 0, change: null });
+  assert.deepEqual(rangeChange([], 30), { last: 0, previous: 0, change: null });
+});
+
+test("sparkPath spans the box and needs two points", () => {
+  assert.equal(sparkPath([0, 10], 120, 36), "M0 34 L120 2");
+  assert.equal(sparkPath([5]), "");
+});
 
 test("14 known days give exact totals, percent and sentence", () => {
   const s = weekSummary(days([5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6]));

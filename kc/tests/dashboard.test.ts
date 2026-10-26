@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { dashboardTiles, quickActions, recentEdits } from "../dashboard.ts";
+import { activitySentence, changeVerb, dashboardTiles, healthEntries, initials, quickActions, recentActivity, recentEdits } from "../dashboard.ts";
 
 const ctx = { owner: "kc", repo: "henike", branch: "main" };
 const config = {
@@ -104,6 +104,80 @@ test("no Upload a PDF when the media folder is images only", () => {
   assert.deepEqual(quickActions(images, ctx), []);
 });
 
+test("initials take the first and last name", () => {
+  assert.equal(initials("David Mills"), "DM");
+  assert.equal(initials("rob de kingsbury"), "RK");
+  assert.equal(initials("sam"), "S");
+  assert.equal(initials("  "), "?");
+  assert.equal(initials(null), "?");
+});
+
+test("the verb comes from the commit message, else changed", () => {
+  assert.equal(changeVerb("Create content/weekly/a.md (via Pages CMS)"), "added");
+  assert.equal(changeVerb("Update content/home.json (via Pages CMS)"), "updated");
+  assert.equal(changeVerb("Upload files/report.pdf"), "uploaded");
+  assert.equal(changeVerb("Merge branch"), "changed");
+  assert.equal(changeVerb(undefined), "changed");
+});
+
+test("activity sentences read plainly with first names", () => {
+  assert.equal(activitySentence("David Mills", "updated", "Home page", "file"), "David updated Home page");
+  assert.equal(activitySentence("David", "added", "Posts", "collection"), "David added an entry in Posts");
+  assert.equal(activitySentence("", "changed", "odd", null), "Someone changed odd");
+});
+
+test("recent activity gives initials, a sentence, the date and the path from a fixture feed", () => {
+  const items = [
+    { sha: "a", date: "2026-10-01T10:00:00Z", authorName: "Sam Lee", path: "content/home.md" },
+    { sha: "b", commit: { message: "Create content/posts/x.md", author: { name: "Rob Kingsbury", date: "2026-09-01T10:00:00Z" } }, path: "content/posts" },
+  ];
+  assert.deepEqual(recentActivity(items, 5, config), [
+    { initials: "SL", sentence: "Sam changed Home page", date: "2026-10-01T10:00:00Z", path: "content/home.md" },
+    { initials: "RK", sentence: "Rob added an entry in Posts", date: "2026-09-01T10:00:00Z", path: "content/posts" },
+  ]);
+});
+
+test("a file-type schema goes through the health loop beside collections", async () => {
+  const content = [
+    { type: "file", name: "home", path: "src/content/pages/home.json", format: "json", fields: [{ name: "title" }, { name: "description" }] },
+    { type: "file", name: "nav", path: "src/nav.json", fields: [{ name: "items" }] },
+    { type: "file", name: "list", path: "src/list.json", list: true, fields: [{ name: "title" }, { name: "description" }] },
+    { type: "collection", name: "weekly", path: "src/content/weekly", fields: [{ name: "title" }, { name: "description" }] },
+    { type: "collection", name: "papers", path: "src/content/papers", fields: [{ name: "title" }] },
+  ];
+  const read: string[] = [];
+  const entries = await healthEntries(content, {
+    file: async (schema) => (read.push(schema.path!), '{"title":"Home","description":"Hello"}'),
+    collection: async (schema) => (read.push(schema.path!), [
+      { type: "file", path: "src/content/weekly/a.md", content: "---\ntitle: A\n---" },
+      { type: "dir", path: "src/content/weekly/sub" },
+      { type: "file", path: "src/content/weekly/bad.md", content: "bad" },
+    ]),
+    parse: (text) => {
+      if (text === "bad") throw new Error("parse");
+      return text.startsWith("{") ? JSON.parse(text) : { title: "A" };
+    },
+  });
+  assert.deepEqual(read, ["src/content/pages/home.json", "src/content/weekly"]);
+  assert.deepEqual(entries, [
+    { name: "home", path: "src/content/pages/home.json", values: { title: "Home", description: "Hello" } },
+    { name: "weekly", path: "src/content/weekly/a.md", values: { title: "A" } },
+  ]);
+});
+
+test("a failed read skips that schema, not the rest", async () => {
+  const content = [
+    { type: "file", name: "a", path: "a.json", fields: [{ name: "title" }, { name: "description" }] },
+    { type: "file", name: "b", path: "b.json", fields: [{ name: "title" }, { name: "description" }] },
+  ];
+  const entries = await healthEntries(content, {
+    file: async (schema) => { if (schema.name === "a") throw new Error("404"); return "{}"; },
+    collection: async () => [],
+    parse: () => ({}),
+  });
+  assert.deepEqual(entries.map((e) => e.name), ["b"]);
+});
+
 test("the branch page no longer redirects to the first content item", () => {
   const src = readFileSync(new URL("../../app/(main)/[owner]/[repo]/[branch]/page.tsx", import.meta.url), "utf8");
   assert.doesNotMatch(src, /router\.replace/);
@@ -147,13 +221,14 @@ test("quick actions render before the visits panel", () => {
 test("See live site only from an https kc.site", () => {
   const src = layoutSrc();
   assert.match(src, /siteUrl\(object\.kc\)/);
-  assert.match(src, /\{site && \(/);
+  assert.match(src, /<LiveSiteLink site=\{site\} \/>/);
+  assert.match(src, /if \(!site\) return null;/);
 });
 
 test("recent changes load behind pulsing skeleton rows, not text", () => {
   const src = layoutSrc();
   assert.doesNotMatch(src, /Loading recent edits/);
-  const loading = src.slice(src.indexOf("edits === null"), src.indexOf("edits.length === 0"));
+  const loading = src.slice(src.indexOf("items === null"), src.indexOf("items.length === 0"));
   assert.match(loading, /Array\.from\(\{ length: LIMIT \}/);
   assert.match(loading, /animate-pulse[^"]*motion-reduce:animate-none/);
 });

@@ -38,37 +38,51 @@ test("the visits panel is only built behind getInsightsAccess", () => {
   const v = body("VisitsPanel");
   const gate = v.indexOf("getInsightsAccess(");
   assert.ok(gate > 0);
-  assert.match(v, /if \(!ctx \|\| !\(await getInsightsAccess\(/);
+  assert.match(v, /const allowed = !!ctx && \(await getInsightsAccess\(/);
+  assert.match(v, /const sources = allowed \? insightsSourcesFor\(/);
   assert.ok(gate < v.indexOf("insightsSourcesFor("));
   assert.ok(gate < v.indexOf("loadSeries("));
+  assert.match(v, /= sources\s*\? await Promise\.all/);
 });
 
 test("the series cache key is the site, not the user", () => {
   const v = body("VisitsPanel");
   assert.match(v, /site: seriesSiteKey\(ref\.owner, ref\.repo\)/);
   assert.match(v, /cache: defaultSeriesCache/);
-  assert.match(server, /seriesSiteKey = \(owner: string, repo: string\) => `\$\{owner\}\/\$\{repo\}`/);
+  assert.match(server, /import \{[^}]*seriesSiteKey[^}]*\} from "\.\/insights\/route\.ts"/);
   assert.doesNotMatch(v, /site:[^\n]*user/);
 });
 
-test("no sources returns null and a null series renders the fallback, not a throw", () => {
+test("no sources keeps the heading and a null series renders the fallback, not a throw", () => {
   const v = body("VisitsPanel");
-  assert.match(v, /if \(!sources\) return null;/);
+  assert.doesNotMatch(v, /return null/);
   assert.match(v, /\.catch\(\(\) => null\)/);
   assert.match(server, /visitsView\(series: Series \| null\)[\s\S]*?ok: false as const, sentence: VISITS_FALLBACK/);
   assert.match(server, /VISITS_FALLBACK = "Visit numbers aren't available right now\."/);
 });
 
-test("search health reads each collection through the cache and parse into siteHealth", () => {
+test("search health reads collections and single pages after the read check into siteHealth", () => {
   const s = body("SearchHealthPanel");
+  assert.ok(s.indexOf("readUser(ref)") < s.indexOf("healthEntries("));
   assert.match(s, /getCollectionCache\(/);
-  assert.match(s, /parse\(file\.content/);
+  assert.match(s, /rest\.repos\.getContent\(/);
+  assert.match(s, /ctx\.token/);
   assert.match(s, /siteHealth\(entries/);
+  assert.match(s, /FIX_LIMIT\.staff : FIX_LIMIT\.client/);
+  assert.match(server, /FIX_LIMIT = \{ client: 3, staff: 5 \}/);
+});
+
+test("the publish line renders only the state text, from the map entry", () => {
+  const p = body("PublishLine");
+  assert.match(p, /if \(!sources\?\.pages\) return null;/);
+  assert.match(p, /project: sources\.pages/);
+  assert.match(p, /publishLine\(status, new Date\(\)\)/);
+  assert.doesNotMatch(p, /status\.(?!state)\w+|\{status\}/);
 });
 
 test("each skeleton has animate-pulse and motion-reduce:animate-none", () => {
   assert.match(skeleton, /BLOCK = "[^"]*animate-pulse motion-reduce:animate-none/);
-  for (const name of ["VisitsSkeleton", "SearchHealthSkeleton", "VersionSkeleton"]) {
+  for (const name of ["VisitsSkeleton", "SearchHealthSkeleton", "TopListsSkeleton", "PublishSkeleton", "StaffSkeleton", "VersionSkeleton"]) {
     const start = skeleton.indexOf(`export function ${name}`);
     assert.ok(start >= 0, name);
     const next = skeleton.indexOf("export function", start + 1);
@@ -77,7 +91,7 @@ test("each skeleton has animate-pulse and motion-reduce:animate-none", () => {
 });
 
 test("no token, account id or key file name appears in any prop", () => {
-  for (const name of ["VisitsPanel", "SearchHealthPanel", "VersionLine"]) {
+  for (const name of ["VisitsPanel", "SearchHealthPanel", "VersionLine", "PublishLine", "TopLists", "StaffStrip"]) {
     const signature = body(name).split("\n")[0];
     assert.doesNotMatch(signature, /token|account|key/i, name);
   }

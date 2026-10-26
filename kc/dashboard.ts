@@ -113,3 +113,82 @@ export function recentEdits(items: FeedItem[], limit: number, config?: any): Rec
     };
   });
 }
+
+// "David Mills" gives "DM", "sam" gives "S", nothing gives "?".
+export function initials(name: string | null | undefined): string {
+  const parts = (name ?? "").trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return "?";
+  const letters = parts.length === 1 ? parts[0].charAt(0) : parts[0].charAt(0) + parts[parts.length - 1].charAt(0);
+  return letters.toUpperCase();
+}
+
+export type ChangeVerb = "added" | "updated" | "uploaded" | "changed";
+
+// Pages CMS commit messages start "Create", "Update" or "Upload". Client feeds
+// carry no message, so their changes read as "changed".
+export function changeVerb(message: string | null | undefined): ChangeVerb {
+  const m = (message ?? "").trim().toLowerCase();
+  if (m.startsWith("create") || m.startsWith("add")) return "added";
+  if (m.startsWith("upload")) return "uploaded";
+  if (m.startsWith("update") || m.startsWith("edit")) return "updated";
+  return "changed";
+}
+
+// "David updated Home" for a single page, "David added an entry in Weekly" for a collection.
+export function activitySentence(authorName: string, verb: ChangeVerb, title: string, kind: "file" | "collection" | null): string {
+  const who = authorName.trim().split(/\s+/)[0] || "Someone";
+  return kind === "collection" ? `${who} ${verb} an entry in ${title}` : `${who} ${verb} ${title}`;
+}
+
+export type Activity = { initials: string; sentence: string; date: string | null; path: string };
+
+type ActivityItem = FeedItem & { commit?: { message?: string | null; author?: { name?: string | null; date?: string | null } | null } | null };
+
+// One plain sentence per change. The path is kept for staff; the layout drops it for clients.
+export function recentActivity(items: ActivityItem[], limit: number, config?: any): Activity[] {
+  const content = flatten(contentNodes(config));
+  return recentEdits(items, limit, config).map((edit, i) => {
+    const node = content.find((n) => n.path === edit.path);
+    const kind = node?.type === "collection" || node?.type === "file" ? node.type : null;
+    return {
+      initials: initials(edit.authorName),
+      sentence: activitySentence(edit.authorName, changeVerb(items[i]?.commit?.message), edit.title, kind),
+      date: edit.date,
+      path: edit.path,
+    };
+  });
+}
+
+type HealthSchema = { type?: string; name?: string; path?: string; fields?: unknown; list?: unknown; format?: string; delimiters?: unknown; view?: any };
+export type HealthReaders = {
+  collection: (schema: HealthSchema) => Promise<{ type?: string; path?: string; content?: unknown }[]>;
+  file: (schema: HealthSchema) => Promise<string | null>;
+  parse: (content: string, schema: HealthSchema) => Record<string, unknown>;
+};
+
+// Every entry search health can score: collection files and single-page files
+// whose schema has a top-level title and description. A read or parse failure
+// skips that entry, never the panel.
+export async function healthEntries(content: HealthSchema[], read: HealthReaders) {
+  const entries: { name: string; path: string; values: Record<string, unknown> }[] = [];
+  for (const schema of content ?? []) {
+    if (typeof schema?.path !== "string" || typeof schema.name !== "string") continue;
+    if (schema.type !== "collection" && (schema.type !== "file" || schema.list)) continue;
+    const targets = new Set(Array.isArray(schema.fields) ? schema.fields.map((f: any) => f?.name) : []);
+    if (!targets.has("title") || !targets.has("description")) continue;
+    try {
+      if (schema.type === "file") {
+        const text = await read.file(schema);
+        if (typeof text === "string") entries.push({ name: schema.name, path: schema.path, values: read.parse(text, schema) });
+        continue;
+      }
+      for (const file of await read.collection(schema)) {
+        if (file.type !== "file" || typeof file.content !== "string" || typeof file.path !== "string") continue;
+        try {
+          entries.push({ name: schema.name, path: file.path, values: read.parse(file.content, schema) });
+        } catch {}
+      }
+    } catch {}
+  }
+  return entries;
+}
