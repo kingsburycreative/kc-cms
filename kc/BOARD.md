@@ -2,12 +2,18 @@
 
 ## Now
 
+- **28**: Insights history series from Cloudflare and GA4, 7, 30 and 90 days (`.claude/work/38-plan-insights-charts/plan.md` card 28)
+- **29**: Insights chart component on uPlot with a range toggle (`.claude/work/38-plan-insights-charts/plan.md` card 29)
+- **30**: Charts on the Insights page, with their copy (`.claude/work/38-plan-insights-charts/plan.md` card 30)
+- **31**: Security audit of kc/insights/ (`.claude/work/38-plan-insights-charts/plan.md` card 31)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
 ## Next
 
 ## Waiting on Rob
+
+- **32** (`.claude/work/38-plan-insights-charts/plan.md` card 32): deploy the Insights charts to the box, then a live check with BeSciWorks's numbers at 375px.
 
 - **nginx limit_req** (from the otp-ip-key audit): an nginx `limit_req` zone on
   `/api/auth/email-otp/` and `/api/auth/sign-in/` would cap the send race at

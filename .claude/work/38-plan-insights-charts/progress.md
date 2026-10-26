@@ -1,0 +1,5 @@
+- Read project.md, plan 15, BOARD, insights/*.ts, Insights page, chris-adams lib/stats.mjs and stats.js.
+- uplot version vendored by Chris Adams: 1.6.32 (uPlot.LICENSE.txt line 1-2). kc-cms-app package.json has no uplot.
+- Coordinator change: uPlot approved, replaces hand-drawn SVG. project.md has no exception path for a dependency, so a person must clear it (flag in plan).
+- Next free: work folder 38; board cards 27 onward.
+- Writing plan.md now.
