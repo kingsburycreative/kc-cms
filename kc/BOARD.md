@@ -2,8 +2,9 @@
 
 ## Now
 
-- **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
+- **60**: Dashboard matches the approved mockup (`.claude/work/41-plan-dashboard-fix/plan.md` card 60)
 - **short-url-main-segment** (card 54 audit A, before deploy): kc/short-url.ts:79 checks segments[5], should be [4]; add a redirect-then-rewrite round-trip test.
+- **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
@@ -50,12 +51,7 @@
 
 ## Done
 
-- **54**: Security audit of short addresses, no high open (`.claude/work/56-short-url-audit/result.md`)
-- **59**: Sidebar: fold the single pages under one Pages entry, 44px items (`.claude/work/40-plan-short-urls/plan.md` card 59)
-- **51**: Link coverage guard, a source scan fails on any page link not using the short address (`.claude/work/54-link-guard/`)
-- **49**: Link helper in `kc/` and the repo chrome, KC links use the short address (`.claude/work/52-link-helper/`)
-- **48**: Hook the proxy, short addresses rewrite and full ones 308 (`.claude/work/51-proxy-hook/`)
-- **47**: Short-URL core, pure rewrite and redirect functions (`.claude/work/50-short-url-core/`)
+- **47 to 59**: short addresses, link helper and guard, folded Pages sidebar, audit (`.claude/work/40-plan-short-urls/plan.md`); PRs #67 to #72
 
 - **35 to 43**: the new dashboard (`.claude/work/39-plan-dashboard/plan.md`); PRs #60 to #66
 
