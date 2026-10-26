@@ -2,7 +2,6 @@
 
 ## Now
 
-- **40**: Dashboard layout and page wiring (`.claude/work/39-plan-dashboard/plan.md` card 40)
 - **43**: Publish status from Cloudflare Pages (`.claude/work/39-plan-dashboard/plan.md` card 43)
 - **41**: Security audit of the dashboard (`.claude/work/39-plan-dashboard/plan.md` card 41)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
@@ -40,6 +39,8 @@
 
 
 ## Done
+
+- **40** dashboard-layout: on feat/40-dashboard-layout; the branch page checks repo read access on the server before any panel, then renders visits, search health and the version line each in Suspense with its skeleton. kc/dashboard.tsx has the new header with See live site, quick actions as tinted links, a container-query grid, and recent changes behind pulsing skeleton rows. Not seen in a browser.
 
 - **39** dashboard-loaders: on feat/39-dashboard-loaders; kc/dashboard-server.tsx holds the visits, search health and version panels (visits only behind the Insights gate, series cached per site, clients see only whether an update exists) and kc/dashboard-skeleton.tsx a pulsing skeleton per panel. Count-up, ring fill and bar growth left for card 40; not seen in a browser.
 

@@ -691,5 +691,22 @@
     "verified_at": "2026-10-26T19:34:37.864Z",
     "tree": "66a468860d4ad96d117b9706e69d52337d7387d848ceb5a16852d16ce196f56f",
     "gate": "full"
+  },
+  {
+    "id": "40",
+    "title": "Dashboard layout and page wiring",
+    "brief": ".claude/work/47-dashboard-layout/brief.md",
+    "start_sha": "35d6264225a8cbf6cf180930a77dac683c86f502",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:39:52.292Z",
+      "start_sha": "35d6264225a8cbf6cf180930a77dac683c86f502",
+      "mutation_evidence": true,
+      "tree": "ffd0cebd2c1eacc42eb395a2e63e860e10f3f488b2cc5e6e1cc28a33809ab27e",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-26T19:41:21.638Z",
+    "tree": "ffd0cebd2c1eacc42eb395a2e63e860e10f3f488b2cc5e6e1cc28a33809ab27e",
+    "gate": "full"
   }
 ]
