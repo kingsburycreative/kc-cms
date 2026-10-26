@@ -13,6 +13,8 @@ Build a server-side command that does what the Invite button does for one client
 
 If reusing those functions needs them extracted out of the `"use server"` action file into a plain module the action then imports, do that with no behaviour change to the action (its tests stay green). Add a short section to `docs/` (or the existing ops doc that covers `insights-map.sh`-style box commands) with the exact ssh command form, using placeholders for host and key.
 
+Re-brief, 2026-10-26: the first run parked because the box cannot load `lib/` (path aliases, TypeScript) without `tsx`. Rob decided by the project rubric: add `tsx` as a runtime dependency (security beats an admin HTTP endpoint, which would be new attack surface). Add it to `package.json` `dependencies` at an exact pinned version (no caret) and update the lock file with the project's package manager, offline-capable if the cache has it, otherwise one network install of that package only. Run the script as `node --import tsx scripts/add-editor.mts ...` (or `npx tsx`), and check the tsconfig `paths` aliases resolve under it. Confirm deploy.sh's install step (`npm ci` or equivalent in D:\Dev\htdocs\kc-cms\server\deploy.sh) will install it on the box (not dev-only).
+
 ## Read first
 - `D:\Dev\htdocs\kc-cms-app\.claude\project.md` (tests, relative `.ts` imports, how scripts run)
 - `lib/actions/collaborator.ts`, `lib/collaborator-access.ts`, `lib/mailer.ts`, `kc/email.ts`, `components/email/invite.tsx`, the collaborator schema in `db/`
@@ -22,6 +24,7 @@ If reusing those functions needs them extracted out of the `"use server"` action
 - new `D:\Dev\htdocs\kc-cms-app\scripts\add-editor.mts` and a test under `kc\tests\` (or the project's test folder for scripts)
 - `lib/actions/collaborator.ts` and a new plain module beside it, only to share the invite logic
 - one doc file under `docs\`
+- `package.json` and the lock file (the `tsx` dependency only)
 - `D:\Dev\htdocs\kc-cms-app\.claude\work\62-add-editor-script\result.md` and `progress.md` (new)
 
 ## Done-test
@@ -30,7 +33,7 @@ New tests pass through `node C:\Users\roban\.claude\bin\project-test.cjs <new an
 Mutation check, through the runner: drop the owner check; name the tests that fail, restore, run green.
 
 ## Boundaries
-No commit, no push, no install, no network, nothing run against the real box or database. No `package.json` script entry unless the project already lists scripts that way (then one line), no lock file, no `db/migrations/`. Never read or print a secret or `.env`. Keep `progress.md` beside this brief, updated after each step that changes a file: done so far, files touched, next step, anything half-written.
+No commit, no push, nothing run against the real box or database. The only install allowed is `tsx` as above; the only `package.json` and lock file changes are that dependency (plus at most one script line if the project already lists scripts that way). No `db/migrations/`. Never read or print a secret or `.env`. Keep `progress.md` beside this brief, updated after each step that changes a file: done so far, files touched, next step, anything half-written.
 
 ## Report
 `result.md` beside this file, under 250 words: files changed, the exact command to run on the box, tests added, the mutation result naming the failing tests, anything left undone.
