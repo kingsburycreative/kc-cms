@@ -107,3 +107,7 @@
 
 ## 2026-10-23 otp-atomic-limit (board Now, resumed from wip b87d389)
 - Branch feat/otp-atomic-limit from main at e15bdc3 (PR #50 merged). Opus worker, risky path (lib/auth.ts). Scope ok with mutation evidence (tight limit keyed on email only: three tests failed, restored green); diff read, tests all new. Counts before checking: per IP 10 first, then 5 per email and IP together, then 30 per email across IPs; each refusal stops before the next counter; hooks.before also 404s the disabled paths. Worker reports the runner ignored the file argument and ran the whole kc suite each time. Sent to the loop's gate with an audit (lib/auth.ts).
+
+## 2026-10-26 insights-series (plan 38 card 28, checklist 28)
+- Top Now card. Branch feat/28-insights-series from main at 329cfed. Opus worker, risky path (kc/insights/). Scope ok with mutation evidence (UTC bucketing failed the late-evening test; GA4-first failed both-sources and fallback). Diff read, tests all new, existing query untouched. Cache keyed by a caller-given site string; failures not cached. Sent to the loop's gate with an audit.
+- Round two: tsc failed on the test helper's return type; Opus worker made it generic, one line, no assertion changed. Scope ok; back to the gate with the audit.

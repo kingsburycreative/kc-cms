@@ -538,5 +538,22 @@
     },
     "verified_at": "2026-10-23T16:41:32.034Z",
     "tree": "0fdfaea6d10babb124002f2263a0c7959da4e9825e0f6eb98440ffaa27cabe15"
+  },
+  {
+    "id": "28",
+    "title": "Insights history series from Cloudflare and GA4",
+    "brief": ".claude/work/39-insights-series/brief.md",
+    "start_sha": "329cfed3eb56ba3d9a8700d63f7a9e7e28982564",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T18:00:46.806Z",
+      "start_sha": "329cfed3eb56ba3d9a8700d63f7a9e7e28982564",
+      "mutation_evidence": true,
+      "tree": "3095fbb6f12da22a52ac65f30b27048b5218cd489780b8e31c4c96d8d8999888",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-26T18:01:47.770Z",
+    "tree": "3095fbb6f12da22a52ac65f30b27048b5218cd489780b8e31c4c96d8d8999888",
+    "gate": "full"
   }
 ]

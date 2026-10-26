@@ -8,6 +8,7 @@
 // Web Analytics query and should be checked by introspection before launch:
 // https://developers.cloudflare.com/analytics/graphql-api/features/discovery/introspection/
 import * as cards from "./cards.ts";
+import { torontoDay, zeroFilled, type SeriesPoint } from "./series.ts";
 
 export const CF_GRAPHQL_URL = "https://api.cloudflare.com/client/v4/graphql";
 export const CF_TOP_PAGES = 5;
@@ -59,4 +60,43 @@ export function cloudflareCards(res: CloudflareResponse, trim: (path: string) =>
     })),
   });
   return { visitors, pages };
+}
+
+// The history series. Field names datetime_geq/datetime_lt (type Time!),
+// dimensions.datetimeHour and orderBy datetimeHour_ASC were checked against the
+// live API on 2026-10-23 (chris-adams lib/stats.mjs); the dataset allows 93 days per query.
+const SERIES_QUERY = `query ($accountTag: string!, $siteTag: string!, $from: Time!, $to: Time!) {
+  viewer {
+    accounts(filter: { accountTag: $accountTag }) {
+      hours: rumPageloadEventsAdaptiveGroups(limit: 5000, orderBy: [datetimeHour_ASC], filter: { siteTag: $siteTag, datetime_geq: $from, datetime_lt: $to }) { count sum { visits } dimensions { datetimeHour } }
+    }
+  }
+}`;
+export const CF_SERIES_WINDOW_DAYS = 91;
+
+export function cloudflareSeriesRequest(accountTag: string, siteTag: string, nowMs: number): CloudflareRequest {
+  return {
+    query: SERIES_QUERY,
+    variables: {
+      accountTag,
+      siteTag,
+      from: new Date(nowMs - CF_SERIES_WINDOW_DAYS * DAY_MS).toISOString(),
+      to: new Date(nowMs).toISOString(),
+    },
+  };
+}
+
+type HourGroup = { count?: number; sum?: { visits?: number }; dimensions?: { datetimeHour?: string } };
+export type CloudflareSeriesResponse = {
+  data?: { viewer?: { accounts?: { hours?: HourGroup[] }[] } } | null;
+  errors?: unknown[] | null;
+};
+
+export function cloudflareSeries(res: CloudflareSeriesResponse, nowMs: number): SeriesPoint[] {
+  const rows = (res.data?.viewer?.accounts?.[0]?.hours ?? []).flatMap((g) =>
+    g.dimensions?.datetimeHour
+      ? [{ day: torontoDay(g.dimensions.datetimeHour), visits: g.sum?.visits ?? 0, views: g.count ?? 0 }]
+      : [],
+  );
+  return zeroFilled(nowMs, rows);
 }

@@ -6,7 +6,16 @@ import * as reports from "./reports.ts";
 import * as cards from "./cards.ts";
 import type { RunReportRequest } from "./reports.ts";
 import type { RunReportResponse } from "./cards.ts";
-import { CF_GRAPHQL_URL, cloudflareCards, cloudflareRequest, type CloudflareResponse } from "./cloudflare.ts";
+import {
+  CF_GRAPHQL_URL,
+  cloudflareCards,
+  cloudflareRequest,
+  cloudflareSeries,
+  cloudflareSeriesRequest,
+  type CloudflareResponse,
+  type CloudflareSeriesResponse,
+} from "./cloudflare.ts";
+import { ga4Day, zeroFilled, type Series } from "./series.ts";
 
 type Fetch = (url: string, init: { method: string; headers: Record<string, string>; body: string }) => Promise<{
   ok: boolean;
@@ -196,3 +205,65 @@ export async function loadSiteInsights(opts: SiteLoadOptions): Promise<SiteInsig
 }
 
 export const defaultCloudflareCache = createCache<CloudflareTotals>();
+
+// The chart history: Cloudflare first, GA4 when Cloudflare is missing or fails,
+// null when neither answers. Cached for an hour per site; a failure is not cached.
+export type SeriesOptions = {
+  site: string;
+  propertyId: string | null | undefined;
+  key: ServiceAccountKey | null;
+  cloudflare: Omit<CloudflareOptions, "cache"> | null;
+  fetchFn: Fetch;
+  cache: ReturnType<typeof createCache<Series>>;
+  now?: () => number;
+  log?: (line: string) => void;
+};
+
+async function cloudflareSeriesFor(cf: Omit<CloudflareOptions, "cache">, fetchFn: Fetch, nowMs: number, log: (line: string) => void) {
+  const { siteTag, accountId, token } = cf;
+  if (!accountId || !token) return null;
+  try {
+    const res = await fetchFn(CF_GRAPHQL_URL, {
+      method: "POST",
+      headers: { authorization: `Bearer ${token}`, "content-type": "application/json" },
+      body: JSON.stringify(cloudflareSeriesRequest(accountId, siteTag, nowMs)),
+    });
+    if (!res.ok) throw new GoogleError(res.status);
+    const data = (await res.json()) as CloudflareSeriesResponse;
+    if (data.errors?.length || !data.data) throw new GoogleError(res.status);
+    return cloudflareSeries(data, nowMs);
+  } catch (error) {
+    // One line, the status code only: no body, no URL, no token.
+    const status = error instanceof GoogleError && error.status ? error.status : "unknown";
+    log(`Insights: Cloudflare series request failed with status ${status}`);
+    return null;
+  }
+}
+
+async function ga4Series(key: ServiceAccountKey, propertyId: string, fetchFn: Fetch, now: () => number) {
+  const token = (await fetchAccessToken(key, fetchFn, now)).accessToken;
+  const res = await runReport(fetchFn, propertyId, token, reports.dailyReport());
+  const rows = (res.rows ?? []).flatMap((row) => {
+    const day = ga4Day(row.dimensionValues?.[0]?.value);
+    if (!day) return [];
+    return [{ day, visits: Number(row.metricValues?.[0]?.value) || 0, views: Number(row.metricValues?.[1]?.value) || 0 }];
+  });
+  return zeroFilled(now(), rows);
+}
+
+export async function loadSeries(opts: SeriesOptions): Promise<Series | null> {
+  const { site, propertyId, key, cloudflare, fetchFn, cache, now = Date.now, log = console.error } = opts;
+  try {
+    return await cache(site, async (): Promise<Series> => {
+      const cf = cloudflare ? await cloudflareSeriesFor(cloudflare, fetchFn, now(), log) : null;
+      if (cf) return { from: "cloudflare", days: cf };
+      if (propertyId && key) return { from: "ga4", days: await ga4Series(key, propertyId, fetchFn, now) };
+      throw new Error("no source");
+    });
+  } catch (error) {
+    if (error instanceof GoogleError) log(`Insights: Google series request failed with status ${error.status}`);
+    return null;
+  }
+}
+
+export const defaultSeriesCache = createCache<Series>();
