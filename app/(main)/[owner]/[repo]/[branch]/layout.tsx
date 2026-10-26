@@ -1,3 +1,4 @@
+import { shortHref } from "@/kc/short-url";
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { getConfig } from "@/lib/config-store";
@@ -71,7 +72,7 @@ export default async function Layout({
               <EmptyDescription>{`The branch "${decodedBranch}" could not be found. It may have been removed or renamed.`}</EmptyDescription>
             </EmptyHeader>
             <EmptyContent>
-              <Link className={buttonVariants({ variant: "default" })} href={`/${owner}/${repo}`}>
+              <Link className={buttonVariants({ variant: "default" })} href={shortHref(`/${owner}/${repo}`)}>
                 Open default branch
               </Link>
             </EmptyContent>

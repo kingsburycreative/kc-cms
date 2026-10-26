@@ -1,3 +1,4 @@
+import { shortHref } from "@/kc/short-url";
 import { redirect } from "next/navigation";
 
 export default async function Page(
@@ -6,5 +7,5 @@ export default async function Page(
   }>,
 ) {
   const params = await props.params;
-  redirect(`/${params.owner}/${params.repo}/${encodeURIComponent(params.branch)}/configuration`);
+  redirect(shortHref(`/${params.owner}/${params.repo}/${encodeURIComponent(params.branch)}/configuration`));
 }

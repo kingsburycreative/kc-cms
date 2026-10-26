@@ -1,5 +1,6 @@
 "use client";
 
+import { shortHref } from "@/kc/short-url";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useRepo } from "@/contexts/repo-context";
@@ -10,7 +11,7 @@ export default function Page() {
 
   useEffect(() => {
     // If no branch is provided, redirect to the default branch
-    router.replace(`/${owner}/${repo}/${encodeURIComponent(defaultBranch as string)}`);
+    router.replace(shortHref(`/${owner}/${repo}/${encodeURIComponent(defaultBranch as string)}`));
   }, [owner, repo, defaultBranch, router]);
   
   return null;

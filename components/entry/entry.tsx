@@ -1,5 +1,6 @@
 "use client";
 
+import { shortHref } from "@/kc/short-url";
 import { Fragment, useEffect, useState, useMemo, useCallback, useRef } from "react";
 import type { ReactNode } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -379,7 +380,7 @@ export function Entry({
           savePath = newPath;
           setPath(newPath);
           setIsFilenameUnlocked(false);
-          router.replace(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}/edit/${encodeURIComponent(newPath)}`);
+          router.replace(shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}/edit/${encodeURIComponent(newPath)}`));
 
           const collectionKeyPrefix = `/api/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collections/${encodeURIComponent(name)}?`;
           void mutate((key) => typeof key === "string" && key.startsWith(collectionKeyPrefix));
@@ -407,7 +408,7 @@ export function Entry({
           setHasRegisteredChanges(false);
         }
 
-        if (!path && schemaType === "collection") router.push(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}/edit/${encodeURIComponent(data.data.path)}`);
+        if (!path && schemaType === "collection") router.push(shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}/edit/${encodeURIComponent(data.data.path)}`));
         if (schemaType === "collection") {
           const collectionKeyPrefix = `/api/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collections/${encodeURIComponent(name)}?`;
           void mutate((key) => typeof key === "string" && key.startsWith(collectionKeyPrefix));
@@ -472,7 +473,7 @@ export function Entry({
       void mutate((key) => typeof key === "string" && key.startsWith(collectionKeyPrefix));
     }
     if (schemaType === "collection") {
-      router.push(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}`);
+      router.push(shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}`));
     } else {
       if (entryApiUrl) {
         void mutate(entryApiUrl, undefined, { revalidate: true });
@@ -490,7 +491,7 @@ export function Entry({
       void mutate(entryApiUrl, undefined, { revalidate: false });
     }
     setPath(newPath);
-    router.replace(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}/edit/${encodeURIComponent(newPath)}`);
+    router.replace(shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}/edit/${encodeURIComponent(newPath)}`));
   }, [config.branch, config.owner, config.repo, entryApiUrl, mutate, name, router, schemaType]);
 
   const breadcrumbNode = useMemo(() => {
@@ -535,7 +536,7 @@ export function Entry({
           ))}
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}`}>
+              <Link href={shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}`)}>
                 {rootLabel}
               </Link>
             </BreadcrumbLink>
@@ -573,7 +574,7 @@ export function Entry({
         ))}
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
-            <Link href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}`}>
+            <Link href={shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}`)}>
               {rootLabel}
             </Link>
           </BreadcrumbLink>
@@ -591,7 +592,7 @@ export function Entry({
                 <DropdownMenuContent align="start">
                   {middleEntries.map((entry) => (
                     <DropdownMenuItem key={entry.path} asChild>
-                      <Link href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}?path=${encodeURIComponent(entry.path)}`}>
+                      <Link href={shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}?path=${encodeURIComponent(entry.path)}`)}>
                         {entry.name}
                       </Link>
                     </DropdownMenuItem>
@@ -607,7 +608,7 @@ export function Entry({
           <>
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
-                <Link href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}?path=${encodeURIComponent(immediateParent.path)}`}>
+                <Link href={shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}?path=${encodeURIComponent(immediateParent.path)}`)}>
                   {immediateParent.name}
                 </Link>
               </BreadcrumbLink>
@@ -824,7 +825,7 @@ export function Entry({
             <EmptyContent>
               <Link
                 className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-xs hover:bg-primary/90"
-                href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/configuration`}
+                href={shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/configuration`)}
               >
                 Go to configuration
               </Link>
@@ -848,7 +849,7 @@ export function Entry({
           <EmptyContent>
             <Link
               className="inline-flex items-center justify-center rounded-md bg-primary px-3 py-2 text-sm font-medium text-primary-foreground shadow-xs hover:bg-primary/90"
-              href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}`}
+              href={shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collection/${encodeURIComponent(name)}`)}
             >
               Back to collection
             </Link>

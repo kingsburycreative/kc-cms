@@ -2,7 +2,6 @@
 
 ## Now
 
-- **50**: Link helper in the editor pages (`.claude/work/40-plan-short-urls/plan.md` card 50)
 - **51**: Link coverage guard (`.claude/work/40-plan-short-urls/plan.md` card 51)
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **59**: Sidebar: fold the single pages under one Pages entry, 44px items (`.claude/work/40-plan-short-urls/plan.md` card 59)

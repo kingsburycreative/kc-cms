@@ -776,5 +776,22 @@
     "verified_at": "2026-10-26T20:13:58.329Z",
     "tree": "422a7cd5242d4ed917374015d128b66586b9ba9e7dc7bc889f5373ab546634c6",
     "gate": "full"
+  },
+  {
+    "id": "50",
+    "title": "Link helper in the editor pages",
+    "brief": ".claude/work/53-editor-links/brief.md",
+    "start_sha": "9369fe82da49671c77dd8d4ae67a67e66c2c6ea6",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T20:17:00.394Z",
+      "start_sha": "9369fe82da49671c77dd8d4ae67a67e66c2c6ea6",
+      "mutation_evidence": true,
+      "tree": "edfcbe3da700abb57ba94d41e493fb5e8772d025e535ec5484c899b31df868e3",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T20:17:41.278Z",
+    "tree": "edfcbe3da700abb57ba94d41e493fb5e8772d025e535ec5484c899b31df868e3",
+    "gate": "full"
   }
 ]

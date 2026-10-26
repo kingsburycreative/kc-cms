@@ -151,3 +151,6 @@
 
 ## 2026-10-26 49 link-helper (board Now)
 - Branch feat/49-link-helper from feat/48-proxy-hook at 86e0deb. Sonnet worker, Normal, no risky path (page hrefs only, /api/ strings pinned at 8 by a source test). First scope check failed on my brief listing components/repo files by bare name; fixed the brief's paths, scope ok with mutation evidence (shortHref as identity failed the dashboard, client-view and two short-url tests). Diff read: one import plus wrapped hrefs per file, tests only added. Worker did not write progress.md. Sent to the gate, no audit.
+
+## 2026-10-26 50 editor-links (board Now)
+- Branch feat/50-editor-links from feat/49-link-helper at 9369fe8. Sonnet worker, Normal, no risky path (page hrefs in upstream editor files; layout access code untouched). Card 51's guard not written yet, so the brief gave a scoped source test (short-href-editor.test.ts, /api/ count pinned at 12). Scope ok with mutation evidence (unwrapped links in entry.tsx and collection.tsx failed the wrap test). Diff read: import plus wrapped hrefs only. Sent to the gate, no audit.

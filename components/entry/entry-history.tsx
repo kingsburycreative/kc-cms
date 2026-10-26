@@ -1,5 +1,6 @@
 "use client";
 
+import { shortHref } from "@/kc/short-url";
 import Link from "next/link";
 import { formatDistanceToNow } from "date-fns";
 import { getInitialsFromName } from "@/lib/utils/avatar";
@@ -22,7 +23,7 @@ import { History } from "lucide-react";
 type HistoryConfig = { owner: string; repo: string; branch: string } | null | undefined;
 
 const siteHistoryHref = (config: HistoryConfig) =>
-  `/${config?.owner}/${config?.repo}/${encodeURIComponent(config?.branch ?? "")}/history`;
+  shortHref(`/${config?.owner}/${config?.repo}/${encodeURIComponent(config?.branch ?? "")}/history`);
 
 const entryHistoryHref = (config: HistoryConfig, path: string, sha: string) =>
   `${siteHistoryHref(config)}/entry?path=${encodeURIComponent(path)}&sha=${encodeURIComponent(sha)}`;
@@ -77,7 +78,7 @@ export function EntryHistoryBlock({
       ))}
       {history.length > 3 && (
         <Link
-          href={`/${config?.owner}/${config?.repo}/${encodeURIComponent(config?.branch ?? "")}/history`}
+          href={shortHref(`/${config?.owner}/${config?.repo}/${encodeURIComponent(config?.branch ?? "")}/history`)}
           className="flex items-center rounded-lg px-3 py-2 transition-all hover:bg-accent ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
         >
           <span className="mr-4">See all changes</span>

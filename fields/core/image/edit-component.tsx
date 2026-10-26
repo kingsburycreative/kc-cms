@@ -1,5 +1,6 @@
 "use client";
 
+import { shortHref } from "@/kc/short-url";
 import { forwardRef, useCallback, useState, useEffect, useMemo } from "react";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
@@ -265,7 +266,7 @@ const EditComponent = forwardRef((props: EditorProps, ref: React.Ref<HTMLInputEl
       <p className="text-muted-foreground bg-muted rounded-md px-3 py-2">
       No media configuration found. {' '}
       <a 
-        href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch || "")}/settings`}
+        href={shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch || "")}/settings`)}
         className="underline hover:text-foreground"
       >
         Check your settings

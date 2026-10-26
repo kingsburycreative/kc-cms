@@ -1,0 +1,2 @@
+- /api/ literal count across the listed files before editing: 12 (entry 8, collection 2, media-view 1, empty-create 1).
+- Next: write kc/tests/short-href-editor.test.ts, see it fail, then wrap links.

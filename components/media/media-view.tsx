@@ -1,5 +1,6 @@
 "use client";
 
+import { shortHref } from "@/kc/short-url";
 import { Fragment, memo, type ReactNode, startTransition, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -624,7 +625,7 @@ const MediaView = ({
         <EmptyContent>
           <Link
             className={buttonVariants({ variant: "default" })}
-            href={`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/configuration`}
+            href={shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/configuration`)}
           >
             Open configuration
           </Link>
