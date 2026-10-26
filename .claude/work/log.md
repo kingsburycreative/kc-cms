@@ -127,3 +127,6 @@
 ## 2026-10-26 36 seo-site (board Now)
 - Branch feat/36-seo-site from feat/35-dashboard-model at ab1fda5. Sonnet worker, Normal, not a risky path. Scope ok with mutation evidence (counting reading grade failed the page-file and advice tests; dropping the advice no-body guard failed the page-file test). The counted no-body guard is redundant today since body checks pass on an empty body. Diff read, all new files. Sent to the gate, no audit.
 - Round two: tsc flagged two dead status comparisons in the test after assert.equal had already narrowed; Sonnet worker removed them, no assertion changed. Scope ok; back to the gate.
+
+## 2026-10-26 37 version-status (board Now)
+- Branch feat/37-version-status from feat/36-seo-site at d5fc358. Sonnet worker, Normal, not a risky path (public GET, no token). Scope ok with mutation evidence (failed fetch as current failed five failure tests). Diff read, all new files; warn lines use fixed text so no URL or header reaches the log. Sent to the gate, no audit.

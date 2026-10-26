@@ -640,5 +640,22 @@
     "verified_at": "2026-10-26T19:21:34.509Z",
     "tree": "b616b9ca55308be668444ca14a99f44be409a2f9c5e4b284e52e3f3aca1b6e01",
     "gate": "full"
+  },
+  {
+    "id": "37",
+    "title": "Version status",
+    "brief": ".claude/work/44-version-status/brief.md",
+    "start_sha": "d5fc358fef927a0d1a0905a3f850ff9f6f758c64",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:24:22.357Z",
+      "start_sha": "d5fc358fef927a0d1a0905a3f850ff9f6f758c64",
+      "mutation_evidence": true,
+      "tree": "7e8de18875de133eaeac39f2920c23e99191ca90bb1964ff4e6dd861cf177c8d",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T19:25:16.793Z",
+    "tree": "7e8de18875de133eaeac39f2920c23e99191ca90bb1964ff4e6dd861cf177c8d",
+    "gate": "full"
   }
 ]
