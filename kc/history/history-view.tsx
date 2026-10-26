@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useConfig } from "@/contexts/config-context";
 import { recentEdits, type FeedItem, type RecentEdit } from "../dashboard.ts";
+import { shortHref } from "../short-url.ts";
 import { PageHeader } from "../page-header.tsx";
 import { diffEntry, type EntryDiff } from "./diff.ts";
 
@@ -49,7 +50,7 @@ export function SiteHistory() {
   }, [config?.owner, config?.repo, config?.branch]);
 
   if (!config) return null;
-  const base = `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/history/entry`;
+  const base = shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/history/entry`);
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-4 p-4 md:p-6">
@@ -131,9 +132,9 @@ export function EntryHistory({ path, sha }: { path: string; sha: string }) {
   }, [config?.owner, config?.repo, config?.branch, path, sha]);
 
   if (!config) return null;
-  const back = `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/history`;
+  const back = shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/history`);
   const target = schemaFor(config.object, path);
-  const editor = `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}`;
+  const editor = shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}`);
   const restore = target?.name
     ? target.type === "file"
       ? `${editor}/file/${encodeURIComponent(target.name)}?restore=${encodeURIComponent(sha)}`

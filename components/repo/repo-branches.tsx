@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { requireApiSuccess } from "@/lib/api-client";
 import { cn } from "@/lib/utils";
+import { shortHref } from "@/kc/short-url";
 import { Check, Loader } from "lucide-react";
 
 export function RepoBranches() {
@@ -94,7 +95,7 @@ export function RepoBranches() {
                   : "hover:bg-accent",
                 "inline-flex items-center rounded-lg px-3 py-2 transition-all ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
               )}
-              href={`/${owner}/${repo}/${encodeURIComponent(branch)}`}
+              href={shortHref(`/${owner}/${repo}/${encodeURIComponent(branch)}`)}
             >
               <span className="truncate">{branch}</span>
               {branch === config?.branch && <Check className="h-4 w-4 ml-auto opacity-50" />}

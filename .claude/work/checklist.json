@@ -759,5 +759,22 @@
     "verified_at": "2026-10-26T20:09:45.857Z",
     "tree": "627f31d84552bae1ae2c7627a4acdbf41ede727cdf9b469abad7a68560787cf4",
     "gate": "full"
+  },
+  {
+    "id": "49",
+    "title": "Link helper in kc/ and the repo chrome",
+    "brief": ".claude/work/52-link-helper/brief.md",
+    "start_sha": "86e0deb6d352f198c3e52b81031f6d5f897def2a",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T20:13:09.001Z",
+      "start_sha": "86e0deb6d352f198c3e52b81031f6d5f897def2a",
+      "mutation_evidence": true,
+      "tree": "422a7cd5242d4ed917374015d128b66586b9ba9e7dc7bc889f5373ab546634c6",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T20:13:58.329Z",
+    "tree": "422a7cd5242d4ed917374015d128b66586b9ba9e7dc7bc889f5373ab546634c6",
+    "gate": "full"
   }
 ]

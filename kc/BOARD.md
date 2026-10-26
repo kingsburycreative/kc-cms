@@ -2,7 +2,6 @@
 
 ## Now
 
-- **49**: Link helper in `kc/` and the repo chrome (`.claude/work/40-plan-short-urls/plan.md` card 49)
 - **50**: Link helper in the editor pages (`.claude/work/40-plan-short-urls/plan.md` card 50)
 - **51**: Link coverage guard (`.claude/work/40-plan-short-urls/plan.md` card 51)
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
@@ -52,6 +51,7 @@
 
 ## Done
 
+- **49**: Link helper in `kc/` and the repo chrome, KC links use the short address (`.claude/work/52-link-helper/`)
 - **48**: Hook the proxy, short addresses rewrite and full ones 308 (`.claude/work/51-proxy-hook/`)
 - **47**: Short-URL core, pure rewrite and redirect functions (`.claude/work/50-short-url-core/`)
 

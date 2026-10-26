@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useConfig } from "@/contexts/config-context";
 import { useRepo } from "@/contexts/repo-context";
+import { shortHref } from "@/kc/short-url";
 import { RepoBranches } from "./repo-branches";
 import { Button } from "@/components/ui/button";
 import {
@@ -56,7 +57,7 @@ export function RepoDropdown({
   }, [branches]);
 
   const handleBranchChange = (branch: string) => {
-    router.push(`/${owner}/${repo}/${encodeURIComponent(branch)}`);
+    router.push(shortHref(`/${owner}/${repo}/${encodeURIComponent(branch)}`));
   };
 
   return (

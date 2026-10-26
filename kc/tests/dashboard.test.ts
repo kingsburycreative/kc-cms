@@ -21,6 +21,28 @@ test("tiles follow the config, then Media and History", () => {
   assert.equal(tiles[4].href, "/kc/henike/main/history");
 });
 
+test("hrefs use the short address for owner kingsburycreative on main only", () => {
+  const short = { owner: "kingsburycreative", repo: "besciworks", branch: "main", hasInsights: true };
+  const hrefs = [...dashboardTiles(config, short), ...quickActions(config, short)].map((t) => t.href);
+  assert.ok(hrefs.length > 5);
+  for (const href of hrefs) assert.ok(href.startsWith("/besciworks/"), href);
+  for (const other of [{ ...short, owner: "acme" }, { ...short, branch: "dev" }]) {
+    const full = [...dashboardTiles(config, other), ...quickActions(config, other)].map((t) => t.href);
+    for (const href of full) assert.ok(href.startsWith(`/${other.owner}/besciworks/${other.branch}/`), href);
+  }
+});
+
+test("the /api/ literals in the touched files are unchanged", () => {
+  const files = [
+    "kc/client-view.ts", "kc/dashboard.ts", "kc/dashboard.tsx", "kc/history/history-view.tsx",
+    "components/repo/repo-nav.tsx", "components/repo/repo-sidebar.tsx", "components/repo/repo-dropdown.tsx",
+    "components/repo/repo-branches.tsx", "components/repo/repo-latest.tsx",
+    "components/repo/repo-action-buttons.tsx", "components/repo/repo-templates.tsx",
+  ];
+  const count = files.reduce((n, f) => n + (readFileSync(f, "utf8").match(/\/api\//g) ?? []).length, 0);
+  assert.equal(count, 8);
+});
+
 test("no media and no content gives History only", () => {
   assert.deepEqual(dashboardTiles({}, ctx).map((t) => t.key), ["history"]);
 });

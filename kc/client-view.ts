@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { shortHref } from "./short-url.ts";
 
 // The optional top-level `kc:` object in .pages.yml. Three keys, nothing else:
 // `client` (display name), `site` (public site URL) and `actions` (labels for
@@ -69,7 +70,7 @@ export function viewFor(isClient: boolean) {
 type RepoRef = { owner: string; repo: string; defaultBranch?: string | null };
 
 export function repoHref(r: RepoRef): string {
-  return `/${r.owner}/${r.repo}/${r.defaultBranch ? encodeURIComponent(r.defaultBranch) : ""}`;
+  return shortHref(`/${r.owner}/${r.repo}/${r.defaultBranch ? encodeURIComponent(r.defaultBranch) : ""}`);
 }
 
 // A client with exactly one repo, and no search typed, goes straight to its dashboard.

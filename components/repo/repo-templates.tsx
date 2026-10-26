@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useUser } from "@/contexts/user-context";
 import { handleCopyTemplate } from "@/lib/actions/template";
 import templates from "@/lib/templates";
+import { shortHref } from "@/kc/short-url";
 import { Button } from "@/components/ui/button";
 import { SubmitButton } from "@/components/submit-button";
 import {
@@ -98,7 +99,7 @@ export function RepoTemplates({ defaultAccount }: { defaultAccount?: any }) {
           if (!copyTemplateState.data?.owner || !copyTemplateState.data?.repo)
             return;
           router.push(
-            `/${copyTemplateState.data.owner}/${copyTemplateState.data.repo}`,
+            shortHref(`/${copyTemplateState.data.owner}/${copyTemplateState.data.repo}`),
           );
           return `Repository is ready, redirecting you.`;
         },

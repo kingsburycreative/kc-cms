@@ -1,6 +1,8 @@
 // The site dashboard's data: tiles from the config, recent edits from the
 // history feed. Pure: the component reads the config and fetches the feed.
 
+import { shortHref } from "./short-url.ts";
+
 export type Tile = { key: string; label: string; href: string; kind: "file" | "collection" | "media" | "history" | "insights" };
 
 type Node = { type?: string; name?: string; label?: string; path?: string; items?: Node[] };
@@ -30,12 +32,13 @@ function flatten(nodes: Node[]): Node[] {
 export function dashboardTiles(config: any, ctx: DashboardContext): Tile[] {
   const base = `/${ctx.owner}/${ctx.repo}/${encodeURIComponent(ctx.branch)}`;
   const tiles: Tile[] = [];
+  const link = (path: string) => shortHref(`${base}${path}`);
   for (const node of flatten(contentNodes(config))) {
     if (!node.name || (node.type !== "file" && node.type !== "collection")) continue;
     tiles.push({
       key: `${node.type}-${node.name}`,
       label: node.label || node.name,
-      href: `${base}/${node.type}/${encodeURIComponent(node.name)}`,
+      href: link(`/${node.type}/${encodeURIComponent(node.name)}`),
       kind: node.type,
     });
   }
@@ -44,13 +47,13 @@ export function dashboardTiles(config: any, ctx: DashboardContext): Tile[] {
     tiles.push({
       key: "media",
       label: "Media",
-      href: `${base}/media/${encodeURIComponent(media.name || "default")}`,
+      href: link(`/media/${encodeURIComponent(media.name || "default")}`),
       kind: "media",
     });
   }
-  tiles.push({ key: "history", label: "History", href: `${base}/history`, kind: "history" });
+  tiles.push({ key: "history", label: "History", href: link("/history"), kind: "history" });
   if (ctx.hasInsights) {
-    tiles.push({ key: "insights", label: "Insights", href: `${base}/insights`, kind: "insights" });
+    tiles.push({ key: "insights", label: "Insights", href: link("/insights"), kind: "insights" });
   }
   return tiles;
 }
@@ -69,6 +72,7 @@ function acceptsPdf(media: any): boolean {
 // named ones show. Files are never actions.
 export function quickActions(config: any, ctx: DashboardContext): QuickAction[] {
   const base = `/${ctx.owner}/${ctx.repo}/${encodeURIComponent(ctx.branch)}`;
+  const link = (path: string) => shortHref(`${base}${path}`);
   const labels: Record<string, string> = config?.kc?.actions ?? {};
   const limited = Object.keys(labels).length > 0;
   const actions: QuickAction[] = [];
@@ -78,12 +82,12 @@ export function quickActions(config: any, ctx: DashboardContext): QuickAction[] 
     actions.push({
       key: `new-${node.name}`,
       label: labels[node.name] || `Add to ${node.label || node.name}`,
-      href: `${base}/collection/${encodeURIComponent(node.name)}/new`,
+      href: link(`/collection/${encodeURIComponent(node.name)}/new`),
     });
   }
   const media = Array.isArray(config?.media) ? config.media[0] : null;
   if (media && acceptsPdf(media)) {
-    actions.push({ key: "upload-pdf", label: "Upload a PDF", href: `${base}/media/${encodeURIComponent(media.name || "default")}` });
+    actions.push({ key: "upload-pdf", label: "Upload a PDF", href: link(`/media/${encodeURIComponent(media.name || "default")}`) });
   }
   return actions;
 }

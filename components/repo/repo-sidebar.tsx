@@ -16,6 +16,7 @@ import { useUser } from "@/contexts/user-context";
 import { hasGithubIdentity } from "@/lib/authz-shared";
 import { dashboardName, viewFor } from "@/kc/client-view";
 import { BRAND_MARK } from "@/kc/brand";
+import { shortHref } from "@/kc/short-url";
 import { isCacheEnabled, isConfigEnabled } from "@/lib/config";
 import { getRootActions } from "@/lib/actions";
 import { getVisits } from "@/lib/tracker";
@@ -149,7 +150,7 @@ function RepoSwitcher() {
   }, [loadRecentRepos]);
 
   const handleBranchChange = (branch: string) => {
-    router.push(`/${owner}/${repo}/${encodeURIComponent(branch)}`);
+    router.push(shortHref(`/${owner}/${repo}/${encodeURIComponent(branch)}`));
   };
 
   const { user } = useUser();
@@ -157,7 +158,7 @@ function RepoSwitcher() {
   if (!view.branchPicker) {
     return (
       <SidebarMenuButton size="lg" asChild>
-        <Link href={`/${owner}/${repo}/${encodeURIComponent(currentBranch || "main")}`}>
+        <Link href={shortHref(`/${owner}/${repo}/${encodeURIComponent(currentBranch || "main")}`)}>
           <svg className="size-8" viewBox="0 0 32 32" fill={BRAND_MARK} xmlns="http://www.w3.org/2000/svg">
             <circle cx="16" cy="16" r="12" />
           </svg>
@@ -251,7 +252,7 @@ function RepoSwitcher() {
                     key={`${visit.owner}/${visit.repo}/${visit.branch}`}
                   >
                     <Link
-                      href={`/${visit.owner}/${visit.repo}/${encodeURIComponent(visit.branch)}`}
+                      href={shortHref(`/${visit.owner}/${visit.repo}/${encodeURIComponent(visit.branch)}`)}
                     >
                       <img
                         src={`https://github.com/${visit.owner}.png`}
@@ -352,7 +353,7 @@ export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) 
       items.push({
         key: "admin-cache",
         label: "Cache",
-        href: `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/cache`,
+        href: shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/cache`),
         icon: <Database className="size-4" />,
       });
     }
@@ -361,14 +362,14 @@ export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) 
       items.push({
         key: "admin-actions",
         label: "Actions",
-        href: `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/actions`,
+        href: shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/actions`),
         icon: <ListVideo className="size-4" />,
       });
 
       items.push({
         key: "admin-collaborators",
         label: "Collaborators",
-        href: `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collaborators`,
+        href: shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/collaborators`),
         icon: <Users className="size-4" />,
       });
     }
@@ -377,7 +378,7 @@ export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) 
       items.push({
         key: "admin-configuration",
         label: "Configuration",
-        href: `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/configuration`,
+        href: shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/configuration`),
         icon: <Settings className="size-4" />,
       });
     }
@@ -393,9 +394,9 @@ export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) 
     (node: NavigationNode) => {
       if (!config) return "#";
       if (node.type === "media") {
-        return `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/media/${encodeURIComponent(node.name)}`;
+        return shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/media/${encodeURIComponent(node.name)}`);
       }
-      return `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/${node.type}/${encodeURIComponent(node.name)}`;
+      return shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/${node.type}/${encodeURIComponent(node.name)}`);
     },
     [config],
   );
@@ -615,7 +616,7 @@ export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) 
       ? renderFlatGroup("Site", [{
         key: "kc-insights",
         label: "Insights",
-        href: `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/insights`,
+        href: shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/insights`),
         icon: <BarChart3 className="size-4" />,
       }])
       : null,
