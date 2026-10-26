@@ -589,5 +589,22 @@
     "verified_at": "2026-10-26T18:11:13.595Z",
     "tree": "9881a4f7c90b2ba46c71eadc047da037c2865e295a2dc12642e14695b54afe23",
     "gate": "full"
+  },
+  {
+    "id": "33",
+    "title": "Dashboard design mockup at 375 and 1280",
+    "brief": ".claude/work/40-dashboard-mockup/brief.md",
+    "start_sha": "0e7f0a7035eeaf91fc04005948e0edfd597a671f",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T18:29:44.228Z",
+      "start_sha": "0e7f0a7035eeaf91fc04005948e0edfd597a671f",
+      "mutation_evidence": true,
+      "tree": "4e7bd2c63d2a8d4ac2c9ab5984d61e1e05e91c38bea9f95aa82b7880dbc60e33",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T18:31:30.418Z",
+    "tree": "4e7bd2c63d2a8d4ac2c9ab5984d61e1e05e91c38bea9f95aa82b7880dbc60e33",
+    "gate": "full"
   }
 ]

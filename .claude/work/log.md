@@ -117,3 +117,6 @@
 
 ## 2026-10-26 insights-page (plan 38 card 30, checklist 30)
 - Top Now card. Branch feat/30-insights-page from feat/29-insights-chart at 4972453. Opus worker, Risky (new file under kc/insights/). Scope ok with mutation evidence (removing the section failed three tests). Diff read, tests all new; only series.days reaches the client chart. The worker renamed the heading to "Daily traffic" after the copy skills reviewed "Visits by day"; accepted by the rubric (two plain words, no banned pattern), Rob may overrule. Sent to the loop's gate with an audit.
+
+## 2026-10-26 33 dashboard-mockup (board Now)
+- Cards 19 and 20 still wait on card 06. Branch feat/33-dashboard-mockup from main at 0e7f0a7. Sonnet worker, Normal. Scope ok with mutation evidence (uppercase and max-width each failed their test). First phone screenshot looked clipped at the right; second round found Chrome's window-size cropped a wider layout, retook with a true 375 viewport and hardened the grid. Viewed: nothing clipped. Sent to the loop's gate, no audit (not a risky path).
