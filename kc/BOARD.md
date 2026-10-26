@@ -2,24 +2,26 @@
 
 ## Now
 
-- **33**: Dashboard design mockup at 375 and 1280 for Rob's approval (`.claude/work/39-plan-dashboard/plan.md` card 33)
+- **35**: Dashboard model: quick actions and visits summary (`.claude/work/39-plan-dashboard/plan.md` card 35)
+- **36**: Search health model (`.claude/work/39-plan-dashboard/plan.md` card 36)
+- **37**: Version status (`.claude/work/39-plan-dashboard/plan.md` card 37)
+- **38**: Sparkline from the Insights chart (`.claude/work/39-plan-dashboard/plan.md` card 38)
+- **39**: Server loaders and skeletons (`.claude/work/39-plan-dashboard/plan.md` card 39)
+- **40**: Dashboard layout and page wiring (`.claude/work/39-plan-dashboard/plan.md` card 40)
+- **43**: Publish status from Cloudflare Pages (`.claude/work/39-plan-dashboard/plan.md` card 43)
+- **41**: Security audit of the dashboard (`.claude/work/39-plan-dashboard/plan.md` card 41)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
 ## Next
 
-- **35**: Dashboard model: quick actions and visits summary (`.claude/work/39-plan-dashboard/plan.md` card 35; waits on 34 and on PRs #56 to #58 merged)
-- **36**: Search health model (`.claude/work/39-plan-dashboard/plan.md` card 36; waits on 34 and on PRs #56 to #58 merged)
-- **37**: Version status (`.claude/work/39-plan-dashboard/plan.md` card 37; waits on 34 and on PRs #56 to #58 merged)
-- **38**: Sparkline from the Insights chart (`.claude/work/39-plan-dashboard/plan.md` card 38; waits on 34 and on PRs #56 to #58 merged)
-- **39**: Server loaders and skeletons (`.claude/work/39-plan-dashboard/plan.md` card 39; waits on 34 and on PRs #56 to #58 merged)
-- **40**: Dashboard layout and page wiring (`.claude/work/39-plan-dashboard/plan.md` card 40; waits on 34 and on PRs #56 to #58 merged)
-- **41**: Security audit of the dashboard (`.claude/work/39-plan-dashboard/plan.md` card 41; waits on 34 and on PRs #56 to #58 merged)
+- **44**: Edit markers on the visits chart, after launch (`.claude/work/39-plan-dashboard/plan.md` card 44)
+- **45**: PDF downloads per paper, after launch (`.claude/work/39-plan-dashboard/plan.md` card 45)
+- **46**: Top Google searches from Search Console, after launch (`.claude/work/39-plan-dashboard/plan.md` card 46)
 - **series-cache-case** (from the card 31 audit, low): key the Insights series cache on the resolved sources (`cf:siteTag|ga:propertyId`) instead of owner/repo as typed, so changing capitals cannot skip the cache and burn the shared Cloudflare token; evict expired entries. `kc/insights/route.ts:257`, page.tsx:87. Risky path.
 
 ## Waiting on Rob
 
-- **34** (`.claude/work/39-plan-dashboard/plan.md` card 34): approve the dashboard mockup from card 33.
 - **42** (`.claude/work/39-plan-dashboard/plan.md` card 42): deploy the dashboard, live check as the +kctest client at 375 and as Rob.
 - **32** (`.claude/work/38-plan-insights-charts/plan.md` card 32): deploy the Insights charts to the box, then a live check with BeSciWorks's numbers at 375px.
 
@@ -44,6 +46,7 @@
 
 ## Done
 
+- **33 to 34**: Dashboard mockup, approved by Rob 2026-10-26 (`.claude/work/39-plan-dashboard/plan.md`); PR #59
 - **28 to 31**: Insights history series, uPlot chart component, charts on the Insights page, audit (`.claude/work/38-plan-insights-charts/plan.md`); PRs #56 to #58
 - **26** phone-menu: committed on feat/26-phone-menu, gate green, no audit (not a risky path); dashboard, History and Insights set the page header so the phone menu button shows, and History labels every nested value by path instead of printing JSON. Not seen at 375; History and Insights show their title twice on desktop.
 - **otp-atomic-limit**: committed on feat/otp-atomic-limit, gate green, audit found nothing; OTP sends and sign-ins are counted before they run: 10 per IP first, then 5 per email and IP together, then 30 per email across IPs, so one attacker cannot lock out a client signing in from elsewhere. Disabled OTP paths 404 in the same hook. In memory on the one process.
