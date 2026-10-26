@@ -878,5 +878,13 @@
     "verified_at": "2026-10-26T21:00:09.037Z",
     "tree": "7221e25938c0a1230d8a085400014e60a8f10418f05245878c677080864a0249",
     "gate": "full"
+  },
+  {
+    "id": "proxy-rewrite-origin",
+    "title": "Short-address rewrite stays inside the app behind nginx",
+    "brief": ".claude/work/60-proxy-rewrite-origin/brief.md",
+    "start_sha": "3eccf0de638e80203984a2b95b2374d6f5025100",
+    "passes": false,
+    "parked": "cause needs a look on the box (Rob)"
   }
 ]

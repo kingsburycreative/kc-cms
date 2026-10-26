@@ -2,7 +2,6 @@
 
 ## Now
 
-- **proxy-rewrite-origin** (blocks the BeSciWorks review email): every short address 500s on the box; proxy.ts rewrites to https://localhost:3000 behind nginx. Brief `.claude/work/60-proxy-rewrite-origin/brief.md`. Risky path (proxy.ts).
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -47,6 +46,7 @@
 
 ## Blocked
 
+- **proxy-rewrite-origin** (parked 2026-10-26, blocks the BeSciWorks review email): every short address 500s on the box. Next 16.2.1's source shows request.url and nextUrl share Next's own protocol, so the briefed fix would change nothing; the mismatch is likely the host (HOSTNAME vs opts.hostname) or x-forwarded-proto. Needs Rob: on the box, log Next's initURL next to request.url for one short address, or check HOSTNAME and the start command. Findings in `.claude/work/60-proxy-rewrite-origin/result.md`.
 
 ## Done
 
