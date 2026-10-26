@@ -2,7 +2,6 @@
 
 ## Now
 
-- **39**: Server loaders and skeletons (`.claude/work/39-plan-dashboard/plan.md` card 39)
 - **40**: Dashboard layout and page wiring (`.claude/work/39-plan-dashboard/plan.md` card 40)
 - **43**: Publish status from Cloudflare Pages (`.claude/work/39-plan-dashboard/plan.md` card 43)
 - **41**: Security audit of the dashboard (`.claude/work/39-plan-dashboard/plan.md` card 41)
@@ -41,6 +40,8 @@
 
 
 ## Done
+
+- **39** dashboard-loaders: on feat/39-dashboard-loaders; kc/dashboard-server.tsx holds the visits, search health and version panels (visits only behind the Insights gate, series cached per site, clients see only whether an update exists) and kc/dashboard-skeleton.tsx a pulsing skeleton per panel. Count-up, ring fill and bar growth left for card 40; not seen in a browser.
 
 - **38** sparkline: on feat/38-sparkline; MetricChart exported with a 72px compact sparkline, and the full chart fades on range change, draws in once and shows a cursor tooltip, all off under reduced motion. The old "Touch or hover" hint line is gone, replaced by the tooltip. Not seen in a browser.
 

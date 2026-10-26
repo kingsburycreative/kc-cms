@@ -674,5 +674,22 @@
     "verified_at": "2026-10-26T19:28:57.391Z",
     "tree": "2480065b3fefa66009c113af56291a753817cc2a02121630a1872b2411ccbcc6",
     "gate": "full"
+  },
+  {
+    "id": "39",
+    "title": "Server loaders and skeletons",
+    "brief": ".claude/work/46-dashboard-loaders/brief.md",
+    "start_sha": "d5032de6bdf852be584803b83cc46c9874dd7c7a",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:33:29.977Z",
+      "start_sha": "d5032de6bdf852be584803b83cc46c9874dd7c7a",
+      "mutation_evidence": true,
+      "tree": "66a468860d4ad96d117b9706e69d52337d7387d848ceb5a16852d16ce196f56f",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-26T19:34:37.864Z",
+    "tree": "66a468860d4ad96d117b9706e69d52337d7387d848ceb5a16852d16ce196f56f",
+    "gate": "full"
   }
 ]

@@ -1,0 +1,2 @@
+- Copy run through prose, avoid-ai-writing, humanizer (no edits).
+- Wrote kc/dashboard-server.tsx, kc/dashboard-skeleton.tsx, kc/tests/dashboard-server.test.ts. Next: run test, avoid-ai-design, tsc/eslint, mutation.

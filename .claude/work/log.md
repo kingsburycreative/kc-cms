@@ -133,3 +133,6 @@
 
 ## 2026-10-26 38 sparkline (board Now)
 - Branch feat/38-sparkline from feat/37-version-status at d3054ea. Opus worker, Risky (kc/insights/). Scope ok with mutation evidence (value import of uplot failed the lazy-load test). Diff read, two tests added, none changed. Worker dropped the "Touch or hover the chart for a day." hint since the tooltip replaces it; accepted by the rubric, no new copy written. Sent to the gate with an audit.
+
+## 2026-10-26 39 dashboard-loaders (board Now)
+- Branch feat/39-dashboard-loaders from feat/38-sparkline at d5032de. Opus worker, Risky (calls loadSeries in kc/insights/ with the GA and Cloudflare credentials). PublishStatus left to card 43, which owns its state. Scope ok with mutation evidence (full version to clients failed the client-props test; dropped access check failed the gate test). Diff read, all new files; credentials read from env on the server only, never props. Count-up, ring fill and bar growth not built, left for card 40. Sent to the gate with an audit.
