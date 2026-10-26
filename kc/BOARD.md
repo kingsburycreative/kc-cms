@@ -2,19 +2,15 @@
 
 ## Now
 
-- **47**: Short-URL core (`.claude/work/40-plan-short-urls/plan.md` card 47)
-- **48**: Hook the proxy (`.claude/work/40-plan-short-urls/plan.md` card 48)
-- **49**: Link helper in `kc/` and the repo chrome (`.claude/work/40-plan-short-urls/plan.md` card 49)
-- **50**: Link helper in the editor pages (`.claude/work/40-plan-short-urls/plan.md` card 50)
-- **51**: Link coverage guard (`.claude/work/40-plan-short-urls/plan.md` card 51)
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
-- **59**: Sidebar: fold the single pages under one Pages entry, 44px items (`.claude/work/40-plan-short-urls/plan.md` card 59)
-- **54**: Security audit of short addresses (`.claude/work/40-plan-short-urls/plan.md` card 54)
+- **short-url-main-segment** (card 54 audit A, before deploy): kc/short-url.ts:79 checks segments[5], should be [4]; add a redirect-then-rewrite round-trip test.
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
 ## Next
 
+- **auth-redirect-backslash** (card 54 audit, low, predates short URLs): lib/auth-redirect.ts:3 accepts /\evil.example, open redirect via /auth/redirect?to=. Require same origin. Risky path (auth).
+- **short-url-polish** (card 54 audit C, D, F): other owners rewritten into kingsburycreative (kc/short-url.ts:84-88); reserved test misses dotless route files (short-url-reserved.test.ts:13); 308 cached on rollback.
 - **44**: Edit markers on the visits chart, after launch (`.claude/work/39-plan-dashboard/plan.md` card 44)
 - **45**: PDF downloads per paper, after launch (`.claude/work/39-plan-dashboard/plan.md` card 45)
 - **46**: Top Google searches from Search Console, after launch (`.claude/work/39-plan-dashboard/plan.md` card 46)
@@ -53,6 +49,13 @@
 
 
 ## Done
+
+- **54**: Security audit of short addresses, no high open (`.claude/work/56-short-url-audit/result.md`)
+- **59**: Sidebar: fold the single pages under one Pages entry, 44px items (`.claude/work/40-plan-short-urls/plan.md` card 59)
+- **51**: Link coverage guard, a source scan fails on any page link not using the short address (`.claude/work/54-link-guard/`)
+- **49**: Link helper in `kc/` and the repo chrome, KC links use the short address (`.claude/work/52-link-helper/`)
+- **48**: Hook the proxy, short addresses rewrite and full ones 308 (`.claude/work/51-proxy-hook/`)
+- **47**: Short-URL core, pure rewrite and redirect functions (`.claude/work/50-short-url-core/`)
 
 - **35 to 43**: the new dashboard (`.claude/work/39-plan-dashboard/plan.md`); PRs #60 to #66
 

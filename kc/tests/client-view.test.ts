@@ -105,6 +105,12 @@ test("a client with one unfiltered repo is redirected, nobody else", () => {
   assert.equal(repoHref({ owner: "a", repo: "b", defaultBranch: "x/y" }), "/a/b/x%2Fy");
 });
 
+test("the one-repo client link uses the short address for the KC owner on main", () => {
+  const one = [{ owner: "kingsburycreative", repo: "besciworks", defaultBranch: "main" }];
+  assert.equal(soleRepoRedirect(true, "", one), "/besciworks");
+  assert.equal(repoHref({ owner: "kingsburycreative", repo: "besciworks", defaultBranch: "dev" }), "/kingsburycreative/besciworks/dev");
+});
+
 test("list label is the dashboard name for a client only", () => {
   assert.equal(repoListLabel(true, "henike-tree-service"), "Henike Tree Service Dashboard");
   assert.equal(repoListLabel(false, "henike-tree-service"), "henike-tree-service");

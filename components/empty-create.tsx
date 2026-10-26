@@ -1,5 +1,6 @@
 "use client";
 
+import { shortHref } from "@/kc/short-url";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Loader as LucideLoader } from "lucide-react";
@@ -30,7 +31,7 @@ const EmptyCreate = ({
   let path = "";
   let content: string | Record<string, any> = "";
   let toCreate = "";
-  let redirectTo = `/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}`;
+  let redirectTo = shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}`);
 
   if (type === "settings") {
     path = ".pages.yml";

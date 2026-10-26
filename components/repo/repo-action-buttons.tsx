@@ -17,6 +17,7 @@ import { hasGithubIdentity } from "@/lib/authz-shared";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { requireApiSuccess } from "@/lib/api-client";
+import { shortHref } from "@/kc/short-url";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -378,7 +379,7 @@ export function RepoActionButtons({
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem asChild>
-                <Link href={`/${owner}/${repo}/${encodeURIComponent(refName)}/actions`}>
+                <Link href={shortHref(`/${owner}/${repo}/${encodeURIComponent(refName)}/actions`)}>
                   View all actions
                 </Link>
               </DropdownMenuItem>

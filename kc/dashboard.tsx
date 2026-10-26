@@ -12,6 +12,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { PageHeader } from "./page-header.tsx";
 import { quickActions, recentEdits, type RecentEdit } from "./dashboard.ts";
 import { dashboardName, siteUrl } from "./client-view.ts";
+import { shortHref } from "./short-url.ts";
 
 const LIMIT = 8;
 
@@ -48,7 +49,7 @@ export function Dashboard({ hasInsights = false, visits, searchHealth, version }
   const toConfiguration = !!config && !hasContent && !hasMedia && hasGithubIdentity(user) && isConfigEnabled(object);
   useEffect(() => {
     if (toConfiguration && config) {
-      router.replace(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/configuration`);
+      router.replace(shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/configuration`));
     }
   }, [toConfiguration, config, router]);
 

@@ -142,3 +142,27 @@
 
 ## 2026-10-26 41 dashboard audit (board Now)
 - Opus security-auditor, read-only, on the working branch feat/43-publish-status. No high finding; one low (series cache key case), two latent (branch decoded twice, pagesProject from client config), three observations. Fixes queued in Next. Committed board, result and log only; suite left to the next card's gate.
+
+## 2026-10-26 47 short-url-core (board Now)
+- Branch feat/47-short-url-core from main at 4fbdb06. Sonnet worker, Normal, not a risky path (pure functions). Scope ok with mutation evidence (admin unreserved, decoded branch, no method check each failed their tests). Diff read, all new files. Worker's call: a short path whose third segment is main gives null so /other-owner/x/main is never rewritten; a collection named main gets no short form on that deep path. Sent to the gate, no audit.
+
+## 2026-10-26 48 proxy-hook (board Now)
+- Branch feat/48-proxy-hook from feat/47-short-url-core at c362f14. Opus worker, Risky (proxy.ts holds the /api/ Origin check). Scope ok with mutation evidence (hook above Origin check, return-to after rewrite, redirect on POST each failed their test). Diff read: 11-line hook after the Origin check and x-return-to; test loads a patched copy of proxy.ts against real NextRequest. Order check is a source test since every /api/ path is reserved. Sent to the gate with an audit.
+
+## 2026-10-26 49 link-helper (board Now)
+- Branch feat/49-link-helper from feat/48-proxy-hook at 86e0deb. Sonnet worker, Normal, no risky path (page hrefs only, /api/ strings pinned at 8 by a source test). First scope check failed on my brief listing components/repo files by bare name; fixed the brief's paths, scope ok with mutation evidence (shortHref as identity failed the dashboard, client-view and two short-url tests). Diff read: one import plus wrapped hrefs per file, tests only added. Worker did not write progress.md. Sent to the gate, no audit.
+
+## 2026-10-26 50 editor-links (board Now)
+- Branch feat/50-editor-links from feat/49-link-helper at 9369fe8. Sonnet worker, Normal, no risky path (page hrefs in upstream editor files; layout access code untouched). Card 51's guard not written yet, so the brief gave a scoped source test (short-href-editor.test.ts, /api/ count pinned at 12). Scope ok with mutation evidence (unwrapped links in entry.tsx and collection.tsx failed the wrap test). Diff read: import plus wrapped hrefs only. Sent to the gate, no audit.
+
+## 2026-10-26 51 link-guard (board Now)
+- Branch feat/51-link-guard from feat/50-editor-links at 17054e0. Sonnet worker, Normal, test only, no risky path. Scope ok with mutation evidence (unwrapped entry.tsx and repo-sidebar links and a stale allowlist entry each failed). Diff read: one new test, allowlist adds kc/dashboard.ts's base (only used through link(), which wraps). No unwrapped links found. Sent to the gate, no audit.
+
+## 2026-10-26 59 sidebar-pages (board Now)
+- Skipped 53: waits on 19, which waits on Rob's card 06. Branch feat/59-sidebar-pages from feat/51-link-guard at 1233d5a. Sonnet worker, Normal, no risky path. Scope ok with mutation evidence (file entry back at top level, h-8 item height each failed). Diff read: pure helper in kc/, one-line hook in repo-sidebar, aria-expanded on both disclosures, h-11 in ui/sidebar.tsx; Pages opens on its own path through the existing isActive default. Not checked in a browser. Sent to the gate, no audit.
+
+## 2026-10-26 54 short-url audit (board Now)
+- 53 still waits on 19. Opus security-auditor, read-only, on feat/59-sidebar-pages. No high; one low (auth-redirect backslash open redirect, predates feature), two bugs that should land before deploy 55 (dotted-file short links 404 via proxy.ts:19, segments[5] off by one at short-url.ts:79), latent notes. Cards queued on the board. Committed board, result and log only.
+
+## 2026-10-26 short-url-dotted (board Now)
+- 53 still waits on 19. On feat/59-sidebar-pages at 6a1ba48. Opus worker, Risky (proxy.ts). Scope ok with mutation evidence (old dotted rule failed dotted-file and dotted-root tests; unreserving images failed the public-file test). Diff read: isStaticPath helper in kc/short-url.ts, one-line proxy call, tests only added. Worker's call: no separate public/ guard since public names are in RESERVED; dotted /api/ paths now get the Origin check, which they skipped before. Worker did not write progress.md. Sent to the gate with an audit.

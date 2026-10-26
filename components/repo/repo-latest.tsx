@@ -6,6 +6,7 @@ import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { getVisits } from "@/lib/tracker";
+import { shortHref } from "@/kc/short-url";
 import { Skeleton } from "@/components/ui/skeleton";
   
 export function RepoLatest() {
@@ -60,12 +61,12 @@ export function RepoLatest() {
           <img src={`https://github.com/${visit.owner}.png`} alt={visit.owner} className="h-6 w-6 rounded" />
           <Link
             className="truncate font-medium hover:underline"
-            href={`/${visit.owner}/${visit.repo}/${encodeURIComponent(visit.branch)}`}
+            href={shortHref(`/${visit.owner}/${visit.repo}/${encodeURIComponent(visit.branch)}`)}
           >{visit.repo}</Link>
           <div className="text-muted-foreground truncate">{formatDistanceToNow(new Date(visit.timestamp * 1000))} ago</div>
           <Link
             className={cn("ml-auto", buttonVariants({ variant: "outline", size: "xs"}))}
-            href={`/${visit.owner}/${visit.repo}/${encodeURIComponent(visit.branch)}`}
+            href={shortHref(`/${visit.owner}/${visit.repo}/${encodeURIComponent(visit.branch)}`)}
           >
             Open
           </Link>

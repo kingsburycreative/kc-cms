@@ -1,0 +1,2 @@
+- Hook added to proxy.ts (import + 10 lines after x-return-to).
+- kc/tests/short-url-proxy.test.ts written, green; three mutations done and restored; tsc+eslint 0; result.md written. Done.
