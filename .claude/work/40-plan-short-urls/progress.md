@@ -1,0 +1,3 @@
+- Read project.md, proxy.ts, app/ routes, link builders (grep), plans 15/38/39, NEW-CLIENT.md + its test, guide index.html. No repo files written.
+- Findings: proxy.ts is the hook; ~45 non-api link sites in 14 upstream files; NEW-CLIENT.md has 9 steps, test lists 8, cap 120 lines (doc is 117).
+- plan.md written (cards 47 to 58). Done.

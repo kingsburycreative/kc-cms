@@ -2,6 +2,14 @@
 
 ## Now
 
+- **47**: Short-URL core (`.claude/work/40-plan-short-urls/plan.md` card 47)
+- **48**: Hook the proxy (`.claude/work/40-plan-short-urls/plan.md` card 48)
+- **49**: Link helper in `kc/` and the repo chrome (`.claude/work/40-plan-short-urls/plan.md` card 49)
+- **50**: Link helper in the editor pages (`.claude/work/40-plan-short-urls/plan.md` card 50)
+- **51**: Link coverage guard (`.claude/work/40-plan-short-urls/plan.md` card 51)
+- **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
+- **59**: Sidebar: fold the single pages under one Pages entry, 44px items (`.claude/work/40-plan-short-urls/plan.md` card 59)
+- **54**: Security audit of short addresses (`.claude/work/40-plan-short-urls/plan.md` card 54)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
@@ -17,6 +25,11 @@
 
 ## Waiting on Rob
 
+- **52** (`.claude/work/40-plan-short-urls/plan.md` card 52): coordinator does it in kc-cms (docs for the new settings and the short address).
+- **55** (`.claude/work/40-plan-short-urls/plan.md` card 55): deploy short addresses; the coordinator's deploy per the exception in `.claude/project.md` (Rob, 2026-10-26).
+- **56** (`.claude/work/40-plan-short-urls/plan.md` card 56): Rob signs the capture browser in as +kctest.
+- **57** (`.claude/work/40-plan-short-urls/plan.md` card 57): retake the guide screenshots.
+- **58** (`.claude/work/40-plan-short-urls/plan.md` card 58): guide copy and PDF.
 - **42** (`.claude/work/39-plan-dashboard/plan.md` card 42): deploy the dashboard, live check as the +kctest client at 375 and as Rob.
 - **32** (`.claude/work/38-plan-insights-charts/plan.md` card 32): deploy the Insights charts to the box, then a live check with BeSciWorks's numbers at 375px.
 
@@ -41,19 +54,8 @@
 
 ## Done
 
-- **41** dashboard audit: no high finding; one low (cache key case, folded into series-cache-case), two latent and three observations queued in Next. Result in .claude/work/49-dashboard-audit/result.md.
+- **35 to 43**: the new dashboard (`.claude/work/39-plan-dashboard/plan.md`); PRs #60 to #66
 
-- **43** publish-status: on feat/43-publish-status; kc/publish/status.ts gives published, publishing, failed or unknown from the latest production Pages deployment (previews ignored), and status-fetch.ts calls the deployments API with any failure as unknown and one fixed warn line. kc.pagesProject added to the config schema. Not rendered on the dashboard yet, and whether the analytics token can read Pages is unchecked.
-
-- **40** dashboard-layout: on feat/40-dashboard-layout; the branch page checks repo read access on the server before any panel, then renders visits, search health and the version line each in Suspense with its skeleton. kc/dashboard.tsx has the new header with See live site, quick actions as tinted links, a container-query grid, and recent changes behind pulsing skeleton rows. Not seen in a browser.
-
-- **39** dashboard-loaders: on feat/39-dashboard-loaders; kc/dashboard-server.tsx holds the visits, search health and version panels (visits only behind the Insights gate, series cached per site, clients see only whether an update exists) and kc/dashboard-skeleton.tsx a pulsing skeleton per panel. Count-up, ring fill and bar growth left for card 40; not seen in a browser.
-
-- **38** sparkline: on feat/38-sparkline; MetricChart exported with a 72px compact sparkline, and the full chart fades on range change, draws in once and shows a cursor tooltip, all off under reduced motion. The old "Touch or hover" hint line is gone, replaced by the tooltip. Not seen in a browser.
-
-- **37** version-status: on feat/37-version-status; kc/update/status.ts says current, behind with the tag, or unknown against upstream Pages CMS releases (prereleases and drafts ignored); the server fetch revalidates hourly and any failure gives unknown with one warn line, never current.
-- **36** seo-site: on feat/36-seo-site; kc/seo/site.ts scores a site's entries for search health (title, description, headings, image text counted; opening answer and reading level as advice), skips entries without title and description, caps at 200 and lists the worst first.
-- **35** dashboard-model: on feat/35-dashboard-model; quick actions from the config (kc.actions labels, Upload a PDF when media takes PDFs), a one-week visits sentence, and kc.site kept only when https. KcSchema now accepts site and actions.
 - **33 to 34**: Dashboard mockup, approved by Rob 2026-10-26 (`.claude/work/39-plan-dashboard/plan.md`); PR #59
 - **28 to 31**: Insights history series, uPlot chart component, charts on the Insights page, audit (`.claude/work/38-plan-insights-charts/plan.md`); PRs #56 to #58
 - **26** phone-menu: committed on feat/26-phone-menu, gate green, no audit (not a risky path); dashboard, History and Insights set the page header so the phone menu button shows, and History labels every nested value by path instead of printing JSON. Not seen at 375; History and Insights show their title twice on desktop.

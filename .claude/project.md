@@ -52,6 +52,8 @@ piece of copy written.
 a `.env` file or `/root/kc-cms-secrets`; run `npm install`; deploy or ssh to the
 box; push to `upstream`; commit `.env*`.
 
+Exception (Rob, 2026-10-26): the coordinator, not a card worker, may deploy with `server/deploy.sh` from kc-cms after the push's PRs are merged and the suite is green, telling Rob before and after.
+
 **Decisions** (Rob, 2026-10-23, the rubric Sembr and BeSciWorks use):
 consensus > security > correct long-term > best practice > KC CMS health > UX.
 Consensus means the reviewers who looked at it (audits, a plan review) agree.
