@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { dashboardTiles, recentEdits } from "../dashboard.ts";
+import { dashboardTiles, quickActions, recentEdits } from "../dashboard.ts";
 
 const ctx = { owner: "kc", repo: "henike", branch: "main" };
 const config = {
@@ -44,6 +44,42 @@ test("recent edits keep title, date, author name and path only, capped", () => {
   assert.deepEqual(Object.keys(edits[1]).sort(), ["authorName", "date", "path", "title"]);
   assert.equal(edits[1].authorName, "Rob");
   assert.equal(recentEdits(items, 3, config)[2].title, "odd");
+});
+
+const besci = {
+  kc: { actions: { weekly: "New Weekly post", papers: "New paper", briefs: "New Insight Brief" } },
+  content: [
+    { type: "file", name: "home", label: "Home" },
+    { type: "collection", name: "weekly", label: "Weekly" },
+    { type: "group", name: "g", items: [{ type: "collection", name: "papers", label: "Papers" }] },
+    { type: "collection", name: "what works", label: "What Works" },
+    { type: "collection", name: "briefs", label: "Briefs" },
+  ],
+  media: [{ name: "files", extensions: ["pdf"] }],
+};
+
+test("quick actions: labelled collections in config order, then Upload a PDF", () => {
+  const actions = quickActions(besci, ctx);
+  assert.deepEqual(actions.map((a) => a.label), ["New Weekly post", "New paper", "New Insight Brief", "Upload a PDF"]);
+  assert.equal(actions[0].href, "/kc/henike/main/collection/weekly/new");
+  assert.equal(actions[3].href, "/kc/henike/main/media/files");
+  assert.equal(quickActions({ ...besci, content: [{ type: "collection", name: "what works" }], kc: {} }, ctx)[0].href, "/kc/henike/main/collection/what%20works/new");
+});
+
+test("quick actions fall back to Add to <label>", () => {
+  const labels = quickActions({ ...config, media: [] }, ctx).map((a) => a.label);
+  assert.deepEqual(labels, ["Add to Posts"]);
+});
+
+test("quick actions skip file nodes and need a collection", () => {
+  const onlyFiles = { content: [{ type: "file", name: "home", label: "Home" }] };
+  assert.deepEqual(quickActions(onlyFiles, ctx), []);
+  assert.deepEqual(quickActions({}, ctx), []);
+});
+
+test("no Upload a PDF when the media folder is images only", () => {
+  const images = { content: [], media: [{ name: "images", extensions: ["png", "jpg"] }] };
+  assert.deepEqual(quickActions(images, ctx), []);
 });
 
 test("the branch page no longer redirects to the first content item", () => {

@@ -2,7 +2,6 @@
 
 ## Now
 
-- **35**: Dashboard model: quick actions and visits summary (`.claude/work/39-plan-dashboard/plan.md` card 35)
 - **36**: Search health model (`.claude/work/39-plan-dashboard/plan.md` card 36)
 - **37**: Version status (`.claude/work/39-plan-dashboard/plan.md` card 37)
 - **38**: Sparkline from the Insights chart (`.claude/work/39-plan-dashboard/plan.md` card 38)
@@ -46,6 +45,7 @@
 
 ## Done
 
+- **35** dashboard-model: on feat/35-dashboard-model; quick actions from the config (kc.actions labels, Upload a PDF when media takes PDFs), a one-week visits sentence, and kc.site kept only when https. KcSchema now accepts site and actions.
 - **33 to 34**: Dashboard mockup, approved by Rob 2026-10-26 (`.claude/work/39-plan-dashboard/plan.md`); PR #59
 - **28 to 31**: Insights history series, uPlot chart component, charts on the Insights page, audit (`.claude/work/38-plan-insights-charts/plan.md`); PRs #56 to #58
 - **26** phone-menu: committed on feat/26-phone-menu, gate green, no audit (not a risky path); dashboard, History and Insights set the page header so the phone menu button shows, and History labels every nested value by path instead of printing JSON. Not seen at 375; History and Insights show their title twice on desktop.

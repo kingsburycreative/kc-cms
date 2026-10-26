@@ -606,5 +606,22 @@
     "verified_at": "2026-10-26T18:31:30.418Z",
     "tree": "4e7bd2c63d2a8d4ac2c9ab5984d61e1e05e91c38bea9f95aa82b7880dbc60e33",
     "gate": "full"
+  },
+  {
+    "id": "35",
+    "title": "Dashboard model: quick actions and visits summary",
+    "brief": ".claude/work/42-dashboard-model/brief.md",
+    "start_sha": "2cab41618e69fc1aa8496b3064575a9bc54b4fca",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:14:47.994Z",
+      "start_sha": "2cab41618e69fc1aa8496b3064575a9bc54b4fca",
+      "mutation_evidence": true,
+      "tree": "9b9cd32a679d2dd9d76ffa9c28f5d4d44979adaf04384f767c50f99a50460609",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-26T19:16:05.010Z",
+    "tree": "9b9cd32a679d2dd9d76ffa9c28f5d4d44979adaf04384f767c50f99a50460609",
+    "gate": "full"
   }
 ]

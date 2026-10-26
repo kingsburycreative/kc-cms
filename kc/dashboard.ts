@@ -55,6 +55,39 @@ export function dashboardTiles(config: any, ctx: DashboardContext): Tile[] {
   return tiles;
 }
 
+export type QuickAction = { key: string; label: string; href: string };
+
+function acceptsPdf(media: any): boolean {
+  const extensions = Array.isArray(media?.extensions) ? media.extensions : null;
+  const categories = Array.isArray(media?.categories) ? media.categories : null;
+  if (!extensions && !categories) return true;
+  return !!extensions?.includes("pdf") || !!categories?.includes("document");
+}
+
+// One "new entry" link per collection, in config order, then Upload a PDF when
+// the media folder takes PDFs. Once kc.actions names any collection, only the
+// named ones show. Files are never actions.
+export function quickActions(config: any, ctx: DashboardContext): QuickAction[] {
+  const base = `/${ctx.owner}/${ctx.repo}/${encodeURIComponent(ctx.branch)}`;
+  const labels: Record<string, string> = config?.kc?.actions ?? {};
+  const limited = Object.keys(labels).length > 0;
+  const actions: QuickAction[] = [];
+  for (const node of flatten(contentNodes(config))) {
+    if (!node.name || node.type !== "collection") continue;
+    if (limited && !labels[node.name]) continue;
+    actions.push({
+      key: `new-${node.name}`,
+      label: labels[node.name] || `Add to ${node.label || node.name}`,
+      href: `${base}/collection/${encodeURIComponent(node.name)}/new`,
+    });
+  }
+  const media = Array.isArray(config?.media) ? config.media[0] : null;
+  if (media && acceptsPdf(media)) {
+    actions.push({ key: "upload-pdf", label: "Upload a PDF", href: `${base}/media/${encodeURIComponent(media.name || "default")}` });
+  }
+  return actions;
+}
+
 function titleFor(path: string, content: Node[]): string {
   const match = content.find((node) => node.path === path);
   if (match) return match.label || match.name || path;

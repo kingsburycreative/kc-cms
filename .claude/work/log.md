@@ -120,3 +120,6 @@
 
 ## 2026-10-26 33 dashboard-mockup (board Now)
 - Cards 19 and 20 still wait on card 06. Branch feat/33-dashboard-mockup from main at 0e7f0a7. Sonnet worker, Normal. Scope ok with mutation evidence (uppercase and max-width each failed their test). First phone screenshot looked clipped at the right; second round found Chrome's window-size cropped a wider layout, retook with a true 375 viewport and hardened the grid. Viewed: nothing clipped. Sent to the loop's gate, no audit (not a risky path).
+
+## 2026-10-26 35 dashboard-model (board Now)
+- approved.md for card 34 was never written; the board records Rob approved the mockup 2026-10-26, taken as the approval. Branch feat/35-dashboard-model from main at 2cab416. Sonnet worker, Normal, not a risky path. Scope ok with mutation evidence (collection filter dropped failed two tests; weeks swapped failed three). Diff read, tests all new. Worker added site and actions to the strict KcSchema so configs with them still parse. Sent to the gate, no audit.

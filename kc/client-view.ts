@@ -1,13 +1,31 @@
 import { z } from "zod";
 
-// The optional top-level `kc:` object in .pages.yml. One key, nothing else.
+// The optional top-level `kc:` object in .pages.yml. Three keys, nothing else:
+// `client` (display name), `site` (public site URL) and `actions` (labels for
+// the dashboard's quick actions, by collection name).
 export const KcSchema = z
   .object({
     client: z.string({ message: "'client' must be a string." }).optional(),
+    site: z.string({ message: "'site' must be a string." }).optional(),
+    actions: z.record(z.string(), z.string({ message: "Each action label must be a string." })).optional(),
   })
   .strict();
 
 export type KcConfig = z.infer<typeof KcSchema>;
+
+// The client's public site, only when it is an https URL. Anything else
+// (javascript:, http:, empty, missing, unparseable) gives null, so it never
+// reaches an href.
+export function siteUrl(kc: { site?: unknown } | null | undefined): string | null {
+  const raw = kc?.site;
+  if (typeof raw !== "string") return null;
+  try {
+    const trimmed = raw.trim();
+    return new URL(trimmed).protocol === "https:" ? trimmed : null;
+  } catch {
+    return null;
+  }
+}
 
 // "henike-tree-service" gives "Henike Tree Service".
 export function repoDisplayName(repo: string): string {
