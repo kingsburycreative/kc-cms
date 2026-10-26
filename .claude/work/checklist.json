@@ -708,5 +708,22 @@
     "verified_at": "2026-10-26T19:41:21.638Z",
     "tree": "ffd0cebd2c1eacc42eb395a2e63e860e10f3f488b2cc5e6e1cc28a33809ab27e",
     "gate": "full"
+  },
+  {
+    "id": "43",
+    "title": "Publish status from Cloudflare Pages",
+    "brief": ".claude/work/48-publish-status/brief.md",
+    "start_sha": "8e6df34d3936b0a1537463fec288cc4a76f66f2a",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-26T19:44:25.896Z",
+      "start_sha": "8e6df34d3936b0a1537463fec288cc4a76f66f2a",
+      "mutation_evidence": true,
+      "tree": "f60428e50a869dfd6fe4723023dc99480fa59349c56af325daadc955fcdf1b35",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-26T19:45:32.088Z",
+    "tree": "f60428e50a869dfd6fe4723023dc99480fa59349c56af325daadc955fcdf1b35",
+    "gate": "full"
   }
 ]

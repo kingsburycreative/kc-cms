@@ -2,7 +2,6 @@
 
 ## Now
 
-- **43**: Publish status from Cloudflare Pages (`.claude/work/39-plan-dashboard/plan.md` card 43)
 - **41**: Security audit of the dashboard (`.claude/work/39-plan-dashboard/plan.md` card 41)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -39,6 +38,8 @@
 
 
 ## Done
+
+- **43** publish-status: on feat/43-publish-status; kc/publish/status.ts gives published, publishing, failed or unknown from the latest production Pages deployment (previews ignored), and status-fetch.ts calls the deployments API with any failure as unknown and one fixed warn line. kc.pagesProject added to the config schema. Not rendered on the dashboard yet, and whether the analytics token can read Pages is unchecked.
 
 - **40** dashboard-layout: on feat/40-dashboard-layout; the branch page checks repo read access on the server before any panel, then renders visits, search health and the version line each in Suspense with its skeleton. kc/dashboard.tsx has the new header with See live site, quick actions as tinted links, a container-query grid, and recent changes behind pulsing skeleton rows. Not seen in a browser.
 

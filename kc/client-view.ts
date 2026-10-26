@@ -7,6 +7,7 @@ export const KcSchema = z
   .object({
     client: z.string({ message: "'client' must be a string." }).optional(),
     site: z.string({ message: "'site' must be a string." }).optional(),
+    pagesProject: z.string({ message: "'pagesProject' must be a string." }).optional(),
     actions: z.record(z.string(), z.string({ message: "Each action label must be a string." })).optional(),
   })
   .strict();
