@@ -1,0 +1,2 @@
+- Source and test edits done (dashboard.test, dashboard-server.test, dashboard-visits.test, insights-chart.test, dashboard-sections.test).
+- Next: run the four test files, then tsc+eslint, mutation x3, result.md.

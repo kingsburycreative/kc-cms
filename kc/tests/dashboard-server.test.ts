@@ -80,6 +80,20 @@ test("the publish line renders only the state text, from the map entry", () => {
   assert.doesNotMatch(p, /status\.(?!state)\w+|\{status\}/);
 });
 
+test("top pages show a name before the muted path when one is known, else the bare path", () => {
+  const t = body("TopLists");
+  assert.match(t, /const name = pageName\(item\.label, ctx\?\.config\.object\);/);
+  assert.match(t, /name \? \{ \.\.\.item, label: name, sub: item\.label \} : item/);
+  const bars = server.slice(server.indexOf("function Bars("), server.indexOf("export async function TopLists"));
+  assert.ok(bars.indexOf("{item.label}") < bars.indexOf("{item.sub &&"));
+  assert.match(bars, /\{item\.sub && <span className="ml-2 text-muted-foreground">\{item\.sub\}<\/span>\}/);
+  assert.ok(t.indexOf("readUser(ref)") < t.indexOf("getInsightsAccess("));
+});
+
+test("the visits panel links to Insights", () => {
+  assert.match(body("VisitsPanel"), /<DashboardVisits days=\{view\.days\} insightsHref=\{shortHref\(`\/\$\{ref\.owner\}\/\$\{ref\.repo\}\/\$\{encodeURIComponent\(ref\.branch\)\}\/insights`\)\}/);
+});
+
 test("each skeleton has animate-pulse and motion-reduce:animate-none", () => {
   assert.match(skeleton, /BLOCK = "[^"]*animate-pulse motion-reduce:animate-none/);
   for (const name of ["VisitsSkeleton", "SearchHealthSkeleton", "TopListsSkeleton", "PublishSkeleton", "StaffSkeleton", "VersionSkeleton"]) {
