@@ -937,5 +937,22 @@
     "verified_at": "2026-10-27T00:18:56.309Z",
     "tree": "4170d97e03584cd0a6a7c0a7ed399e615c1fc9cf1f6a537a55caf1c7149bbe53",
     "gate": "full"
+  },
+  {
+    "id": "github-verified-email",
+    "title": "GitHub sign-in needs a verified email",
+    "brief": ".claude/work/67-github-verified-email/brief.md",
+    "start_sha": "f3f9097f5885bf4388bb54fa7d8a5d61ffaf1b9d",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T18:32:02.049Z",
+      "start_sha": "f3f9097f5885bf4388bb54fa7d8a5d61ffaf1b9d",
+      "mutation_evidence": true,
+      "tree": "cffb737d9306c7c05c6b914806e3157f913beed42d65f59389785b0e8e674c40",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-27T18:34:16.244Z",
+    "tree": "cffb737d9306c7c05c6b914806e3157f913beed42d65f59389785b0e8e674c40",
+    "gate": "full"
   }
 ]

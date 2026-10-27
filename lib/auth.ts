@@ -16,6 +16,7 @@ import { AUTH_IP_HEADERS } from "@/kc/auth-ip";
 import { AUTH_DISABLED_PATHS } from "@/kc/auth-disabled-paths";
 import { APIError, createAuthMiddleware } from "better-auth/api";
 import { kcAuthBefore } from "@/kc/otp-limit";
+import { pickVerifiedGithubEmail } from "../kc/github-email";
 
 export const auth = betterAuth({
   baseURL: getBaseUrl(),
@@ -86,9 +87,7 @@ export const auth = betterAuth({
 
         const profile = await profileResponse.json();
 
-        let emails:
-          | Array<{ email: string; primary: boolean; verified: boolean; visibility: "public" | "private" }>
-          | undefined;
+        let emails: unknown;
         try {
           const emailsResponse = await fetch("https://api.github.com/user/emails", {
             headers: {
@@ -101,10 +100,13 @@ export const auth = betterAuth({
           }
         } catch {}
 
-        if (!profile.email && emails) {
-          profile.email = (emails.find((entry) => entry.primary) ?? emails[0])?.email as string;
+        const verifiedEmail = pickVerifiedGithubEmail(profile.email, emails);
+        if (!verifiedEmail) {
+          console.warn("[auth] github sign-in refused: no verified email");
+          return null;
         }
-        const emailVerified = emails?.find((entry) => entry.email === profile.email)?.verified ?? false;
+        profile.email = verifiedEmail;
+        const emailVerified = true;
 
         const userMap = {
           name: profile.name ?? profile.login,
