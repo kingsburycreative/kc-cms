@@ -1073,5 +1073,20 @@
     "verified_at": "2026-10-27T19:12:26.354Z",
     "tree": "fd68e7ef7d8f6dd9319286b0b6ce5b16ecc07ab463a424af622edfa3991cd5e3",
     "gate": "full"
+  },
+  {
+    "id": "nodemailer-major",
+    "title": "nodemailer to the newest 10.x",
+    "brief": ".claude/work/75-nodemailer-major/brief.md",
+    "start_sha": "d6704f5374843026c3282bdf9ebe0c2540dc3e8a",
+    "passes": false,
+    "scope_ok": {
+      "at": "2026-10-27T19:33:52.197Z",
+      "start_sha": "d6704f5374843026c3282bdf9ebe0c2540dc3e8a",
+      "mutation_evidence": false,
+      "tree": "730bb6ae7ab336570428f1695908a20a6df54593307434825c603704ca95c085",
+      "size": "Risky"
+    },
+    "parked": "main suite red: CHANGELOG-KC.md unclaimed in kc/register/customizations.json; work on wip/nodemailer-major-10"
   }
 ]

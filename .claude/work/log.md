@@ -186,3 +186,5 @@
 - 2026-10-27 add-editor-repo-guard (72): sized Risky (GitHub App credentials, as card 62). Opus worker, scope ok with mutation evidence (4 new tests failed with the check removed), diff read. Not run against GitHub. Sent to the gate with an audit.
 - 2026-10-27 load-config (73, plan 66 card 01): Sonnet worker, two rounds (round one's unknown-type test did not check which field; now checks the error range points at it, since core's message names no field). Scope ok with mutation evidence, diff read. Sent to the gate.
 - 2026-10-27 customizations-register (74, plan 66 card 02): Opus worker, scope ok with mutation evidence (short-url entry removed names proxy.ts), diff read. Register is in kc/register only, no project.md risky path, so no audit. Sent to the gate.
+
+- 2026-10-27 nodemailer-major parked: suite red on main (CHANGELOG-KC.md unclaimed by the customizations register after PR 79). Work on wip/nodemailer-major-10. Queued register-changelog at the top of Now.
