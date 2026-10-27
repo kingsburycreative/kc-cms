@@ -4,7 +4,6 @@
 
 Sweep fixes first, in this order (Rob, 2026-10-27: "do all the fixes and updates", before Pitt St BBQ's first login). Findings are in the private repo, `D:\Dev\htdocs\kc-cms\audits\2026-10-27-sweep\result.md` (this repo is public).
 
-- **publish-status-log** (sweep error finding, Normal): kc/publish/status-fetch.ts:41-45 drops the HTTP status, so "deployments request failed" cannot say whether the Cloudflare token lacks Pages read. Log the status code (never the token or URL query) in the warn line; test it.
 - **series-cache-case** (card 31 and 41 audits, half done): the dashboard keys on seriesSiteKey, but the Insights page still passes `${owner}/${repo}` as typed (app/(main)/[owner]/[repo]/[branch]/insights/page.tsx:87). Use seriesSiteKey there and cap the series Map (kc/insights/route.ts:53-61). Risky path (kc/insights/).
 - **add-editor-repo-guard** (sweep observation 5, Normal): scripts/add-editor.mts:69-94 accepts any repo in the App installation, including internal ones like kc-cms-server. Refuse a repo with no .pages.yml on its default branch, with a plain message; test with a fake deps object.
 
@@ -57,6 +56,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **publish-status-log** (70): a refused deployments request now logs its HTTP status.
 - **deps-update** (69): next 16.4.3, better-auth 1.7.14, nodemailer 8.0.11, tiptap 3.32, resend 6.35. nodemailer and zod highs left, fixes are majors (see .claude/work/69-deps-update/result.md).
 
 - **auth-redirect-backslash**: the sign-in redirect accepts only same-origin paths, refusing backslashes, encoded slashes, whitespace and control characters (`.claude/work/68-auth-redirect-backslash/result.md`). Tests cover the helper, not getSafeRedirect itself.

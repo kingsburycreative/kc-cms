@@ -85,6 +85,21 @@ for (const [name, impl] of failures) {
   });
 }
 
+test("a 403 warns with its HTTP status, a thrown fetch warns without one", async () => {
+  const a = capture();
+  const s = await fetchPublishStatus(target, async () => ({ ok: false, status: 403, json: async () => ({}) }), a.warn);
+  assert.deepEqual(s, { state: "unknown" });
+  assert.equal(a.lines.length, 1);
+  assert.ok(a.lines[0].includes("HTTP 403"));
+  assert.ok(!a.lines[0].includes(TOKEN));
+  assert.ok(!/acct1|api\.cloudflare\.com/.test(a.lines[0]));
+
+  const b = capture();
+  await fetchPublishStatus(target, async () => { throw new Error("boom"); }, b.warn);
+  assert.equal(b.lines.length, 1);
+  assert.ok(!b.lines[0].includes("HTTP"));
+});
+
 test("a bad or missing project, token or account makes no call", async () => {
   let calls = 0;
   const impl = async () => {

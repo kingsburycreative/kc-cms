@@ -5,7 +5,7 @@ import { publishStatus, type PublishStatus } from "./status.ts";
 type FetchLike = (
   url: string,
   init?: { headers?: Record<string, string>; next?: { revalidate: number } },
-) => Promise<{ ok: boolean; json: () => Promise<unknown> }>;
+) => Promise<{ ok: boolean; status?: number; json: () => Promise<unknown> }>;
 
 export type PublishTarget = {
   accountId?: string | null;
@@ -38,7 +38,11 @@ export async function fetchPublishStatus(
       headers: { Authorization: `Bearer ${token}` },
       next: { revalidate: 30 },
     });
-    if (!res.ok) throw new Error("refused");
+    if (!res.ok) {
+      const code = Number.isInteger(res.status) ? ` (HTTP ${res.status})` : "";
+      warn(`publish status unknown: deployments request failed${code}`);
+      return { state: "unknown" };
+    }
     body = await res.json();
   } catch {
     warn("publish status unknown: deployments request failed");

@@ -988,5 +988,22 @@
     "verified_at": "2026-10-27T18:54:38.674Z",
     "tree": "539a70720e29534fe0df3b482b3b5c9e5960210c1a2c1a1be9b5aaf98a5dc224",
     "gate": "full"
+  },
+  {
+    "id": "publish-status-log",
+    "title": "Log the HTTP status when the deployments request fails",
+    "brief": ".claude/work/70-publish-status-log/brief.md",
+    "start_sha": "9a453b1f7a8cda340621217407d5b6957f823db0",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T18:56:28.116Z",
+      "start_sha": "9a453b1f7a8cda340621217407d5b6957f823db0",
+      "mutation_evidence": true,
+      "tree": "a8c92ac25bdce560fc28b0529229eb3ed26f78fc2bc16f933e6554032df7a2ab",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-27T18:57:03.964Z",
+    "tree": "a8c92ac25bdce560fc28b0529229eb3ed26f78fc2bc16f933e6554032df7a2ab",
+    "gate": "full"
   }
 ]
