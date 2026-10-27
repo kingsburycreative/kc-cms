@@ -2,8 +2,6 @@
 
 ## Now
 
-- **save-size-cap** (Risky, app/api; Rob, 2026-10-27: "go", and the error a user sees must be a friendly message, not a generic error): blunt zod's memory-exhaustion advisory (GHSA-mrhx-c7xc-m3w5, zod < 4.6.6) without moving off zod 3, which upstream still uses. In the request filter (`proxy.ts`, through its existing kc/ hook; logic in a new `kc/save-size.ts`), refuse a non-multipart request with a body (POST, PUT, PATCH) under `/api/` whose declared Content-Length is over 1 MB, or which has no Content-Length, with a 413 and the JSON body shape the editor's other errors use (find it in the entries and files routes and the client code that reads their errors). Multipart uploads pass untouched; nginx's 25m still caps them. Check the largest real content save first: if any fixture or test content is over 256 KB, raise the cap and say why in result.md. In the editor, a 413 from a save shows a plain, friendly message where save errors already show, written with the prose skill, then avoid-ai-writing and humanizer (project.md Copy rule): say the page is too large to save in one go and what to do (split it up or contact Kingsbury Creative). No generic "Something went wrong" and no status code shown. The user's unsaved content stays in the editor. Touch an upstream client file only for the smallest hook into kc/, and name it. Done-test: new kc/tests/save-size.test.ts covers over-cap JSON refused with 413, missing length refused, under-cap passes, multipart over-cap passes, GET untouched, a non-/api path untouched, and the editor's error mapper turning a 413 into the friendly message (not the generic one); suite, `npx tsc --noEmit`, `npx eslint kc` exit 0. Mutation: drop the multipart exemption; make the mapper return the generic message.
-
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
@@ -50,6 +48,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **save-size-cap** (77): /api bodies capped at 1 MB in the request filter (25 MB on /files/, where non-media saves over 1 MB are refused before zod); a 413 shows a plain too-large message in the editor and uploader.
 - **nodemailer-major** (75): nodemailer 8.0.11 to 10.2.1, no nodemailer advisory left; a jsonTransport test checks from, to, subject and both bodies.
 - **register-changelog** (76): CHANGELOG-KC.md claimed under the release-version register entry; main suite green again.
 - **customizations-register** (74, plan 66 card 02): kc/register/customizations.json lists 31 fork customizations against upstream base 6f4e860; a test fails on any changed upstream file no entry claims.

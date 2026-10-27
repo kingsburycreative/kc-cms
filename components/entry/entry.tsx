@@ -13,6 +13,7 @@ import { useUser } from "@/contexts/user-context";
 import { hasGithubIdentity } from "@/lib/authz-shared";
 import { clientMayDelete } from "@/kc/content-ops";
 import { requireApiSuccess } from "@/lib/api-client";
+import { throwIfTooLarge } from "@/kc/save-error";
 import { getSchemaActions } from "@/lib/actions";
 import {
   generateFilename,
@@ -398,6 +399,7 @@ export function Entry({
             sha: sha
           }),
         });
+        throwIfTooLarge(response, "save");
         const data = await requireApiSuccess<any>(
           response,
           "Failed to save file",

@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { getSchemaByName } from "@/lib/schema";
 import { cn } from "@/lib/utils";
 import { requireApiSuccess } from "@/lib/api-client";
+import { throwIfTooLarge } from "@/kc/save-error";
 import type { FileSaveData } from "@/types/api";
 
 interface MediaUploadContextValue {
@@ -93,6 +94,7 @@ function MediaUploadRoot({ children, path, onUpload, media, extensions, multiple
             }),
           });
 
+          throwIfTooLarge(response, "upload");
           const data = await requireApiSuccess<any>(
             response,
             "Failed to upload file",

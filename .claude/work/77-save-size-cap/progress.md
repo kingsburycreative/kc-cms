@@ -1,0 +1,2 @@
+- Read brief and files. Found proxy hook breaks kc/tests/short-url-proxy.test.ts (not in touch list). Stopped, wrote result.md. No code touched.
+- Resumed on revised brief. Wrote kc/save-size.ts, kc/save-error.ts, kc/tests/save-size.test.ts; hooked proxy.ts, files route, entry.tsx, media-upload.tsx; patched short-url-proxy test; register entry. Next: run tests, mutation.

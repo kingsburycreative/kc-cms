@@ -212,6 +212,13 @@
       "tests": []
     },
     {
+      "id": "save-size-cap",
+      "title": "Request size cap on /api saves, friendly too-large message",
+      "files": ["kc/save-size.ts", "kc/save-error.ts", "proxy.ts", "app/api/[owner]/[repo]/[branch]/files/[path]/route.ts", "components/entry/entry.tsx", "components/media/media-upload.tsx"],
+      "watch": ["kc/save-size.ts", "kc/save-error.ts"],
+      "tests": ["kc/tests/save-size.test.ts"]
+    },
+    {
       "id": "tooling",
       "title": "Fork tooling: loop files, TS imports, GitHub app setup, register",
       "files": [".claude/project.md", "tsconfig.json", "scripts/setup-github-app.mjs", "kc/register/load-config.ts", "kc/register/customizations.ts"],

@@ -1107,5 +1107,22 @@
     "verified_at": "2026-10-27T19:39:15.396Z",
     "tree": "a046a563238e21322f651b122ca15eb053b84ccd27cbfbb14c9488cb1d6b11c2",
     "gate": "full"
+  },
+  {
+    "id": "77",
+    "title": "save-size-cap",
+    "brief": ".claude/work/77-save-size-cap/brief.md",
+    "start_sha": "90e8ba3390c246dbba29adb97a4a1825ae5d11ad",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T19:48:32.768Z",
+      "start_sha": "90e8ba3390c246dbba29adb97a4a1825ae5d11ad",
+      "mutation_evidence": true,
+      "tree": "e665963368e96d0918b7e17086fe79da4313c2d1b2f6f216335f20840db25742",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-27T19:49:39.792Z",
+    "tree": "e665963368e96d0918b7e17086fe79da4313c2d1b2f6f216335f20840db25742",
+    "gate": "full"
   }
 ]
