@@ -7,8 +7,6 @@ Sweep fixes first, in this order (Rob, 2026-10-27: "do all the fixes and updates
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`); cards 03 on wait for Rob's card 00 answers.
 
-- **66-02**: Register of the fork's own customizations (plan card 02, Risky)
-
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -53,6 +51,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **customizations-register** (74, plan 66 card 02): kc/register/customizations.json lists 31 fork customizations against upstream base 6f4e860; a test fails on any changed upstream file no entry claims.
 - **load-config** (73, plan 66 card 01): kc/register/load-config.ts loads lib/config.ts and lib/schema.ts under plain node --test through tsx (CJS hook for the @/ alias, .css stubbed).
 - **add-editor-repo-guard** (72): add-editor refuses a repo with no .pages.yml on its default branch, dry run included.
 - **series-cache-case** (71): the Insights page keys the series cache on seriesSiteKey, as the dashboard does; the cache was already capped.

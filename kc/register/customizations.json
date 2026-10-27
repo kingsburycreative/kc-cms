@@ -1,0 +1,222 @@
+{
+  "upstreamBase": "6f4e860a35d934406580287e7042e5e111e207a1",
+  "entries": [
+    {
+      "id": "branding",
+      "title": "KC branding: name, logo, colours, page titles",
+      "files": ["kc/brand.ts", "app/layout.tsx", "app/icon.svg", "app/globals.css", "components/document-title.tsx", "components/about.tsx"],
+      "watch": ["kc/brand.ts"],
+      "tests": ["kc/tests/brand.test.ts"]
+    },
+    {
+      "id": "client-view",
+      "title": "Client view hides developer surfaces",
+      "files": ["kc/client-view.ts", "app/(main)/page.tsx", "components/actions/actions-page.tsx", "components/file/file-options.tsx", "components/repo/repo-select.tsx", "components/settings/identities.tsx", "fields/core/file/edit-component.tsx", "fields/core/image/edit-component.tsx", "lib/actions/collaborator-invite.ts", "lib/config-schema.ts", "contexts/config-context.tsx"],
+      "watch": ["kc/client-view.ts"],
+      "tests": ["kc/tests/client-view.test.ts"]
+    },
+    {
+      "id": "branch-lock",
+      "title": "Clients are locked to the default branch",
+      "files": ["kc/branch-lock.ts", "kc/branch-lock-server.ts", "app/(main)/[owner]/[repo]/layout.tsx", "app/(main)/[owner]/[repo]/[branch]/layout.tsx", "app/api/[owner]/[repo]/[branch]/branches/route.ts", "lib/api-repo-context.ts"],
+      "watch": ["kc/branch-lock*.ts"],
+      "tests": ["kc/tests/branch-lock.test.ts", "kc/tests/branch-create-gate.test.ts"]
+    },
+    {
+      "id": "settings-gate",
+      "title": "Settings files and deletes gated for clients",
+      "files": ["kc/settings-gate.ts", "kc/settings-gate-server.ts", "app/api/[owner]/[repo]/[branch]/files/[path]/route.ts", "app/api/[owner]/[repo]/[branch]/files/[path]/rename/route.ts", "app/api/[owner]/[repo]/[branch]/entries/[path]/route.ts"],
+      "watch": ["kc/settings-gate*.ts", "app/api/**"],
+      "tests": ["kc/tests/settings-gate.test.ts", "kc/tests/delete-guard-path.test.ts"]
+    },
+    {
+      "id": "insights",
+      "title": "Insights page, charts and Cloudflare analytics",
+      "files": ["kc/insights/route.ts", "kc/insights/gate.ts", "kc/insights/series.ts", "kc/insights/cloudflare.ts", "components/repo/repo-layout.tsx","app/(main)/[owner]/[repo]/[branch]/insights/page.tsx"],
+      "watch": ["kc/insights/**"],
+      "tests": ["kc/tests/insights.test.ts", "kc/tests/insights-route.test.ts", "kc/tests/insights-gate.test.ts", "kc/tests/insights-series.test.ts", "kc/tests/insights-chart.test.ts", "kc/tests/insights-page.test.ts", "kc/tests/insights-cloudflare.test.ts"]
+    },
+    {
+      "id": "otp-limit",
+      "title": "Atomic sign-in code rate limit",
+      "files": ["kc/otp-limit.ts", "lib/auth.ts"],
+      "watch": ["kc/otp-limit.ts"],
+      "tests": ["kc/tests/otp-limit.test.ts"]
+    },
+    {
+      "id": "auth-ip",
+      "title": "Client IP key for auth rate limits",
+      "files": ["kc/auth-ip.ts", "lib/auth.ts"],
+      "watch": ["kc/auth-ip.ts"],
+      "tests": ["kc/tests/auth-ip.test.ts"]
+    },
+    {
+      "id": "auth-disabled-paths",
+      "title": "Unused auth endpoints disabled",
+      "files": ["kc/auth-disabled-paths.ts", "lib/auth.ts"],
+      "watch": ["kc/auth-disabled-paths.ts"],
+      "tests": ["kc/tests/auth-disabled-paths.test.ts"]
+    },
+    {
+      "id": "verified-email",
+      "title": "Only verified emails are trusted, GitHub email lookup",
+      "files": ["kc/github-email.ts", "lib/auth.ts", "lib/admin.ts"],
+      "watch": ["kc/github-email.ts"],
+      "tests": ["kc/tests/github-email.test.ts", "kc/tests/email-verified-trust.test.ts"]
+    },
+    {
+      "id": "sign-in-methods",
+      "title": "Sign-in methods per audience",
+      "files": ["kc/sign-in-methods.ts", "components/sign-in.tsx"],
+      "watch": ["kc/sign-in-methods.ts"],
+      "tests": ["kc/tests/sign-in-methods.test.ts"]
+    },
+    {
+      "id": "safe-redirect",
+      "title": "Auth redirect refuses off-site targets",
+      "files": ["kc/safe-redirect.ts", "lib/auth-redirect.ts"],
+      "watch": ["kc/safe-redirect.ts"],
+      "tests": ["kc/tests/safe-redirect.test.ts"]
+    },
+    {
+      "id": "media-types",
+      "title": "Allowed media upload types",
+      "files": ["kc/media-types.ts", "app/api/[owner]/[repo]/[branch]/files/[path]/route.ts"],
+      "watch": ["kc/media-types.ts"],
+      "tests": ["kc/tests/media-types.test.ts"]
+    },
+    {
+      "id": "content-ops",
+      "title": "Content file operations for clients",
+      "files": ["kc/content-ops.ts", "components/entry/entry.tsx"],
+      "watch": ["kc/content-ops.ts"],
+      "tests": ["kc/tests/content-ops.test.ts"]
+    },
+    {
+      "id": "redact",
+      "title": "Redact developer identities from client views",
+      "files": ["kc/redact.ts", "app/api/[owner]/[repo]/[branch]/actions/route.ts"],
+      "watch": ["kc/redact.ts"],
+      "tests": ["kc/tests/redact.test.ts"]
+    },
+    {
+      "id": "avatar",
+      "title": "Avatars without third-party image hosts",
+      "files": ["kc/avatar.ts", "components/user.tsx"],
+      "watch": ["kc/avatar.ts"],
+      "tests": ["kc/tests/avatar.test.ts"]
+    },
+    {
+      "id": "commit-identity",
+      "title": "Commit author and message identity",
+      "files": ["kc/commit-identity.ts", "lib/commit-message.ts"],
+      "watch": ["kc/commit-identity.ts"],
+      "tests": ["kc/tests/commit-identity.test.ts"]
+    },
+    {
+      "id": "invite-email",
+      "title": "White-label emails and invite names",
+      "files": ["kc/email.ts", "kc/invite-name.ts", "lib/mailer.ts", "lib/actions/collaborator.ts", "lib/collaborator-access.ts", "components/collaborators.tsx","components/email/invite.tsx", "components/email/login.tsx", "components/email/collaborator-added.tsx", "public/images/email-logo.png", "db/schema.ts"],
+      "watch": ["components/email/**", "db/migrations/**"],
+      "tests": ["kc/tests/email.test.ts", "kc/tests/invite-name.test.ts"]
+    },
+    {
+      "id": "history",
+      "title": "Page and site history with restore",
+      "files": ["kc/history/diff.ts", "kc/history/history-view.tsx", "kc/history/ref-check.ts", "kc/history/restore.ts", "kc/history/site.ts", "app/(main)/[owner]/[repo]/[branch]/history/page.tsx", "app/(main)/[owner]/[repo]/[branch]/history/entry/page.tsx", "app/api/[owner]/[repo]/[branch]/history/route.ts", "app/api/[owner]/[repo]/[branch]/entries/[path]/history/route.ts", "components/entry/entry-history.tsx", "types/api.ts"],
+      "watch": ["kc/history/**", "app/(main)/[owner]/[repo]/[branch]/history/**"],
+      "tests": ["kc/tests/history-diff.test.ts", "kc/tests/history-restore.test.ts", "kc/tests/history-site.test.ts"]
+    },
+    {
+      "id": "seo-panel",
+      "title": "SEO panel in the entry editor",
+      "files": ["kc/seo/panel.tsx", "kc/seo/rules.ts", "kc/seo/readability.ts", "kc/seo/site.ts", "components/entry/entry-form.tsx"],
+      "watch": ["kc/seo/**"],
+      "tests": ["kc/tests/seo-rules.test.ts", "kc/tests/seo-site.test.ts"]
+    },
+    {
+      "id": "dashboard",
+      "title": "Site dashboard and publish status",
+      "files": ["kc/dashboard.ts", "kc/dashboard.tsx", "kc/dashboard-server.tsx", "kc/dashboard-skeleton.tsx", "kc/dashboard-visits.ts", "kc/publish/status.ts", "kc/publish/status-fetch.ts", "app/(main)/[owner]/[repo]/[branch]/page.tsx"],
+      "watch": ["kc/dashboard*", "kc/publish/**"],
+      "tests": ["kc/tests/dashboard.test.ts", "kc/tests/dashboard-server.test.ts", "kc/tests/dashboard-sections.test.ts", "kc/tests/dashboard-visits.test.ts", "kc/tests/dashboard-mockup.test.ts", "kc/tests/publish-status.test.ts"]
+    },
+    {
+      "id": "short-url",
+      "title": "Short URLs and the rewriting proxy",
+      "files": ["kc/short-url.ts", "proxy.ts", "app/(main)/[owner]/[repo]/page.tsx", "app/(main)/[owner]/[repo]/[branch]/settings/page.tsx", "components/collection/collection.tsx", "components/empty-create.tsx", "components/media/media-view.tsx", "components/repo/repo-action-buttons.tsx", "components/repo/repo-branches.tsx", "components/repo/repo-dropdown.tsx", "components/repo/repo-latest.tsx", "components/repo/repo-nav.tsx", "components/repo/repo-templates.tsx"],
+      "watch": ["kc/short-url.ts", "proxy.ts"],
+      "tests": ["kc/tests/short-url.test.ts", "kc/tests/short-url-proxy.test.ts", "kc/tests/short-url-links.test.ts", "kc/tests/short-url-reserved.test.ts", "kc/tests/short-href-editor.test.ts"]
+    },
+    {
+      "id": "sidebar-groups",
+      "title": "Grouped sidebar with phone-size targets",
+      "files": ["kc/sidebar-groups.ts", "components/repo/repo-sidebar.tsx", "components/ui/sidebar.tsx"],
+      "watch": ["kc/sidebar-groups.ts"],
+      "tests": ["kc/tests/sidebar-groups.test.ts"]
+    },
+    {
+      "id": "page-header",
+      "title": "Shared page header with live-site link",
+      "files": ["kc/page-header.tsx"],
+      "watch": ["kc/page-header.tsx"],
+      "tests": ["kc/tests/page-header.test.ts"]
+    },
+    {
+      "id": "action-run-claim",
+      "title": "Action runs claimed per user",
+      "files": ["kc/action-run-claim.ts", "app/api/[owner]/[repo]/[branch]/actions/route.ts", "app/api/[owner]/[repo]/[branch]/actions/[runId]/route.ts"],
+      "watch": ["kc/action-run-claim.ts"],
+      "tests": ["kc/tests/action-run-claim.test.ts"]
+    },
+    {
+      "id": "update-banner",
+      "title": "Update banner and upstream watch",
+      "files": ["kc/update/banner.ts", "kc/update/banner-fetch.ts", "kc/update/check.ts", "kc/update/upstream.ts", "app/(main)/admin/page.tsx", ".github/workflows/kc-upstream-sync.yml"],
+      "watch": ["kc/update/**", ".github/workflows/kc-upstream-sync.yml"],
+      "tests": ["kc/tests/banner.test.ts", "kc/tests/update.test.ts"]
+    },
+    {
+      "id": "uptime",
+      "title": "Uptime check workflow",
+      "files": [".github/workflows/kc-uptime.yml"],
+      "watch": [".github/workflows/kc-uptime.yml"],
+      "tests": ["kc/tests/uptime.test.ts"]
+    },
+    {
+      "id": "add-editor",
+      "title": "Script to add a client editor",
+      "files": ["scripts/add-editor.mts", "docs/add-editor.md"],
+      "watch": ["scripts/add-editor.mts", "docs/add-editor.md"],
+      "tests": ["kc/tests/add-editor.test.ts"]
+    },
+    {
+      "id": "release-version",
+      "title": "Release version and its status",
+      "files": ["package.json", "kc/update/status.ts", "kc/update/status-fetch.ts"],
+      "watch": ["package.json"],
+      "tests": ["kc/tests/version-status.test.ts"]
+    },
+    {
+      "id": "deps",
+      "title": "Dependency updates past upstream",
+      "files": ["package.json", "package-lock.json"],
+      "watch": ["package.json", "package-lock.json"],
+      "tests": ["kc/tests/smoke.test.ts"]
+    },
+    {
+      "id": "client-guides",
+      "title": "Static client guides under /guides",
+      "files": ["next.config.mjs", "public/guides/besciworks/index.html"],
+      "watch": ["public/guides/**"],
+      "tests": []
+    },
+    {
+      "id": "tooling",
+      "title": "Fork tooling: loop files, TS imports, GitHub app setup, register",
+      "files": [".claude/project.md", "tsconfig.json", "scripts/setup-github-app.mjs", "kc/register/load-config.ts", "kc/register/customizations.ts"],
+      "watch": [".claude/**", "kc/register/**"],
+      "tests": ["kc/tests/register-load.test.ts", "kc/tests/register-customizations.test.ts"]
+    }
+  ]
+}

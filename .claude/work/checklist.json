@@ -1056,5 +1056,22 @@
     "verified_at": "2026-10-27T19:08:12.538Z",
     "tree": "048e97f9299cde5064111f50155149e6277d309dc74b76fb618698a18fe51dd4",
     "gate": "full"
+  },
+  {
+    "id": "74",
+    "title": "customizations-register",
+    "brief": ".claude/work/74-customizations-register/brief.md",
+    "start_sha": "bca37c4a81ca4ef9e03806bbdd6fb4a89c7132bf",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T19:11:40.862Z",
+      "start_sha": "bca37c4a81ca4ef9e03806bbdd6fb4a89c7132bf",
+      "mutation_evidence": true,
+      "tree": "fd68e7ef7d8f6dd9319286b0b6ce5b16ecc07ab463a424af622edfa3991cd5e3",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-27T19:12:26.354Z",
+    "tree": "fd68e7ef7d8f6dd9319286b0b6ce5b16ecc07ab463a424af622edfa3991cd5e3",
+    "gate": "full"
   }
 ]
