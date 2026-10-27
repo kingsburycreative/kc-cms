@@ -193,7 +193,7 @@
     {
       "id": "release-version",
       "title": "Release version and its status",
-      "files": ["package.json", "kc/update/status.ts", "kc/update/status-fetch.ts"],
+      "files": ["package.json", "kc/update/status.ts", "kc/update/status-fetch.ts", "CHANGELOG-KC.md"],
       "watch": ["package.json"],
       "tests": ["kc/tests/version-status.test.ts"]
     },
@@ -210,6 +210,13 @@
       "files": ["next.config.mjs", "public/guides/besciworks/index.html"],
       "watch": ["public/guides/**"],
       "tests": []
+    },
+    {
+      "id": "save-size-cap",
+      "title": "Request size cap on /api saves, friendly too-large message",
+      "files": ["kc/save-size.ts", "kc/save-error.ts", "proxy.ts", "app/api/[owner]/[repo]/[branch]/files/[path]/route.ts", "components/entry/entry.tsx", "components/media/media-upload.tsx"],
+      "watch": ["kc/save-size.ts", "kc/save-error.ts"],
+      "tests": ["kc/tests/save-size.test.ts"]
     },
     {
       "id": "tooling",

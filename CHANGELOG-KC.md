@@ -11,6 +11,13 @@ dislike `+`).
 To cut a release: bump `version` in package.json and package-lock.json, add a
 section here, merge, deploy, then tag the deployed commit.
 
+## 2.1.8+kc.2 (2026-10-27)
+
+- Security: GitHub sign-ins need a verified email; the post-sign-in redirect accepts only same-origin paths; saves over 1 MB are refused before validation, with a plain message in the editor; nodemailer 10.2.1.
+- Updates: Next 16.4.3, better-auth 1.7.14, Tiptap 3.32 and patch releases.
+- Fixes: the publish status logs the HTTP status when Cloudflare refuses; the Insights page keys its chart cache case-insensitively; add-editor refuses a repo with no .pages.yml.
+- Customization register for the fork's own changes, with a test that flags any unclaimed upstream file.
+
 ## 2.1.8+kc.1 (2026-10-27)
 
 Everything since the fork was taken at upstream 2.1.8, PRs #1 to #78.

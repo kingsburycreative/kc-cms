@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { isStaticPath, resolveShort } from "./kc/short-url.ts";
+import { checkRequestSize } from "./kc/save-size.ts";
 
 function isAllowedOrigin(originHeader: string, hostHeader: string): boolean {
 	try {
@@ -26,6 +27,9 @@ export function proxy(request: NextRequest) {
 			});
 		}
 	}
+
+	const tooLarge = checkRequestSize(pathname, request.method, request.headers);
+	if (tooLarge) return tooLarge;
 
 	const requestHeaders = new Headers(request.headers);
 	const returnTo = `${request.nextUrl.pathname}${request.nextUrl.search}`;

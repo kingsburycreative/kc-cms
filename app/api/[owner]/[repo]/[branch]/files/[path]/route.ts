@@ -10,6 +10,7 @@ import { getFileExtension, getFileName, normalizePath, serializedTypes, getParen
 import { isSettingsPath } from "@/kc/settings-gate";
 import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { isMediaPathAllowed } from "@/kc/media-types";
+import { checkFilesBody } from "@/kc/save-size";
 import { getToken } from "@/lib/token";
 import { assertBranchAllowed } from "@/kc/branch-lock-server";
 import { clientMayDelete, isSingleFilePath } from "@/kc/content-ops";
@@ -50,6 +51,7 @@ export async function POST(
     if (!config && normalizedPath !== ".pages.yml") throw new Error(`Configuration not found for ${params.owner}/${params.repo}/${params.branch}.`);
 
     const data: any = await request.json();
+    const tooLarge = checkFilesBody(data, Number(request.headers.get("content-length") ?? 0)); if (tooLarge) return tooLarge;
     const onConflict = data.onConflict === "error" ? "error" : "rename";
 
     let contentBase64;

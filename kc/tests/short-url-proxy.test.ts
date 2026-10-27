@@ -20,7 +20,8 @@ const shortUrl = pathToFileURL(join(root, "kc", "short-url.ts")).href;
 
 const patched = source
   .replaceAll('"next/server"', JSON.stringify(pathToFileURL(nextServer).href))
-  .replace('"./kc/short-url.ts"', JSON.stringify(shortUrl));
+  .replace('"./kc/short-url.ts"', JSON.stringify(shortUrl))
+  .replace('"./kc/save-size.ts"', JSON.stringify(pathToFileURL(join(root, "kc", "save-size.ts")).href));
 const dir = mkdtempSync(join(tmpdir(), "kc-proxy-"));
 const file = join(dir, "proxy.mts");
 writeFileSync(file, patched);
@@ -134,7 +135,7 @@ test("a POST to dotted /api/x.json without Origin answers 403", () => {
 
 test("proxy.ts imports nothing about sessions, tokens or fetch", () => {
   const imports = [...source.matchAll(/^import .* from "([^"]+)";$/gm)].map((m) => m[1]);
-  assert.deepEqual(imports.sort(), ["./kc/short-url.ts", "next/server", "next/server"]);
+  assert.deepEqual(imports.sort(), ["./kc/save-size.ts", "./kc/short-url.ts", "next/server", "next/server"]);
   assert.doesNotMatch(source, /fetch\(|getToken|session|auth|crypto/i);
 });
 
