@@ -1,8 +1,8 @@
 ---
-session: 13
-last_updated: 2026-10-23
-continue_with: Merge PR #54 (card 26, phone menu and labelled nested fields; gate passed, merge was refused by the permission check). Then decide card 06, which cards 19 and 20 wait on.
-blockers: PR #54 waits on Rob's merge. Cards 19 and 20 wait on card 06. Card 03 deploy and 403 check still Rob's and gate any client invite. Older Waiting on Rob calls (nginx limit_req, invite email limit, media categories, scripts in content). Most client-experience work has not been seen in a browser.
+session: 14
+last_updated: 2026-10-27
+continue_with: Review and merge PRs #80, #81, #79, then #82 (deps update plus five more sweep cards stacked on it). Then answer card 00 of the customization-guard plan so cards 03 on can run.
+blockers: Open PRs #79-#82 wait on Rob's review and merge. Customization-guard cards 03 on wait on Rob's card 00 answers. Cards 53, 19, 20 wait on card 06. Box changes still Rob's (proxy-rewrite-origin `-H localhost` fix, nginx limit_req, card 03 deploy and 403 check). nodemailer and zod highs left open, fixes are major versions.
 ---
 
 
@@ -11,20 +11,20 @@ blockers: PR #54 waits on Rob's merge. Cards 19 and 20 wait on card 06. Card 03 
 Self-hosted fork of Pages CMS (upstream hunvreus/pagescms), KC-branded, with an Insights view. Our repo is origin kingsburycreative/kc-cms; always pass `-R kingsburycreative/kc-cms` to `gh`. Issues are disabled on the repo; loose ends live on the board (`kc/BOARD.md`). Handoffs land through a `chore/session-N-handoff` PR.
 
 ## Recent sessions
-- **Session 13 (2026-10-23, unattended loop, 1 card):** card 26 (phone menu on the KC pages, labelled nested fields in History) passed the gate and is on PR #54; the loop's merge was refused by the permission check, so it waits for Rob. Nothing parked.
-- **Session 12 (2026-10-23, unattended loop, 2 cards):** email-verified-trust merged (PR #50); otp-atomic-limit merged (PR #51) with count-first limits so a stranger can no longer lock a client out. PR #47 (run-claim) also merged.
-- **Session 11 (2026-10-23, unattended loop, 12 cards):** client-experience cards merged as PRs #28-#46 plus a feature security audit.
+- **Session 14 (2026-10-27, unattended loop, 8 cards):** sweep fixes before Pitt St BBQ's first login. PR #80 refuses GitHub sign-in without a verified email; PR #81 accepts only same-origin auth redirects; PR #82 updates Next, better-auth and other packages, and also carries publish-status-log, series-cache-case (71), add-editor-repo-guard (72), load-config (73) and customizations-register (74). All gates passed; nothing parked this run. Not run against live GitHub or the box.
+- **Session 13 (2026-10-23, unattended loop, 1 card):** card 26 (phone menu, labelled nested fields) shipped as PR #54, since merged.
+- **Session 12 (2026-10-23, unattended loop, 2 cards):** verified-email trust and count-first OTP limits merged.
 
 ## What exists
-- Agent-loop setup: `.claude/project.md`, board, `.claude/work/` (checklist, afk log `log.md`, loop log). Client experience plan: `.claude/work/15-plan-client-experience/plan.md`.
-- On main: Insights (GA4 plus Cloudflare), uptime check, upstream release check, KC branding, client dashboard view, update banner, settings gate, OTP limits and disabled endpoints, client branch lock, client redaction and email-only sign-in, white-label emails, history and restore, site dashboard, SEO panel, branch-create and delete guards, run-claim, verified-email trust, count-first OTP limits.
-- Open PRs: #54 (card 26, branch feat/26-phone-menu). No CI checks on the repo.
+- Agent-loop setup: `.claude/project.md`, board `kc/BOARD.md`, `.claude/work/` (checklist, afk log `log.md`, loop log). Plans: client experience `15-plan-client-experience`, customization guard `66-plan-customization-guard`. Sweep findings live in the private repo (`D:\Dev\htdocs\kc-cms\audits\2026-10-27-sweep\result.md`).
+- On main: everything through card 26, plus the add-editor script and dashboard gaps work.
+- Open PRs: #79 (KC release number), #80, #81, #82. No CI checks on the repo.
 
 ## Pending
-- Rob: merge PR #54.
-- Board Now: cards 19 (sidebar) and 20 (advanced section), both waiting on card 06.
-- Rob: card 03 deploy and 403 check; nginx limit_req, invite email limit, media categories, scripts in content; Cloudflare field names need a live check at deploy.
+- Rob: review and merge #79-#82. #82 build stops on BASE_URL unset locally, not on the bumps.
+- Rob: customization-guard card 00 answers; card 06 decision for 53, 19, 20.
+- Rob, on the box: proxy-rewrite-origin (try `-H localhost` in deploy.sh), card 03 deploy and 403 check, live check of the staff strip (card 63) and add-editor against real GitHub.
 
 ## To Resume
-Session 14. main at 26899c0 (PR #53 merge) plus this handoff.
-THIS WINDOW: Rob merges PR #54, then decides card 06; then run the loop for cards 19 and 20.
+Session 15. main at f3f9097 plus this handoff.
+THIS WINDOW: Rob merges #80, #81, #79, #82; then answers card 00 so the loop can run customization-guard cards 03 on.
