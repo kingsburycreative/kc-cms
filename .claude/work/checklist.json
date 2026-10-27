@@ -954,5 +954,22 @@
     "verified_at": "2026-10-27T18:34:16.244Z",
     "tree": "cffb737d9306c7c05c6b914806e3157f913beed42d65f59389785b0e8e674c40",
     "gate": "full"
+  },
+  {
+    "id": "auth-redirect-backslash",
+    "title": "Same-origin paths only in the auth redirect",
+    "brief": ".claude/work/68-auth-redirect-backslash/brief.md",
+    "start_sha": "ddbe3fa3987162890f17f74009ac862c0f96b70e",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T18:38:37.048Z",
+      "start_sha": "ddbe3fa3987162890f17f74009ac862c0f96b70e",
+      "mutation_evidence": true,
+      "tree": "7c32a80ce7857cc75f4e0ff37d9c49c8c74290984113d353ca365fbbc694fd44",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-27T18:39:42.538Z",
+    "tree": "7c32a80ce7857cc75f4e0ff37d9c49c8c74290984113d353ca365fbbc694fd44",
+    "gate": "full"
   }
 ]

@@ -4,7 +4,6 @@
 
 Sweep fixes first, in this order (Rob, 2026-10-27: "do all the fixes and updates", before Pitt St BBQ's first login). Findings are in the private repo, `D:\Dev\htdocs\kc-cms\audits\2026-10-27-sweep\result.md` (this repo is public).
 
-- **auth-redirect-backslash** (card 54 audit, low, Risky, auth): lib/auth-redirect.ts:3 accepts /\evil.example, an open redirect via /auth/redirect?to=. Accept only same-origin paths: refuse a backslash, encoded slashes or backslashes, and control characters anywhere in the first segment; test each.
 - **deps-update** (sweep finding 1 plus Rob's ask to scan every dependency, Risky): Next 16.2.1 has unauthenticated DoS advisories through 16.4.0 and scanners are probing the box; bump next (and eslint-config-next to match) to the newest 16.4.x. Then `npm audit` and `npm outdated`: take every patch and minor release that closes an advisory (better-auth, nodemailer, tiptap, markdown-it, zod named in the sweep) and any other patch or minor that passes the suite; no major bumps (list them in result.md with what each would need). Exception to the Never list, for this card only (Rob, 2026-10-27): it may edit package.json and package-lock.json and run `npm install`. Done-test: full suite, `npx tsc --noEmit`, `npx eslint kc`, `npm run build` exit 0, and `npm audit --omit=dev` shows no high or critical left that has a fix, with each remaining one named and why it is unreachable. Version stays 2.1.8+kc.1 (PR #79).
 - **publish-status-log** (sweep error finding, Normal): kc/publish/status-fetch.ts:41-45 drops the HTTP status, so "deployments request failed" cannot say whether the Cloudflare token lacks Pages read. Log the status code (never the token or URL query) in the warn line; test it.
 - **series-cache-case** (card 31 and 41 audits, half done): the dashboard keys on seriesSiteKey, but the Insights page still passes `${owner}/${repo}` as typed (app/(main)/[owner]/[repo]/[branch]/insights/page.tsx:87). Use seriesSiteKey there and cap the series Map (kc/insights/route.ts:53-61). Risky path (kc/insights/).
@@ -58,6 +57,8 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 ## Blocked
 
 ## Done
+
+- **auth-redirect-backslash**: the sign-in redirect accepts only same-origin paths, refusing backslashes, encoded slashes, whitespace and control characters (`.claude/work/68-auth-redirect-backslash/result.md`). Tests cover the helper, not getSafeRedirect itself.
 
 - **add-editor-script**: box command scripts/add-editor.mts adds a client editor with no browser session; tsx now a runtime dependency (`.claude/work/62-add-editor-script/result.md`). PR #77, deployed, dry-run checked.
 

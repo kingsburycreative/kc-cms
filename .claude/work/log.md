@@ -181,3 +181,4 @@
 
 - 2026-10-26 dashboard-gaps (63): gated. Call: the new strings are the approved mockup's own text, so not sent back for the prose skills. Staff strip cause not found; worker removed the client-side gate, needs Rob's live GitHub check.
 - 2026-10-27 github-verified-email (67): Opus worker, scope ok with mutation evidence, diff read; refusal uses better-auth's existing unable_to_get_user_info redirect, no plain message on the sign-in page yet. Sent to the gate with an audit.
+- 2026-10-27 auth-redirect-backslash (68): Opus worker, scope ok with mutation evidence, diff read; tests cover kc/safe-redirect.ts, not getSafeRedirect (extensionless import). Sent to the gate with an audit.
