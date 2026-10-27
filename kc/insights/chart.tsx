@@ -1,7 +1,9 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import type uPlot from "uplot";
+import { visitsSummary } from "../dashboard-visits.ts";
 import "uplot/dist/uPlot.min.css";
 import { RANGES, slice, type Range, type SeriesPoint } from "./series.ts";
 import { METRIC_TITLES, axisLabel, compact, summarySentence, tableRows, tooltipText, total, type Metric } from "./chart-model.ts";
@@ -11,14 +13,21 @@ const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
 const SPARK_HEIGHT = 72;
 const heightNow = (spark: boolean) => (spark ? SPARK_HEIGHT : window.matchMedia(SM_QUERY).matches ? 200 : 170);
 const toSeconds = (day: string) => Date.parse(`${day}T12:00:00Z`) / 1000;
-const toData = (days: SeriesPoint[], metric: Metric): uPlot.AlignedData => [days.map((p) => toSeconds(p.day)), days.map((p) => p[metric])];
+const toData = (days: SeriesPoint[], metric: Metric, previous?: number[] | null): uPlot.AlignedData => {
+  const base: uPlot.AlignedData = [days.map((p) => toSeconds(p.day)), days.map((p) => p[metric])];
+  return previous ? [...base, previous] : base;
+};
 
 type Tip = { text: string; left: number; top: number };
 
-export function MetricChart({ days, metric, range, compact: spark = false }: { days: SeriesPoint[]; metric: Metric; range: Range; compact?: boolean }) {
+// bare: just the plot, for a panel that draws its own frame and figures, with
+// horizontal gridlines only. previous: the period before, drawn dashed.
+export function MetricChart({ days, metric, range, compact: spark = false, bare = false, previous = null }: { days: SeriesPoint[]; metric: Metric; range: Range; compact?: boolean; bare?: boolean; previous?: number[] | null }) {
   const box = useRef<HTMLDivElement>(null);
   const plotRef = useRef<uPlot | undefined>(undefined);
   const daysRef = useRef(days);
+  const previousRef = useRef(previous);
+  const hasPrevious = previous !== null;
   const [ready, setReady] = useState(false);
   const [fading, setFading] = useState(false);
   const [tip, setTip] = useState<Tip | null>(null);
@@ -46,10 +55,14 @@ export function MetricChart({ days, metric, range, compact: spark = false }: { d
           axes: spark
             ? [{ show: false }, { show: false }]
             : [
-                { stroke: colour, grid: { stroke: muted }, ticks: { show: false }, values: (_u, splits) => splits.map((s) => axisLabel(new Date(s * 1000).toISOString().slice(0, 10))) },
+                { stroke: colour, grid: bare ? { show: false } : { stroke: muted }, ticks: { show: false }, values: (_u, splits) => splits.map((s) => axisLabel(new Date(s * 1000).toISOString().slice(0, 10))) },
                 { stroke: colour, grid: { stroke: muted }, ticks: { show: false }, size: 44, values: (_u, splits) => splits.map((s) => compact(Math.round(s))) },
               ],
-          series: [{}, { stroke: colour, width: 2, fill: `color-mix(in srgb, ${colour} 15%, transparent)`, points: { show: false } }],
+          series: [
+            {},
+            { stroke: colour, width: 2, fill: `color-mix(in srgb, ${colour} 15%, transparent)`, points: { show: false } },
+            ...(hasPrevious ? [{ stroke: `color-mix(in srgb, ${colour} 55%, transparent)`, width: 1.5, dash: [6, 4], points: { show: false } }] : []),
+          ],
           hooks: spark
             ? {}
             : {
@@ -62,7 +75,7 @@ export function MetricChart({ days, metric, range, compact: spark = false }: { d
                 ],
               },
         },
-        toData(daysRef.current, metric),
+        toData(daysRef.current, metric, previousRef.current),
         el,
       );
       observer = new ResizeObserver(() => plotRef.current?.setSize({ width: el.clientWidth, height: heightNow(spark) }));
@@ -77,27 +90,28 @@ export function MetricChart({ days, metric, range, compact: spark = false }: { d
       plotRef.current = undefined;
       setReady(false);
     };
-  }, [metric, spark]);
+  }, [metric, spark, bare, hasPrevious]);
 
   // A new range swaps the data in place; the wrapper fades unless the user asked for less motion.
   useEffect(() => {
     daysRef.current = days;
+    previousRef.current = previous;
     const plot = plotRef.current;
     if (!plot) return;
     if (window.matchMedia(REDUCED_QUERY).matches) {
-      plot.setData(toData(days, metric));
+      plot.setData(toData(days, metric, previous));
       return;
     }
     const out = window.setTimeout(() => setFading(true), 0);
     const swap = window.setTimeout(() => {
-      plot.setData(toData(days, metric));
+      plot.setData(toData(days, metric, previous));
       setFading(false);
     }, 150);
     return () => {
       window.clearTimeout(out);
       window.clearTimeout(swap);
     };
-  }, [days, metric]);
+  }, [days, metric, previous]);
 
   const skeleton = !ready && <div className="absolute inset-0 animate-pulse rounded bg-current opacity-10 motion-reduce:animate-none" />;
 
@@ -110,11 +124,13 @@ export function MetricChart({ days, metric, range, compact: spark = false }: { d
     );
   }
 
+  const Frame = bare ? "div" : "section";
+
   return (
-    <section className="rounded-lg border p-3 sm:p-4">
-      <h3 className="text-sm font-medium">{METRIC_TITLES[metric]}</h3>
-      <p className="text-2xl font-semibold">{compact(sum)}</p>
-      <div role="img" aria-label={summary} className="relative mt-2 h-[170px] text-primary sm:h-[200px]">
+    <Frame className={bare ? undefined : "rounded-lg border p-3 sm:p-4"}>
+      {!bare && <h3 className="text-sm font-medium">{METRIC_TITLES[metric]}</h3>}
+      {!bare && <p className="text-2xl font-semibold">{compact(sum)}</p>}
+      <div role="img" aria-label={summary} className={`relative h-[170px] text-primary sm:h-[200px] ${bare ? "" : "mt-2"}`}>
         {skeleton}
         <div
           className={`h-full w-full transition-[opacity,clip-path] duration-500 motion-reduce:transition-none ${fading ? "opacity-40" : "opacity-100"} ${ready ? "[clip-path:inset(0_0_0_0)]" : "[clip-path:inset(0_100%_0_0)] motion-reduce:[clip-path:none]"}`}
@@ -131,15 +147,20 @@ export function MetricChart({ days, metric, range, compact: spark = false }: { d
           </p>
         )}
       </div>
-      <p className="mt-2 text-sm">{summary}</p>
-    </section>
+      {!bare && <p className="mt-2 text-sm">{summary}</p>}
+    </Frame>
   );
 }
 
 // The dashboard's visits chart: the same range toggle, visits only, and the
-// slice the button says.
-export function DashboardVisits({ days }: { days: SeriesPoint[] }) {
+// slice the button says. One panel: the figure with its change, the sentence,
+// the plot with the period before dashed, a legend and a link to Insights.
+export function DashboardVisits({ days, insightsHref }: { days: SeriesPoint[]; insightsHref?: string }) {
   const [range, setRange] = useState<Range>(30);
+  const shown = slice(days, range);
+  const before = days.slice(-2 * range, -range);
+  const previous = before.length === shown.length ? before.map((p) => p.visits) : null;
+  const { last, change, sentence } = visitsSummary(days, range);
   return (
     <div className="space-y-3">
       <div role="group" aria-label="Date range" className="flex flex-wrap gap-2">
@@ -155,7 +176,32 @@ export function DashboardVisits({ days }: { days: SeriesPoint[] }) {
           </button>
         ))}
       </div>
-      <MetricChart days={slice(days, range)} metric="visits" range={range} />
+      <div>
+        <p className="flex flex-wrap items-baseline gap-x-3 text-3xl font-semibold tabular-nums">
+          {last.toLocaleString("en-US")}
+          {typeof change === "number" && (
+            <span className={`text-sm font-normal ${change >= 0 ? "text-emerald-700 dark:text-emerald-400" : "text-muted-foreground"}`}>
+              <span aria-hidden="true">{change >= 0 ? "▲" : "▼"}</span> {Math.abs(change)}%
+              <span className="sr-only"> {change >= 0 ? "up" : "down"} on the {range} days before</span>
+            </span>
+          )}
+        </p>
+        <p className="text-sm text-muted-foreground">{sentence}</p>
+      </div>
+      <MetricChart days={shown} metric="visits" range={range} bare previous={previous} />
+      <div className="flex flex-wrap items-center justify-between gap-x-6 text-sm">
+        <p className="flex flex-wrap items-center gap-x-4 text-muted-foreground">
+          <span className="inline-flex items-center gap-2">
+            <span aria-hidden="true" className="w-5 border-t-2 border-primary" />This period
+          </span>
+          {previous && (
+            <span className="inline-flex items-center gap-2">
+              <span aria-hidden="true" className="w-5 border-t-2 border-dashed border-primary/60" />Period before
+            </span>
+          )}
+        </p>
+        {insightsHref && <Link href={insightsHref} className="inline-flex min-h-11 items-center font-medium underline-offset-4 hover:underline">Open Insights</Link>}
+      </div>
     </div>
   );
 }

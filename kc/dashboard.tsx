@@ -137,7 +137,7 @@ export function Dashboard({ hasInsights = false, publish, visits, searchHealth, 
       </div>
       {topLists}
       {version}
-      {staff && staffStrip}
+      {staffStrip}
     </div>
   );
 }

@@ -35,6 +35,17 @@ export function rangeChange(days: SeriesPoint[], n: number, metric: "visits" | "
   return { last, previous, change: Math.round(((last - previous) / previous) * 100) };
 }
 
+export type VisitsSummary = { last: number; change: number | "new" | null; hasPrevious: boolean; sentence: string };
+
+// The visits panel's figure and sentence for the chosen range, from rangeChange.
+// With no days before the range there is no earlier data: no change, no tail.
+export function visitsSummary(days: SeriesPoint[], n: number): VisitsSummary {
+  const { last, previous, change } = rangeChange(days, n, "visits");
+  const hasPrevious = days.slice(-2 * n, -n).length > 0;
+  const tail = hasPrevious ? ` ${previous.toLocaleString("en-US")} the ${n} days before.` : "";
+  return { last, change: hasPrevious ? change : null, hasPrevious, sentence: `Last ${n} days.${tail}` };
+}
+
 // An SVG path for a sparkline in a width by height box, oldest value first.
 export function sparkPath(values: number[], width = 120, height = 36): string {
   if (values.length < 2) return "";

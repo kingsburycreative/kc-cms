@@ -2,7 +2,6 @@
 
 ## Now
 
-- **dashboard-gaps**: the four gaps left against the mockup (visits panel, recent-changes names, page names in most viewed, staff strip). Brief `.claude/work/63-dashboard-gaps/brief.md`.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -21,6 +20,7 @@
 
 ## Waiting on Rob
 
+- **dashboard-gaps live check**: card 63 shipped; check the Staff only strip live while signed in with GitHub (the cause was not found, the client-side second gate was removed), and collection entry titles are not used for Most viewed names yet.
 - **52** (`.claude/work/40-plan-short-urls/plan.md` card 52): coordinator does it in kc-cms (docs for the new settings and the short address).
 - **55** (`.claude/work/40-plan-short-urls/plan.md` card 55): deploy short addresses; the coordinator's deploy per the exception in `.claude/project.md` (Rob, 2026-10-26).
 - **56** (`.claude/work/40-plan-short-urls/plan.md` card 56): Rob signs the capture browser in as +kctest.

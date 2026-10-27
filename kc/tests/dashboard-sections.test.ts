@@ -121,7 +121,9 @@ test("a client's payload never holds the staff strip", () => {
   assert.match(page, /staffStrip=\{hasGithubIdentity\(user\) \? <Suspense fallback=\{<StaffSkeleton \/>\}><StaffStrip /);
   const strip = components(server).find((c) => c.name === "StaffStrip")!.body;
   assert.match(strip.split(/\r?\n/)[1], /^\s*if \(!hasGithubIdentity\(user\)\) return null;$/);
-  assert.match(layout, /\{staff && staffStrip\}/);
+  // The client layout renders what the server built; it holds no second gate that a session shape could trip.
+  assert.match(layout, /\{staffStrip\}/);
+  assert.doesNotMatch(layout, /staff && staffStrip/);
   // Nothing staff-only lives in the client layout.
   assert.doesNotMatch(layout, /Staff only|Google Analytics|getVersionStatus|insightsSourcesFor/);
 });

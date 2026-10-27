@@ -92,11 +92,31 @@ export function quickActions(config: any, ctx: DashboardContext): QuickAction[] 
   return actions;
 }
 
+// The schema a changed path belongs to: the file itself, or the collection
+// whose folder holds it.
+function nodeFor(path: string, content: Node[]): Node | undefined {
+  return content.find((node) => node.path === path)
+    ?? content.find((node) => node.type === "collection" && !!node.path && path.startsWith(`${node.path.replace(/\/$/, "")}/`));
+}
+
 function titleFor(path: string, content: Node[]): string {
-  const match = content.find((node) => node.path === path);
+  const match = nodeFor(path, content);
   if (match) return match.label || match.name || path;
   const file = path.split("/").pop() ?? path;
   return file.replace(/\.[^.]+$/, "");
+}
+
+// A visitor-facing page name for a site path, from the file-type pages' labels:
+// "/" is the home or index page, "/about/" matches a file named about. Null when unknown.
+export function pageName(urlPath: string, config: any): string | null {
+  const slug = (urlPath.split(/[?#]/)[0].split("/").filter(Boolean).pop() ?? "").toLowerCase();
+  const wanted = slug ? [slug] : ["home", "index"];
+  for (const node of flatten(contentNodes(config))) {
+    if (node.type !== "file" || !node.label) continue;
+    const base = (node.path?.split("/").pop() ?? "").replace(/\.[^.]+$/, "").toLowerCase();
+    if (wanted.includes(base) || wanted.includes((node.name ?? "").toLowerCase())) return node.label;
+  }
+  return null;
 }
 
 // Title, date, author name and path only. Staff feeds carry raw commits, so
@@ -134,10 +154,33 @@ export function changeVerb(message: string | null | undefined): ChangeVerb {
   return "changed";
 }
 
-// "David updated Home" for a single page, "David added an entry in Weekly" for a collection.
-export function activitySentence(authorName: string, verb: ChangeVerb, title: string, kind: "file" | "collection" | null): string {
-  const who = authorName.trim().split(/\s+/)[0] || "Someone";
-  return kind === "collection" ? `${who} ${verb} an entry in ${title}` : `${who} ${verb} ${title}`;
+const KC_NAME = "Kingsbury Creative";
+
+// What a client may read as the author: the KC hello inbox is Kingsbury Creative,
+// and anything holding an email address gives no name at all.
+export function displayName(raw: string | null | undefined): string {
+  const name = (raw ?? "").trim();
+  if (/^hello(@|$)/i.test(name)) return KC_NAME;
+  return name.includes("@") ? "" : name;
+}
+
+// "David updated Home" for a single page, "David added an entry in Weekly" for a
+// collection, and the entry's name when the change names one file in it.
+export function activitySentence(authorName: string, verb: ChangeVerb, title: string, kind: "file" | "collection" | null, entry?: string | null): string {
+  const full = displayName(authorName);
+  const who = full === KC_NAME ? full : full.split(/\s+/)[0] || "Someone";
+  if (kind !== "collection") return `${who} ${verb} ${title}`;
+  return entry ? `${who} ${verb} "${entry}" in ${title}` : `${who} ${verb} an entry in ${title}`;
+}
+
+// "spring-update.md" gives "Spring update"; nothing for an index file.
+function entryTitle(path: string, folder: string): string | null {
+  const file = path.slice(folder.length + 1);
+  if (!file || file.includes("/")) return null;
+  const base = file.replace(/\.[^.]+$/, "");
+  if (!base || base.toLowerCase() === "index") return null;
+  const words = base.replace(/[-_]+/g, " ").trim();
+  return words.charAt(0).toUpperCase() + words.slice(1);
 }
 
 export type Activity = { initials: string; sentence: string; date: string | null; path: string };
@@ -148,11 +191,12 @@ type ActivityItem = FeedItem & { commit?: { message?: string | null; author?: { 
 export function recentActivity(items: ActivityItem[], limit: number, config?: any): Activity[] {
   const content = flatten(contentNodes(config));
   return recentEdits(items, limit, config).map((edit, i) => {
-    const node = content.find((n) => n.path === edit.path);
+    const node = nodeFor(edit.path, content);
     const kind = node?.type === "collection" || node?.type === "file" ? node.type : null;
+    const entry = kind === "collection" && node?.path ? entryTitle(edit.path, node.path.replace(/\/$/, "")) : null;
     return {
-      initials: initials(edit.authorName),
-      sentence: activitySentence(edit.authorName, changeVerb(items[i]?.commit?.message), edit.title, kind),
+      initials: initials(displayName(edit.authorName)),
+      sentence: activitySentence(edit.authorName, changeVerb(items[i]?.commit?.message), edit.title, kind, entry),
       date: edit.date,
       path: edit.path,
     };

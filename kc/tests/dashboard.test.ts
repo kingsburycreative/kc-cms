@@ -1,7 +1,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { activitySentence, changeVerb, dashboardTiles, healthEntries, initials, quickActions, recentActivity, recentEdits } from "../dashboard.ts";
+import { activitySentence, changeVerb, dashboardTiles, healthEntries, initials, pageName, quickActions, recentActivity, recentEdits } from "../dashboard.ts";
+import { hasGithubIdentity } from "../../lib/authz-shared.ts";
 
 const ctx = { owner: "kc", repo: "henike", branch: "main" };
 const config = {
@@ -135,6 +136,55 @@ test("recent activity gives initials, a sentence, the date and the path from a f
     { initials: "SL", sentence: "Sam changed Home page", date: "2026-10-01T10:00:00Z", path: "content/home.md" },
     { initials: "RK", sentence: "Rob added an entry in Posts", date: "2026-09-01T10:00:00Z", path: "content/posts" },
   ]);
+});
+
+const pagesConfig = {
+  content: [
+    { type: "file", name: "home", label: "Home", path: "src/content/pages/home.json" },
+    { type: "file", name: "pathways-connect", label: "Pathways Connect", path: "src/content/pages/pathways-connect.json" },
+    { type: "collection", name: "weekly", label: "Weekly", path: "src/content/weekly" },
+  ],
+};
+
+test("activity names the author by display name, never an email", () => {
+  const feed = (name: string, message = "Update x") => [{ sha: "a", date: "2026-10-01T10:00:00Z", path: "src/content/pages/home.json", authorName: name, commit: { message } }];
+  const sentence = (name: string) => recentActivity(feed(name), 5, pagesConfig)[0];
+  assert.equal(sentence("David Mills").sentence, "David updated Home");
+  assert.equal(sentence("hello").sentence, "Kingsbury Creative updated Home");
+  assert.equal(sentence("hello").initials, "KC");
+  assert.equal(sentence("hello@kingsburycreative.com").sentence, "Kingsbury Creative updated Home");
+  for (const name of ["david@besciworks.com", "someone@else.org"]) {
+    const edit = sentence(name);
+    assert.doesNotMatch(JSON.stringify(edit), /@/);
+    assert.equal(edit.sentence, "Someone updated Home");
+    assert.equal(edit.initials, "?");
+  }
+});
+
+test("activity names the thing by its schema label, and the entry when one file changed", () => {
+  const edit = (path: string, message: string) => recentActivity([{ sha: "a", date: null, authorName: "David Mills", path, commit: { message } }], 5, pagesConfig)[0].sentence;
+  assert.equal(edit("src/content/pages/pathways-connect.json", "Update a"), "David updated Pathways Connect");
+  assert.equal(edit("src/content/weekly/spring-update.md", "Create b"), 'David added "Spring update" in Weekly');
+  assert.equal(edit("src/content/weekly", "Create b"), "David added an entry in Weekly");
+  assert.doesNotMatch(edit("src/content/weekly/spring-update.md", "Create b"), /\bweekly\b/);
+});
+
+test("page names come from file-type labels, else the caller falls back to the path", () => {
+  assert.equal(pageName("/", pagesConfig), "Home");
+  assert.equal(pageName("/pathways-connect/", pagesConfig), "Pathways Connect");
+  assert.equal(pageName("/pathways-connect?x=1", pagesConfig), "Pathways Connect");
+  assert.equal(pageName("/unknown/", pagesConfig), null);
+  assert.equal(pageName("/weekly/", { content: [{ type: "collection", name: "weekly", label: "Weekly", path: "w" }] }), null);
+  assert.equal(pageName("/", {}), null);
+});
+
+test("the staff gate holds for a GitHub session user and not for an email session user", () => {
+  const github = { id: "u1", name: "Rob Kingsbury", email: "rob@example.com", emailVerified: true, image: "https://avatars.githubusercontent.com/u/1", githubUsername: "robkingsbury", createdAt: new Date(), updatedAt: new Date() };
+  const email = { id: "u2", name: "David", email: "david@example.com", emailVerified: true, image: null, githubUsername: null, createdAt: new Date(), updatedAt: new Date() };
+  assert.equal(hasGithubIdentity(github), true);
+  assert.equal(hasGithubIdentity(email), false);
+  assert.equal(hasGithubIdentity({ ...email, githubUsername: undefined }), false);
+  assert.equal(hasGithubIdentity(null), false);
 });
 
 test("a file-type schema goes through the health loop beside collections", async () => {

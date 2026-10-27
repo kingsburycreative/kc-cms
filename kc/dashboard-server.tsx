@@ -17,7 +17,8 @@ import { getVersionStatus } from "./update/status-fetch.ts";
 import type { VersionStatus } from "./update/status.ts";
 import { fetchPublishStatus } from "./publish/status-fetch.ts";
 import { publishLine } from "./publish/status.ts";
-import { healthEntries } from "./dashboard.ts";
+import { healthEntries, pageName } from "./dashboard.ts";
+import { shortHref } from "./short-url.ts";
 import { rangeChange, sparkPath, weekSummary, type RangeChange } from "./dashboard-visits.ts";
 
 export const VISITS_FALLBACK = "Visit numbers aren't available right now.";
@@ -55,12 +56,6 @@ async function readUser({ owner, repo, branch }: RepoRef) {
   } catch {
     return null;
   }
-}
-
-async function insightsFor(ref: RepoRef) {
-  const ctx = await readUser(ref);
-  const allowed = !!ctx && (await getInsightsAccess(ctx.user, ref.owner, ref.repo));
-  return allowed ? insightsSourcesFor(ref.owner, ref.repo) : null;
 }
 
 const cloudflareEnv = (siteTag: string) => ({
@@ -150,14 +145,15 @@ export async function VisitsPanel(ref: RepoRef) {
     <div className="grid grid-cols-1 gap-4 @[900px]:grid-cols-3">
       <section aria-labelledby="visits-h" className={`${PANEL} @[900px]:col-span-2`}>
         <h2 id="visits-h" className={H2}>Visits</h2>
-        {view.ok ? <div className="mt-3"><DashboardVisits days={view.days} /></div> : <p className="mt-2 text-sm text-muted-foreground">{view.sentence}</p>}
+        {view.ok ? <div className="mt-3"><DashboardVisits days={view.days} insightsHref={shortHref(`/${ref.owner}/${ref.repo}/${encodeURIComponent(ref.branch)}/insights`)} /></div> : <p className="mt-2 text-sm text-muted-foreground">{view.sentence}</p>}
       </section>
       <StatTiles days={view.ok ? view.days : null} engagementSeconds={engagement} />
     </div>
   );
 }
 
-function Bars({ items, unit }: { items: { label: string; value: number }[]; unit: "count" | "share" }) {
+// sub is the muted text after the label: a page's path when its name is known.
+function Bars({ items, unit }: { items: { label: string; value: number; sub?: string }[]; unit: "count" | "share" }) {
   const top = Math.max(...items.map((i) => i.value), 1);
   const sum = items.reduce((t, i) => t + i.value, 0) || 1;
   return (
@@ -170,7 +166,10 @@ function Bars({ items, unit }: { items: { label: string; value: number }[]; unit
             style={{ width: `${Math.round((item.value / top) * 100)}%`, animationDelay: `${i * 80}ms` }}
           />
           <span className="relative flex justify-between gap-4">
-            <span className="truncate">{item.label}</span>
+            <span className="truncate">
+              {item.label}
+              {item.sub && <span className="ml-2 text-muted-foreground">{item.sub}</span>}
+            </span>
             <span className="tabular-nums">{unit === "share" ? `${Math.round((item.value / sum) * 100)}%` : item.value.toLocaleString("en-US")}</span>
           </span>
         </li>
@@ -180,7 +179,9 @@ function Bars({ items, unit }: { items: { label: string; value: number }[]; unit
 }
 
 export async function TopLists(ref: RepoRef) {
-  const sources = await insightsFor(ref);
+  const ctx = await readUser(ref);
+  const allowed = !!ctx && (await getInsightsAccess(ctx.user, ref.owner, ref.repo));
+  const sources = allowed ? insightsSourcesFor(ref.owner, ref.repo) : null;
   const site = sources
     ? await loadSiteInsights({
         propertyId: sources.ga,
@@ -190,7 +191,13 @@ export async function TopLists(ref: RepoRef) {
         cloudflare: sources.cf ? { ...cloudflareEnv(sources.cf), cache: defaultCloudflareCache } : null,
       }).catch(() => null)
     : null;
-  const pages = site?.ok ? site.pages.items.slice(0, 5) : [];
+  // The site's own page list, from the config already read: a name when the CMS knows it, else the bare path.
+  const pages = site?.ok
+    ? site.pages.items.slice(0, 5).map((item) => {
+        const name = pageName(item.label, ctx?.config.object);
+        return name ? { ...item, label: name, sub: item.label } : item;
+      })
+    : [];
   const towns = site?.ok ? site.detail?.cities.items.slice(0, 5) ?? [] : [];
   return (
     <div className="grid grid-cols-1 gap-4 @[700px]:grid-cols-2">

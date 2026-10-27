@@ -65,7 +65,36 @@ test("the dashboard chart toggles 7, 30 and 90 days and charts the slice it name
   assert.match(body, /role="group" aria-label="Date range"/);
   assert.match(body, /aria-pressed=\{range === r\}/);
   assert.match(body, /min-h-11/);
-  assert.match(body, /<MetricChart days=\{slice\(days, range\)\} metric="visits" range=\{range\} \/>/);
+  assert.match(body, /<MetricChart days=\{shown\} metric="visits" range=\{range\} bare previous=\{previous\} \/>/);
+  assert.match(body, /const shown = slice\(days, range\)/);
+});
+
+test("the visits panel is one frame: bare chart, no nested border box, horizontal gridlines only", () => {
+  const chart = src.slice(src.indexOf("export function MetricChart("), src.indexOf("export function DashboardVisits("));
+  assert.match(chart, /const Frame = bare \? "div" : "section"/);
+  assert.match(chart, /className=\{bare \? undefined : "rounded-lg border p-3 sm:p-4"\}/);
+  assert.match(chart, /grid: bare \? \{ show: false \} : \{ stroke: muted \}/);
+  const panel = src.slice(src.indexOf("export function DashboardVisits("), src.indexOf("export function CountUp("));
+  assert.match(panel, /<MetricChart [^>]*\bbare\b/);
+  assert.doesNotMatch(panel, /rounded-lg border|<section/);
+});
+
+test("the visits panel draws the period before dashed, with a legend and an Open Insights link", () => {
+  assert.match(src, /dash: \[6, 4\]/);
+  const panel = src.slice(src.indexOf("export function DashboardVisits("), src.indexOf("export function CountUp("));
+  assert.match(panel, /This period/);
+  assert.match(panel, /\{previous && \([\s\S]*?Period before/);
+  assert.match(panel, /<Link href=\{insightsHref\}[^>]*>Open Insights<\/Link>/);
+  assert.match(panel, /before\.length === shown\.length \? before\.map/);
+});
+
+test("the figure, change and sentence come from visitsSummary, which wraps rangeChange", () => {
+  const panel = src.slice(src.indexOf("export function DashboardVisits("), src.indexOf("export function CountUp("));
+  assert.match(panel, /const \{ last, change, sentence \} = visitsSummary\(days, range\)/);
+  assert.match(panel, /\{sentence\}/);
+  assert.match(panel, /typeof change === "number"/);
+  const visits = readFileSync(new URL("../dashboard-visits.ts", import.meta.url), "utf8");
+  assert.match(visits, /export function visitsSummary[\s\S]*?rangeChange\(days, n, "visits"\)/);
 });
 
 test("count-up shows the value at once under reduced motion", () => {
