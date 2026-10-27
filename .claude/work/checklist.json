@@ -1039,5 +1039,22 @@
     "verified_at": "2026-10-27T19:02:37.993Z",
     "tree": "85b0e4b0156d6a05b0f95226b88c6bb553a1a20ec8cf148804ce3db2d235d4e1",
     "gate": "full"
+  },
+  {
+    "id": "load-config",
+    "title": "Load core config outside Next",
+    "brief": ".claude/work/73-load-config/brief.md",
+    "start_sha": "ea81834c034ad531bb71e5e89c331fa083d9cb83",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T19:07:27.423Z",
+      "start_sha": "ea81834c034ad531bb71e5e89c331fa083d9cb83",
+      "mutation_evidence": true,
+      "tree": "048e97f9299cde5064111f50155149e6277d309dc74b76fb618698a18fe51dd4",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-27T19:08:12.538Z",
+    "tree": "048e97f9299cde5064111f50155149e6277d309dc74b76fb618698a18fe51dd4",
+    "gate": "full"
   }
 ]

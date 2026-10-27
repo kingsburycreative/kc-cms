@@ -7,7 +7,6 @@ Sweep fixes first, in this order (Rob, 2026-10-27: "do all the fixes and updates
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`); cards 03 on wait for Rob's card 00 answers.
 
-- **66-01**: Load core config outside Next (plan card 01)
 - **66-02**: Register of the fork's own customizations (plan card 02, Risky)
 
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
@@ -54,6 +53,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **load-config** (73, plan 66 card 01): kc/register/load-config.ts loads lib/config.ts and lib/schema.ts under plain node --test through tsx (CJS hook for the @/ alias, .css stubbed).
 - **add-editor-repo-guard** (72): add-editor refuses a repo with no .pages.yml on its default branch, dry run included.
 - **series-cache-case** (71): the Insights page keys the series cache on seriesSiteKey, as the dashboard does; the cache was already capped.
 - **publish-status-log** (70): a refused deployments request now logs its HTTP status.
