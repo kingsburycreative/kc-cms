@@ -971,5 +971,22 @@
     "verified_at": "2026-10-27T18:39:42.538Z",
     "tree": "7c32a80ce7857cc75f4e0ff37d9c49c8c74290984113d353ca365fbbc694fd44",
     "gate": "full"
+  },
+  {
+    "id": "deps-update",
+    "title": "Dependency updates and advisories",
+    "brief": ".claude/work/69-deps-update/brief.md",
+    "start_sha": "d09334f9fa4a51bb3421dce834eae157e3e4064a",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T18:53:05.186Z",
+      "start_sha": "d09334f9fa4a51bb3421dce834eae157e3e4064a",
+      "mutation_evidence": true,
+      "tree": "539a70720e29534fe0df3b482b3b5c9e5960210c1a2c1a1be9b5aaf98a5dc224",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-27T18:54:38.674Z",
+    "tree": "539a70720e29534fe0df3b482b3b5c9e5960210c1a2c1a1be9b5aaf98a5dc224",
+    "gate": "full"
   }
 ]
