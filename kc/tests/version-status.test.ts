@@ -27,6 +27,11 @@ test("newer stable release is behind with that tag", () => {
   assert.deepEqual(versionStatus("2.1.8", fixture("newer")), { state: "behind", tag: "v2.2.0" });
 });
 
+test("a KC release suffix compares as its upstream version", () => {
+  assert.deepEqual(versionStatus("2.1.8+kc.1", fixture("equal")), { state: "current" });
+  assert.deepEqual(versionStatus("2.1.8+kc.1", fixture("newer")), { state: "behind", tag: "v2.2.0" });
+});
+
 test("prereleases and drafts are ignored", () => {
   assert.deepEqual(versionStatus("2.1.8", fixture("unstable-only")), { state: "current" });
 });
