@@ -175,3 +175,6 @@
 - 2026-10-26 pass: no card to take. Now holds 53, 19 and 20, all waiting on Rob's card 06 (CMS guide page); Next is not pulled up without Rob.
 
 - 2026-10-26 park proxy-rewrite-origin again: Opus worker found request.url is normalized to localhost too (spec-extension/request.js:50) and the adapter rewrites any rewrite host back to localhost (adapter.js:287-295), so proxy.ts cannot fix it. Its recommendation, untested: kc-cms server/deploy.sh ExecStart `-H localhost` instead of `-H 127.0.0.1` (check localhost resolves to 127.0.0.1, not ::1, on the box). Box change, Rob's. No code changed.
+
+## 2026-10-26 62 add-editor-script (board Now)
+- Branch feat/62-add-editor-script from main at 32d0c45. Opus worker, Risky (GitHub App credentials, invites, client emails). Brief file list named the new collaborator-invite.ts and package-lock.json by path after check-scope flagged them; both were allowed in words. Scope ok with mutation evidence (owner check removed failed "another owner is refused"). Diff read: invite logic moved out of the action unchanged, script takes mocked deps. Lock bump of esbuild 0.27 to 0.28 came with tsx 4.23.15. Not run on the box. Sent to the gate with an audit.
