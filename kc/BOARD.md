@@ -2,10 +2,9 @@
 
 ## Now
 
-Sweep fixes first, in this order (Rob, 2026-10-27: "do all the fixes and updates", before Pitt St BBQ's first login). Findings are in the private repo, `D:\Dev\htdocs\kc-cms\audits\2026-10-27-sweep\result.md` (this repo is public).
+- **nodemailer-major** (Risky; Rob, 2026-10-27: "let's just plan it and run it"): nodemailer 8 to the newest 10.x, which clears the last fixable high advisory in `npm audit --omit=dev`. Only `lib/mailer.ts` imports it (upstream file: smallest change that works, name it in result.md). Read nodemailer's changelog for 9.0 and 10.0 breaking changes and check each against lib/mailer.ts and its callers (OTP, invite and white-label emails). Exception for this card only, in `.claude/project.md`: it may edit package.json and package-lock.json and run `npm install`. Done-test: a new kc/tests test builds the transport and renders one message through nodemailer's stream or JSON transport (no network) and checks from, to, subject and both bodies; full suite, `npx tsc --noEmit`, `npx eslint kc` exit 0; `npm audit --omit=dev` shows no nodemailer advisory. zod stays on 3 to match upstream (Rob's call pending in chat); do not touch it.
 
-
-Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`); cards 03 on wait for Rob's card 00 answers.
+Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
