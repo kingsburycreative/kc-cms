@@ -1,0 +1,1 @@
+- Added hasPagesConfig dep, check, realDeps wiring (scripts/add-editor.mts) and 4 refusal tests (kc/tests/add-editor.test.ts). Next: done-test, mutation check.

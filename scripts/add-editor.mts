@@ -40,6 +40,9 @@ export type AddEditorDeps = {
     installationId: number;
     installationRepos: { id?: number; name?: string; owner?: { login?: string } | null }[];
   }>;
+  // True only when the default branch has .pages.yml at the root, so an
+  // internal repo in the installation is never offered to a client.
+  hasPagesConfig: (owner: string, repo: string, installationId: number) => Promise<boolean>;
   clientNameFor: (owner: string, repo: string) => Promise<string>;
   renderInvite: (props: EmailProps & { inviteUrl: string }) => Promise<string>;
   renderAdded: (props: EmailProps & { repoUrl: string }) => Promise<string>;
@@ -92,6 +95,9 @@ export const addEditor = async (argv: string[], deps: AddEditorDeps) => {
   if (!isRepoInInstallation(installationRepos, repoAccess.repoId, owner, repo)) {
     return fail(`Refused: ${owner}/${repo} is not in the GitHub App installation.`);
   }
+
+  const isCmsSite = await deps.hasPagesConfig(owner, repo, installationId).catch(() => false);
+  if (isCmsSite !== true) return fail(`Refused: ${owner}/${repo} has no .pages.yml, so it is not a CMS site.`);
 
   const existing = await deps.db.query.collaboratorTable.findFirst({
     where: and(
@@ -185,6 +191,18 @@ const realDeps = async (): Promise<AddEditorDeps> => {
           ownerType: r.owner.type === "User" ? "user" : "org",
         },
       };
+    },
+    hasPagesConfig: async (owner, repo, installationId) => {
+      const app = new App({ appId: process.env.GITHUB_APP_ID!, privateKey: process.env.GITHUB_APP_PRIVATE_KEY! });
+      const octokit = await app.getInstallationOctokit(installationId);
+      const { data: r } = await octokit.request("GET /repos/{owner}/{repo}", { owner, repo });
+      try {
+        await octokit.request("GET /repos/{owner}/{repo}/contents/{path}", { owner, repo, path: ".pages.yml", ref: r.default_branch });
+        return true;
+      } catch (error: any) {
+        if (error?.status === 404) return false;
+        throw error;
+      }
     },
     clientNameFor,
     renderInvite: (props) => render(InviteEmailTemplate(props)),
