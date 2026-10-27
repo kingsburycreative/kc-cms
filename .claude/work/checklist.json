@@ -1078,16 +1078,18 @@
     "id": "nodemailer-major",
     "title": "nodemailer to the newest 10.x",
     "brief": ".claude/work/75-nodemailer-major/brief.md",
-    "start_sha": "d6704f5374843026c3282bdf9ebe0c2540dc3e8a",
-    "passes": false,
+    "start_sha": "d63cc6b37603ee9937d9317c84eeed2a4085ca63",
+    "passes": true,
     "scope_ok": {
-      "at": "2026-10-27T19:33:52.197Z",
-      "start_sha": "d6704f5374843026c3282bdf9ebe0c2540dc3e8a",
-      "mutation_evidence": false,
-      "tree": "730bb6ae7ab336570428f1695908a20a6df54593307434825c603704ca95c085",
+      "at": "2026-10-27T19:41:05.881Z",
+      "start_sha": "d63cc6b37603ee9937d9317c84eeed2a4085ca63",
+      "mutation_evidence": true,
+      "tree": "708b30f124f6f42fc20472c14297398fb936e191cac4fd5d45f257442cced94f",
       "size": "Risky"
     },
-    "parked": "main suite red: CHANGELOG-KC.md unclaimed in kc/register/customizations.json; work on wip/nodemailer-major-10"
+    "verified_at": "2026-10-27T19:41:55.240Z",
+    "tree": "708b30f124f6f42fc20472c14297398fb936e191cac4fd5d45f257442cced94f",
+    "gate": "full"
   },
   {
     "id": "76",

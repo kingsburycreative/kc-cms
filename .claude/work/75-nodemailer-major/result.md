@@ -14,4 +14,4 @@ Mutation: dropped `text` from the message; "nodemailer builds the message lib/ma
 
 Final tree: tsc exit 0. npm audit --omit=dev: no nodemailer advisory; left are esbuild (moderate, via drizzle-kit) and zod (high, stays on 3 per brief), 5 total (4 moderate, 1 high).
 
-Not met: the runner exits 1 because it runs the full suite regardless of the filter, and "every upstream file the fork changed is claimed" fails on CHANGELOG-KC.md, a file this card did not touch (pre-existing).
+Rerun 2026-10-27 at new start_sha: mutation (drop `text`) failed only that test; restored, runner green 478/478; tsc exit 0.
