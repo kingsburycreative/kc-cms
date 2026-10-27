@@ -193,7 +193,7 @@
     {
       "id": "release-version",
       "title": "Release version and its status",
-      "files": ["package.json", "kc/update/status.ts", "kc/update/status-fetch.ts"],
+      "files": ["package.json", "kc/update/status.ts", "kc/update/status-fetch.ts", "CHANGELOG-KC.md"],
       "watch": ["package.json"],
       "tests": ["kc/tests/version-status.test.ts"]
     },

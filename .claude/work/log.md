@@ -188,3 +188,4 @@
 - 2026-10-27 customizations-register (74, plan 66 card 02): Opus worker, scope ok with mutation evidence (short-url entry removed names proxy.ts), diff read. Register is in kc/register only, no project.md risky path, so no audit. Sent to the gate.
 
 - 2026-10-27 nodemailer-major parked: suite red on main (CHANGELOG-KC.md unclaimed by the customizations register after PR 79). Work on wip/nodemailer-major-10. Queued register-changelog at the top of Now.
+- 2026-10-27 register-changelog (76): Sonnet worker, Small, scope ok with mutation evidence, diff is one line in the register. Sent to the gate.

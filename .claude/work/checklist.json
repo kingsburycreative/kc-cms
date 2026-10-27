@@ -1088,5 +1088,22 @@
       "size": "Risky"
     },
     "parked": "main suite red: CHANGELOG-KC.md unclaimed in kc/register/customizations.json; work on wip/nodemailer-major-10"
+  },
+  {
+    "id": "76",
+    "title": "register-changelog",
+    "brief": ".claude/work/76-register-changelog/brief.md",
+    "start_sha": "b3e6fd5cb576e22cc1db68bb7db0fa7481bdd7ed",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T19:38:18.969Z",
+      "start_sha": "b3e6fd5cb576e22cc1db68bb7db0fa7481bdd7ed",
+      "mutation_evidence": true,
+      "tree": "a046a563238e21322f651b122ca15eb053b84ccd27cbfbb14c9488cb1d6b11c2",
+      "size": "Small"
+    },
+    "verified_at": "2026-10-27T19:39:15.396Z",
+    "tree": "a046a563238e21322f651b122ca15eb053b84ccd27cbfbb14c9488cb1d6b11c2",
+    "gate": "full"
   }
 ]
