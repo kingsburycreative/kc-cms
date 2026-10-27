@@ -14,6 +14,12 @@ test("page calls loadSeries and keeps all five text cards", () => {
   for (const title of CARDS) assert.ok(page.includes(`title="${title}"`), title);
 });
 
+test("series cache is keyed on seriesSiteKey, not the typed path", () => {
+  assert.match(page, /import \{[^}]*\bseriesSiteKey\b[^}]*\} from "@\/kc\/insights\/route"/);
+  assert.ok(page.includes("site: seriesSiteKey(owner, repo)"));
+  assert.ok(!page.includes("site: `${owner}/${repo}`"));
+});
+
 test("charts section sits above the cards", () => {
   const at = page.indexOf("<ChartsSection");
   assert.ok(at > 0, "charts section rendered");

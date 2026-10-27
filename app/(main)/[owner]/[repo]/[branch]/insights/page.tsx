@@ -1,6 +1,6 @@
 import { getInsightsAccess, getRepoReadContext } from "@/lib/api-repo-context";
 import { insightsSourcesFor } from "@/kc/insights/map";
-import { defaultCache, defaultCloudflareCache, defaultSeriesCache, loadSeries, loadSiteInsights, readKey } from "@/kc/insights/route";
+import { defaultCache, defaultCloudflareCache, defaultSeriesCache, loadSeries, loadSiteInsights, readKey, seriesSiteKey } from "@/kc/insights/route";
 import { ChartsSection } from "@/kc/insights/charts-section";
 import { PageHeader } from "@/kc/page-header";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
@@ -84,7 +84,7 @@ export default async function Page(
 
   // The charts are extra: any failure drops them and keeps the text cards.
   const series = await loadSeries({
-    site: `${owner}/${repo}`,
+    site: seriesSiteKey(owner, repo),
     propertyId: sources.ga,
     key,
     fetchFn: fetch,

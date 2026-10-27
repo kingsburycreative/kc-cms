@@ -1005,5 +1005,22 @@
     "verified_at": "2026-10-27T18:57:03.964Z",
     "tree": "a8c92ac25bdce560fc28b0529229eb3ed26f78fc2bc16f933e6554032df7a2ab",
     "gate": "full"
+  },
+  {
+    "id": "series-cache-case",
+    "title": "Insights page keys the series cache on seriesSiteKey",
+    "brief": ".claude/work/71-series-cache-case/brief.md",
+    "start_sha": "0da057f0a9bb6de28652d0adefe9dae47fe37624",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T18:58:43.132Z",
+      "start_sha": "0da057f0a9bb6de28652d0adefe9dae47fe37624",
+      "mutation_evidence": true,
+      "tree": "5926618b6aeaac3614a59a94f3838cfb1c0c242d0589b1b6d2ac021957b1a84d",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-27T18:59:25.152Z",
+    "tree": "5926618b6aeaac3614a59a94f3838cfb1c0c242d0589b1b6d2ac021957b1a84d",
+    "gate": "full"
   }
 ]
