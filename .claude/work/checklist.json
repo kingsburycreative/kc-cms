@@ -937,5 +937,141 @@
     "verified_at": "2026-10-27T00:18:56.309Z",
     "tree": "4170d97e03584cd0a6a7c0a7ed399e615c1fc9cf1f6a537a55caf1c7149bbe53",
     "gate": "full"
+  },
+  {
+    "id": "github-verified-email",
+    "title": "GitHub sign-in needs a verified email",
+    "brief": ".claude/work/67-github-verified-email/brief.md",
+    "start_sha": "f3f9097f5885bf4388bb54fa7d8a5d61ffaf1b9d",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T18:32:02.049Z",
+      "start_sha": "f3f9097f5885bf4388bb54fa7d8a5d61ffaf1b9d",
+      "mutation_evidence": true,
+      "tree": "cffb737d9306c7c05c6b914806e3157f913beed42d65f59389785b0e8e674c40",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-27T18:34:16.244Z",
+    "tree": "cffb737d9306c7c05c6b914806e3157f913beed42d65f59389785b0e8e674c40",
+    "gate": "full"
+  },
+  {
+    "id": "auth-redirect-backslash",
+    "title": "Same-origin paths only in the auth redirect",
+    "brief": ".claude/work/68-auth-redirect-backslash/brief.md",
+    "start_sha": "ddbe3fa3987162890f17f74009ac862c0f96b70e",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T18:38:37.048Z",
+      "start_sha": "ddbe3fa3987162890f17f74009ac862c0f96b70e",
+      "mutation_evidence": true,
+      "tree": "7c32a80ce7857cc75f4e0ff37d9c49c8c74290984113d353ca365fbbc694fd44",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-27T18:39:42.538Z",
+    "tree": "7c32a80ce7857cc75f4e0ff37d9c49c8c74290984113d353ca365fbbc694fd44",
+    "gate": "full"
+  },
+  {
+    "id": "deps-update",
+    "title": "Dependency updates and advisories",
+    "brief": ".claude/work/69-deps-update/brief.md",
+    "start_sha": "d09334f9fa4a51bb3421dce834eae157e3e4064a",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T18:53:05.186Z",
+      "start_sha": "d09334f9fa4a51bb3421dce834eae157e3e4064a",
+      "mutation_evidence": true,
+      "tree": "539a70720e29534fe0df3b482b3b5c9e5960210c1a2c1a1be9b5aaf98a5dc224",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-27T18:54:38.674Z",
+    "tree": "539a70720e29534fe0df3b482b3b5c9e5960210c1a2c1a1be9b5aaf98a5dc224",
+    "gate": "full"
+  },
+  {
+    "id": "publish-status-log",
+    "title": "Log the HTTP status when the deployments request fails",
+    "brief": ".claude/work/70-publish-status-log/brief.md",
+    "start_sha": "9a453b1f7a8cda340621217407d5b6957f823db0",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T18:56:28.116Z",
+      "start_sha": "9a453b1f7a8cda340621217407d5b6957f823db0",
+      "mutation_evidence": true,
+      "tree": "a8c92ac25bdce560fc28b0529229eb3ed26f78fc2bc16f933e6554032df7a2ab",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-27T18:57:03.964Z",
+    "tree": "a8c92ac25bdce560fc28b0529229eb3ed26f78fc2bc16f933e6554032df7a2ab",
+    "gate": "full"
+  },
+  {
+    "id": "series-cache-case",
+    "title": "Insights page keys the series cache on seriesSiteKey",
+    "brief": ".claude/work/71-series-cache-case/brief.md",
+    "start_sha": "0da057f0a9bb6de28652d0adefe9dae47fe37624",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T18:58:43.132Z",
+      "start_sha": "0da057f0a9bb6de28652d0adefe9dae47fe37624",
+      "mutation_evidence": true,
+      "tree": "5926618b6aeaac3614a59a94f3838cfb1c0c242d0589b1b6d2ac021957b1a84d",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-27T18:59:25.152Z",
+    "tree": "5926618b6aeaac3614a59a94f3838cfb1c0c242d0589b1b6d2ac021957b1a84d",
+    "gate": "full"
+  },
+  {
+    "id": "add-editor-repo-guard",
+    "title": "add-editor refuses a repo with no .pages.yml",
+    "brief": ".claude/work/72-add-editor-repo-guard/brief.md",
+    "start_sha": "0c83e50988c318cf35df84249fad12373594bf32",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T19:01:30.026Z",
+      "start_sha": "0c83e50988c318cf35df84249fad12373594bf32",
+      "mutation_evidence": true,
+      "tree": "85b0e4b0156d6a05b0f95226b88c6bb553a1a20ec8cf148804ce3db2d235d4e1",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-27T19:02:37.993Z",
+    "tree": "85b0e4b0156d6a05b0f95226b88c6bb553a1a20ec8cf148804ce3db2d235d4e1",
+    "gate": "full"
+  },
+  {
+    "id": "load-config",
+    "title": "Load core config outside Next",
+    "brief": ".claude/work/73-load-config/brief.md",
+    "start_sha": "ea81834c034ad531bb71e5e89c331fa083d9cb83",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T19:07:27.423Z",
+      "start_sha": "ea81834c034ad531bb71e5e89c331fa083d9cb83",
+      "mutation_evidence": true,
+      "tree": "048e97f9299cde5064111f50155149e6277d309dc74b76fb618698a18fe51dd4",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-27T19:08:12.538Z",
+    "tree": "048e97f9299cde5064111f50155149e6277d309dc74b76fb618698a18fe51dd4",
+    "gate": "full"
+  },
+  {
+    "id": "74",
+    "title": "customizations-register",
+    "brief": ".claude/work/74-customizations-register/brief.md",
+    "start_sha": "bca37c4a81ca4ef9e03806bbdd6fb4a89c7132bf",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-27T19:11:40.862Z",
+      "start_sha": "bca37c4a81ca4ef9e03806bbdd6fb4a89c7132bf",
+      "mutation_evidence": true,
+      "tree": "fd68e7ef7d8f6dd9319286b0b6ce5b16ecc07ab463a424af622edfa3991cd5e3",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-27T19:12:26.354Z",
+    "tree": "fd68e7ef7d8f6dd9319286b0b6ce5b16ecc07ab463a424af622edfa3991cd5e3",
+    "gate": "full"
   }
 ]

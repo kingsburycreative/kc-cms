@@ -1,8 +1,8 @@
+import { isSameOriginPath } from "../kc/safe-redirect";
+
 const getSafeRedirect = (redirectTo?: string) => {
   if (!redirectTo) return "/";
-  return redirectTo.startsWith("/") && !redirectTo.startsWith("//")
-    ? redirectTo
-    : "/";
+  return isSameOriginPath(redirectTo) ? redirectTo : "/";
 };
 
 const getAuthCallbackURL = (redirectTo?: string) => {

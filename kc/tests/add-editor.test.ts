@@ -6,12 +6,18 @@ import { addedSubject, inviteSubject } from "../email.ts";
 
 type Row = { table: string; values: Record<string, unknown> };
 
-const fake = (opts: { user?: { id: string }; existing?: { userId: string | null }; installed?: boolean } = {}) => {
+const fake = (opts: {
+  user?: { id: string };
+  existing?: { userId: string | null };
+  installed?: boolean;
+  pagesConfig?: boolean | "throws";
+} = {}) => {
   const rows: Row[] = [];
+  const lookups: string[] = [];
   const deleted: string[] = [];
   const sent: { to: string; subject: string; html: string }[] = [];
   const db = {
-    query: { collaboratorTable: { findFirst: async () => opts.existing } },
+    query: { collaboratorTable: { findFirst: async () => { lookups.push("collaborator"); return opts.existing; } } },
     insert: (table: any) => ({
       values: (values: Record<string, unknown>) => {
         rows.push({ table: getTableName(table), values });
@@ -22,7 +28,11 @@ const fake = (opts: { user?: { id: string }; existing?: { userId: string | null 
   };
   const deps = {
     db,
-    findVerifiedUserByEmail: async () => opts.user,
+    findVerifiedUserByEmail: async () => { lookups.push("user"); return opts.user; },
+    hasPagesConfig: async () => {
+      if (opts.pagesConfig === "throws") throw new Error("Bad credentials");
+      return opts.pagesConfig ?? true;
+    },
     getRepoInstallation: async (owner: string, repo: string) => {
       if (opts.installed === false) throw new Error("Not Found");
       return {
@@ -37,7 +47,7 @@ const fake = (opts: { user?: { id: string }; existing?: { userId: string | null 
     sendEmail: async (m: { to: string; subject: string; html: string }) => { sent.push(m); },
     baseUrl: "https://cms.example.test",
   } as unknown as AddEditorDeps;
-  return { deps, rows, deleted, sent };
+  return { deps, rows, deleted, sent, lookups };
 };
 
 const args = (...extra: string[]) => ["--repo", "kingsburycreative/acme", "--email", "Jane@Example.com", ...extra];
@@ -102,6 +112,21 @@ test("a malformed email is refused", async () => {
 test("a repo outside the installation is refused", async () => {
   await refused(args(), { installed: false });
 });
+
+const noConfigLine = "Refused: kingsburycreative/acme has no .pages.yml, so it is not a CMS site.";
+
+for (const pagesConfig of [false, "throws"] as const) {
+  for (const dry of [false, true]) {
+    test(`a repo whose config check ${pagesConfig === false ? "is false" : "throws"} is refused${dry ? " on a dry run" : ""}`, async () => {
+      const f = fake({ pagesConfig });
+      const r = await addEditor(dry ? args("--dry-run") : args(), f.deps);
+      assert.equal(r.code, 1);
+      assert.equal(r.line, noConfigLine);
+      assert.deepEqual(f.lookups, []);
+      assert.equal(f.rows.length + f.deleted.length + f.sent.length, 0);
+    });
+  }
+}
 
 test("--dry-run writes nothing and sends nothing", async () => {
   const f = fake();

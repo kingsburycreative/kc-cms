@@ -2,7 +2,7 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { AUTH_IP_HEADERS } from "../auth-ip.ts";
-import { getIp } from "../../node_modules/better-auth/dist/utils/get-request-ip.mjs";
+import { getIP as getIp } from "../../node_modules/better-auth/node_modules/@better-auth/core/dist/utils/ip.mjs";
 
 const read = (path: string) =>
   readFileSync(new URL(`../../${path}`, import.meta.url), "utf8").replace(/\r\n/g, "\n");

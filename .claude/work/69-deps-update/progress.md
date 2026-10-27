@@ -1,0 +1,6 @@
+- start: read brief; next: bump next
+- group1 next/eslint-config-next/@next/env 16.2.1->16.4.3 installed, pkg+lock; next: auth/mail
+- group2 better-auth 1.5.6->1.7.14 (critical <1.7.7), resend ->6.35.0, nodemailer 8.0.4->8.0.11; breaks kc/tests/auth-ip.test.ts import (getIp moved to @better-auth/core/utils/ip getIP) - not my file; next: editor
+- group3 tiptap 3.20->3.32.0 + npm update transitive; tsc only auth-ip fails; next: final checks
+- round2: auth-ip.test.ts import -> core/dist/utils/ip.mjs getIP; next: done-test
+- done-test run: suite/tsc/eslint green, build fails at BASE_URL page-data step after compile; result.md written
