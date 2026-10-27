@@ -2,20 +2,31 @@
 
 ## Now
 
+Sweep fixes first, in this order (Rob, 2026-10-27: "do all the fixes and updates", before Pitt St BBQ's first login). Findings are in the private repo, `D:\Dev\htdocs\kc-cms\audits\2026-10-27-sweep\result.md` (this repo is public).
+
+- **github-verified-email** (sweep finding 2, Risky, auth): lib/auth.ts:107 lets a GitHub sign-in with an unverified email create a user row; the private sweep result has the detail. Refuse a GitHub sign-in whose email GitHub does not mark verified, and when the emails list cannot be read, refuse rather than trust the profile email. Find how better-auth surfaces a refusal from the GitHub mapping and give the user a plain error, not a crash. Upstream file: keep the hook small, logic in kc/. Test with fixture profiles: verified passes, unverified refused, emails fetch failed refused.
+- **auth-redirect-backslash** (card 54 audit, low, Risky, auth): lib/auth-redirect.ts:3 accepts /\evil.example, an open redirect via /auth/redirect?to=. Accept only same-origin paths: refuse a backslash, encoded slashes or backslashes, and control characters anywhere in the first segment; test each.
+- **deps-update** (sweep finding 1 plus Rob's ask to scan every dependency, Risky): Next 16.2.1 has unauthenticated DoS advisories through 16.4.0 and scanners are probing the box; bump next (and eslint-config-next to match) to the newest 16.4.x. Then `npm audit` and `npm outdated`: take every patch and minor release that closes an advisory (better-auth, nodemailer, tiptap, markdown-it, zod named in the sweep) and any other patch or minor that passes the suite; no major bumps (list them in result.md with what each would need). Exception to the Never list, for this card only (Rob, 2026-10-27): it may edit package.json and package-lock.json and run `npm install`. Done-test: full suite, `npx tsc --noEmit`, `npx eslint kc`, `npm run build` exit 0, and `npm audit --omit=dev` shows no high or critical left that has a fix, with each remaining one named and why it is unreachable. Version stays 2.1.8+kc.1 (PR #79).
+- **publish-status-log** (sweep error finding, Normal): kc/publish/status-fetch.ts:41-45 drops the HTTP status, so "deployments request failed" cannot say whether the Cloudflare token lacks Pages read. Log the status code (never the token or URL query) in the warn line; test it.
+- **series-cache-case** (card 31 and 41 audits, half done): the dashboard keys on seriesSiteKey, but the Insights page still passes `${owner}/${repo}` as typed (app/(main)/[owner]/[repo]/[branch]/insights/page.tsx:87). Use seriesSiteKey there and cap the series Map (kc/insights/route.ts:53-61). Risky path (kc/insights/).
+- **add-editor-repo-guard** (sweep observation 5, Normal): scripts/add-editor.mts:69-94 accepts any repo in the App installation, including internal ones like kc-cms-server. Refuse a repo with no .pages.yml on its default branch, with a plain message; test with a fake deps object.
+
+Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`); cards 03 on wait for Rob's card 00 answers.
+
+- **66-01**: Load core config outside Next (plan card 01)
+- **66-02**: Register of the fork's own customizations (plan card 02, Risky)
+
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
 
 ## Next
 
-- **auth-redirect-backslash** (card 54 audit, low, predates short URLs): lib/auth-redirect.ts:3 accepts /\evil.example, open redirect via /auth/redirect?to=. Require same origin. Risky path (auth).
 - **short-url-polish** (card 54 audit C, D, F): other owners rewritten into kingsburycreative (kc/short-url.ts:84-88); reserved test misses dotless route files (short-url-reserved.test.ts:13); 308 cached on rollback.
 - **44**: Edit markers on the visits chart, after launch (`.claude/work/39-plan-dashboard/plan.md` card 44)
 - **45**: PDF downloads per paper, after launch (`.claude/work/39-plan-dashboard/plan.md` card 45)
 - **46**: Top Google searches from Search Console, after launch (`.claude/work/39-plan-dashboard/plan.md` card 46)
-- **series-cache-case** (card 31 and card 41 audits, low, live): key the series cache on lowercased owner/repo in seriesSiteKey, used by the dashboard (kc/dashboard-server.tsx:25) and Insights page (page.tsx:87), and cap the Map (kc/insights/route.ts:53-61). Risky path.
-- **pages-project-in-map** (card 41 audit, latent): move the Pages project from kc.pagesProject in .pages.yml to the KC_INSIGHTS_MAP entry before card 43's status is shown, so push on one repo cannot read another client's publish state. Risky path.
-- **branch-decode-once** (card 41 audit, latent): decode the branch once and pass the same string to the access check and getCollectionCache (kc/dashboard-server.tsx:44,85; page.tsx:18).
+- **branch-decode-once** (card 41 audit, tidy-up only since the 10-27 sweep; access check and panels now use the same string): decode the branch once and pass the same string to the access check and getCollectionCache (kc/dashboard-server.tsx:44,85; page.tsx:18).
 - **dashboard-polish** (card 41 audit, observations): key recent changes by index and drop the file path line for clients (dashboard-server.tsx:106-107, dashboard.tsx:151); ISO-parse ended_on (kc/publish/status.ts:34); sparkline gets 30 days not 90 (dashboard-server.tsx:70).
 
 ## Waiting on Rob
