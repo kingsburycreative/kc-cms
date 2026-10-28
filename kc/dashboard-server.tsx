@@ -12,7 +12,7 @@ import { insightsSourcesFor } from "./insights/map.ts";
 import { InsightsKeysForm } from "./insights/keys-form.tsx";
 import { defaultCache, defaultCloudflareCache, defaultSeriesCache, loadSeries, loadSiteInsights, readKey, seriesSiteKey } from "./insights/route.ts";
 import type { Series, SeriesPoint } from "./insights/series.ts";
-import { CountUp, DashboardVisits } from "./insights/chart.tsx";
+import { DashboardVisits } from "./insights/chart.tsx";
 import { siteHealth } from "./seo/site.ts";
 import { getVersionStatus } from "./update/status-fetch.ts";
 import type { VersionStatus } from "./update/status.ts";
@@ -20,12 +20,12 @@ import { fetchPublishStatus } from "./publish/status-fetch.ts";
 import { publishLine } from "./publish/status.ts";
 import { healthEntries, pageName } from "./dashboard.ts";
 import { shortHref } from "./short-url.ts";
-import { COULD_NOT_LOAD, NOT_SET_UP, STAFF_LINK_HREF, STAFF_LINK_TEXT, TILE_COULD_NOT_LOAD, panelState, type PanelState } from "./panel-state.ts";
-import { rangeChange, sparkPath, weekSummary, type RangeChange } from "./dashboard-visits.ts";
+import { COULD_NOT_LOAD, NOT_SET_UP, STAFF_LINK_HREF, STAFF_LINK_TEXT, panelState, type PanelState } from "./panel-state.ts";
+import { rangeChange, weekSummary } from "./dashboard-visits.ts";
+import { STAT_GRID, StatTile } from "./stat-tile.tsx";
 
 export const VISITS_FALLBACK = "Visit numbers aren't available right now.";
 export const NO_PAGES = "No pages to check yet.";
-export const NOT_AVAILABLE = "Not available";
 const FIX_LIMIT = { client: 3, staff: 5 };
 // Crossfade from the skeleton, once; still under reduced motion.
 const FADE = "motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300";
@@ -66,44 +66,8 @@ const cloudflareEnv = (siteTag: string) => ({
   token: process.env.CLOUDFLARE_ANALYTICS_TOKEN,
 });
 
-function delta(change: RangeChange["change"]): ReactNode {
-  if (change === null) return "";
-  if (change === "new") return <span className="text-sm text-muted-foreground">None the 30 days before</span>;
-  const up = change >= 0;
-  return (
-    <span className={`text-sm ${up ? "text-emerald-700 dark:text-emerald-400" : "text-muted-foreground"}`}>
-      <span aria-hidden="true">{up ? "▲" : "▼"}</span> {Math.abs(change)}%
-      <span className="sr-only"> {up ? "up" : "down"} on the 30 days before</span>
-    </span>
-  );
-}
-
 function StaffLink() {
   return <a href={STAFF_LINK_HREF} className="mt-1 inline-flex min-h-11 items-center text-sm underline underline-offset-4">{STAFF_LINK_TEXT}</a>;
-}
-
-function Tile({ label, value, change, spark, state }: { label: string; value: number | string | null; change?: RangeChange["change"]; spark?: number[]; state?: PanelState }) {
-  const path = sparkPath(spark ?? []);
-  if (state && state.kind !== "data") {
-    return (
-      <li className="flex flex-col gap-1 rounded-lg border p-4">
-        <span className="text-sm text-muted-foreground">{label}</span>
-        <span className="text-sm text-muted-foreground">{TILE_COULD_NOT_LOAD}</span>
-      </li>
-    );
-  }
-  return (
-    <li className="flex flex-col gap-1 rounded-lg border p-4">
-      <span className="text-sm text-muted-foreground">{label}</span>
-      <span className="text-2xl font-semibold tabular-nums">
-        {value === null ? <span className="text-base font-normal text-muted-foreground">{NOT_AVAILABLE}</span> : typeof value === "number" ? <CountUp value={value} /> : value}
-      </span>
-      {change !== undefined && delta(change)}
-      <svg data-spark viewBox="0 0 120 36" preserveAspectRatio="none" aria-hidden="true" focusable="false" className="mt-1 h-9 w-full text-primary">
-        {path && <path d={path} fill="none" stroke="currentColor" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />}
-      </svg>
-    </li>
-  );
 }
 
 export function duration(seconds: number): string {
@@ -118,10 +82,10 @@ export function StatTiles({ days, engagementSeconds, state }: { days: SeriesPoin
   return (
     <section aria-labelledby="kpis-h" className={FADE}>
       <h2 id="kpis-h" className="sr-only">Last 30 days compared with the 30 before</h2>
-      <ul className="grid gap-3 min-[480px]:grid-cols-3 @[900px]:grid-cols-1">
-        <Tile label="Visitors" value={visits ? visits.last : null} change={visits?.change} spark={recent?.map((d) => d.visits)} state={state} />
-        <Tile label="Pages viewed" value={views ? views.last : null} change={views?.change} spark={recent?.map((d) => d.views)} state={state} />
-        <Tile label="Time on site" value={engagementSeconds ? duration(engagementSeconds) : null} state={state} />
+      <ul className={STAT_GRID}>
+        <StatTile label="Visitors" value={visits ? visits.last : null} change={visits?.change} spark={recent?.map((d) => d.visits)} state={state} />
+        <StatTile label="Pages viewed" value={views ? views.last : null} change={views?.change} spark={recent?.map((d) => d.views)} state={state} />
+        <StatTile label="Time on site" value={engagementSeconds ? duration(engagementSeconds) : null} state={state} />
       </ul>
       <p className="mt-2 text-xs text-muted-foreground">Last 30 days against the 30 before.</p>
     </section>

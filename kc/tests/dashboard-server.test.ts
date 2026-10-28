@@ -67,8 +67,8 @@ test("the visits panel and every stat box use the panel state, with the staff li
   assert.match(v, /\{COULD_NOT_LOAD\}/);
   assert.match(v, /<StatTiles [^>]*state=\{state\}/);
   const tiles = server.slice(server.indexOf("export function StatTiles"), server.indexOf("export async function VisitsPanel"));
-  assert.equal((tiles.match(/<Tile [^\n]*state=\{state\} \/>/g) ?? []).length, 3);
-  const tile = server.slice(server.indexOf("function Tile("), server.indexOf("export function duration"));
+  assert.equal((tiles.match(/<StatTile [^\n]*state=\{state\} \/>/g) ?? []).length, 3);
+  const tile = readFileSync(new URL("../stat-tile.tsx", import.meta.url), "utf8");
   assert.match(tile, /\{TILE_COULD_NOT_LOAD\}/);
   assert.doesNotMatch(tile, /not-set-up|StaffLink/);
   assert.match(server, /<aside id="analytics-ids"/);

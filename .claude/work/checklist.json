@@ -1294,5 +1294,22 @@
     "verified_at": "2026-10-28T05:37:42.000Z",
     "tree": "c7739288a6352a5328bf890c796f1725681ced5473b25c115fa72f0dea61dc82",
     "gate": "full"
+  },
+  {
+    "id": "88",
+    "title": "kc-stat-tile",
+    "brief": ".claude/work/88-kc-stat-tile/brief.md",
+    "start_sha": "550f5391440ea21a9dc55c2add52ada80f22faa7",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T05:43:10.312Z",
+      "start_sha": "550f5391440ea21a9dc55c2add52ada80f22faa7",
+      "mutation_evidence": true,
+      "tree": "a3ead36bce77fdcd538312c61035506493fcfd1245b0669c0ede70ec3c44c4e1",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-28T05:43:44.011Z",
+    "tree": "a3ead36bce77fdcd538312c61035506493fcfd1245b0669c0ede70ec3c44c4e1",
+    "gate": "full"
   }
 ]

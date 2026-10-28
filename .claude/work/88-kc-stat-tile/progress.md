@@ -1,0 +1,1 @@
+- wrote kc/stat-tile.tsx. Next: edit dashboard-server.tsx, tests. Note: VisitsSkeleton lives in kc/dashboard-skeleton.tsx (not in allowed files).

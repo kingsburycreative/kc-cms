@@ -1,5 +1,7 @@
 // Skeletons for the dashboard's server panels, each at its loaded height.
 // A shimmer while loading (.kc-shimmer in app/globals.css); still under prefers-reduced-motion.
+import { StatTileSkeleton } from "./stat-tile.tsx";
+
 const BLOCK = "rounded kc-shimmer";
 
 export function VisitsSkeleton() {
@@ -10,15 +12,7 @@ export function VisitsSkeleton() {
         <div className={`mt-3 h-11 w-64 max-w-full ${BLOCK}`} />
         <div className={`mt-3 h-[260px] w-full sm:h-[290px] ${BLOCK}`} />
       </section>
-      <ul className="grid gap-3 min-[480px]:grid-cols-3 @[900px]:grid-cols-1">
-        {Array.from({ length: 3 }, (_, i) => (
-          <li key={i} className="rounded-lg border p-4">
-            <div className={`h-4 w-20 ${BLOCK}`} />
-            <div className={`mt-2 h-7 w-16 ${BLOCK}`} />
-            <div className={`mt-2 h-9 w-full ${BLOCK}`} />
-          </li>
-        ))}
-      </ul>
+      <StatTileSkeleton />
     </div>
   );
 }

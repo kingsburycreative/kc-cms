@@ -110,9 +110,9 @@ test("quick actions are buttons of one variant around a Link, with no underline"
 });
 
 test("the three tiles are Visitors, Pages viewed and Time on site, each with a sparkline", () => {
-  const tiles = [...server.matchAll(/<Tile label="([^"]+)"/g)].map((m) => m[1]);
+  const tiles = [...server.matchAll(/<StatTile label="([^"]+)"/g)].map((m) => m[1]);
   assert.deepEqual(tiles, ["Visitors", "Pages viewed", "Time on site"]);
-  const tile = components(server).find((c) => c.name === "Tile")!.body;
+  const tile = components(read("../stat-tile.tsx")).find((c) => c.name === "StatTile")!.body;
   assert.match(tile, /<svg data-spark/);
   assert.doesNotMatch(tile, /\{path && <svg|return null/);
 });
