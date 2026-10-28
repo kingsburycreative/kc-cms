@@ -254,6 +254,13 @@
       "tests": ["kc/tests/json-trailing-newline.test.ts"]
     },
     {
+      "id": "route-skeleton",
+      "title": "Skeleton in place of the Loading spinner",
+      "files": ["kc/route-skeleton.tsx", "app/loading.tsx", "app/(main)/loading.tsx"],
+      "watch": ["kc/route-skeleton.tsx"],
+      "tests": ["kc/tests/route-skeleton.test.ts"]
+    },
+    {
       "id": "tooling",
       "title": "Fork tooling: loop files, TS imports, GitHub app setup, register",
       "files": [".claude/project.md", "tsconfig.json", "scripts/setup-github-app.mjs", "kc/register/load-config.ts", "kc/register/customizations.ts"],

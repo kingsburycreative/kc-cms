@@ -1464,5 +1464,22 @@
     "verified_at": "2026-10-28T18:37:47.327Z",
     "tree": "3c990d905652f0754459210659eaa48691a72192f957d2abf433fd2f074a02b8",
     "gate": "full"
+  },
+  {
+    "id": "98",
+    "title": "route-skeleton",
+    "brief": ".claude/work/98-route-skeleton/brief.md",
+    "start_sha": "1f13dc93b3d81bb2323732948b6f1fbb1310f479",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T18:40:58.110Z",
+      "start_sha": "1f13dc93b3d81bb2323732948b6f1fbb1310f479",
+      "mutation_evidence": true,
+      "tree": "b86eca025e309ab683237e542ea69fac5c0943bbac4f1c544da452a8c252b705",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-28T18:41:59.939Z",
+    "tree": "b86eca025e309ab683237e542ea69fac5c0943bbac4f1c544da452a8c252b705",
+    "gate": "full"
   }
 ]
