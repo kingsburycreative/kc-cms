@@ -1,6 +1,6 @@
 // Async server panels for the dashboard. Each one re-runs the repo read check
 // itself, so no token, account id or key path is ever passed in as a prop.
-// Every panel draws its heading; only PublishLine and StaffStrip may draw nothing.
+// Every panel draws its heading; only PublishLine, ReviewsLine and StaffStrip may draw nothing.
 import { getInsightsAccess, getRepoReadContext } from "@/lib/api-repo-context";
 import { getCollectionCache } from "@/lib/github-cache-file";
 import { createOctokitInstance } from "@/lib/utils/octokit";
@@ -18,6 +18,8 @@ import { getVersionStatus } from "./update/status-fetch.ts";
 import type { VersionStatus } from "./update/status.ts";
 import { fetchPublishStatus } from "./publish/status-fetch.ts";
 import { publishLine } from "./publish/status.ts";
+import { fetchReviewsStatus } from "./reviews/status-fetch.ts";
+import { siteUrl } from "./client-view.ts";
 import { healthEntries, pageName } from "./dashboard.ts";
 import { shortHref } from "./short-url.ts";
 import { COULD_NOT_LOAD, NOT_SET_UP, STAFF_LINK_HREF, STAFF_LINK_TEXT, panelState, type PanelState } from "./panel-state.ts";
@@ -297,6 +299,32 @@ export async function PublishLine(ref: RepoRef) {
       {line.text}
     </p>
   );
+}
+
+// reviews-copy-start
+export const REVIEWS_COPY = {
+  "reviews-typed": "The review rating on your site was typed in by hand.",
+  "reviews-hidden": "Your site isn't showing a review rating right now.",
+  "reviews-live": "The review rating on your site is set to follow your reviews.",
+} as const;
+export const REVIEWS_STALE = "The rating was last updated over six months ago. Ask us to check it.";
+
+// Unknown draws nothing; the nudge rides only on stale.
+export function reviewsText(line: { state: string; key?: string; stale?: boolean }): string | null {
+  if (line.state !== "known" || !line.key || !(line.key in REVIEWS_COPY)) return null;
+  const base = REVIEWS_COPY[line.key as keyof typeof REVIEWS_COPY];
+  return line.stale ? `${base} ${REVIEWS_STALE}` : base;
+}
+// reviews-copy-end
+
+export async function ReviewsLine(ref: RepoRef) {
+  const ctx = await readUser(ref);
+  const site = ctx ? siteUrl((ctx.config.object as { kc?: { site?: unknown } | null })?.kc) : null;
+  if (!site) return null;
+  // Only a key and a flag come back; the text is ours, nothing from the site is rendered.
+  const text = reviewsText(await fetchReviewsStatus(site));
+  if (!text) return null;
+  return <p className={`text-sm text-muted-foreground ${FADE}`}>{text}</p>;
 }
 
 export async function StaffStrip({ user, ...ref }: RepoRef & { user: User }) {

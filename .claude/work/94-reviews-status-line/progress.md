@@ -1,0 +1,1 @@
+- Gate fix done: dashboard-server.tsx cast typed; tsc/eslint/test green.

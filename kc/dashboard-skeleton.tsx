@@ -48,6 +48,10 @@ export function PublishSkeleton() {
   return <div aria-busy="true" aria-label="Loading publish status" className={`h-5 w-44 ${BLOCK}`} />;
 }
 
+export function ReviewsSkeleton() {
+  return <div aria-busy="true" aria-label="Loading review rating status" className={`h-5 w-72 max-w-full ${BLOCK}`} />;
+}
+
 export function StaffSkeleton() {
   return (
     <div aria-busy="true" aria-label="Loading staff details" className="rounded-lg border border-dashed p-4">

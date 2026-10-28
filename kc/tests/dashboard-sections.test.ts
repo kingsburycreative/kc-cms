@@ -68,7 +68,7 @@ test("each section's panel is passed from page.tsx inside Suspense with its skel
 });
 
 // Exactly three pieces may draw nothing: no Pages project, no kc.site, a client session.
-const MAY_VANISH = ["PublishLine", "LiveSiteLink", "StaffStrip"];
+const MAY_VANISH = ["PublishLine", "LiveSiteLink", "ReviewsLine", "StaffStrip"];
 
 function components(src: string) {
   const out: { name: string; body: string }[] = [];

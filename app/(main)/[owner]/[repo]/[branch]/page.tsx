@@ -4,8 +4,8 @@ import { hasGithubIdentity } from "@/lib/authz-shared";
 import { insightsPropertyFor } from "@/kc/insights/map";
 import type { User } from "@/types/user";
 import { Dashboard } from "@/kc/dashboard.tsx";
-import { PublishLine, SearchHealthPanel, StaffStrip, TopLists, VersionLine, VisitsPanel } from "@/kc/dashboard-server.tsx";
-import { PublishSkeleton, SearchHealthSkeleton, StaffSkeleton, TopListsSkeleton, VersionSkeleton, VisitsSkeleton } from "@/kc/dashboard-skeleton.tsx";
+import { PublishLine, ReviewsLine, SearchHealthPanel, StaffStrip, TopLists, VersionLine, VisitsPanel } from "@/kc/dashboard-server.tsx";
+import { PublishSkeleton, ReviewsSkeleton, SearchHealthSkeleton, StaffSkeleton, TopListsSkeleton, VersionSkeleton, VisitsSkeleton } from "@/kc/dashboard-skeleton.tsx";
 
 export default async function Page({
   params,
@@ -27,6 +27,7 @@ export default async function Page({
     <Dashboard
       hasInsights={hasInsights}
       publish={<Suspense fallback={<PublishSkeleton />}><PublishLine {...ref} /></Suspense>}
+      reviews={<Suspense fallback={<ReviewsSkeleton />}><ReviewsLine {...ref} /></Suspense>}
       visits={<Suspense fallback={<VisitsSkeleton />}><VisitsPanel {...ref} /></Suspense>}
       searchHealth={<Suspense fallback={<SearchHealthSkeleton />}><SearchHealthPanel {...ref} /></Suspense>}
       topLists={<Suspense fallback={<TopListsSkeleton />}><TopLists {...ref} /></Suspense>}

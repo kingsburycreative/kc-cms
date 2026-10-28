@@ -21,6 +21,7 @@ const LIMIT = 5;
 type Props = {
   hasInsights?: boolean;
   publish?: ReactNode;
+  reviews?: ReactNode;
   visits?: ReactNode;
   searchHealth?: ReactNode;
   topLists?: ReactNode;
@@ -28,7 +29,7 @@ type Props = {
   staffStrip?: ReactNode;
 };
 
-export function Dashboard({ hasInsights = false, publish, visits, searchHealth, topLists, version, staffStrip }: Props) {
+export function Dashboard({ hasInsights = false, publish, reviews, visits, searchHealth, topLists, version, staffStrip }: Props) {
   const { config } = useConfig();
   const { user } = useUser();
   const router = useRouter();
@@ -108,6 +109,7 @@ export function Dashboard({ hasInsights = false, publish, visits, searchHealth, 
     <div className="@container mx-auto w-full max-w-6xl space-y-6 p-4 md:p-6">
       <PageHeader title="Dashboard" subtitle={publish} action={liveSite} />
       <h1 className="text-2xl font-semibold tracking-tight">{clientName(object.kc, config.repo)}</h1>
+      {reviews}
       {actions.length > 0 && (
         <section aria-labelledby="actions-h">
           <h2 id="actions-h" className="sr-only">Add something new</h2>
