@@ -4,7 +4,6 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
-- **json-trailing-newline** (Henike card 113, 2026-10-28, Small): JSON saves drop the file's trailing newline (`lib/serialization.ts:100`, `JSON.stringify(obj, null, 2)`). Add the newline; 2-space JSON stays the canonical format and sites normalise to it once.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -49,6 +48,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **json-trailing-newline** (91): JSON saves end with one trailing newline (lib/serialization.ts serialize); json-frontmatter output unchanged. Not seen in a browser.
 - **save-baseline** (90): after a successful save the entry form's baseline is the saved values (form.reset with keepValues), so changing a field back to its pre-save value enables Save again; a failed save keeps the old baseline. Not seen in a browser.
 - **kc-tokens-header** (89): app/globals.css moves to cool neutrals, adds radius, shadow and focus-ring tokens, and swaps the green chart colours for blue, amber, violet, cyan and slate in light and dark; terracotta stays primary (sidebar primary too now). The page header takes a subtitle (publish status on the dashboard) with the action under the title on a phone and at the row end from 768px. Not seen in a browser.
 - **kc-stat-tile** (88): dashboard stat tiles use a new kc/stat-tile.tsx (number first, plain-case label, change and sparkline), two columns at phone width from container queries, and the loading skeleton uses the same grid and tile count. Not seen in a browser.

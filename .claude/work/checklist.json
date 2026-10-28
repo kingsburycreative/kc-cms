@@ -1345,5 +1345,22 @@
     "verified_at": "2026-10-28T13:49:06.565Z",
     "tree": "588bc35975d52968446a0b6d7ae18cea2a3cfb6e8eabfb51393928d70487e002",
     "gate": "full"
+  },
+  {
+    "id": "91",
+    "title": "json-trailing-newline",
+    "brief": ".claude/work/91-json-trailing-newline/brief.md",
+    "start_sha": "9eee8465d2523520324f04b097b7dc5b69cfbeb6",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T13:50:59.219Z",
+      "start_sha": "9eee8465d2523520324f04b097b7dc5b69cfbeb6",
+      "mutation_evidence": true,
+      "tree": "332543d4e88253607b6a7d055601418b4f37937bd6cd07b3707b22f8de7f9846",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-28T13:51:26.626Z",
+    "tree": "332543d4e88253607b6a7d055601418b4f37937bd6cd07b3707b22f8de7f9846",
+    "gate": "full"
   }
 ]

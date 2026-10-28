@@ -97,7 +97,7 @@ const serialize = (contentObject: Record<string, any> = {}, format: SerialFormat
     case "yaml":
       return YAML.stringify(contentObject);
     case "json":
-      return JSON.stringify(contentObject, null, 2);
+      return JSON.stringify(contentObject, null, 2) + "\n"; // KC: json-trailing-newline
     case "toml":
       return TOML.stringify(contentObject, { newline: "\n"});
     default:

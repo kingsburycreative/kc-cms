@@ -247,6 +247,13 @@
       "tests": ["kc/tests/media-refs.test.ts"]
     },
     {
+      "id": "json-trailing-newline",
+      "title": "JSON saves keep a trailing newline",
+      "files": ["lib/serialization.ts"],
+      "watch": ["lib/serialization.ts"],
+      "tests": ["kc/tests/json-trailing-newline.test.ts"]
+    },
+    {
       "id": "tooling",
       "title": "Fork tooling: loop files, TS imports, GitHub app setup, register",
       "files": [".claude/project.md", "tsconfig.json", "scripts/setup-github-app.mjs", "kc/register/load-config.ts", "kc/register/customizations.ts"],
