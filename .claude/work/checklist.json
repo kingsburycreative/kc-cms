@@ -1367,15 +1367,17 @@
     "id": "92",
     "title": "keys-copy-pass",
     "brief": ".claude/work/92-keys-copy-pass/brief.md",
-    "start_sha": "3e34173e0c5d23c61b49451643ac1e7e8cc42b75",
-    "passes": false,
+    "start_sha": "808b641af5c91c1322614ff20ed811fafccb1f0f",
+    "passes": true,
     "scope_ok": {
-      "at": "2026-10-28T16:32:44.168Z",
-      "start_sha": "3e34173e0c5d23c61b49451643ac1e7e8cc42b75",
+      "at": "2026-10-28T16:47:56.160Z",
+      "start_sha": "808b641af5c91c1322614ff20ed811fafccb1f0f",
       "mutation_evidence": true,
-      "tree": "dbb685f0adedb51d536b394f630adb528adad643ccc9b89452bb2c81232031b0",
+      "tree": "65ddf5ea0c3832955c2567f119d43c74ef64a477249070f9671a18c5690c7ef0",
       "size": "Risky"
     },
-    "parked": "main moved mid-gate (Session 20 handoff #95); work on wip/92-keys-copy-pass"
+    "verified_at": "2026-10-28T16:49:21.595Z",
+    "tree": "65ddf5ea0c3832955c2567f119d43c74ef64a477249070f9671a18c5690c7ef0",
+    "gate": "full"
   }
 ]

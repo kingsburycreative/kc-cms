@@ -48,10 +48,10 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Blocked
 
-- **keys-copy-pass** (92): gated green (suite, tsc, eslint, verify, audit clean) but not committed: another window pushed the Session 20 handoff (#95) onto main mid-gate, so R --pass refused. Work is on wip/92-keys-copy-pass; rebase onto main and regate.
 
 ## Done
 
+- **keys-copy-pass** (92): the analytics IDs editor says "Only a GitHub admin of this repository can change these IDs." and the Cloudflare tag error names underscores, which the validator accepts. Rebased onto main after the mid-gate park.
 - **json-trailing-newline** (91): JSON saves end with one trailing newline (lib/serialization.ts serialize); json-frontmatter output unchanged. Not seen in a browser.
 - **save-baseline** (90): after a successful save the entry form's baseline is the saved values (form.reset with keepValues), so changing a field back to its pre-save value enables Save again; a failed save keeps the old baseline. Not seen in a browser.
 - **kc-tokens-header** (89): app/globals.css moves to cool neutrals, adds radius, shadow and focus-ring tokens, and swaps the green chart colours for blue, amber, violet, cyan and slate in light and dark; terracotta stays primary (sidebar primary too now). The page header takes a subtitle (publish status on the dashboard) with the action under the title on a phone and at the row end from 768px. Not seen in a browser.

@@ -1,0 +1,2 @@
+- Read brief, keys.ts, test. Next: validators, then skills.
+- Done: strings edited, test added, mutation red then green, tsc/eslint 0, result.md written. Not committed.

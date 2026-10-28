@@ -202,3 +202,4 @@
 - 2026-10-28 save-baseline (90): Sonnet worker, scope ok with mutation evidence, diff read (entry.tsx onSubmit now returns true or false; entry-form resets the baseline after a good save, keepValues). No risky path. Sent to the gate.
 
 - 2026-10-28 keys-copy-pass (92) parked: gate green with clean audit, but R --pass refused because another window committed the Session 20 handoff (#95) to main during the gate. Work on wip/92-keys-copy-pass, cut from 3e34173. Needs a rebase and regate; two windows on one branch is the cause.
+- 2026-10-28 keys-copy-pass (92) unparked: every Now card waits on Rob's card 06, and main only moved in board and work files. Code brought onto main, start_sha reset, mutation check rerun through R, scope ok. Sent to the gate with an audit.
