@@ -1,8 +1,8 @@
 ---
-session: 19
-last_updated: 2026-10-27
-continue_with: Run media-refs-wide first and deploy it (Henike's round trip depends on it), then card insights-keys-editor, release it as 2.1.8+kc.3 (bump, CHANGELOG-KC.md, tag kc-2.1.8.3) and deploy with Rob's OK, with the four dashboard layout fixes (section below) carded and in the same release; then test it end to end on Henike (Rob creates the GA4 property and Cloudflare Web Analytics site, the Henike session adds both tags, Rob enters the IDs in the staff area). After that, plan the module system.
-blockers: Henike client invite held until Rob reviews the Henike CMS himself and says go. Pitt St BBQ has no .pages.yml on any branch, so Josh's invite waits on the Pitt St session. Cards 53, 19, 20 wait on card 06. Box changes still Rob's (proxy-rewrite-origin `-H localhost`, nginx limit_req).
+session: 21
+last_updated: 2026-10-28
+continue_with: Push the kc-2.1.8.5 tag if Rob has not (the guard blocks it here). Take the phone and desktop screenshots of BeSciWorks and Henike in Rob's Chrome (Chrome in front, check other windows before resizing). Run keys-copy-pass (top of Now). Then card the module system plan in kc-modules once Rob approves the package install in both sites and makes a read-only GitHub package token.
+blockers: Henike client invite held until Rob says go. Module system waits on Rob (package install OK, read-only package token). reviews-status waits on Henike's reviews module shipping /reviews-status.json. gbp-reviews waits on Google Business Profile API access, which needs a profile verified 60+ days (KC's own profile is unverified; Rob enters the hidden mailing address on the verify page). Pitt St analytics IDs wait on Pitt St having a .pages.yml. Cards 53, 19, 20 wait on card 06. Box changes still Rob's (proxy-rewrite-origin `-H localhost`, nginx limit_req).
 ---
 
 
@@ -11,26 +11,26 @@ blockers: Henike client invite held until Rob reviews the Henike CMS himself and
 Self-hosted fork of Pages CMS (upstream hunvreus/pagescms), KC-branded, with an Insights view. Our repo is origin kingsburycreative/kc-cms; always pass `-R kingsburycreative/kc-cms` to `gh`. Issues are disabled on the repo; loose ends live on the board (`kc/BOARD.md`). Handoffs land through a `chore/session-N-handoff` PR.
 
 ## Recent sessions
-- **Session 19 (2026-10-27, in window):** media-delete guard (PR #91) merged and deployed live as `891a106`; the version label still reads 2.1.8+kc.2, so kc.3 ships with the key editor. Carded insights-keys-editor: staff set a site's analytics IDs in the CMS, stored in a new table (project.md allows that card one migration), writes limited to GitHub repo admins because `hasGithubIdentity` lets any GitHub login through. Decided: analytics IDs are not secrets and live in the CMS; Infisical keeps only the shared Google service account key and Cloudflare token. GA4 and Cloudflare Web Analytics both work by script tag, no DNS move needed (the Cloudflare side is unchecked against our code). Henike's `.pages.yml` is on its main now but has no `kc:` or `media:` block and only the posts collection; the Henike session has BeSciWorks' keys to copy. The CMS has no language switch: EN/FR is two entries per section unless Rob asks for a real toggle.
-- **Session 18 (2026-10-27, unattended loop, 1 card):** media-delete-guard gated green with the security audit passing: a 409 naming up to five pages. Nested collection subfolders are not searched yet and code references do not block.
-- **Session 17 (2026-10-27, in window):** released 2.1.8+kc.1 and kc.2 (sweep fixes, Next 16.4.3, 1 MB /api save cap closing the zod hole, nodemailer 10.2.1). Customization guard re-planned as local pre-push hooks on Rob's PC (no Actions). Rob added henike-contracting and pittstbbq to the kc-cms GitHub App.
+- **Session 20 (2026-10-28, window plus loop):** shipped kc.3 (media guard across all paths and src/, analytics IDs editor in the staff strip, four dashboard layout fixes), kc.4 (keys form keeps saved values, one setup banner, KC stat tile, cool neutral tokens, shimmer skeletons) and kc.5 (save baseline resets after a save, JSON keeps its trailing newline; both from Henike's live testing). Live on the box: `3e34173`, labelled 2.1.8+kc.5. Henike's GA4 561101654, Cloudflare site 37ba81e31876497a8633e76726d48b49 and Pages henike-contracting are saved in the CMS. Module system planned (`.claude/work/85-plan-module-system/plan.md`): one private package `@kingsburycreative/kc-modules` in the new repo kingsburycreative/kc-modules (empty). Reviews decided with the Henike window: typed by hand only, with a client-set date, hidden when empty; Places API ruled out (its terms forbid storing rating and count); Business Profile API is free and allows 30-day storage, so a live option is carded for later. bandpilot's loop copy synced (2806a3c on its chore/loop-copy-speed, not merged).
+- **Session 19 (2026-10-27, in window):** media-delete guard (PR #91) deployed. Carded insights-keys-editor. Decided: analytics IDs are not secrets and live in the CMS; Infisical keeps only the Google service account key and the Cloudflare token.
+- **Session 18 (2026-10-27, unattended loop, 1 card):** media-delete-guard gated green with the security audit passing.
 
-## Module system (Rob, 2026-10-27, next big piece)
-Every feature (EN/FR, academic papers, image gallery, payments with a provider abstraction so Pitt St's work carries to the next shop) becomes a module that a new project adds, not copies: site-side code, its matching `.pages.yml` block, and tests. Home is `kc-framework`, tied to Rob's `../ui-library`. Start with a planner pass that extracts what BeSciWorks, Chris Ward, Henike and Pitt St already built, plus modules upcoming projects will need. Most of it lives outside this repo; only the CMS setup blocks touch it.
+## Module system (Rob, 2026-10-27)
+Every feature (EN/FR, papers, gallery, payments with a provider abstraction, reviews) becomes a module a project adds: site code, its `.pages.yml` block, tests. Plan cards 02 package skeleton, 03 compose tool (`kc-modules.json` + `.pages.src.yml` → `.pages.yml`, build fails on drift), 04 ui-library tie by token names only. Milestone: safe-markdown, papers, EN/FR adopted by BeSciWorks and Henike. Henike is building the reviews module in a lift-out shape.
 
 ## What exists
-- Agent-loop setup: `.claude/project.md`, board `kc/BOARD.md`, `.claude/work/`. Plans: client experience `15-plan-client-experience`, customization guard `66-plan-customization-guard` (local hooks; 08 to 11 run in the private repo's loop; a Henike entry still to add). Sweep findings in the private repo (`D:\Dev\htdocs\kc-cms\audits\2026-10-27-sweep\`); never copy them here.
-- Live on the box: `891a106`, labelled 2.1.8+kc.2. Deploy is `server/deploy.sh <sha>` from the private repo, coordinator only, after Rob allows it per release.
-- Clients on the GitHub App: kc-test-site, besciworks, henike-contracting, pittstbbq. Insights shows Pages deploys only alongside `ga` or `cf` (`kc/insights/map.ts`).
-
-## Dashboard layout fixes (Rob, 2026-10-27, seen side by side on BeSciWorks and Henike)
-Card these and run them right after the key editor, before Rob reviews Henike: (1) no Dashboard link in the sidebar on any site, add it first; (2) quick actions render as underlined text links on every site, make them real buttons; (3) sidebar sections (Media, Insights) and the "See live site" link vanish when a site lacks config, keep them in the layout with a plain "not set up yet" state; (4) empty panels (Henike's Visits card, "Not available" boxes) need a proper setup-pending state, not blank space. UI through avoid-ai-design, mobile first, proof is screenshots of both sites at phone and desktop width.
+- Agent-loop setup: `.claude/project.md`, board `kc/BOARD.md`, `.claude/work/`. The loop commits straight to main (no branch cut). This window's guards (`coordinator-only.cjs`, `loop-only-cards.cjs`) refuse product commits, pushes and tag pushes, and refuse agents asked to commit; they read env vars at launch, so Rob's OK in chat does not lift them. Release commits and tag pushes are Rob's to run, or a window launched with `COORDINATOR_ONLY=off`.
+- Release: bump `version` in package.json and package-lock.json, CHANGELOG-KC.md section, deploy, tag `kc-2.1.8.N`. Deploy from `D:\Dev\htdocs\kc-cms`: scp `server/deploy.sh` to ubuntu@51.222.6.173 with `~/.ssh/kc_cms_ovh`, then `sudo bash deploy.sh <sha>` (health check rolls back; keeps 3 releases).
+- Analytics IDs live in the `insights_keys` table; `insightsSourcesFor` falls back to KC_INSIGHTS_MAP. Writes need admin access plus GitHub repo admin; an ID bound to another repo is refused.
+- Clients on the GitHub App: kc-test-site, besciworks, henike-contracting, pittstbbq. "View on GitHub" is hidden from email-only clients everywhere (`viewFor().githubLinks`, test in `kc/tests/client-view.test.ts`).
+- Sweep findings stay in the private repo (`D:\Dev\htdocs\kc-cms\audits\`); never copy them here.
 
 ## Pending
-- Card idea: show "Create configuration file" to staff only. Card idea: adding a client connects its repo to the App automatically (needs a classic token from Rob, kept in Infisical; fits the private repo's add-site card 09).
-- Rob: card 06 decision for 53, 19, 20; whether to scrub client names already in this public repo.
-- Unchecked: the friendly 413 message in a browser; whether the Cloudflare token has Pages read.
+- Pitt St IDs held in `D:\Dev\htdocs\.credentials\pittstbbq.md` (GA4 561143198, CF site tag there); enter once Pitt St has a CMS entry.
+- Henike adds the gtag (G-NF98VHER8R) and Cloudflare beacon on its side; Visits reads 0 until then.
+- Unchecked: whether the Cloudflare token has Pages read; the friendly 413 message in a browser; whether a client profile KC manages counts toward Business Profile API eligibility.
+- Card ideas: "Create configuration file" for staff only; adding a client connects its repo to the App automatically.
 
 ## To Resume
-Session 20. main at 891a106 plus this handoff; no open PRs.
-THIS WINDOW: first media-refs-wide (top of Now; the Henike session's CMS round trip tests it, deploy allowed by Rob, tell henike-contracting when live), then insights-keys-editor; card the four dashboard layout fixes and run them; merge and release kc.3 with Rob's OK; then the Henike end-to-end key test. Then a planner pass for the module system.
+Session 21. main at the session-20 handoff on top of `3e34173` (Release 2.1.8+kc.5, deployed). No open PRs. Tag `kc-2.1.8.5` was not pushed from the window; check `git ls-remote --tags origin kc-2.1.8.5` and push it if missing.
+THIS WINDOW: screenshots of BeSciWorks and Henike at phone and desktop width; run keys-copy-pass through the loop (`--max-cards 1 --no-handoff`); ask Rob for the module system go (package install, read-only token), then card plan cards 02-04 in kc-modules. Watch for Henike's status file and start reviews-status when it ships.
