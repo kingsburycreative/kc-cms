@@ -1,8 +1,8 @@
 ---
-session: 21
+session: 22
 last_updated: 2026-10-28
-continue_with: Push the kc-2.1.8.5 tag if Rob has not (the guard blocks it here). Take the phone and desktop screenshots of BeSciWorks and Henike in Rob's Chrome (Chrome in front, check other windows before resizing). Run keys-copy-pass (top of Now). Then card the module system plan in kc-modules once Rob approves the package install in both sites and makes a read-only GitHub package token.
-blockers: Henike client invite held until Rob says go. Module system waits on Rob (package install OK, read-only package token). reviews-status waits on Henike's reviews module shipping /reviews-status.json. gbp-reviews waits on Google Business Profile API access, which needs a profile verified 60+ days (KC's own profile is unverified; Rob enters the hidden mailing address on the verify page). Pitt St analytics IDs wait on Pitt St having a .pages.yml. Cards 53, 19, 20 wait on card 06. Box changes still Rob's (proxy-rewrite-origin `-H localhost`, nginx limit_req).
+continue_with: Move kc-modules cards 05-08 from Next to Now on D:\Dev\htdocs\kc-modules\kc\BOARD.md and run them with `node ~/.claude/bin/loop-start.cjs D:/Dev/htdocs/kc-modules --max-cards 4 --no-handoff`. Then card the three dashboard defects from the session 21 screenshots (Pending) and run them in kc-cms.
+blockers: Henike client invite held until Rob says go. kc-modules card 11 (tag modules-v0.1.0, set KC_PACKAGES_READ_TOKEN as each site's Cloudflare build secret) is Rob's. gbp-reviews waits on Google Business Profile API access (needs a profile verified 60+ days). Pitt St analytics IDs wait on Pitt St having a .pages.yml. Cards 53, 19, 20 wait on card 06. Box changes still Rob's (proxy-rewrite-origin `-H localhost`, nginx limit_req).
 ---
 
 
@@ -11,26 +11,27 @@ blockers: Henike client invite held until Rob says go. Module system waits on Ro
 Self-hosted fork of Pages CMS (upstream hunvreus/pagescms), KC-branded, with an Insights view. Our repo is origin kingsburycreative/kc-cms; always pass `-R kingsburycreative/kc-cms` to `gh`. Issues are disabled on the repo; loose ends live on the board (`kc/BOARD.md`). Handoffs land through a `chore/session-N-handoff` PR.
 
 ## Recent sessions
-- **Session 20 (2026-10-28, window plus loop):** shipped kc.3 (media guard across all paths and src/, analytics IDs editor in the staff strip, four dashboard layout fixes), kc.4 (keys form keeps saved values, one setup banner, KC stat tile, cool neutral tokens, shimmer skeletons) and kc.5 (save baseline resets after a save, JSON keeps its trailing newline; both from Henike's live testing). Live on the box: `3e34173`, labelled 2.1.8+kc.5. Henike's GA4 561101654, Cloudflare site 37ba81e31876497a8633e76726d48b49 and Pages henike-contracting are saved in the CMS. Module system planned (`.claude/work/85-plan-module-system/plan.md`): one private package `@kingsburycreative/kc-modules` in the new repo kingsburycreative/kc-modules (empty). Reviews decided with the Henike window: typed by hand only, with a client-set date, hidden when empty; Places API ruled out (its terms forbid storing rating and count); Business Profile API is free and allows 30-day storage, so a live option is carded for later. bandpilot's loop copy synced (2806a3c on its chore/loop-copy-speed, not merged).
-- **Session 19 (2026-10-27, in window):** media-delete guard (PR #91) deployed. Carded insights-keys-editor. Decided: analytics IDs are not secrets and live in the CMS; Infisical keeps only the Google service account key and the Cloudflare token.
-- **Session 18 (2026-10-27, unattended loop, 1 card):** media-delete-guard gated green with the security audit passing.
+- **Session 21 (2026-10-28, window plus loop):** shipped kc.6 (staff copy pass on analytics IDs, reviews-status: server fetch of the live site's `/reviews-status.json` plus a dashboard line, feature audit, and its one finding fixed by pinning the fetch to a checked public address) and kc.7 (the line shows "5 stars from 24 reviews, typed in by hand on Oct 12", and a shimmer skeleton replaces the full-page Loading spinner). Both deployed, tagged and seen live on Henike. Module system started: Rob chose a separate repo and approved the installs, made `KC_PACKAGES_READ_TOKEN` (Infisical, KC-CMS); kc-modules set up and cards 02-04 done (skeleton and contract, compose, ui-library token check).
+- **Session 20 (2026-10-28, window plus loop):** shipped kc.3 to kc.5 (media guard, analytics IDs editor, dashboard layout fixes, keys form fixes, save baseline and JSON newline). Module system planned (`.claude/work/85-plan-module-system/plan.md`). Reviews decided with Henike: typed by hand, hidden when empty; Places API ruled out; Business Profile API carded for later.
+- **Session 19 (2026-10-27, in window):** media-delete guard deployed. Decided: analytics IDs are not secrets and live in the CMS.
 
-## Module system (Rob, 2026-10-27)
-Every feature (EN/FR, papers, gallery, payments with a provider abstraction, reviews) becomes a module a project adds: site code, its `.pages.yml` block, tests. Plan cards 02 package skeleton, 03 compose tool (`kc-modules.json` + `.pages.src.yml` → `.pages.yml`, build fails on drift), 04 ui-library tie by token names only. Milestone: safe-markdown, papers, EN/FR adopted by BeSciWorks and Henike. Henike is building the reviews module in a lift-out shape.
+## Module system
+Plan `.claude/work/85-plan-module-system/plan.md`, decision in `decision.md` beside it: repo kingsburycreative/kc-modules at `D:\Dev\htdocs\kc-modules`, its own `.claude/project.md` and board. Cards naming kc-framework paths target kc-modules. Done: 02, 03, 04 (`e67fb90`). Next: 05 drift guard, 06 safe-markdown, 07 papers, 08 i18n, 10 release workflow (Risky); 11 is Rob's; 12-13 adopt in BeSciWorks and Henike; 14 audit.
 
 ## What exists
-- Agent-loop setup: `.claude/project.md`, board `kc/BOARD.md`, `.claude/work/`. The loop commits straight to main (no branch cut). This window's guards (`coordinator-only.cjs`, `loop-only-cards.cjs`) refuse product commits, pushes and tag pushes, and refuse agents asked to commit; they read env vars at launch, so Rob's OK in chat does not lift them. Release commits and tag pushes are Rob's to run, or a window launched with `COORDINATOR_ONLY=off`.
-- Release: bump `version` in package.json and package-lock.json, CHANGELOG-KC.md section, deploy, tag `kc-2.1.8.N`. Deploy from `D:\Dev\htdocs\kc-cms`: scp `server/deploy.sh` to ubuntu@51.222.6.173 with `~/.ssh/kc_cms_ovh`, then `sudo bash deploy.sh <sha>` (health check rolls back; keeps 3 releases).
-- Analytics IDs live in the `insights_keys` table; `insightsSourcesFor` falls back to KC_INSIGHTS_MAP. Writes need admin access plus GitHub repo admin; an ID bound to another repo is refused.
-- Clients on the GitHub App: kc-test-site, besciworks, henike-contracting, pittstbbq. "View on GitHub" is hidden from email-only clients everywhere (`viewFor().githubLinks`, test in `kc/tests/client-view.test.ts`).
+- Agent loop: one global loop now (another window, 2026-10-28). Start it with `node ~/.claude/bin/loop-start.cjs <project> --max-cards N --no-handoff`; it runs detached, so watch `<project>/.claude/work/loop/run.out` and include "Stopping" in any filter. It refuses a dirty tree. The loop commits straight to main. This window's guards refuse product commits, release commits and tag pushes, in any repo; handoff commits on `chore/session-*-handoff` touching only context.md pass, and board-only commits pass. Release commits, deploys and tags are Rob's to run.
+- Release: bump `version` in package.json and package-lock.json (lines 8, 3, 9), CHANGELOG-KC.md section, Rob commits and pushes, deploy from `D:\Dev\htdocs\kc-cms` (scp `server/deploy.sh` to ubuntu@51.222.6.173 with `~/.ssh/kc_cms_ovh`, then `sudo bash deploy.sh <sha>`; health check rolls back), tag `kc-2.1.8.N`. Live: kc.7, `fcd878c`.
+- Reviews: `kc/reviews/status-fetch.ts` (configured origin, fixed path, 5 s, size cap, resolved-address check in `safe-lookup.ts`), line in `kc/dashboard-server.tsx`.
+- Analytics IDs live in the `insights_keys` table; writes need admin access plus GitHub repo admin.
+- Clients on the GitHub App: kc-test-site, besciworks, henike-contracting, pittstbbq.
 - Sweep findings stay in the private repo (`D:\Dev\htdocs\kc-cms\audits\`); never copy them here.
 
 ## Pending
-- Pitt St IDs held in `D:\Dev\htdocs\.credentials\pittstbbq.md` (GA4 561143198, CF site tag there); enter once Pitt St has a CMS entry.
-- Henike adds the gtag (G-NF98VHER8R) and Cloudflare beacon on its side; Visits reads 0 until then.
-- Unchecked: whether the Cloudflare token has Pages read; the friendly 413 message in a browser; whether a client profile KC manages counts toward Business Profile API eligibility.
-- Card ideas: "Create configuration file" for staff only; adding a client connects its repo to the App automatically.
+- Dashboard defects from session 21 screenshots, not carded yet: at 500px the page header clips "Dashboard" and squeezes it onto "See live site"; BeSciWorks' desktop visits chart draws at half the card width with a flat line and a cut-off last date; Henike's zero chart labels the axis "1 1 1 0 0". Chrome will not go below 500px, so true phone width needs device emulation.
+- Loop bug: card 95's audit wrote "filed reviews-ssrf-resolve in Next" in its result and log but never put it on the board; added by hand. Worth a check in the global loop's park/follow-up step.
+- Pitt St IDs held in `D:\Dev\htdocs\.credentials\pittstbbq.md`; enter once Pitt St has a CMS entry. Henike adds its gtag and Cloudflare beacon on its side; Visits reads 0 until then.
+- Unchecked: whether the Cloudflare token has Pages read; the friendly 413 message in a browser; the route skeleton at true phone width.
 
 ## To Resume
-Session 21. main at the session-20 handoff on top of `3e34173` (Release 2.1.8+kc.5, deployed). No open PRs. Tag `kc-2.1.8.5` was not pushed from the window; check `git ls-remote --tags origin kc-2.1.8.5` and push it if missing.
-THIS WINDOW: screenshots of BeSciWorks and Henike at phone and desktop width; run keys-copy-pass through the loop (`--max-cards 1 --no-handoff`); ask Rob for the module system go (package install, read-only token), then card plan cards 02-04 in kc-modules. Watch for Henike's status file and start reviews-status when it ships.
+Session 22. main at the session-21 handoff on top of `fcd878c` (Release 2.1.8+kc.7, deployed, tagged). No open PRs. kc-modules main at `e67fb90`.
+THIS WINDOW: in kc-modules move 05-08 to Now and run them through `loop-start.cjs` (one run, `--max-cards 4`). Then card the three dashboard defects in Pending and run them in kc-cms; release as kc.8 when they land (Rob runs the commit, deploy and tag).
