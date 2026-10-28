@@ -177,6 +177,13 @@
       "tests": ["kc/tests/page-header.test.ts"]
     },
     {
+      "id": "save-baseline",
+      "title": "A successful save becomes the form baseline",
+      "files": ["kc/save-baseline.ts", "components/entry/entry-form.tsx", "components/entry/entry.tsx"],
+      "watch": ["kc/save-baseline.ts"],
+      "tests": ["kc/tests/save-baseline.test.ts"]
+    },
+    {
       "id": "action-run-claim",
       "title": "Action runs claimed per user",
       "files": ["kc/action-run-claim.ts", "app/api/[owner]/[repo]/[branch]/actions/route.ts", "app/api/[owner]/[repo]/[branch]/actions/[runId]/route.ts"],

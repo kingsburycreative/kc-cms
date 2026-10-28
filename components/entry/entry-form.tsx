@@ -18,6 +18,7 @@ import {
 } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SeoPanel } from "@/kc/seo/panel";
+import { nextBaseline } from "@/kc/save-baseline";
 import { editComponents } from "@/fields/registry";
 import {
   initializeState,
@@ -1038,7 +1039,7 @@ const EntryForm = ({
 }: {
   fields: Field[];
   contentObject?: Record<string, unknown>;
-  onSubmit: (values: Record<string, unknown>) => void;
+  onSubmit: (values: Record<string, unknown>) => void | boolean | Promise<void | boolean>;
   filePath?: React.ReactNode;
   onDirtyChange?: (isDirty: boolean) => void;
   onChangeRegistered?: () => void;
@@ -1141,9 +1142,11 @@ const EntryForm = ({
   const handleSubmit = useCallback(
     async (values: Record<string, unknown>) => {
       const latestValues = form.getValues() as Record<string, unknown>;
-      await onSubmit(latestValues);
+      const saved = await onSubmit(latestValues);
+      // KC: the saved values become the baseline; edits made mid-save are kept
+      form.reset(nextBaseline(defaultValues, latestValues, saved), { keepValues: true });
     },
-    [form, onSubmit],
+    [form, onSubmit, defaultValues],
   );
 
   const handleError = () => {

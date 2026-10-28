@@ -199,3 +199,4 @@
 - Checked live: Henike header reads "Live site not set up yet"; staff strip shows GA4 561101654 and the Cloudflare site; Visits now reads 0 with real tiles, so the service account reads GA4. Zeros until the tracking tags are on the site.
 - Rubric basis: clear-cut, the release Rob asked for.
 - Parked (needs Rob): phone and desktop screenshots of BeSciWorks and Henike. Chrome's screenshot timed out three times (renderer unresponsive, likely the window minimized or hidden); page text loaded fine. Retake with Chrome in front.
+- 2026-10-28 save-baseline (90): Sonnet worker, scope ok with mutation evidence, diff read (entry.tsx onSubmit now returns true or false; entry-form resets the baseline after a good save, keepValues). No risky path. Sent to the gate.
