@@ -163,6 +163,13 @@
       "tests": ["kc/tests/sidebar-groups.test.ts"]
     },
     {
+      "id": "not-set-up",
+      "title": "Sidebar Media and Site groups and the live-site slot show a plain Not set up yet when the config lacks them",
+      "files": ["kc/not-set-up.ts", "kc/dashboard.tsx", "components/repo/repo-sidebar.tsx", "components/repo/repo-layout.tsx", "app/(main)/[owner]/[repo]/[branch]/layout.tsx"],
+      "watch": ["kc/not-set-up.ts"],
+      "tests": ["kc/tests/not-set-up.test.ts"]
+    },
+    {
       "id": "page-header",
       "title": "Shared page header with live-site link",
       "files": ["kc/page-header.tsx"],

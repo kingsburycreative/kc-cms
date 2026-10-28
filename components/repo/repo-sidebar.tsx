@@ -19,6 +19,7 @@ import { BRAND_MARK } from "@/kc/brand";
 import { shortHref } from "@/kc/short-url";
 import { groupNavigation } from "@/kc/sidebar-groups";
 import { isDashboardActive } from "@/kc/sidebar-dashboard";
+import { NOT_SET_UP, insightsNotSetUp, mediaNotSetUp } from "@/kc/not-set-up";
 import { isCacheEnabled, isConfigEnabled } from "@/lib/config";
 import { getRootActions } from "@/lib/actions";
 import { getVisits } from "@/lib/tracker";
@@ -285,7 +286,7 @@ function RepoSwitcher() {
   );
 }
 
-export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) {
+export function RepoSidebar({ hasInsights = false, insightsConfigured = true }: { hasInsights?: boolean; insightsConfigured?: boolean }) {
   const pathname = usePathname();
   const { user } = useUser();
   const { config } = useConfig();
@@ -567,6 +568,15 @@ export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) 
     );
   };
 
+  const renderNotSetUpGroup = (label: string) => (
+    <SidebarGroup>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
+      <SidebarGroupContent>
+        <p className="px-2 py-2 text-sm text-muted-foreground">{NOT_SET_UP}</p>
+      </SidebarGroupContent>
+    </SidebarGroup>
+  );
+
   const renderFlatGroup = (label: string, items: NavItem[]) => {
     if (items.length === 0) return null;
 
@@ -623,7 +633,9 @@ export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) 
       )
       : null,
     renderNavigationGroup("Content", groupNavigation(contentNavigation, pathname, getNodeHref).nodes as NavigationNode[]),
-    renderNavigationGroup("Media", mediaNavigation),
+    config && mediaNotSetUp(config.object)
+      ? renderNotSetUpGroup("Media")
+      : renderNavigationGroup("Media", mediaNavigation),
     rootActions.length > 0 && config
       ? (
         <SidebarGroup key="Actions">
@@ -648,7 +660,9 @@ export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) 
         href: shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/insights`),
         icon: <BarChart3 className="size-4" />,
       }])
-      : null,
+      : config && insightsNotSetUp(insightsConfigured)
+        ? renderNotSetUpGroup("Site")
+        : null,
     renderFlatGroup("Admin", adminItems),
   ].filter(Boolean);
 

@@ -1209,5 +1209,22 @@
     "verified_at": "2026-10-28T04:19:07.902Z",
     "tree": "b0bb01404fa24dcb53357002cd1fd81f15eed9820a6691554328776afe1b2432",
     "gate": "full"
+  },
+  {
+    "id": "83",
+    "title": "sidebar-not-set-up",
+    "brief": ".claude/work/83-sidebar-not-set-up/brief.md",
+    "start_sha": "991f070fb3435a560c90e6c798c5f37635bb7fc6",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T04:24:24.672Z",
+      "start_sha": "991f070fb3435a560c90e6c798c5f37635bb7fc6",
+      "mutation_evidence": true,
+      "tree": "fde3b51353b111b1be64d17117c3fc99d486dcd21ae3e5a079396d616f000a27",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-28T04:24:29.564Z",
+    "tree": "fde3b51353b111b1be64d17117c3fc99d486dcd21ae3e5a079396d616f000a27",
+    "gate": "full"
   }
 ]

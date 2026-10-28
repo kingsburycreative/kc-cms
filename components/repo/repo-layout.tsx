@@ -33,7 +33,7 @@ function RepoHeader() {
   );
 }
 
-export function RepoLayout({ children, hasInsights = false }: { children: React.ReactNode; hasInsights?: boolean }) {
+export function RepoLayout({ children, hasInsights = false, insightsConfigured = true }: { children: React.ReactNode; hasInsights?: boolean; insightsConfigured?: boolean }) {
   const { config } = useConfig();
   const { owner, repo } = useRepo();
 
@@ -46,7 +46,7 @@ export function RepoLayout({ children, hasInsights = false }: { children: React.
   return (
     <SidebarProvider>
       <RepoHeaderProvider>
-        <RepoSidebar hasInsights={hasInsights} />
+        <RepoSidebar hasInsights={hasInsights} insightsConfigured={insightsConfigured} />
         <SidebarInset className="min-h-screen">
           <RepoHeader />
           <main className="min-w-0 flex-1 p-4 md:p-6">{children}</main>

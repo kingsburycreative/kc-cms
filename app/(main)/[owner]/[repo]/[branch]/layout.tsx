@@ -98,11 +98,12 @@ export default async function Layout({
     }
   }
 
-  const hasInsights = !errorMessage && (await insightsPropertyFor(owner, repo)) !== null && await getInsightsAccess(user, owner, repo);
+  const insightsConfigured = !!errorMessage || (await insightsPropertyFor(owner, repo)) !== null;
+  const hasInsights = !errorMessage && insightsConfigured && await getInsightsAccess(user, owner, repo);
 
   return (
     <ConfigProvider value={config}>
-      <RepoLayout hasInsights={hasInsights}>{errorMessage ? errorMessage : children}</RepoLayout>
+      <RepoLayout hasInsights={hasInsights} insightsConfigured={insightsConfigured}>{errorMessage ? errorMessage : children}</RepoLayout>
     </ConfigProvider>
   );
 }

@@ -14,6 +14,7 @@ import { quickActions, recentActivity, type Activity } from "./dashboard.ts";
 import { clientName, siteUrl } from "./client-view.ts";
 import { timeAgo } from "./publish/status.ts";
 import { shortHref } from "./short-url.ts";
+import { NOT_SET_UP } from "./not-set-up.ts";
 
 const LIMIT = 5;
 
@@ -64,7 +65,7 @@ export function Dashboard({ hasInsights = false, publish, visits, searchHealth, 
 
   // Memoised: PageHeader pushes it into the repo header, and a new element each render would re-push forever.
   const site = siteUrl(object.kc);
-  const liveSite = useMemo(() => (site ? <LiveSiteLink site={site} /> : undefined), [site]);
+  const liveSite = useMemo(() => (site ? <LiveSiteLink site={site} /> : <span className="inline-flex min-h-11 items-center text-sm text-muted-foreground">{NOT_SET_UP}</span>), [site]);
 
   if (!config) return null;
 
