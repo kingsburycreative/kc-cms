@@ -1192,5 +1192,22 @@
     "verified_at": "2026-10-28T04:15:42.833Z",
     "tree": "b232880179f667c86b03b78b380e08ee85be875db281e94d2af5539d2f171339",
     "gate": "full"
+  },
+  {
+    "id": "82",
+    "title": "dashboard-action-buttons",
+    "brief": ".claude/work/82-dashboard-action-buttons/brief.md",
+    "start_sha": "ef25e5d25aba8ced27587c30acb58ad1883658a0",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T04:18:39.985Z",
+      "start_sha": "ef25e5d25aba8ced27587c30acb58ad1883658a0",
+      "mutation_evidence": true,
+      "tree": "b0bb01404fa24dcb53357002cd1fd81f15eed9820a6691554328776afe1b2432",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-28T04:19:07.902Z",
+    "tree": "b0bb01404fa24dcb53357002cd1fd81f15eed9820a6691554328776afe1b2432",
+    "gate": "full"
   }
 ]

@@ -8,7 +8,7 @@ import { useUser } from "@/contexts/user-context";
 import { hasGithubIdentity } from "@/lib/authz-shared";
 import { isConfigEnabled } from "@/lib/config";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { PageHeader } from "./page-header.tsx";
 import { quickActions, recentActivity, type Activity } from "./dashboard.ts";
 import { clientName, siteUrl } from "./client-view.ts";
@@ -113,16 +113,15 @@ export function Dashboard({ hasInsights = false, publish, visits, searchHealth, 
       {actions.length > 0 && (
         <section aria-labelledby="actions-h">
           <h2 id="actions-h" className="sr-only">Add something new</h2>
-          <ul className="flex flex-col gap-1 @[600px]:flex-row @[600px]:flex-wrap @[600px]:gap-x-6">
+          <ul className="flex flex-col gap-2 @[600px]:flex-row @[600px]:flex-wrap">
             {actions.map((action) => (
-              <li key={action.key}>
-                <Link
-                  href={action.href}
-                  className="inline-flex min-h-11 items-center gap-2 text-sm font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2"
-                >
-                  <span aria-hidden="true" className="text-primary">{action.key === "upload-pdf" ? "↑" : "+"}</span>
-                  {action.label}
-                </Link>
+              <li key={action.key} className="flex flex-col @[600px]:block">
+                <Button asChild variant="secondary" className="h-auto min-h-11">
+                  <Link href={action.href}>
+                    <span aria-hidden="true" className="text-primary">{action.key === "upload-pdf" ? "↑" : "+"}</span>
+                    {action.label}
+                  </Link>
+                </Button>
               </li>
             ))}
           </ul>

@@ -100,6 +100,15 @@ test("the old shapes are gone", () => {
   assert.equal((layout.match(/item\.path/g) ?? []).length, 2);
 });
 
+test("quick actions are buttons of one variant around a Link, with no underline", () => {
+  const block = layout.slice(layout.indexOf("actions.map("), layout.indexOf("</ul>", layout.indexOf("actions.map(")));
+  assert.match(block, /<Button asChild variant="secondary"[^>]*>\s*<Link href=\{action\.href\}>/);
+  assert.equal((block.match(/<Button\b/g) ?? []).length, 1);
+  assert.equal((block.match(/variant=/g) ?? []).length, 1);
+  assert.match(block, /min-h-11/);
+  assert.doesNotMatch(block, /underline/);
+});
+
 test("the three tiles are Visitors, Pages viewed and Time on site, each with a sparkline", () => {
   const tiles = [...server.matchAll(/<Tile label="([^"]+)"/g)].map((m) => m[1]);
   assert.deepEqual(tiles, ["Visitors", "Pages viewed", "Time on site"]);
