@@ -11,6 +11,12 @@ dislike `+`).
 To cut a release: bump `version` in package.json and package-lock.json, add a
 section here, merge, deploy, then tag the deployed commit.
 
+## 2.1.8+kc.4 (2026-10-28)
+
+- Fix: after saving analytics IDs the form keeps the saved values and the staff strip shows them at once; before, a second click on Save cleared every ID.
+- Dashboard: a site without analytics shows one setup note instead of four, and the header names the missing live site; visit tiles sit two across on a phone; loading placeholders shimmer, and hold still for people who turn motion off.
+- Look: cooler greys, new radius, shadow and focus-ring settings, chart colours that suit the brand, and a page header that puts its action under the title on a phone.
+
 ## 2.1.8+kc.3 (2026-10-28)
 
 - Media: deleting a file is refused while anything still uses it, checked across every path in `.pages.yml` (single files, collections and their subfolders) and the site's code under `src/`.
