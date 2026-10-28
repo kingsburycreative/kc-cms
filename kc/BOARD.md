@@ -2,7 +2,6 @@
 
 ## Now
 
-- **reviews-status** (card 01, fetcher and model, done as 93; card 02 dashboard line done as 94; card 03 feature security audit next, plan `.claude/work/93-plan-reviews-status/plan.md`; Risky; Henike shipped `https://henike-contracting.pages.dev/reviews-status.json` on 2026-10-28, card 127 ff0edf1, audit 7954f48: exactly four keys, source typed|hidden, live reserved): a dashboard line read server-side from the live site's `/reviews-status.json` (`{ source: live|typed|hidden, rating, count, asOf, error? }`), configured origin only, fixed path, short timeout, size cap, cached like Insights. Says where the rating comes from, and nudges when typed numbers are over 6 months old. Copy through prose.
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 

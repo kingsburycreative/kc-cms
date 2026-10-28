@@ -203,3 +203,4 @@
 
 - 2026-10-28 keys-copy-pass (92) parked: gate green with clean audit, but R --pass refused because another window committed the Session 20 handoff (#95) to main during the gate. Work on wip/92-keys-copy-pass, cut from 3e34173. Needs a rebase and regate; two windows on one branch is the cause.
 - 2026-10-28 keys-copy-pass (92) unparked: every Now card waits on Rob's card 06, and main only moved in board and work files. Code brought onto main, start_sha reset, mutation check rerun through R, scope ok. Sent to the gate with an audit.
+- 2026-10-28 card 95 reviews-status audit: one Low finding (host guard checks name, not resolved address); filed as Next card reviews-ssrf-resolve rather than parking, per rubric (security, no person needed).

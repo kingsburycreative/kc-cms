@@ -1413,5 +1413,22 @@
     "verified_at": "2026-10-28T17:56:17.344Z",
     "tree": "e2d969e30add08032361c9911b8e6c07f4bbc268d54e41b37c85375166b3c640",
     "gate": "full"
+  },
+  {
+    "id": "95",
+    "title": "reviews-status-audit",
+    "brief": ".claude/work/95-reviews-status-audit/brief.md",
+    "start_sha": "aab97db4634a9c2e8bc813c4257210d0eda23eff",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T18:04:33.172Z",
+      "start_sha": "aab97db4634a9c2e8bc813c4257210d0eda23eff",
+      "mutation_evidence": false,
+      "tree": "e2d969e30add08032361c9911b8e6c07f4bbc268d54e41b37c85375166b3c640",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-28T18:04:34.697Z",
+    "tree": "e2d969e30add08032361c9911b8e6c07f4bbc268d54e41b37c85375166b3c640",
+    "gate": "full"
   }
 ]
