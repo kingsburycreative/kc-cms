@@ -11,6 +11,12 @@ dislike `+`).
 To cut a release: bump `version` in package.json and package-lock.json, add a
 section here, merge, deploy, then tag the deployed commit.
 
+## 2.1.8+kc.3 (2026-10-28)
+
+- Media: deleting a file is refused while anything still uses it, checked across every path in `.pages.yml` (single files, collections and their subfolders) and the site's code under `src/`.
+- Insights: KC staff with admin rights on a repo set its GA4, Cloudflare and Pages IDs from the staff strip; an ID already used by another site is refused.
+- Dashboard: a Dashboard link heads the sidebar; quick actions are buttons; Media, Insights and the live-site link stay in place with a "not set up yet" note; empty panels say whether analytics is not connected yet or could not load.
+
 ## 2.1.8+kc.2 (2026-10-27)
 
 - Security: GitHub sign-ins need a verified email; the post-sign-in redirect accepts only same-origin paths; saves over 1 MB are refused before validation, with a plain message in the editor; nodemailer 10.2.1.
