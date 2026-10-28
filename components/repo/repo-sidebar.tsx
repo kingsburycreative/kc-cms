@@ -18,6 +18,7 @@ import { dashboardName, viewFor } from "@/kc/client-view";
 import { BRAND_MARK } from "@/kc/brand";
 import { shortHref } from "@/kc/short-url";
 import { groupNavigation } from "@/kc/sidebar-groups";
+import { isDashboardActive } from "@/kc/sidebar-dashboard";
 import { isCacheEnabled, isConfigEnabled } from "@/lib/config";
 import { getRootActions } from "@/lib/actions";
 import { getVisits } from "@/lib/tracker";
@@ -71,6 +72,7 @@ import {
   FileStack,
   FileText,
   FolderOpen,
+  LayoutDashboard,
   ListVideo,
   LogOut,
   Moon,
@@ -593,7 +595,33 @@ export function RepoSidebar({ hasInsights = false }: { hasInsights?: boolean }) 
     );
   };
 
+  const dashboardHref = config
+    ? shortHref(`/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}`)
+    : null;
+
   const groups = [
+    dashboardHref
+      ? (
+        <SidebarGroup key="Dashboard">
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild isActive={isDashboardActive(pathname, dashboardHref)}>
+                  <Link
+                    href={dashboardHref}
+                    onClick={handleNavigation}
+                    aria-current={isDashboardActive(pathname, dashboardHref) ? "page" : undefined}
+                  >
+                    <LayoutDashboard className="size-4" />
+                    <span>Dashboard</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      )
+      : null,
     renderNavigationGroup("Content", groupNavigation(contentNavigation, pathname, getNodeHref).nodes as NavigationNode[]),
     renderNavigationGroup("Media", mediaNavigation),
     rootActions.length > 0 && config
