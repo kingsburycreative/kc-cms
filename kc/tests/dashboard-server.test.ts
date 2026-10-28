@@ -61,6 +61,20 @@ test("no sources keeps the heading and a null series renders the fallback, not a
   assert.match(server, /VISITS_FALLBACK = "Visit numbers aren't available right now\."/);
 });
 
+test("the visits panel and every stat box use the panel state, with the staff link for staff only", () => {
+  const v = body("VisitsPanel");
+  assert.match(v, /panelState\(\{ configured: !!sources, ok: view\.ok, staff: !!ctx && hasGithubIdentity\(ctx\.user as User\) \}\)/);
+  assert.match(v, /state\.kind === "not-set-up" \? NOT_SET_UP : COULD_NOT_LOAD/);
+  assert.match(v, /state\.kind === "not-set-up" && state\.staffLink && <StaffLink \/>/);
+  assert.match(v, /<StatTiles [^>]*state=\{state\}/);
+  const tiles = server.slice(server.indexOf("export function StatTiles"), server.indexOf("export async function VisitsPanel"));
+  assert.equal((tiles.match(/<Tile [^\n]*state=\{state\} \/>/g) ?? []).length, 3);
+  const tile = server.slice(server.indexOf("function Tile("), server.indexOf("export function duration"));
+  assert.match(tile, /state\.kind === "not-set-up" \? TILE_NOT_SET_UP : TILE_COULD_NOT_LOAD/);
+  assert.match(tile, /state\.kind === "not-set-up" && state\.staffLink && <StaffLink \/>/);
+  assert.match(server, /<aside id="analytics-ids"/);
+});
+
 test("search health reads collections and single pages after the read check into siteHealth", () => {
   const s = body("SearchHealthPanel");
   assert.ok(s.indexOf("readUser(ref)") < s.indexOf("healthEntries("));

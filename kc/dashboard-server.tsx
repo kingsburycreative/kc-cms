@@ -20,6 +20,7 @@ import { fetchPublishStatus } from "./publish/status-fetch.ts";
 import { publishLine } from "./publish/status.ts";
 import { healthEntries, pageName } from "./dashboard.ts";
 import { shortHref } from "./short-url.ts";
+import { COULD_NOT_LOAD, NOT_SET_UP, STAFF_LINK_HREF, STAFF_LINK_TEXT, TILE_COULD_NOT_LOAD, TILE_NOT_SET_UP, panelState, type PanelState } from "./panel-state.ts";
 import { rangeChange, sparkPath, weekSummary, type RangeChange } from "./dashboard-visits.ts";
 
 export const VISITS_FALLBACK = "Visit numbers aren't available right now.";
@@ -77,8 +78,21 @@ function delta(change: RangeChange["change"]): ReactNode {
   );
 }
 
-function Tile({ label, value, change, spark }: { label: string; value: number | string | null; change?: RangeChange["change"]; spark?: number[] }) {
+function StaffLink() {
+  return <a href={STAFF_LINK_HREF} className="mt-1 inline-flex min-h-11 items-center text-sm underline underline-offset-4">{STAFF_LINK_TEXT}</a>;
+}
+
+function Tile({ label, value, change, spark, state }: { label: string; value: number | string | null; change?: RangeChange["change"]; spark?: number[]; state?: PanelState }) {
   const path = sparkPath(spark ?? []);
+  if (state && state.kind !== "data") {
+    return (
+      <li className="flex flex-col gap-1 rounded-lg border p-4">
+        <span className="text-sm text-muted-foreground">{label}</span>
+        <span className="text-sm text-muted-foreground">{state.kind === "not-set-up" ? TILE_NOT_SET_UP : TILE_COULD_NOT_LOAD}</span>
+        {state.kind === "not-set-up" && state.staffLink && <StaffLink />}
+      </li>
+    );
+  }
   return (
     <li className="flex flex-col gap-1 rounded-lg border p-4">
       <span className="text-sm text-muted-foreground">{label}</span>
@@ -98,7 +112,7 @@ export function duration(seconds: number): string {
   return s < 60 ? `${s}s` : `${Math.floor(s / 60)}m ${s % 60}s`;
 }
 
-export function StatTiles({ days, engagementSeconds }: { days: SeriesPoint[] | null; engagementSeconds: number | null }) {
+export function StatTiles({ days, engagementSeconds, state }: { days: SeriesPoint[] | null; engagementSeconds: number | null; state?: PanelState }) {
   const visits = days ? rangeChange(days, 30, "visits") : null;
   const views = days ? rangeChange(days, 30, "views") : null;
   const recent = days?.slice(-30);
@@ -106,9 +120,9 @@ export function StatTiles({ days, engagementSeconds }: { days: SeriesPoint[] | n
     <section aria-labelledby="kpis-h" className={FADE}>
       <h2 id="kpis-h" className="sr-only">Last 30 days compared with the 30 before</h2>
       <ul className="grid gap-3 min-[480px]:grid-cols-3 @[900px]:grid-cols-1">
-        <Tile label="Visitors" value={visits ? visits.last : null} change={visits?.change} spark={recent?.map((d) => d.visits)} />
-        <Tile label="Pages viewed" value={views ? views.last : null} change={views?.change} spark={recent?.map((d) => d.views)} />
-        <Tile label="Time on site" value={engagementSeconds ? duration(engagementSeconds) : null} />
+        <Tile label="Visitors" value={visits ? visits.last : null} change={visits?.change} spark={recent?.map((d) => d.visits)} state={state} />
+        <Tile label="Pages viewed" value={views ? views.last : null} change={views?.change} spark={recent?.map((d) => d.views)} state={state} />
+        <Tile label="Time on site" value={engagementSeconds ? duration(engagementSeconds) : null} state={state} />
       </ul>
       <p className="mt-2 text-xs text-muted-foreground">Last 30 days against the 30 before.</p>
     </section>
@@ -141,14 +155,20 @@ export async function VisitsPanel(ref: RepoRef) {
       ])
     : [null, null];
   const view = visitsView(series);
+  const state = panelState({ configured: !!sources, ok: view.ok, staff: !!ctx && hasGithubIdentity(ctx.user as User) });
   const engagement = site?.ok ? site.detail?.engagement.averageSeconds ?? null : null;
   return (
     <div className="grid grid-cols-1 gap-4 @[900px]:grid-cols-3">
       <section aria-labelledby="visits-h" className={`${PANEL} @[900px]:col-span-2`}>
         <h2 id="visits-h" className={H2}>Visits</h2>
-        {view.ok ? <div className="mt-3"><DashboardVisits days={view.days} insightsHref={shortHref(`/${ref.owner}/${ref.repo}/${encodeURIComponent(ref.branch)}/insights`)} /></div> : <p className="mt-2 text-sm text-muted-foreground">{view.sentence}</p>}
+        {view.ok ? <div className="mt-3"><DashboardVisits days={view.days} insightsHref={shortHref(`/${ref.owner}/${ref.repo}/${encodeURIComponent(ref.branch)}/insights`)} /></div> : (
+          <>
+            <p className="mt-2 text-sm text-muted-foreground">{state.kind === "not-set-up" ? NOT_SET_UP : COULD_NOT_LOAD}</p>
+            {state.kind === "not-set-up" && state.staffLink && <StaffLink />}
+          </>
+        )}
       </section>
-      <StatTiles days={view.ok ? view.days : null} engagementSeconds={engagement} />
+      <StatTiles days={view.ok ? view.days : null} engagementSeconds={engagement} state={state} />
     </div>
   );
 }
@@ -319,7 +339,7 @@ export async function StaffStrip({ user, ...ref }: RepoRef & { user: User }) {
     ["Cloudflare", [sources?.cf && `Site ${sources.cf}`, sources?.pages && `Pages ${sources.pages}`].filter(Boolean).join(", ") || "Not set up"],
   ];
   return (
-    <aside aria-labelledby="staff-h" className={`rounded-lg border border-dashed p-4 text-sm ${FADE}`}>
+    <aside id="analytics-ids" aria-labelledby="staff-h" className={`rounded-lg border border-dashed p-4 text-sm ${FADE}`}>
       <h2 id="staff-h" className={H2}>Staff only</h2>
       <dl className="mt-2 grid gap-1 @[600px]:grid-cols-2">
         {rows.map(([term, value]) => (

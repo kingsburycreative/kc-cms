@@ -4,7 +4,6 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
-- **panel-setup-pending** (Normal; Rob, 2026-10-27): empty panels on the dashboard (Henike's Visits card, the "Not available" boxes, `VISITS_FALLBACK` and `NOT_AVAILABLE` in `kc/dashboard-server.tsx`) show blank space or a bare phrase. Give each a proper setup-pending state: the panel keeps its heading and size, says in one plain sentence that it starts showing numbers once analytics is connected, and for staff only links to the staff strip's analytics IDs form (insights-keys-editor). Distinguish "not set up" (no IDs) from "couldn't load" (IDs set, fetch failed). Copy through the prose skill, then avoid-ai-writing and humanizer; UI through avoid-ai-design, mobile first. Done-test: extend `kc/tests/dashboard-server.test.ts` covering no IDs giving the setup-pending state, IDs with a failed fetch giving the could-not-load state, and the staff link shown to staff only; suite, tsc, eslint exit 0. Mutation: collapse both states into one; show the staff link to clients.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -49,6 +48,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **panel-setup-pending** (84): dashboard Visits panel and stat boxes say "not set up" with no analytics IDs and "couldn't load" when the fetch fails; staff get a link to the staff strip. Users without insights access see the not-set-up state. Not seen in a browser.
 - **sidebar-not-set-up** (83): sites missing media or insights config keep the Media and Site sidebar groups with a muted "Not set up yet" line, and no kc.site shows the same text in the live-site slot; configured insights without access stays hidden. Not seen in a browser at 375px.
 - **dashboard-action-buttons** (82): dashboard quick actions are secondary Buttons around Link, one weight, 44px, stacked on a phone and a wrapping row from 600px. avoid-ai-design was not run; not seen in a browser.
 - **sidebar-dashboard-link** (81): the sidebar opens with a Dashboard link to the branch root, current on the dashboard only. Not seen in a browser.

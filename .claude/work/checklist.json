@@ -1226,5 +1226,22 @@
     "verified_at": "2026-10-28T04:24:29.564Z",
     "tree": "fde3b51353b111b1be64d17117c3fc99d486dcd21ae3e5a079396d616f000a27",
     "gate": "full"
+  },
+  {
+    "id": "84",
+    "title": "panel-setup-pending",
+    "brief": ".claude/work/84-panel-setup-pending/brief.md",
+    "start_sha": "96a06e7ec233933a91af8cbc45a488a0bde9d0f4",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T04:29:30.926Z",
+      "start_sha": "96a06e7ec233933a91af8cbc45a488a0bde9d0f4",
+      "mutation_evidence": true,
+      "tree": "2f0c38e57bb783f03364196e243f08df895a6d839a75fccc8d3b398057e5dc32",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-28T04:30:05.339Z",
+    "tree": "2f0c38e57bb783f03364196e243f08df895a6d839a75fccc8d3b398057e5dc32",
+    "gate": "full"
   }
 ]
