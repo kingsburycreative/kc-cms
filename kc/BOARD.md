@@ -2,6 +2,8 @@
 
 ## Now
 
+- **reviews-status** (Risky; Henike shipped `https://henike-contracting.pages.dev/reviews-status.json` on 2026-10-28, card 127 ff0edf1, audit 7954f48: exactly four keys, source typed|hidden, live reserved): a dashboard line read server-side from the live site's `/reviews-status.json` (`{ source: live|typed|hidden, rating, count, asOf, error? }`), configured origin only, fixed path, short timeout, size cap, cached like Insights. Says where the rating comes from, and nudges when typed numbers are over 6 months old. Copy through prose.
+
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
@@ -11,7 +13,6 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 ## Next
 
 - **gbp-reviews** (Risky, waits on Google Business Profile API access for KC's Cloud project): optional live rating for clients who add KC as a manager on their profile. Business Profile API, free, needs approval (applicant manages a profile verified 60+ days). Weekly rebuild, stored values never older than 30 days, Google's attribution as provided. Typed numbers stay the default and the fallback. Status file gains `source: live` again. Research: `scratchpad gbp-research/progress.md`, 2026-10-28.
-- **reviews-status** (Risky, waits on the Henike reviews module, cards 127 and 128 there): a dashboard line read server-side from the live site's `/reviews-status.json` (`{ source: live|typed|hidden, rating, count, asOf, error? }`), configured origin only, fixed path, short timeout, size cap, cached like Insights. Says where the rating comes from, and nudges when typed numbers are over 6 months old. Copy through prose.
 - **short-url-polish** (card 54 audit C, D, F): other owners rewritten into kingsburycreative (kc/short-url.ts:84-88); reserved test misses dotless route files (short-url-reserved.test.ts:13); 308 cached on rollback.
 - **44**: Edit markers on the visits chart, after launch (`.claude/work/39-plan-dashboard/plan.md` card 44)
 - **45**: PDF downloads per paper, after launch (`.claude/work/39-plan-dashboard/plan.md` card 45)
