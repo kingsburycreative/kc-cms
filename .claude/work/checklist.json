@@ -1430,5 +1430,22 @@
     "verified_at": "2026-10-28T18:04:34.697Z",
     "tree": "e2d969e30add08032361c9911b8e6c07f4bbc268d54e41b37c85375166b3c640",
     "gate": "full"
+  },
+  {
+    "id": "96",
+    "title": "reviews-ssrf-resolve",
+    "brief": ".claude/work/96-reviews-ssrf-resolve/brief.md",
+    "start_sha": "6b8ff6b982a96f3d0ce99634563073f4ff620fb3",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T18:14:03.263Z",
+      "start_sha": "6b8ff6b982a96f3d0ce99634563073f4ff620fb3",
+      "mutation_evidence": true,
+      "tree": "3685b26d7199ca9d61d8e67773399b69bf74b76e362452e2d6f78c5188202311",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-28T18:15:04.943Z",
+    "tree": "3685b26d7199ca9d61d8e67773399b69bf74b76e362452e2d6f78c5188202311",
+    "gate": "full"
   }
 ]

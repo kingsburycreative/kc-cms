@@ -2,7 +2,6 @@
 
 ## Now
 
-- **reviews-ssrf-resolve** (Risky, audit F1 from card 95, `.claude/work/95-reviews-status-audit/result.md`): `kc/reviews/status-fetch.ts` checks the host by name only, so a kc.site like `https://10.0.0.5.nip.io` makes the server connect to an internal address. Resolve the host before connecting: node:https with a `lookup` hook that rejects IANA special-purpose ranges (v4 and v6, via net.BlockList) and connects to the address it checked, so a second lookup cannot swap it. Tests: a name resolving to a private, loopback, link-local or mapped address is refused; a public one passes; plus the audit's O1, a hanging fetch aborts at 5 s. Keep the existing redirect, size cap, cache and log behaviour.
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
@@ -51,6 +50,8 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 
 ## Done
+
+- **96 reviews-ssrf-resolve**: the reviews fetch resolves the host, refuses special-purpose addresses and connects to the address it checked; hanging fetch aborts.
 
 - **reviews-status-line** (94): the dashboard shows one muted line under the client name saying whether the review rating is typed in, hidden or set to follow reviews, plus a six-month nudge for old typed figures; nothing when kc.site is missing or the status is unknown. Shimmer skeleton while it loads. Not seen in a browser.
 - **reviews-status-fetch** (93): kc/reviews/ fetches a site's /reviews-status.json from the kc.site origin only (https, public hostname, default port, no redirects, 5 s timeout, 16 KB cap), validates the five keys, caches by origin, and maps it to a source-line key with a six-month stale flag for typed figures. DNS rebinding is still open for the feature audit. Not wired into the dashboard yet.

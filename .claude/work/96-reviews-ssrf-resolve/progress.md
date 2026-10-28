@@ -1,0 +1,1 @@
+- Wrote kc/reviews/safe-lookup.ts, edited status-fetch.ts, added kc/tests/reviews-ssrf.test.ts. Next: run done-test, mutation.

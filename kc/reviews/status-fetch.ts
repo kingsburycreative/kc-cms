@@ -2,8 +2,13 @@
 // which the client can edit, so only a public https hostname is fetched, at
 // its origin plus a fixed path, with no redirects, a timeout and a size cap.
 // Any failure gives "unknown" and one fixed warn line with no URL. Never throws.
-// DNS rebinding is not closed here; the security audit owns that call.
+// The default fetch goes through safeLookup: every resolved address is checked
+// against the special-purpose ranges and the socket gets that exact address,
+// so a name pointing inside, or rebinding between checks, is refused.
+import { request } from "node:https";
 import { isIP } from "node:net";
+import { Readable } from "node:stream";
+import { createSafeLookup } from "./safe-lookup.ts";
 import { createCache } from "../insights/route.ts";
 import { reviewsLine, validateReviewsStatus, type ReviewsLine, type ReviewsStatus } from "./status.ts";
 
@@ -61,6 +66,27 @@ async function readCapped(res: Awaited<ReturnType<ReviewsFetchLike>>): Promise<s
   return Buffer.concat(chunks).toString("utf8");
 }
 
+const safeLookup = createSafeLookup();
+
+// node:https with the pinned lookup. A 3xx is not followed and is not ok.
+export const httpsFetch: ReviewsFetchLike = (url, init) =>
+  new Promise((resolve, reject) => {
+    const req = request(
+      url,
+      { method: "GET", headers: init.headers, signal: init.signal, lookup: safeLookup as any, agent: false },
+      (res) => {
+        const code = res.statusCode ?? 0;
+        resolve({
+          ok: code >= 200 && code < 300,
+          headers: { get: (n) => { const v = res.headers[n.toLowerCase()]; return typeof v === "string" ? v : null; } },
+          body: Readable.toWeb(res) as unknown as ReadableStream<Uint8Array>,
+        });
+      },
+    );
+    req.on("error", reject);
+    req.end();
+  });
+
 const defaultCache = createCache<ReviewsStatus>();
 
 export async function fetchReviewsStatus(
@@ -70,24 +96,30 @@ export async function fetchReviewsStatus(
     cache?: ReturnType<typeof createCache<ReviewsStatus>>;
     now?: () => Date;
     warn?: (line: string) => void;
+    timeoutMs?: number;
   } = {},
 ): Promise<ReviewsLine> {
-  const { cache = defaultCache, now = () => new Date(), warn = (line) => console.warn(line) } = opts;
+  const { cache = defaultCache, now = () => new Date(), warn = (line) => console.warn(line), timeoutMs = TIMEOUT_MS } = opts;
   const url = reviewsUrl(site);
   if (!url) return { state: "unknown" };
-  const fetchFn = opts.fetchImpl ?? (fetch as unknown as ReviewsFetchLike);
+  const fetchFn = opts.fetchImpl ?? httpsFetch;
   try {
     // Keyed by origin: a failure throws inside load, so it is not cached.
     const status = await cache(url, async () => {
-      const res = await fetchFn(url, {
-        signal: AbortSignal.timeout(TIMEOUT_MS),
-        redirect: "error",
-        headers: { accept: "application/json" },
-      });
-      if (!res.ok) throw new Error("status");
-      const valid = validateReviewsStatus(JSON.parse(await readCapped(res)), now());
-      if (!valid) throw new Error("malformed");
-      return valid;
+      const signal = AbortSignal.timeout(timeoutMs);
+      // The race ends the wait even when a fetch ignores the signal.
+      const aborted = new Promise<never>((_, reject) =>
+        signal.addEventListener("abort", () => reject(new Error("timeout")), { once: true }),
+      );
+      aborted.catch(() => {});
+      const load = async () => {
+        const res = await fetchFn(url, { signal, redirect: "error", headers: { accept: "application/json" } });
+        if (!res.ok) throw new Error("status");
+        const valid = validateReviewsStatus(JSON.parse(await readCapped(res)), now());
+        if (!valid) throw new Error("malformed");
+        return valid;
+      };
+      return Promise.race([load(), aborted]);
     });
     return reviewsLine(status, now());
   } catch {
