@@ -1,0 +1,1 @@
+- Read brief and files. Plan: tree-based loader in kc/media-refs.ts, route call swaps readDir for githubRepoReader. Next: write code.

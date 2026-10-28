@@ -14,8 +14,8 @@ import { checkFilesBody } from "@/kc/save-size";
 import { getToken } from "@/lib/token";
 import { assertBranchAllowed } from "@/kc/branch-lock-server";
 import { clientMayDelete, isSingleFilePath } from "@/kc/content-ops";
-import { updateFileCache, getCollectionCache } from "@/lib/github-cache-file";
-import { assertMediaUnused } from "@/kc/media-refs";
+import { updateFileCache } from "@/lib/github-cache-file";
+import { assertMediaUnused, githubRepoReader } from "@/kc/media-refs";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import mergeWith from "lodash.mergewith";
 import { buildCommitTokens, resolveCommitIdentity, resolveCommitMessage } from "@/lib/commit-message";
@@ -528,7 +528,7 @@ export async function DELETE(
         if (!normalizedPath.startsWith(schema.input)) throw new Error(`Invalid path "${params.path}" for media "${name}".`);
 
         if (!isMediaPathAllowed(normalizedPath, schema.extensions)) throw new Error(`Invalid extension "${getFileExtension(normalizedPath)}" for media.`);
-        await assertMediaUnused(normalizedPath, schema, config.object.content, (dir) => getCollectionCache(params.owner, params.repo, params.branch, dir, token), createHttpError);
+        await assertMediaUnused(normalizedPath, schema, config.object.content, githubRepoReader(createOctokitInstance(token), params.owner, params.repo, params.branch), createHttpError);
         break;
     }
 

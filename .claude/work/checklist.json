@@ -1141,5 +1141,22 @@
     "verified_at": "2026-10-28T02:05:06.859Z",
     "tree": "1edc234c6f0fe41ddfaa81cd7fbc7f301113bebb32ec3c6d1640f9079d531793",
     "gate": "full"
+  },
+  {
+    "id": "79",
+    "title": "media-refs-wide",
+    "brief": ".claude/work/79-media-refs-wide/brief.md",
+    "start_sha": "4cf23b033e3357be5df67370431c13fcac9b9c34",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T03:51:26.595Z",
+      "start_sha": "4cf23b033e3357be5df67370431c13fcac9b9c34",
+      "mutation_evidence": true,
+      "tree": "32473ccaaf51ea8555f4a282269ddf4a59d1432a574fa6a236e7bdf6d239925b",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-28T03:53:18.766Z",
+    "tree": "32473ccaaf51ea8555f4a282269ddf4a59d1432a574fa6a236e7bdf6d239925b",
+    "gate": "full"
   }
 ]

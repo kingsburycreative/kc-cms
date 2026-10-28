@@ -190,3 +190,4 @@
 - 2026-10-27 nodemailer-major parked: suite red on main (CHANGELOG-KC.md unclaimed by the customizations register after PR 79). Work on wip/nodemailer-major-10. Queued register-changelog at the top of Now.
 - 2026-10-27 register-changelog (76): Sonnet worker, Small, scope ok with mutation evidence, diff is one line in the register. Sent to the gate.
 - 2026-10-27 save-size-cap (77): call: uploads are JSON base64 on the same /files/ route as saves, so the proxy allows /files/ to 25 MB and the route refuses non-media over 1 MB before zod. Opus worker, two rounds (round one stopped for a missing test file in the list). Scope ok with mutation evidence, diff read, no fixture over 256 KB. Worker's call: a DELETE without a body needs no Content-Length. Sent to the gate with an audit.
+- 2026-10-27 media-refs-wide (79): Opus worker, scope ok with mutation evidence, diff read; route now reads the repo through one recursive tree call. Sent to the gate with an audit.
