@@ -11,6 +11,12 @@ dislike `+`).
 To cut a release: bump `version` in package.json and package-lock.json, add a
 section here, merge, deploy, then tag the deployed commit.
 
+## 2.1.8+kc.6 (2026-10-28)
+
+- Dashboard: a line says where the site's review rating comes from, read from the live site's `/reviews-status.json`, and asks for a check when a typed rating is over six months old.
+- Security: that check only connects to public addresses; a site address that resolves inside our network is refused.
+- Copy: plainer wording on the staff messages for analytics IDs.
+
 ## 2.1.8+kc.5 (2026-10-28)
 
 - Fix: after a save, changing a field back to its earlier value counts as a change, so Save works without a page reload.
