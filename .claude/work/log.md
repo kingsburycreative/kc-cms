@@ -200,3 +200,5 @@
 - Rubric basis: clear-cut, the release Rob asked for.
 - Parked (needs Rob): phone and desktop screenshots of BeSciWorks and Henike. Chrome's screenshot timed out three times (renderer unresponsive, likely the window minimized or hidden); page text loaded fine. Retake with Chrome in front.
 - 2026-10-28 save-baseline (90): Sonnet worker, scope ok with mutation evidence, diff read (entry.tsx onSubmit now returns true or false; entry-form resets the baseline after a good save, keepValues). No risky path. Sent to the gate.
+
+- 2026-10-28 keys-copy-pass (92) parked: gate green with clean audit, but R --pass refused because another window committed the Session 20 handoff (#95) to main during the gate. Work on wip/92-keys-copy-pass, cut from 3e34173. Needs a rebase and regate; two windows on one branch is the cause.
