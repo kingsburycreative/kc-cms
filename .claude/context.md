@@ -1,8 +1,8 @@
 ---
-session: 18
+session: 19
 last_updated: 2026-10-27
-continue_with: Review and merge PR #91 (media-delete guard, gated green, no CI on the repo). When the Henike session reports .pages.yml on its main, Rob reviews the Henike CMS himself; no invite to the Henike client until he says go. Then run the customization-guard plan (now local pre-push hooks, no Actions) from card 05.
-blockers: Henike invite held by Rob until his own review. Henike dashboard has deploys only (no GA4 property yet, DNS still at easyDNS so no Cloudflare zone); Rob makes the GA4 property. Pitt St BBQ has no .pages.yml on any branch, so Josh's invite waits on the Pitt St session. Cards 53, 19, 20 wait on card 06. Box changes still Rob's (proxy-rewrite-origin `-H localhost`, nginx limit_req).
+continue_with: Run the loop on card insights-keys-editor (top of Now), release it as 2.1.8+kc.3 (bump, CHANGELOG-KC.md, tag kc-2.1.8.3) and deploy with Rob's OK; then test it end to end on Henike (Rob creates the GA4 property and Cloudflare Web Analytics site, the Henike session adds both tags, Rob enters the IDs in the staff area). After that, plan the module system.
+blockers: Henike client invite held until Rob reviews the Henike CMS himself and says go. Pitt St BBQ has no .pages.yml on any branch, so Josh's invite waits on the Pitt St session. Cards 53, 19, 20 wait on card 06. Box changes still Rob's (proxy-rewrite-origin `-H localhost`, nginx limit_req).
 ---
 
 
@@ -11,21 +11,23 @@ blockers: Henike invite held by Rob until his own review. Henike dashboard has d
 Self-hosted fork of Pages CMS (upstream hunvreus/pagescms), KC-branded, with an Insights view. Our repo is origin kingsburycreative/kc-cms; always pass `-R kingsburycreative/kc-cms` to `gh`. Issues are disabled on the repo; loose ends live on the board (`kc/BOARD.md`). Handoffs land through a `chore/session-N-handoff` PR.
 
 ## Recent sessions
-- **Session 18 (2026-10-27, unattended loop, 1 card):** media-delete-guard (78) gated green with the security audit passing: deleting a media file that content still uses gets a 409 naming up to five pages. Nested collection subfolders are not searched yet and code references do not block. Open as PR #91, not merged.
-- **Session 17 (2026-10-27, in window):** released and deployed 2.1.8+kc.1 and 2.1.8+kc.2 (sweep fixes, Next 16.4.3, save-size cap with a friendly editor message, nodemailer 10.2.1), tagged `kc-2.1.8.1` and `kc-2.1.8.2`. Version scheme is upstream plus `+kc.N` (`CHANGELOG-KC.md`). zod stays on 3; its memory hole is closed by the 1 MB /api cap (413, tested live). Customization guard re-planned twice: client entries in the private repo, and it runs as local pre-push hooks on Rob's PC (no Actions, no schedule, no token, no branch protection), because every risky change comes from Rob at this PC and clients have no GitHub access (checked: client repos private, no outside collaborators, Rob the only member). Found the kc-cms GitHub App only covered kc-test-site and besciworks; Rob added henike-contracting and pittstbbq. Neither has a `.pages.yml` on main yet.
-- **Session 16 (2026-10-27, unattended loop, 3 cards):** register-changelog, nodemailer-major and save-size-cap gated green; merged in session 17 as PR #87.
+- **Session 19 (2026-10-27, in window):** media-delete guard (PR #91) merged and deployed live as `891a106`; the version label still reads 2.1.8+kc.2, so kc.3 ships with the key editor. Carded insights-keys-editor: staff set a site's analytics IDs in the CMS, stored in a new table (project.md allows that card one migration), writes limited to GitHub repo admins because `hasGithubIdentity` lets any GitHub login through. Decided: analytics IDs are not secrets and live in the CMS; Infisical keeps only the shared Google service account key and Cloudflare token. GA4 and Cloudflare Web Analytics both work by script tag, no DNS move needed (the Cloudflare side is unchecked against our code). Henike's `.pages.yml` is on its main now but has no `kc:` or `media:` block and only the posts collection; the Henike session has BeSciWorks' keys to copy. The CMS has no language switch: EN/FR is two entries per section unless Rob asks for a real toggle.
+- **Session 18 (2026-10-27, unattended loop, 1 card):** media-delete-guard gated green with the security audit passing: a 409 naming up to five pages. Nested collection subfolders are not searched yet and code references do not block.
+- **Session 17 (2026-10-27, in window):** released 2.1.8+kc.1 and kc.2 (sweep fixes, Next 16.4.3, 1 MB /api save cap closing the zod hole, nodemailer 10.2.1). Customization guard re-planned as local pre-push hooks on Rob's PC (no Actions). Rob added henike-contracting and pittstbbq to the kc-cms GitHub App.
+
+## Module system (Rob, 2026-10-27, next big piece)
+Every feature (EN/FR, academic papers, image gallery, payments with a provider abstraction so Pitt St's work carries to the next shop) becomes a module that a new project adds, not copies: site-side code, its matching `.pages.yml` block, and tests. Home is `kc-framework`, tied to Rob's `../ui-library`. Start with a planner pass that extracts what BeSciWorks, Chris Ward, Henike and Pitt St already built, plus modules upcoming projects will need. Most of it lives outside this repo; only the CMS setup blocks touch it.
 
 ## What exists
-- Agent-loop setup: `.claude/project.md`, board `kc/BOARD.md`, `.claude/work/`. Plans: client experience `15-plan-client-experience`, customization guard `66-plan-customization-guard` (cards 01, 02 done; 03 and old 07, 11, 13 dropped; 05 to 15 rewritten for local hooks; 08 to 11 run in the private repo's loop). Sweep findings in the private repo (`D:\Dev\htdocs\kc-cms\audits\2026-10-27-sweep\`); never copy them here.
-- Live on the box: release `183d3a5`, 2.1.8+kc.2. Deploy is `server/deploy.sh <sha>` from the private repo, coordinator only, after Rob allows it per release.
-- Clients on the GitHub App: kc-test-site, besciworks, henike-contracting, pittstbbq.
+- Agent-loop setup: `.claude/project.md`, board `kc/BOARD.md`, `.claude/work/`. Plans: client experience `15-plan-client-experience`, customization guard `66-plan-customization-guard` (local hooks; 08 to 11 run in the private repo's loop; a Henike entry still to add). Sweep findings in the private repo (`D:\Dev\htdocs\kc-cms\audits\2026-10-27-sweep\`); never copy them here.
+- Live on the box: `891a106`, labelled 2.1.8+kc.2. Deploy is `server/deploy.sh <sha>` from the private repo, coordinator only, after Rob allows it per release.
+- Clients on the GitHub App: kc-test-site, besciworks, henike-contracting, pittstbbq. Insights shows Pages deploys only alongside `ga` or `cf` (`kc/insights/map.ts`).
 
 ## Pending
-- Henike: guard entry to add to the plan (its config lands on main via the Henike session); Insights map entry `pages: henike-contracting` to add on the box once main has the config; `ga` once Rob makes the property, `cf` after the DNS move.
-- Card idea: show "Create configuration file" to staff only; a client landing on a repo with no config sees that button now.
+- Card idea: show "Create configuration file" to staff only. Card idea: adding a client connects its repo to the App automatically (needs a classic token from Rob, kept in Infisical; fits the private repo's add-site card 09).
 - Rob: card 06 decision for 53, 19, 20; whether to scrub client names already in this public repo.
-- Unchecked: the friendly 413 message in a browser; whether the Cloudflare token has Pages read; staff strip shows to any GitHub login.
+- Unchecked: the friendly 413 message in a browser; whether the Cloudflare token has Pages read.
 
 ## To Resume
-Session 19. main at 5284843 plus this handoff; PR #91 open (media-delete guard).
-THIS WINDOW: merge PR #91 through a background agent, then wait for the Henike session's "config on main" message, add Henike's Insights entry, let Rob review; no invite without his go. Then run the loop on customization-guard cards 05 to 07.
+Session 20. main at 891a106 plus this handoff; no open PRs.
+THIS WINDOW: `node .claude/bin/claude-loop.cjs --max-cards 1` for insights-keys-editor, merge and release kc.3 with Rob's OK, then the Henike end-to-end key test. Then a planner pass for the module system.
