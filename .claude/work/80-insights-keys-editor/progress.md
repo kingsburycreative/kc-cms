@@ -1,0 +1,5 @@
+- started; read brief and files
+- table, migration 0014, snapshot, journal done; next map.ts + keys.ts
+- map.ts reader, keys*.ts, form, callers awaited, register entry, test written; next run tests
+- tests green, mutation done (both caught); next tsc/eslint, result.md
+- round 2: staff check + ID reuse check in keys.ts, keys-db.ts, keys-action.ts; 4 tests; mutations caught; green; result.md updated

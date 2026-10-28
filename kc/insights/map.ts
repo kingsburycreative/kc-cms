@@ -11,13 +11,13 @@ type Read = (path: string) => string;
 
 const readText: Read = (path) => readFileSync(path, "utf8");
 
-const gaId = (id: unknown): string | undefined => {
+export const gaId = (id: unknown): string | undefined => {
   const value = typeof id === "number" ? String(id) : id;
   return typeof value === "string" && /^\d+$/.test(value) ? value : undefined;
 };
-const siteTag = (tag: unknown): string | undefined =>
-  typeof tag === "string" && tag.trim() !== "" ? tag.trim() : undefined;
-const pagesProject = (name: unknown): string | undefined =>
+export const siteTag = (tag: unknown): string | undefined =>
+  typeof tag === "string" && /^[A-Za-z0-9_-]+$/.test(tag.trim()) ? tag.trim() : undefined;
+export const pagesProject = (name: unknown): string | undefined =>
   typeof name === "string" && /^[a-z0-9-]+$/.test(name) ? name : undefined;
 
 export function parseInsightsMap(text: string): InsightsMap {
@@ -61,8 +61,19 @@ export function sourcesFor(map: InsightsMap, owner: string, repo: string): Insig
 export const propertyFor = (map: InsightsMap, owner: string, repo: string): string | null =>
   sourcesFor(map, owner, repo)?.ga ?? null;
 
-export const insightsPropertyFor = (owner: string, repo: string, read: Read = readText) =>
-  propertyFor(loadInsightsMap(process.env.KC_INSIGHTS_MAP, read), owner, repo);
+// A row in the insights_keys table wins over the file; a missing row, or a table
+// that cannot be read, falls back to the file.
+export type KeysLookup = (repo: string) => Promise<InsightsSources | null>;
+const tableLookup: KeysLookup = async (repo) => (await import("./keys-db.ts")).findInsightsKeys(repo);
 
-export const insightsSourcesFor = (owner: string, repo: string, read: Read = readText) =>
-  sourcesFor(loadInsightsMap(process.env.KC_INSIGHTS_MAP, read), owner, repo);
+export async function insightsSourcesFor(owner: string, repo: string, read: Read = readText, lookup: KeysLookup = tableLookup) {
+  let row: InsightsSources | null = null;
+  try {
+    row = await lookup(`${owner}/${repo}`.toLowerCase());
+  } catch {}
+  if (row && (row.ga || row.cf)) return row;
+  return sourcesFor(loadInsightsMap(process.env.KC_INSIGHTS_MAP, read), owner, repo);
+}
+
+export const insightsPropertyFor = async (owner: string, repo: string, read: Read = readText, lookup: KeysLookup = tableLookup) =>
+  (await insightsSourcesFor(owner, repo, read, lookup))?.ga ?? null;

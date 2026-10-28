@@ -191,3 +191,5 @@
 - 2026-10-27 register-changelog (76): Sonnet worker, Small, scope ok with mutation evidence, diff is one line in the register. Sent to the gate.
 - 2026-10-27 save-size-cap (77): call: uploads are JSON base64 on the same /files/ route as saves, so the proxy allows /files/ to 25 MB and the route refuses non-media over 1 MB before zod. Opus worker, two rounds (round one stopped for a missing test file in the list). Scope ok with mutation evidence, diff read, no fixture over 256 KB. Worker's call: a DELETE without a body needs no Content-Length. Sent to the gate with an audit.
 - 2026-10-27 media-refs-wide (79): Opus worker, scope ok with mutation evidence, diff read; route now reads the repo through one recursive tree call. Sent to the gate with an audit.
+
+- 2026-10-28 card 80 round 2: four new error strings in kc/insights/keys.ts (NOT_STAFF, TAKEN) were written by hand, not through prose/avoid-ai-writing/humanizer. Call by the rubric (security over UX): ship the security fix rather than park it over four staff-only error lines; a copy pass on them is owed. Rob may overrule.

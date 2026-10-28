@@ -210,7 +210,18 @@ const actionRunTable = pgTable("action_run", {
   idx_action_run_workflowRunId: uniqueIndex("idx_action_run_workflowRunId").on(table.workflowRunId),
 }));
 
+// KC: a site's analytics IDs, keyed by lower-cased "owner/repo". IDs only, never a key or token.
+const insightsKeysTable = pgTable("insights_keys", {
+  repo: text("repo").notNull().primaryKey(),
+  ga: text("ga"),
+  cf: text("cf"),
+  pages: text("pages"),
+  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  updatedBy: text("updated_by").notNull(),
+});
+
 export {
+  insightsKeysTable,
   userTable,
   sessionTable,
   accountTable,

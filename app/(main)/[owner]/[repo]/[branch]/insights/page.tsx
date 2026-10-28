@@ -62,7 +62,7 @@ export default async function Page(
     return <Message title="Access denied" text="You do not have permission to access this repository." />;
   }
 
-  const sources = insightsSourcesFor(owner, repo);
+  const sources = await insightsSourcesFor(owner, repo);
   if (!sources) return <Message title="Insights not set up" text="Insights aren't set up for this site yet." />;
 
   const key = readKey(process.env.KC_GA4_KEY_FILE);

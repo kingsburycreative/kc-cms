@@ -20,7 +20,7 @@ export default async function Page({
     user = (await getRepoReadContext({ owner, repo, branch })).user as User;
   } catch {}
   if (!user) return <Dashboard />;
-  const hasInsights = insightsPropertyFor(owner, repo) !== null && await getInsightsAccess(user, owner, repo);
+  const hasInsights = (await insightsPropertyFor(owner, repo)) !== null && await getInsightsAccess(user, owner, repo);
   const ref = { owner, repo, branch };
 
   return (

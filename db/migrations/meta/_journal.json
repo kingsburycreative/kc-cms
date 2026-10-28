@@ -99,6 +99,13 @@
       "when": 1792738000200,
       "tag": "0013_invite_name",
       "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "7",
+      "when": 1792800000000,
+      "tag": "0014_insights_keys",
+      "breakpoints": true
     }
   ]
 }

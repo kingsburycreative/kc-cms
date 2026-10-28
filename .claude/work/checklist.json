@@ -1158,5 +1158,22 @@
     "verified_at": "2026-10-28T03:53:18.766Z",
     "tree": "32473ccaaf51ea8555f4a282269ddf4a59d1432a574fa6a236e7bdf6d239925b",
     "gate": "full"
+  },
+  {
+    "id": "80",
+    "title": "insights-keys-editor",
+    "brief": ".claude/work/80-insights-keys-editor/brief.md",
+    "start_sha": "c7f1a1666a92a7d40da32108043e4ff4c2426c89",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T04:06:59.319Z",
+      "start_sha": "c7f1a1666a92a7d40da32108043e4ff4c2426c89",
+      "mutation_evidence": true,
+      "tree": "51482614fd6cb942c3f25fdde15dbfe5a90eb3dc8599d2969ab5811f7541980c",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-28T04:08:18.840Z",
+    "tree": "51482614fd6cb942c3f25fdde15dbfe5a90eb3dc8599d2969ab5811f7541980c",
+    "gate": "full"
   }
 ]

@@ -2,6 +2,13 @@
   "upstreamBase": "6f4e860a35d934406580287e7042e5e111e207a1",
   "entries": [
     {
+      "id": "insights-keys",
+      "title": "Staff edit a site's analytics IDs, stored in the insights_keys table",
+      "files": ["kc/insights/keys.ts", "kc/insights/keys-db.ts", "kc/insights/keys-action.ts", "kc/insights/keys-form.tsx", "db/schema.ts", "db/migrations/0014_insights_keys.sql", "db/migrations/meta/0014_snapshot.json", "db/migrations/meta/_journal.json", "app/(main)/[owner]/[repo]/[branch]/layout.tsx", "app/(main)/[owner]/[repo]/[branch]/page.tsx"],
+      "watch": ["kc/insights/keys*"],
+      "tests": ["kc/tests/insights-keys.test.ts"]
+    },
+    {
       "id": "branding",
       "title": "KC branding: name, logo, colours, page titles",
       "files": ["kc/brand.ts", "app/layout.tsx", "app/icon.svg", "app/globals.css", "components/document-title.tsx", "components/about.tsx"],

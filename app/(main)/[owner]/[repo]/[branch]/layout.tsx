@@ -98,7 +98,7 @@ export default async function Layout({
     }
   }
 
-  const hasInsights = !errorMessage && insightsPropertyFor(owner, repo) !== null && await getInsightsAccess(user, owner, repo);
+  const hasInsights = !errorMessage && (await insightsPropertyFor(owner, repo)) !== null && await getInsightsAccess(user, owner, repo);
 
   return (
     <ConfigProvider value={config}>

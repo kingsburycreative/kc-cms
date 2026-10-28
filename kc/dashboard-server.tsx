@@ -9,6 +9,7 @@ import { hasGithubIdentity } from "@/lib/authz-shared";
 import type { ReactNode } from "react";
 import type { User } from "@/types/user";
 import { insightsSourcesFor } from "./insights/map.ts";
+import { InsightsKeysForm } from "./insights/keys-form.tsx";
 import { defaultCache, defaultCloudflareCache, defaultSeriesCache, loadSeries, loadSiteInsights, readKey, seriesSiteKey } from "./insights/route.ts";
 import type { Series, SeriesPoint } from "./insights/series.ts";
 import { CountUp, DashboardVisits } from "./insights/chart.tsx";
@@ -118,7 +119,7 @@ export async function VisitsPanel(ref: RepoRef) {
   // getInsightsAccess runs before the map is read or anything is fetched.
   const ctx = await readUser(ref);
   const allowed = !!ctx && (await getInsightsAccess(ctx.user, ref.owner, ref.repo));
-  const sources = allowed ? insightsSourcesFor(ref.owner, ref.repo) : null;
+  const sources = allowed ? await insightsSourcesFor(ref.owner, ref.repo) : null;
   const key = readKey(process.env.KC_GA4_KEY_FILE);
   const [series, site] = sources
     ? await Promise.all([
@@ -181,7 +182,7 @@ function Bars({ items, unit }: { items: { label: string; value: number; sub?: st
 export async function TopLists(ref: RepoRef) {
   const ctx = await readUser(ref);
   const allowed = !!ctx && (await getInsightsAccess(ctx.user, ref.owner, ref.repo));
-  const sources = allowed ? insightsSourcesFor(ref.owner, ref.repo) : null;
+  const sources = allowed ? await insightsSourcesFor(ref.owner, ref.repo) : null;
   const site = sources
     ? await loadSiteInsights({
         propertyId: sources.ga,
@@ -290,7 +291,7 @@ export async function SearchHealthPanel(ref: RepoRef) {
 }
 
 export async function PublishLine(ref: RepoRef) {
-  const sources = (await readUser(ref)) ? insightsSourcesFor(ref.owner, ref.repo) : null;
+  const sources = (await readUser(ref)) ? await insightsSourcesFor(ref.owner, ref.repo) : null;
   if (!sources?.pages) return null;
   const status = await fetchPublishStatus({
     accountId: process.env.KC_CF_ACCOUNT_ID,
@@ -310,7 +311,7 @@ export async function PublishLine(ref: RepoRef) {
 
 export async function StaffStrip({ user, ...ref }: RepoRef & { user: User }) {
   if (!hasGithubIdentity(user)) return null;
-  const [status, sources] = [await getVersionStatus(), insightsSourcesFor(ref.owner, ref.repo)];
+  const [status, sources] = [await getVersionStatus(), await insightsSourcesFor(ref.owner, ref.repo)];
   const rows: [string, ReactNode][] = [
     ["Version", versionText(status)],
     ["Repository", <a key="repo" className="inline-flex min-h-11 items-center underline-offset-4 hover:underline" href={`https://github.com/${ref.owner}/${ref.repo}`}>{ref.owner}/{ref.repo}</a>],
@@ -328,6 +329,7 @@ export async function StaffStrip({ user, ...ref }: RepoRef & { user: User }) {
           </div>
         ))}
       </dl>
+      <InsightsKeysForm owner={ref.owner} repo={ref.repo} sources={sources} />
     </aside>
   );
 }

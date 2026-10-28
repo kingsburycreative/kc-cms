@@ -39,7 +39,7 @@ test("the visits panel is only built behind getInsightsAccess", () => {
   const gate = v.indexOf("getInsightsAccess(");
   assert.ok(gate > 0);
   assert.match(v, /const allowed = !!ctx && \(await getInsightsAccess\(/);
-  assert.match(v, /const sources = allowed \? insightsSourcesFor\(/);
+  assert.match(v, /const sources = allowed \? await insightsSourcesFor\(/);
   assert.ok(gate < v.indexOf("insightsSourcesFor("));
   assert.ok(gate < v.indexOf("loadSeries("));
   assert.match(v, /= sources\s*\? await Promise\.all/);
