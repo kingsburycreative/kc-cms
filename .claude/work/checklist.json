@@ -1243,5 +1243,22 @@
     "verified_at": "2026-10-28T04:30:05.339Z",
     "tree": "2f0c38e57bb783f03364196e243f08df895a6d839a75fccc8d3b398057e5dc32",
     "gate": "full"
+  },
+  {
+    "id": "85",
+    "title": "keys-form-keeps-values",
+    "brief": ".claude/work/85-keys-form-keeps-values/brief.md",
+    "start_sha": "454a5f0e68eb6a2e5e021b23cf02e05d9f45bd68",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T05:26:18.473Z",
+      "start_sha": "454a5f0e68eb6a2e5e021b23cf02e05d9f45bd68",
+      "mutation_evidence": true,
+      "tree": "8506752284500d6099dfd3d693c9041cf2a7b36576a00e539e62d48e66506ca1",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-28T05:27:22.111Z",
+    "tree": "8506752284500d6099dfd3d693c9041cf2a7b36576a00e539e62d48e66506ca1",
+    "gate": "full"
   }
 ]

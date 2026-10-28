@@ -5,7 +5,8 @@
 import { gaId, pagesProject, siteTag, type InsightsMap, type InsightsSources } from "./map.ts";
 
 export type KeysField = "ga" | "cf" | "pages";
-export type SaveResult = { status: 200 | 400 | 403 | 500; message: string; field?: KeysField };
+// `saved` is the normalised row on a 200, so the form can show what was stored.
+export type SaveResult = { status: 200 | 400 | 403 | 500; message: string; field?: KeysField; saved?: KeysRow };
 export type KeysRow = { ga: string | null; cf: string | null; pages: string | null };
 export type SaveDeps = {
   user: { id: string; githubUsername?: string | null } | null;
@@ -89,5 +90,5 @@ export async function saveInsightsKeys(
   } catch {
     return { status: 500, message: NOT_SAVED };
   }
-  return { status: 200, message: savedText(row) };
+  return { status: 200, message: savedText(row), saved: row };
 }

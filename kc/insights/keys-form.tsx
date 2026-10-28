@@ -15,6 +15,8 @@ const FIELDS = [
 
 export function InsightsKeysForm({ owner, repo, sources }: { owner: string; repo: string; sources: InsightsSources | null }) {
   const [result, action, pending] = useActionState(saveInsightsKeysAction, null);
+  // After a save, show what was stored: React 19 resets the form to defaultValue.
+  const values: Partial<Record<(typeof FIELDS)[number]["name"], string | null>> = result?.saved ?? sources ?? {};
   return (
     <form action={action} className="mt-4 border-t pt-4">
       <h3 className="text-sm font-medium">Analytics IDs</h3>
@@ -25,9 +27,10 @@ export function InsightsKeysForm({ owner, repo, sources }: { owner: string; repo
           <div key={field.name}>
             <label htmlFor={`keys-${field.name}`} className="block">{field.label}</label>
             <Input
+              key={`${field.name}-${values[field.name] ?? ""}`}
               id={`keys-${field.name}`}
               name={field.name}
-              defaultValue={sources?.[field.name] ?? ""}
+              defaultValue={values[field.name] ?? ""}
               aria-describedby={`keys-${field.name}-hint`}
               aria-invalid={result?.field === field.name || undefined}
               autoComplete="off"

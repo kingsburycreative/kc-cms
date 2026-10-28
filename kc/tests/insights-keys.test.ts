@@ -1,5 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 import { insightsPropertyFor, insightsSourcesFor, parseInsightsMap, type InsightsSources } from "../insights/map.ts";
 import {
   BAD_ID, NOT_ADMIN, NOT_STAFF, TAKEN, fileReposUsing, saveInsightsKeys, rowSources, type KeysRow, type SaveDeps,
@@ -100,4 +101,21 @@ test("an admin saves and the next read returns the saved IDs, lower-cased by rep
   assert.equal(result.message, "Saved. GA4: 42, Cloudflare: abc123, Pages: none.");
   assert.deepEqual([...rows.keys()], ["kc/site"]);
   assert.deepEqual(await insightsSourcesFor("Kc", "SITE", file, lookup), { ga: "42", cf: "abc123" });
+  assert.deepEqual(result.saved, { ga: "42", cf: "abc123", pages: null });
+});
+
+// Source level: the action and the form load Next and React, which this runner cannot.
+const source = (name: string) => readFileSync(new URL(`../insights/${name}`, import.meta.url), "utf8");
+
+test("after a save the form's fields hold the saved IDs, not the old or empty ones", () => {
+  const form = source("keys-form.tsx");
+  assert.match(form, /const values[^=]*= result\?\.saved \?\? sources/);
+  assert.match(form, /defaultValue=\{values\[field\.name\] \?\? ""\}/);
+  assert.doesNotMatch(form, /defaultValue=\{sources/);
+});
+
+test("the action revalidates the repo's dashboards only on a successful save", () => {
+  const action = source("keys-action.ts");
+  assert.match(action, /import \{ revalidatePath \} from "next\/cache"/);
+  assert.match(action, /if \(result\.status === 200\) revalidatePath\(\["", text\("owner"\), text\("repo"\)\]\.join\("\/"\), "layout"\)/);
 });
