@@ -4,6 +4,8 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
+- **save-baseline** (Henike card 113, 2026-10-28, Normal): after a save the entry form keeps the pre-save values as its baseline, so changing a field back to its original value reads as no change and Save stays greyed until a reload (Henike `src/content/en/pages/home.json`, between 8cd85e9 and e7206f2). Reset the baseline to the saved values.
+- **json-trailing-newline** (Henike card 113, 2026-10-28, Small): JSON saves drop the file's trailing newline (`lib/serialization.ts:100`, `JSON.stringify(obj, null, 2)`). Add the newline; 2-space JSON stays the canonical format and sites normalise to it once.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
