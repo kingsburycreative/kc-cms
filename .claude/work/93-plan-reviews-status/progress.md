@@ -1,0 +1,1 @@
+- plan.md written (3 cards: fetcher+model, dashboard line, security audit). No code. Done.

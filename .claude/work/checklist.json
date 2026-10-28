@@ -1379,5 +1379,22 @@
     "verified_at": "2026-10-28T16:49:21.595Z",
     "tree": "65ddf5ea0c3832955c2567f119d43c74ef64a477249070f9671a18c5690c7ef0",
     "gate": "full"
+  },
+  {
+    "id": "93",
+    "title": "reviews-status-fetch",
+    "brief": ".claude/work/93-reviews-status-fetch/brief.md",
+    "start_sha": "16c8115d9d90091f071c36b8cf7b75975f954a99",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T17:46:18.215Z",
+      "start_sha": "16c8115d9d90091f071c36b8cf7b75975f954a99",
+      "mutation_evidence": true,
+      "tree": "177c8e86ee09e7f1d436a6c844d9ff33295d4b8a7c5f151edcfe23f375dd13af",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-28T17:47:25.478Z",
+    "tree": "177c8e86ee09e7f1d436a6c844d9ff33295d4b8a7c5f151edcfe23f375dd13af",
+    "gate": "full"
   }
 ]

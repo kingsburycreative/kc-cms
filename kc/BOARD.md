@@ -2,7 +2,7 @@
 
 ## Now
 
-- **reviews-status** (Risky; Henike shipped `https://henike-contracting.pages.dev/reviews-status.json` on 2026-10-28, card 127 ff0edf1, audit 7954f48: exactly four keys, source typed|hidden, live reserved): a dashboard line read server-side from the live site's `/reviews-status.json` (`{ source: live|typed|hidden, rating, count, asOf, error? }`), configured origin only, fixed path, short timeout, size cap, cached like Insights. Says where the rating comes from, and nudges when typed numbers are over 6 months old. Copy through prose.
+- **reviews-status** (card 01, fetcher and model, done as 93; card 02 dashboard line next, plan `.claude/work/93-plan-reviews-status/plan.md`; Risky; Henike shipped `https://henike-contracting.pages.dev/reviews-status.json` on 2026-10-28, card 127 ff0edf1, audit 7954f48: exactly four keys, source typed|hidden, live reserved): a dashboard line read server-side from the live site's `/reviews-status.json` (`{ source: live|typed|hidden, rating, count, asOf, error? }`), configured origin only, fixed path, short timeout, size cap, cached like Insights. Says where the rating comes from, and nudges when typed numbers are over 6 months old. Copy through prose.
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
@@ -52,6 +52,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **reviews-status-fetch** (93): kc/reviews/ fetches a site's /reviews-status.json from the kc.site origin only (https, public hostname, default port, no redirects, 5 s timeout, 16 KB cap), validates the five keys, caches by origin, and maps it to a source-line key with a six-month stale flag for typed figures. DNS rebinding is still open for the feature audit. Not wired into the dashboard yet.
 - **keys-copy-pass** (92): the analytics IDs editor says "Only a GitHub admin of this repository can change these IDs." and the Cloudflare tag error names underscores, which the validator accepts. Rebased onto main after the mid-gate park.
 - **json-trailing-newline** (91): JSON saves end with one trailing newline (lib/serialization.ts serialize); json-frontmatter output unchanged. Not seen in a browser.
 - **save-baseline** (90): after a successful save the entry form's baseline is the saved values (form.reset with keepValues), so changing a field back to its pre-save value enables Save again; a failed save keeps the old baseline. Not seen in a browser.

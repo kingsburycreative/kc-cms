@@ -1,0 +1,3 @@
+- Wrote kc/reviews/status.ts, kc/reviews/status-fetch.ts, kc/tests/reviews-status.test.ts. Not committed.
+- Tests green, mutation check done (3 mutations caught, restored, green). result.md written. Done.
+- Gate fix: narrowed state===known before reading stale in kc/tests/reviews-status.test.ts; tsc, eslint, card test green.
