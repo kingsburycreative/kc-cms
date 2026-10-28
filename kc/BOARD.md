@@ -4,7 +4,6 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
-- **kc-tokens-header** (Normal; ui-library survey 2026-10-28): token pass in `app/globals.css` (tracked as "branding"): cool neutrals, radius steps, shadows and focus ring after `D:\Dev\htdocs\ui-library\tokens.css`, terracotta stays `--primary`, the green `--chart-*` values replaced with ones that read on our palette in light and dark (`.dark`, not `[data-ui-theme]`; do not import tokens.css whole). No beige or cream backgrounds. Then rebuild `kc/page-header.tsx` and the dashboard title block after ui-library's page-header pattern (`D:\Dev\htdocs\ui-library-lanes\b\components\nav\ui-page-header\` README): title, one subtitle line (publish status), one kind of action, actions under the title on a phone and at the end of the row from 768px. Leave `components/ui/*` and `repo-sidebar.tsx` alone. UI through avoid-ai-design, mobile first. Done-test: tests asserting the chart tokens are not the old greens in both themes, a focus-ring token exists, and the page header puts actions after the title in source order with the 768px row rule; suite, tsc, eslint exit 0. Mutation: restore the old chart greens.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -49,6 +48,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **kc-tokens-header** (89): app/globals.css moves to cool neutrals, adds radius, shadow and focus-ring tokens, and swaps the green chart colours for blue, amber, violet, cyan and slate in light and dark; terracotta stays primary (sidebar primary too now). The page header takes a subtitle (publish status on the dashboard) with the action under the title on a phone and at the row end from 768px. Not seen in a browser.
 - **kc-stat-tile** (88): dashboard stat tiles use a new kc/stat-tile.tsx (number first, plain-case label, change and sparkline), two columns at phone width from container queries, and the loading skeleton uses the same grid and tile count. Not seen in a browser.
 - **setup-banner** (87): with no analytics IDs the dashboard shows one full-width Visits banner (staff link once, staff only) and no stat tiles; could-not-load unchanged; the header slot reads "Live site not set up yet". Not seen in a browser.
 - **kc-shimmer** (86): dashboard skeletons use one `.kc-shimmer` class in app/globals.css (left-to-right sheen on --muted/--accent, still under reduced motion) instead of animate-pulse. Not seen in a browser.

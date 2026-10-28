@@ -277,11 +277,10 @@ test("See live site only from an https kc.site", () => {
 
 test("See live site sits in the PageHeader bar, not the dashboard header", () => {
   const src = layoutSrc();
-  assert.match(src, /<PageHeader title="Dashboard" action=\{liveSite\} \/>/);
+  assert.match(src, /<PageHeader title="Dashboard" subtitle=\{publish\} action=\{liveSite\} \/>/);
   assert.match(src, /site \? <LiveSiteLink site=\{site\} \/> : <span[^>]*>\{LIVE_SITE_NOT_SET_UP\}<\/span>/);
-  const header = src.slice(src.indexOf("<header"), src.indexOf("</header>"));
-  assert.doesNotMatch(header, /LiveSiteLink/);
-  assert.equal(header.match(/<h1\b/g)?.length, 1);
+  assert.doesNotMatch(src, /<header\b/);
+  assert.equal(src.match(/<h1\b/g)?.length, 1);
   assert.match(src, /target="_blank" rel="noopener"/);
   assert.match(src, /min-h-11/);
   const bar = readFileSync(new URL("../page-header.tsx", import.meta.url), "utf8");

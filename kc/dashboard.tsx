@@ -106,11 +106,8 @@ export function Dashboard({ hasInsights = false, publish, visits, searchHealth, 
 
   return (
     <div className="@container mx-auto w-full max-w-6xl space-y-6 p-4 md:p-6">
-      <PageHeader title="Dashboard" action={liveSite} />
-      <header className="space-y-1">
-        <h1 className="text-2xl font-semibold tracking-tight">{clientName(object.kc, config.repo)}</h1>
-        {publish}
-      </header>
+      <PageHeader title="Dashboard" subtitle={publish} action={liveSite} />
+      <h1 className="text-2xl font-semibold tracking-tight">{clientName(object.kc, config.repo)}</h1>
       {actions.length > 0 && (
         <section aria-labelledby="actions-h">
           <h2 id="actions-h" className="sr-only">Add something new</h2>

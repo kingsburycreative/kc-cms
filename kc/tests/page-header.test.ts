@@ -11,8 +11,22 @@ test("PageHeader sets the repo header and renders nothing itself", () => {
   assert.match(source, /return null;/);
 });
 
+test("PageHeader puts the action after the title, stacked at base and in a row from md", () => {
+  const source = read("kc/page-header.tsx");
+  const title = source.indexOf("{title}");
+  assert.ok(title > 0);
+  assert.ok(source.indexOf("{subtitle}") > title);
+  assert.ok(source.indexOf("{action}") > source.indexOf("{subtitle}"));
+  assert.match(source, /className="flex min-w-0 flex-col [^"]*md:flex-row[^"]*md:justify-between/);
+  assert.doesNotMatch(source, /className="flex items-center justify-between/);
+  assert.match(source, /subtitle\?: ReactNode/);
+});
+
+test("the dashboard passes its publish line and live site link to the header", () => {
+  assert.match(read("kc/dashboard.tsx"), /<PageHeader title="Dashboard" subtitle=\{publish\} action=\{liveSite\} \/>/);
+});
+
 const pages: [string, string, string][] = [
-  ["dashboard", "kc/dashboard.tsx", "Dashboard"],
   ["history", "kc/history/history-view.tsx", "History"],
   ["insights", "app/(main)/[owner]/[repo]/[branch]/insights/page.tsx", "Insights"],
 ];

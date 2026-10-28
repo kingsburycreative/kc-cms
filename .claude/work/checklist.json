@@ -1311,5 +1311,22 @@
     "verified_at": "2026-10-28T05:43:44.011Z",
     "tree": "a3ead36bce77fdcd538312c61035506493fcfd1245b0669c0ede70ec3c44c4e1",
     "gate": "full"
+  },
+  {
+    "id": "89",
+    "title": "kc-tokens-header",
+    "brief": ".claude/work/89-kc-tokens-header/brief.md",
+    "start_sha": "6c4d3054458c4fbd07b8101fb2cfa1e00f0af11d",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T05:48:30.144Z",
+      "start_sha": "6c4d3054458c4fbd07b8101fb2cfa1e00f0af11d",
+      "mutation_evidence": true,
+      "tree": "506ca296224754dabc896f13962fab24bfccad01e211aa4b948751409dd891b8",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-28T05:49:13.262Z",
+    "tree": "506ca296224754dabc896f13962fab24bfccad01e211aa4b948751409dd891b8",
+    "gate": "full"
   }
 ]
