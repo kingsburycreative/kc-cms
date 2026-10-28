@@ -13,7 +13,14 @@ export type ReviewsStatus = {
 
 export type ReviewsLine =
   | { state: "unknown" }
-  | { state: "known"; key: "reviews-typed" | "reviews-hidden" | "reviews-live"; stale: boolean };
+  | {
+      state: "known";
+      key: "reviews-typed" | "reviews-hidden" | "reviews-live";
+      stale: boolean;
+      rating: number;
+      count: number;
+      asOf: string;
+    };
 
 const SOURCES: readonly string[] = ["typed", "hidden", "live"];
 const KEYS = new Set(["source", "rating", "count", "asOf", "error"]);
@@ -44,5 +51,5 @@ export function reviewsLine(status: ReviewsStatus | null, now: Date): ReviewsLin
   const cutoff = new Date(now.getTime());
   cutoff.setUTCMonth(cutoff.getUTCMonth() - STALE_MONTHS);
   const stale = status.source === "typed" && Date.parse(status.asOf) < cutoff.getTime();
-  return { state: "known", key: `reviews-${status.source}`, stale };
+  return { state: "known", key: `reviews-${status.source}`, stale, rating: status.rating, count: status.count, asOf: status.asOf };
 }

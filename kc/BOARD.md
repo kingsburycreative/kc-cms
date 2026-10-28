@@ -2,7 +2,6 @@
 
 ## Now
 
-- **reviews-line-numbers** (Normal, Rob 2026-10-28 after kc.6): the dashboard reviews line says where the rating comes from but not the rating. When source is typed, show the stars and count from the status file and the date it was typed, e.g. 5 stars from 24 reviews, typed in by hand on Oct 12 (`kc/dashboard-server.tsx` ReviewsLine, `reviewsText`, `kc/tests/reviews-status-line.test.ts`). Hidden and live copy unchanged; the six-month nudge stays. Numbers are rendered as text only, never from the remote `error` field. Copy through prose, then avoid-ai-writing and humanizer.
 - **route-skeleton** (Normal, global rule 8, seen on kc.6): opening a site shows a full page with only a centred spinner and "Loading" for about 4 s (`app/loading.tsx`, `app/(main)/loading.tsx`). Replace both with a skeleton in the final shape: sidebar column with placeholder rows, header bar, and a content area of placeholder blocks, using the shimmer block from `kc/dashboard-skeleton.tsx` (still under prefers-reduced-motion). Mobile first: on a phone, no sidebar column, just header and blocks. Test asserts neither file renders the Loader and both use the shimmer block. Proof: one phone-width and one desktop screenshot of the skeleton.
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
@@ -53,6 +52,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **97 reviews-line-numbers**: a typed reviews line now gives the stars, count and date, e.g. 5 stars from 24 reviews, typed in by hand on Oct 12. Hidden and live copy and the stale nudge unchanged. Not seen in a browser.
 - **96 reviews-ssrf-resolve**: the reviews fetch resolves the host, refuses special-purpose addresses and connects to the address it checked; hanging fetch aborts.
 
 - **reviews-status-line** (94): the dashboard shows one muted line under the client name saying whether the review rating is typed in, hidden or set to follow reviews, plus a six-month nudge for old typed figures; nothing when kc.site is missing or the status is unknown. Shimmer skeleton while it loads. Not seen in a browser.

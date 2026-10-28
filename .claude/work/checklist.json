@@ -1447,5 +1447,22 @@
     "verified_at": "2026-10-28T18:15:04.943Z",
     "tree": "3685b26d7199ca9d61d8e67773399b69bf74b76e362452e2d6f78c5188202311",
     "gate": "full"
+  },
+  {
+    "id": "97",
+    "title": "reviews-line-numbers",
+    "brief": ".claude/work/97-reviews-line-numbers/brief.md",
+    "start_sha": "8239b4f9fffd6f699a07741493fe0555569b46d2",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T18:36:27.918Z",
+      "start_sha": "8239b4f9fffd6f699a07741493fe0555569b46d2",
+      "mutation_evidence": true,
+      "tree": "3c990d905652f0754459210659eaa48691a72192f957d2abf433fd2f074a02b8",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-28T18:37:47.327Z",
+    "tree": "3c990d905652f0754459210659eaa48691a72192f957d2abf433fd2f074a02b8",
+    "gate": "full"
   }
 ]

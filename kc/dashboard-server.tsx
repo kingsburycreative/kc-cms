@@ -310,9 +310,17 @@ export const REVIEWS_COPY = {
 export const REVIEWS_STALE = "The rating was last updated over six months ago. Ask us to check it.";
 
 // Unknown draws nothing; the nudge rides only on stale.
-export function reviewsText(line: { state: string; key?: string; stale?: boolean }): string | null {
+export function reviewsText(line: { state: string; key?: string; stale?: boolean; rating?: number; count?: number; asOf?: string }): string | null {
   if (line.state !== "known" || !line.key || !(line.key in REVIEWS_COPY)) return null;
-  const base = REVIEWS_COPY[line.key as keyof typeof REVIEWS_COPY];
+  let base: string = REVIEWS_COPY[line.key as keyof typeof REVIEWS_COPY];
+  const at = line.asOf ? new Date(line.asOf) : null;
+  if (line.key === "reviews-typed" && typeof line.rating === "number" && typeof line.count === "number" && at && !Number.isNaN(at.getTime())) {
+    const month = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"][at.getUTCMonth()];
+    const year = at.getUTCFullYear() === new Date().getUTCFullYear() ? "" : `, ${at.getUTCFullYear()}`;
+    const stars = `${Number(line.rating.toFixed(1))} ${line.rating === 1 ? "star" : "stars"}`;
+    const reviews = `${line.count} ${line.count === 1 ? "review" : "reviews"}`;
+    base = `${stars} from ${reviews}, typed in by hand on ${month} ${at.getUTCDate()}${year}.`;
+  }
   return line.stale ? `${base} ${REVIEWS_STALE}` : base;
 }
 // reviews-copy-end

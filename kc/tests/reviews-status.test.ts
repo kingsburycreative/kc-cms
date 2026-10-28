@@ -116,9 +116,9 @@ test("a second call inside the TTL does not refetch, and a failure is not cached
 
 test("each source maps to its key; stale only for typed past six months", () => {
   const at = (source: any, asOf: string) => reviewsLine({ source, rating: 4, count: 3, asOf }, NOW);
-  assert.deepEqual(at("typed", "2026-09-01"), { state: "known", key: "reviews-typed", stale: false });
-  assert.deepEqual(at("hidden", "2020-01-01"), { state: "known", key: "reviews-hidden", stale: false });
-  assert.deepEqual(at("live", "2020-01-01"), { state: "known", key: "reviews-live", stale: false });
+  assert.deepEqual(at("typed", "2026-09-01"), { state: "known", key: "reviews-typed", stale: false, rating: 4, count: 3, asOf: "2026-09-01" });
+  assert.deepEqual(at("hidden", "2020-01-01"), { state: "known", key: "reviews-hidden", stale: false, rating: 4, count: 3, asOf: "2020-01-01" });
+  assert.deepEqual(at("live", "2020-01-01"), { state: "known", key: "reviews-live", stale: false, rating: 4, count: 3, asOf: "2020-01-01" });
   const edge = at("typed", "2026-04-28T12:00:00Z");
   assert.ok(edge.state === "known");
   assert.equal(edge.stale, false);
