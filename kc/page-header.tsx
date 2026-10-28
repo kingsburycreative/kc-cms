@@ -11,7 +11,7 @@ export function PageHeader({ title, subtitle, action }: { title: string; subtitl
     () => (
       <div className="flex min-w-0 flex-col gap-2 md:flex-row md:items-center md:justify-between md:gap-4">
         <div className="min-w-0">
-          <h1 className="truncate text-lg font-semibold">{title}</h1>
+          <h1 className="min-w-24 break-words text-lg font-semibold">{title}</h1>
           {subtitle && <div className="text-sm text-muted-foreground">{subtitle}</div>}
         </div>
         {action && <div className="shrink-0">{action}</div>}

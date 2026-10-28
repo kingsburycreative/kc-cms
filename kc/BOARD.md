@@ -2,8 +2,6 @@
 
 ## Now
 
-- **header-narrow** (Normal, seen at 500px in session 21): the dashboard page header clips "Dashboard" and squeezes it against "See live site" (`kc/page-header.tsx`, `kc/dashboard.tsx` SiteLink around line 146, rendered inside `components/repo/repo-header-context`). Title and link stack on a phone with the title in full; the link may wrap under the title, the title never truncates to nothing. If the fix needs an upstream file, the result names it and keeps the hook into `kc/` to the smallest change. Test asserts the header markup keeps the title shrinkable but never zero width (no `truncate` without a min width or wrap), and proof is a screenshot at 375px using device emulation (Chrome will not size a window below 500px), plus one at 500px.
-
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
@@ -52,6 +50,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **101 header-narrow**: the page header title wraps with a minimum width instead of truncating, and the repo header (components/repo/repo-layout.tsx, upstream, h-14 to min-h-14 py-2) grows to fit a stacked title, publish line and See live site on a phone. Not seen in a browser.
 - **100 chart-card-width**: the visits chart measures and watches an outer frame it sits absolutely inside, so it fills the card instead of holding its first narrow width; the last date label gets right padding (edgePad); counts are coerced to numbers. The flat line cause is unconfirmed (likely the squashed plot). Not seen in a browser.
 - **99 chart-zero-axis**: the visits chart value axis takes whole, unrepeated ticks from valueSplits in kc/insights/chart-model.ts (steps of 1, 2 or 5 x 10^n, top at least 1), so an all-zero chart reads 0 and 1 instead of 1 1 1 0 0. Not seen in a browser.
 - **98 route-skeleton**: opening a site shows a shimmer skeleton (header bar, content blocks, sidebar rows from md up) instead of the centred Loading spinner, in both app/loading.tsx files via kc/route-skeleton.tsx. Not seen in a browser.

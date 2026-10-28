@@ -22,6 +22,21 @@ test("PageHeader puts the action after the title, stacked at base and in a row f
   assert.match(source, /subtitle\?: ReactNode/);
 });
 
+test("PageHeader title wraps and keeps a minimum width instead of truncating to nothing", () => {
+  const source = read("kc/page-header.tsx");
+  const h1 = source.match(/<h1 className="([^"]*)"/)?.[1] ?? "";
+  assert.doesNotMatch(h1, /\btruncate\b/);
+  assert.match(h1, /\bmin-w-\d+/);
+  assert.match(h1, /\bbreak-words\b/);
+});
+
+test("the repo header grows with a stacked title and action instead of a fixed height", () => {
+  const source = read("components/repo/repo-layout.tsx");
+  const header = source.match(/<header className="([^"]*)"/)?.[1] ?? "";
+  assert.match(header, /\bmin-h-14\b/);
+  assert.doesNotMatch(header, /(^|\s)h-14\b/);
+});
+
 test("the dashboard passes its publish line and live site link to the header", () => {
   assert.match(read("kc/dashboard.tsx"), /<PageHeader title="Dashboard" subtitle=\{publish\} action=\{liveSite\} \/>/);
 });
