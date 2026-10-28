@@ -1260,5 +1260,22 @@
     "verified_at": "2026-10-28T05:27:22.111Z",
     "tree": "8506752284500d6099dfd3d693c9041cf2a7b36576a00e539e62d48e66506ca1",
     "gate": "full"
+  },
+  {
+    "id": "86",
+    "title": "kc-shimmer",
+    "brief": ".claude/work/86-kc-shimmer/brief.md",
+    "start_sha": "ac74bd8e4bacde29b35025c469d05afe752aae61",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T05:31:27.019Z",
+      "start_sha": "ac74bd8e4bacde29b35025c469d05afe752aae61",
+      "mutation_evidence": true,
+      "tree": "3590f5b2457f271250f37151183b8ec1e1015a32c2d0720000640bed5c18d3e2",
+      "size": "Small"
+    },
+    "verified_at": "2026-10-28T05:33:04.393Z",
+    "tree": "3590f5b2457f271250f37151183b8ec1e1015a32c2d0720000640bed5c18d3e2",
+    "gate": "full"
   }
 ]

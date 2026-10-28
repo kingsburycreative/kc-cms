@@ -294,5 +294,5 @@ test("recent changes load behind pulsing skeleton rows, not text", () => {
   assert.doesNotMatch(src, /Loading recent edits/);
   const loading = src.slice(src.indexOf("items === null"), src.indexOf("items.length === 0"));
   assert.match(loading, /Array\.from\(\{ length: LIMIT \}/);
-  assert.match(loading, /animate-pulse[^"]*motion-reduce:animate-none/);
+  assert.match(loading, /kc-shimmer/);
 });

@@ -166,8 +166,8 @@ function RecentChanges({ failed, items, staff, now, historyHref }: { failed: boo
             <ul aria-busy="true" aria-label="Loading recent changes" className="mt-3 space-y-3">
               {Array.from({ length: LIMIT }, (_, index) => (
                 <li key={index} className="flex items-center gap-3">
-                  <span className="size-8 shrink-0 animate-pulse rounded-full bg-muted motion-reduce:animate-none" />
-                  <span className="h-4 w-48 animate-pulse rounded bg-muted motion-reduce:animate-none" />
+                  <span className="size-8 shrink-0 rounded-full kc-shimmer" />
+                  <span className="h-4 w-48 rounded kc-shimmer" />
                 </li>
               ))}
             </ul>

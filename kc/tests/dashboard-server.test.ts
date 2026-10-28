@@ -108,8 +108,8 @@ test("the visits panel links to Insights", () => {
   assert.match(body("VisitsPanel"), /<DashboardVisits days=\{view\.days\} insightsHref=\{shortHref\(`\/\$\{ref\.owner\}\/\$\{ref\.repo\}\/\$\{encodeURIComponent\(ref\.branch\)\}\/insights`\)\}/);
 });
 
-test("each skeleton has animate-pulse and motion-reduce:animate-none", () => {
-  assert.match(skeleton, /BLOCK = "[^"]*animate-pulse motion-reduce:animate-none/);
+test("each skeleton uses the kc-shimmer block", () => {
+  assert.match(skeleton, /BLOCK = "[^"]*kc-shimmer/);
   for (const name of ["VisitsSkeleton", "SearchHealthSkeleton", "TopListsSkeleton", "PublishSkeleton", "StaffSkeleton", "VersionSkeleton"]) {
     const start = skeleton.indexOf(`export function ${name}`);
     assert.ok(start >= 0, name);

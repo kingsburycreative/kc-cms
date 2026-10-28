@@ -1,6 +1,6 @@
 // Skeletons for the dashboard's server panels, each at its loaded height.
-// A soft pulse while loading; still under prefers-reduced-motion.
-const BLOCK = "rounded bg-muted animate-pulse motion-reduce:animate-none";
+// A shimmer while loading (.kc-shimmer in app/globals.css); still under prefers-reduced-motion.
+const BLOCK = "rounded kc-shimmer";
 
 export function VisitsSkeleton() {
   return (
