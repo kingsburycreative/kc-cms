@@ -11,6 +11,11 @@ dislike `+`).
 To cut a release: bump `version` in package.json and package-lock.json, add a
 section here, merge, deploy, then tag the deployed commit.
 
+## 2.1.8+kc.7 (2026-10-28)
+
+- Dashboard: the reviews line shows the typed rating itself, for example "5 stars from 24 reviews, typed in by hand on Oct 12."
+- Loading: opening a site shows a shimmering outline of the page instead of a lone spinner; it holds still for people who turn motion off.
+
 ## 2.1.8+kc.6 (2026-10-28)
 
 - Dashboard: a line says where the site's review rating comes from, read from the live site's `/reviews-status.json`, and asks for a check when a typed rating is over six months old.
