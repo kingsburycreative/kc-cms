@@ -193,3 +193,9 @@
 - 2026-10-27 media-refs-wide (79): Opus worker, scope ok with mutation evidence, diff read; route now reads the repo through one recursive tree call. Sent to the gate with an audit.
 
 - 2026-10-28 card 80 round 2: four new error strings in kc/insights/keys.ts (NOT_STAFF, TAKEN) were written by hand, not through prose/avoid-ai-writing/humanizer. Call by the rubric (security over UX): ship the security fix rather than park it over four staff-only error lines; a copy pass on them is owed. Rob may overrule.
+
+## 2026-10-28T05:58Z AFK: kc.4 released and deployed
+- Decision: released cards 85-89 as 2.1.8+kc.4 (commit 2f878ba, gated: suite, tsc, eslint, verify), deployed to the box (answering 200, public 200), tagged kc-2.1.8.4. Allowed by /afk --allow-outward deploy.
+- Checked live: Henike header reads "Live site not set up yet"; staff strip shows GA4 561101654 and the Cloudflare site; Visits now reads 0 with real tiles, so the service account reads GA4. Zeros until the tracking tags are on the site.
+- Rubric basis: clear-cut, the release Rob asked for.
+- Parked (needs Rob): phone and desktop screenshots of BeSciWorks and Henike. Chrome's screenshot timed out three times (renderer unresponsive, likely the window minimized or hidden); page text loaded fine. Retake with Chrome in front.
