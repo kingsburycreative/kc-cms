@@ -1481,5 +1481,22 @@
     "verified_at": "2026-10-28T18:41:59.939Z",
     "tree": "b86eca025e309ab683237e542ea69fac5c0943bbac4f1c544da452a8c252b705",
     "gate": "full"
+  },
+  {
+    "id": "99",
+    "title": "chart-zero-axis",
+    "brief": ".claude/work/99-chart-zero-axis/brief.md",
+    "start_sha": "3b8a7035fd9bedc2ca31a3a8eddd1e4548df5842",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T20:42:54.361Z",
+      "start_sha": "3b8a7035fd9bedc2ca31a3a8eddd1e4548df5842",
+      "mutation_evidence": true,
+      "tree": "6ee7db81dfac853a6def4deb4958cde5fa197fc29e67facb76232cc443f248ee",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-28T20:44:17.980Z",
+    "tree": "6ee7db81dfac853a6def4deb4958cde5fa197fc29e67facb76232cc443f248ee",
+    "gate": "full"
   }
 ]

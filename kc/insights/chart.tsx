@@ -6,7 +6,7 @@ import type uPlot from "uplot";
 import { visitsSummary } from "../dashboard-visits.ts";
 import "uplot/dist/uPlot.min.css";
 import { RANGES, slice, type Range, type SeriesPoint } from "./series.ts";
-import { METRIC_TITLES, axisLabel, compact, summarySentence, tableRows, tooltipText, total, type Metric } from "./chart-model.ts";
+import { METRIC_TITLES, axisLabel, compact, summarySentence, tableRows, tooltipText, total, valueSplits, type Metric } from "./chart-model.ts";
 
 const SM_QUERY = "(min-width: 640px)";
 const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
@@ -51,12 +51,12 @@ export function MetricChart({ days, metric, range, compact: spark = false, bare 
           height: heightNow(spark),
           legend: { show: false },
           cursor: spark ? { show: false } : { drag: { x: false, y: false }, points: { size: 9 } },
-          scales: { x: { time: false }, y: { range: (_u, _min, max) => [0, Math.max(max, 1)] } },
+          scales: { x: { time: false }, y: { range: (_u, _min, max) => [0, valueSplits(max).at(-1)!] } },
           axes: spark
             ? [{ show: false }, { show: false }]
             : [
                 { stroke: colour, grid: bare ? { show: false } : { stroke: muted }, ticks: { show: false }, values: (_u, splits) => splits.map((s) => axisLabel(new Date(s * 1000).toISOString().slice(0, 10))) },
-                { stroke: colour, grid: { stroke: muted }, ticks: { show: false }, size: 44, values: (_u, splits) => splits.map((s) => compact(Math.round(s))) },
+                { stroke: colour, grid: { stroke: muted }, ticks: { show: false }, size: 44, splits: (_u, _i, _min, max) => valueSplits(max), values: (_u, splits) => splits.map((s) => compact(Math.round(s))) },
               ],
           series: [
             {},

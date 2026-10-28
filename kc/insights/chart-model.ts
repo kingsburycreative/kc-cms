@@ -23,6 +23,21 @@ export function compact(n: number): string {
   return `${Math.round(n / 1000)}k`;
 }
 
+// Value axis ticks: 0 up to at least max, whole steps of 1, 2 or 5 x 10^n,
+// at most five steps, so no label repeats once rounded. 0 -> [0, 1].
+export function valueSplits(max: number): number[] {
+  const top = Math.max(1, Math.ceil(max));
+  let step = 1;
+  for (let mag = 1; ; mag *= 10) {
+    const found = [1, 2, 5].map((m) => m * mag).find((s) => top / s <= 5);
+    if (found) { step = found; break; }
+  }
+  const end = Math.ceil(top / step) * step;
+  const out: number[] = [];
+  for (let v = 0; v <= end; v += step) out.push(v);
+  return out;
+}
+
 // "2026-10-26" -> "Oct 26".
 export function axisLabel(day: string): string {
   const [, m, d] = day.split("-");

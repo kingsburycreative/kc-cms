@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { compact, summarySentence, tableRows, tooltipText, axisLabel } from "../insights/chart-model.ts";
+import { compact, summarySentence, tableRows, tooltipText, axisLabel, valueSplits } from "../insights/chart-model.ts";
 
 const src = readFileSync(new URL("../insights/chart.tsx", import.meta.url), "utf8");
 
@@ -17,6 +17,26 @@ test("compact numbers", () => {
   assert.equal(compact(950), "950");
   assert.equal(compact(3690), "3.69k");
   assert.equal(compact(1000), "1k");
+});
+
+const axisLabels = (max: number) => valueSplits(max).map((s) => compact(Math.round(s)));
+const unique = (xs: string[]) => new Set(xs).size === xs.length;
+
+test("an all-zero series gives no repeated value labels", () => {
+  const labels = axisLabels(0);
+  assert.ok(unique(labels), labels.join(" "));
+  assert.deepEqual(labels, ["0", "1"]);
+});
+
+test("a series topping out at 3 gives whole, unrepeated labels", () => {
+  assert.deepEqual(valueSplits(3), [0, 1, 2, 3]);
+  for (const max of [0.4, 1, 2, 3, 7, 12, 99, 4321]) {
+    const splits = valueSplits(max);
+    assert.ok(splits.every(Number.isInteger), `${max}: ${splits}`);
+    assert.ok(unique(axisLabels(max)), `${max}: ${axisLabels(max)}`);
+    assert.ok(splits.at(-1)! >= max && splits.length <= 6, `${max}: ${splits}`);
+  }
+  assert.match(src, /splits: \(_u, _i, _min, max\) => valueSplits\(max\)/);
 });
 
 test("labels and tooltip", () => {
