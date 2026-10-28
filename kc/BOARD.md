@@ -2,6 +2,7 @@
 
 ## Now
 
+- **reviews-ssrf-resolve** (Risky, audit F1 from card 95, `.claude/work/95-reviews-status-audit/result.md`): `kc/reviews/status-fetch.ts` checks the host by name only, so a kc.site like `https://10.0.0.5.nip.io` makes the server connect to an internal address. Resolve the host before connecting: node:https with a `lookup` hook that rejects IANA special-purpose ranges (v4 and v6, via net.BlockList) and connects to the address it checked, so a second lookup cannot swap it. Tests: a name resolving to a private, loopback, link-local or mapped address is refused; a public one passes; plus the audit's O1, a hanging fetch aborts at 5 s. Keep the existing redirect, size cap, cache and log behaviour.
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
