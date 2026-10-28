@@ -1,7 +1,7 @@
 ---
 session: 19
 last_updated: 2026-10-27
-continue_with: Run the loop on card insights-keys-editor (top of Now), release it as 2.1.8+kc.3 (bump, CHANGELOG-KC.md, tag kc-2.1.8.3) and deploy with Rob's OK, with the four dashboard layout fixes (section below) carded and in the same release; then test it end to end on Henike (Rob creates the GA4 property and Cloudflare Web Analytics site, the Henike session adds both tags, Rob enters the IDs in the staff area). After that, plan the module system.
+continue_with: Run media-refs-wide first and deploy it (Henike's round trip depends on it), then card insights-keys-editor, release it as 2.1.8+kc.3 (bump, CHANGELOG-KC.md, tag kc-2.1.8.3) and deploy with Rob's OK, with the four dashboard layout fixes (section below) carded and in the same release; then test it end to end on Henike (Rob creates the GA4 property and Cloudflare Web Analytics site, the Henike session adds both tags, Rob enters the IDs in the staff area). After that, plan the module system.
 blockers: Henike client invite held until Rob reviews the Henike CMS himself and says go. Pitt St BBQ has no .pages.yml on any branch, so Josh's invite waits on the Pitt St session. Cards 53, 19, 20 wait on card 06. Box changes still Rob's (proxy-rewrite-origin `-H localhost`, nginx limit_req).
 ---
 
@@ -33,4 +33,4 @@ Card these and run them right after the key editor, before Rob reviews Henike: (
 
 ## To Resume
 Session 20. main at 891a106 plus this handoff; no open PRs.
-THIS WINDOW: `node .claude/bin/claude-loop.cjs --max-cards 1` for insights-keys-editor; card the four dashboard layout fixes and run them; merge and release kc.3 with Rob's OK; then the Henike end-to-end key test. Then a planner pass for the module system.
+THIS WINDOW: first media-refs-wide (top of Now; the Henike session's CMS round trip tests it, deploy allowed by Rob, tell henike-contracting when live), then insights-keys-editor; card the four dashboard layout fixes and run them; merge and release kc.3 with Rob's OK; then the Henike end-to-end key test. Then a planner pass for the module system.
