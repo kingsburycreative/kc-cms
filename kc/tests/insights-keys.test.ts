@@ -50,6 +50,10 @@ test("each ID refuses a bad value and nothing is saved", async () => {
   assert.equal(rows.size, 0);
 });
 
+test("the Cloudflare tag message names underscores, which the validator accepts", () => {
+  assert.match(BAD_ID.cf, /underscores/);
+});
+
 test("a GitHub user without admin on the repo is refused 403", async () => {
   const { rows, deps } = fakes({ "token-u1": ["kc/other"] });
   assert.deepEqual(await saveInsightsKeys({ owner: "kc", repo: "site", ga: "5" }, deps(staff)), { status: 403, message: NOT_ADMIN });

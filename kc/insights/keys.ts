@@ -19,7 +19,7 @@ export type SaveDeps = {
   save: (repo: string, row: KeysRow, by: string) => Promise<void>;
 };
 
-export const NOT_ADMIN = "Only an admin of this repository on GitHub can change these IDs.";
+export const NOT_ADMIN = "Only a GitHub admin of this repository can change these IDs.";
 export const NOT_STAFF = "Only KC staff can change these IDs.";
 export const TAKEN: Record<KeysField, string> = {
   ga: "Another site already uses this GA4 property ID.",
@@ -29,7 +29,7 @@ export const TAKEN: Record<KeysField, string> = {
 export const NOT_SAVED = "The IDs weren't saved. Try again.";
 export const BAD_ID: Record<KeysField, string> = {
   ga: "The GA4 property ID must be digits only.",
-  cf: "The Cloudflare site tag can only use letters, digits and dashes.",
+  cf: "The Cloudflare site tag can only use letters, digits, dashes and underscores.",
   pages: "The Pages project can only use lowercase letters, digits and dashes.",
 };
 const RULES: Record<KeysField, (value: unknown) => string | undefined> = { ga: gaId, cf: siteTag, pages: pagesProject };
