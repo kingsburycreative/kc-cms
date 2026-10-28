@@ -2,6 +2,8 @@
 
 ## Now
 
+- **keys-copy-pass** (Small, copy only, owed from card 80, see `.claude/work/log.md` line 195): run the staff-facing strings in `kc/insights/keys.ts` (lines 22-40: NOT_ADMIN, NOT_STAFF, the TAKEN set, NOT_SAVED, the format errors, the saved line) through prose, then avoid-ai-writing and humanizer. Change only the string values and any test asserting them; no logic. Touches a risky path, so the gate's audit runs, but there is nothing in it to audit beyond text.
+
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
