@@ -1,7 +1,7 @@
 ---
 session: 19
 last_updated: 2026-10-27
-continue_with: Run the loop on card insights-keys-editor (top of Now), release it as 2.1.8+kc.3 (bump, CHANGELOG-KC.md, tag kc-2.1.8.3) and deploy with Rob's OK; then test it end to end on Henike (Rob creates the GA4 property and Cloudflare Web Analytics site, the Henike session adds both tags, Rob enters the IDs in the staff area). After that, plan the module system.
+continue_with: Run the loop on card insights-keys-editor (top of Now), release it as 2.1.8+kc.3 (bump, CHANGELOG-KC.md, tag kc-2.1.8.3) and deploy with Rob's OK, with the four dashboard layout fixes (section below) carded and in the same release; then test it end to end on Henike (Rob creates the GA4 property and Cloudflare Web Analytics site, the Henike session adds both tags, Rob enters the IDs in the staff area). After that, plan the module system.
 blockers: Henike client invite held until Rob reviews the Henike CMS himself and says go. Pitt St BBQ has no .pages.yml on any branch, so Josh's invite waits on the Pitt St session. Cards 53, 19, 20 wait on card 06. Box changes still Rob's (proxy-rewrite-origin `-H localhost`, nginx limit_req).
 ---
 
@@ -23,6 +23,9 @@ Every feature (EN/FR, academic papers, image gallery, payments with a provider a
 - Live on the box: `891a106`, labelled 2.1.8+kc.2. Deploy is `server/deploy.sh <sha>` from the private repo, coordinator only, after Rob allows it per release.
 - Clients on the GitHub App: kc-test-site, besciworks, henike-contracting, pittstbbq. Insights shows Pages deploys only alongside `ga` or `cf` (`kc/insights/map.ts`).
 
+## Dashboard layout fixes (Rob, 2026-10-27, seen side by side on BeSciWorks and Henike)
+Card these and run them right after the key editor, before Rob reviews Henike: (1) no Dashboard link in the sidebar on any site, add it first; (2) quick actions render as underlined text links on every site, make them real buttons; (3) sidebar sections (Media, Insights) and the "See live site" link vanish when a site lacks config, keep them in the layout with a plain "not set up yet" state; (4) empty panels (Henike's Visits card, "Not available" boxes) need a proper setup-pending state, not blank space. UI through avoid-ai-design, mobile first, proof is screenshots of both sites at phone and desktop width.
+
 ## Pending
 - Card idea: show "Create configuration file" to staff only. Card idea: adding a client connects its repo to the App automatically (needs a classic token from Rob, kept in Infisical; fits the private repo's add-site card 09).
 - Rob: card 06 decision for 53, 19, 20; whether to scrub client names already in this public repo.
@@ -30,4 +33,4 @@ Every feature (EN/FR, academic papers, image gallery, payments with a provider a
 
 ## To Resume
 Session 20. main at 891a106 plus this handoff; no open PRs.
-THIS WINDOW: `node .claude/bin/claude-loop.cjs --max-cards 1` for insights-keys-editor, merge and release kc.3 with Rob's OK, then the Henike end-to-end key test. Then a planner pass for the module system.
+THIS WINDOW: `node .claude/bin/claude-loop.cjs --max-cards 1` for insights-keys-editor; card the four dashboard layout fixes and run them; merge and release kc.3 with Rob's OK; then the Henike end-to-end key test. Then a planner pass for the module system.
