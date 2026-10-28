@@ -10,6 +10,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Next
 
+- **reviews-status** (Risky, waits on the Henike reviews module, cards 127 and 128 there): a dashboard line read server-side from the live site's `/reviews-status.json` (`{ source: live|typed|hidden, rating, count, asOf, error? }`), configured origin only, fixed path, short timeout, size cap, cached like Insights. Says where the rating comes from, and nudges when typed numbers are over 6 months old. Copy through prose.
 - **short-url-polish** (card 54 audit C, D, F): other owners rewritten into kingsburycreative (kc/short-url.ts:84-88); reserved test misses dotless route files (short-url-reserved.test.ts:13); 308 cached on rollback.
 - **44**: Edit markers on the visits chart, after launch (`.claude/work/39-plan-dashboard/plan.md` card 44)
 - **45**: PDF downloads per paper, after launch (`.claude/work/39-plan-dashboard/plan.md` card 45)
