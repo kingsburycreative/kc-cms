@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { NOT_SET_UP, insightsNotSetUp, mediaNotSetUp } from "../not-set-up.ts";
+import { LIVE_SITE_NOT_SET_UP, NOT_SET_UP, insightsNotSetUp, mediaNotSetUp } from "../not-set-up.ts";
 
 const read = (f: string) => readFileSync(new URL(`../../${f}`, import.meta.url), "utf8");
 
@@ -38,7 +38,8 @@ test("configured insights without access stays hidden", () => {
 test("no kc.site renders the live-site slot as text, not an anchor", () => {
   const src = read("kc/dashboard.tsx");
   const slot = src.slice(src.indexOf("const liveSite"), src.indexOf("\n", src.indexOf("const liveSite")));
-  assert.match(slot, /<span[^>]*text-muted-foreground[^>]*>\{NOT_SET_UP\}<\/span>/);
+  assert.match(slot, /<span[^>]*text-muted-foreground[^>]*>\{LIVE_SITE_NOT_SET_UP\}<\/span>/);
   assert.doesNotMatch(slot.slice(slot.indexOf(":")), /<a\b/);
   assert.equal(NOT_SET_UP, "Not set up yet");
+  assert.equal(LIVE_SITE_NOT_SET_UP, "Live site not set up yet");
 });

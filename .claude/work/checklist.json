@@ -1277,5 +1277,22 @@
     "verified_at": "2026-10-28T05:33:04.393Z",
     "tree": "3590f5b2457f271250f37151183b8ec1e1015a32c2d0720000640bed5c18d3e2",
     "gate": "full"
+  },
+  {
+    "id": "87",
+    "title": "setup-banner",
+    "brief": ".claude/work/87-setup-banner/brief.md",
+    "start_sha": "ddbf7518887d458fd67bef823fa368f3b0ed1811",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T05:37:12.242Z",
+      "start_sha": "ddbf7518887d458fd67bef823fa368f3b0ed1811",
+      "mutation_evidence": true,
+      "tree": "c7739288a6352a5328bf890c796f1725681ced5473b25c115fa72f0dea61dc82",
+      "size": "Normal"
+    },
+    "verified_at": "2026-10-28T05:37:42.000Z",
+    "tree": "c7739288a6352a5328bf890c796f1725681ced5473b25c115fa72f0dea61dc82",
+    "gate": "full"
   }
 ]

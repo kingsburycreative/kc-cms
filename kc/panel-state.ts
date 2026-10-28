@@ -14,6 +14,5 @@ export const NOT_SET_UP = "Visit numbers will show here once analytics is connec
 export const COULD_NOT_LOAD = "The visit numbers couldn't be loaded right now.";
 export const STAFF_LINK_TEXT = "Add the analytics IDs";
 export const STAFF_LINK_HREF = "#analytics-ids";
-// Stat boxes are narrow, so they get shorter lines.
-export const TILE_NOT_SET_UP = "Shows once analytics is connected.";
+// Stat boxes are narrow, so they get a shorter line. Not set up has no tiles: one banner covers it.
 export const TILE_COULD_NOT_LOAD = "Couldn't load right now.";

@@ -1,5 +1,7 @@
 // One wording for every spot where a feature is missing from a site's config.
 export const NOT_SET_UP = "Not set up yet";
+// The dashboard header slot where "See live site" sits, so it names what is missing.
+export const LIVE_SITE_NOT_SET_UP = "Live site not set up yet";
 
 // True when the config lists no media folder, in either the navigation or the media list.
 export function mediaNotSetUp(object: any): boolean {

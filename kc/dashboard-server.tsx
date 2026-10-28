@@ -20,7 +20,7 @@ import { fetchPublishStatus } from "./publish/status-fetch.ts";
 import { publishLine } from "./publish/status.ts";
 import { healthEntries, pageName } from "./dashboard.ts";
 import { shortHref } from "./short-url.ts";
-import { COULD_NOT_LOAD, NOT_SET_UP, STAFF_LINK_HREF, STAFF_LINK_TEXT, TILE_COULD_NOT_LOAD, TILE_NOT_SET_UP, panelState, type PanelState } from "./panel-state.ts";
+import { COULD_NOT_LOAD, NOT_SET_UP, STAFF_LINK_HREF, STAFF_LINK_TEXT, TILE_COULD_NOT_LOAD, panelState, type PanelState } from "./panel-state.ts";
 import { rangeChange, sparkPath, weekSummary, type RangeChange } from "./dashboard-visits.ts";
 
 export const VISITS_FALLBACK = "Visit numbers aren't available right now.";
@@ -88,8 +88,7 @@ function Tile({ label, value, change, spark, state }: { label: string; value: nu
     return (
       <li className="flex flex-col gap-1 rounded-lg border p-4">
         <span className="text-sm text-muted-foreground">{label}</span>
-        <span className="text-sm text-muted-foreground">{state.kind === "not-set-up" ? TILE_NOT_SET_UP : TILE_COULD_NOT_LOAD}</span>
-        {state.kind === "not-set-up" && state.staffLink && <StaffLink />}
+        <span className="text-sm text-muted-foreground">{TILE_COULD_NOT_LOAD}</span>
       </li>
     );
   }
@@ -157,15 +156,22 @@ export async function VisitsPanel(ref: RepoRef) {
   const view = visitsView(series);
   const state = panelState({ configured: !!sources, ok: view.ok, staff: !!ctx && hasGithubIdentity(ctx.user as User) });
   const engagement = site?.ok ? site.detail?.engagement.averageSeconds ?? null : null;
+  // No analytics IDs: one banner in the Visits panel's place, and no tiles.
+  if (state.kind === "not-set-up") {
+    return (
+      <section aria-labelledby="visits-h" className={PANEL}>
+        <h2 id="visits-h" className={H2}>Visits</h2>
+        <p className="mt-2 text-sm text-muted-foreground">{NOT_SET_UP}</p>
+        {state.staffLink && <StaffLink />}
+      </section>
+    );
+  }
   return (
     <div className="grid grid-cols-1 gap-4 @[900px]:grid-cols-3">
       <section aria-labelledby="visits-h" className={`${PANEL} @[900px]:col-span-2`}>
         <h2 id="visits-h" className={H2}>Visits</h2>
         {view.ok ? <div className="mt-3"><DashboardVisits days={view.days} insightsHref={shortHref(`/${ref.owner}/${ref.repo}/${encodeURIComponent(ref.branch)}/insights`)} /></div> : (
-          <>
-            <p className="mt-2 text-sm text-muted-foreground">{state.kind === "not-set-up" ? NOT_SET_UP : COULD_NOT_LOAD}</p>
-            {state.kind === "not-set-up" && state.staffLink && <StaffLink />}
-          </>
+          <p className="mt-2 text-sm text-muted-foreground">{COULD_NOT_LOAD}</p>
         )}
       </section>
       <StatTiles days={view.ok ? view.days : null} engagementSeconds={engagement} state={state} />

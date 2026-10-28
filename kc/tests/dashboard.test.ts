@@ -278,7 +278,7 @@ test("See live site only from an https kc.site", () => {
 test("See live site sits in the PageHeader bar, not the dashboard header", () => {
   const src = layoutSrc();
   assert.match(src, /<PageHeader title="Dashboard" action=\{liveSite\} \/>/);
-  assert.match(src, /site \? <LiveSiteLink site=\{site\} \/> : <span[^>]*>\{NOT_SET_UP\}<\/span>/);
+  assert.match(src, /site \? <LiveSiteLink site=\{site\} \/> : <span[^>]*>\{LIVE_SITE_NOT_SET_UP\}<\/span>/);
   const header = src.slice(src.indexOf("<header"), src.indexOf("</header>"));
   assert.doesNotMatch(header, /LiveSiteLink/);
   assert.equal(header.match(/<h1\b/g)?.length, 1);

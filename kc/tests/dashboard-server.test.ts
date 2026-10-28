@@ -64,15 +64,27 @@ test("no sources keeps the heading and a null series renders the fallback, not a
 test("the visits panel and every stat box use the panel state, with the staff link for staff only", () => {
   const v = body("VisitsPanel");
   assert.match(v, /panelState\(\{ configured: !!sources, ok: view\.ok, staff: !!ctx && hasGithubIdentity\(ctx\.user as User\) \}\)/);
-  assert.match(v, /state\.kind === "not-set-up" \? NOT_SET_UP : COULD_NOT_LOAD/);
-  assert.match(v, /state\.kind === "not-set-up" && state\.staffLink && <StaffLink \/>/);
+  assert.match(v, /\{COULD_NOT_LOAD\}/);
   assert.match(v, /<StatTiles [^>]*state=\{state\}/);
   const tiles = server.slice(server.indexOf("export function StatTiles"), server.indexOf("export async function VisitsPanel"));
   assert.equal((tiles.match(/<Tile [^\n]*state=\{state\} \/>/g) ?? []).length, 3);
   const tile = server.slice(server.indexOf("function Tile("), server.indexOf("export function duration"));
-  assert.match(tile, /state\.kind === "not-set-up" \? TILE_NOT_SET_UP : TILE_COULD_NOT_LOAD/);
-  assert.match(tile, /state\.kind === "not-set-up" && state\.staffLink && <StaffLink \/>/);
+  assert.match(tile, /\{TILE_COULD_NOT_LOAD\}/);
+  assert.doesNotMatch(tile, /not-set-up|StaffLink/);
   assert.match(server, /<aside id="analytics-ids"/);
+});
+
+test("not set up renders one banner with the staff link once, and returns before the tiles", () => {
+  const v = body("VisitsPanel");
+  const banner = v.slice(v.indexOf('if (state.kind === "not-set-up")'), v.indexOf('<div className="grid grid-cols-1'));
+  assert.match(banner, /\{NOT_SET_UP\}/);
+  assert.equal((banner.match(/<StaffLink \/>/g) ?? []).length, 1);
+  assert.match(banner, /\{state\.staffLink && <StaffLink \/>\}/);
+  assert.doesNotMatch(banner, /StatTiles/);
+  assert.equal((v.match(/<StaffLink \/>/g) ?? []).length, 1);
+  assert.equal((v.match(/<StatTiles /g) ?? []).length, 1);
+  assert.ok(v.indexOf("<StatTiles ") > v.indexOf('<div className="grid grid-cols-1'));
+  assert.doesNotMatch(server, /TILE_NOT_SET_UP/);
 });
 
 test("search health reads collections and single pages after the read check into siteHealth", () => {
