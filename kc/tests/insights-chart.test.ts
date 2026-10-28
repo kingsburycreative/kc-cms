@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { compact, summarySentence, tableRows, tooltipText, axisLabel, valueSplits } from "../insights/chart-model.ts";
+import { compact, summarySentence, tableRows, tooltipText, axisLabel, valueSplits, plotData, edgePad, plotWidth } from "../insights/chart-model.ts";
 
 const src = readFileSync(new URL("../insights/chart.tsx", import.meta.url), "utf8");
 
@@ -37,6 +37,35 @@ test("a series topping out at 3 gives whole, unrepeated labels", () => {
     assert.ok(splits.at(-1)! >= max && splits.length <= 6, `${max}: ${splits}`);
   }
   assert.match(src, /splits: \(_u, _i, _min, max\) => valueSplits\(max\)/);
+});
+
+test("plot data from a fixture with visits is not flat", () => {
+  const days = [
+    { day: "2026-10-24", visits: 3, views: 9 },
+    { day: "2026-10-25", visits: "12" as unknown as number, views: 20 },
+    { day: "2026-10-26", visits: 7, views: 11 },
+  ];
+  const [x, y, prev] = plotData(days, "visits", [1, 2, 3]);
+  assert.deepEqual(y, [3, 12, 7]);
+  assert.deepEqual(prev, [1, 2, 3]);
+  assert.equal(x[1] - x[0], 86400);
+  assert.ok(Math.max(...y) > 0 && new Set(y).size > 1);
+  assert.equal(plotData(days, "views").length, 2);
+});
+
+test("the last date label gets right padding to stay whole", () => {
+  assert.ok(edgePad("2026-10-26") >= axisLabel("2026-10-26").length * 3.5);
+  assert.ok(edgePad("2026-12-31") > edgePad(undefined));
+  assert.match(src, /padding: spark \? undefined : \[null, edgePad\(/);
+});
+
+test("the plot sizes from its frame, which it cannot hold at a stale width", () => {
+  assert.equal(plotWidth(1180.6), 1180);
+  assert.equal(plotWidth(0), 1);
+  assert.match(src, /observer\.observe\(outer\)/);
+  assert.match(src, /width: plotWidth\(outer\.clientWidth\)/);
+  assert.match(src, /<div ref=\{box\} className="absolute inset-0" \/>/);
+  assert.match(src, /className=\{`absolute inset-0 transition/);
 });
 
 test("labels and tooltip", () => {

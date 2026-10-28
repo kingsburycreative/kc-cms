@@ -44,6 +44,21 @@ export function axisLabel(day: string): string {
   return `${MONTHS[Number(m) - 1]} ${Number(d)}`;
 }
 
+// The x and y columns uPlot draws: noon of each day in seconds, and the metric
+// as a number (a string count from a cache would plot as nothing).
+export function plotData(days: SeriesPoint[], metric: Metric, previous?: number[] | null): [number[], ...number[][]] {
+  const base: [number[], ...number[][]] = [days.map((p) => Date.parse(`${p.day}T12:00:00Z`) / 1000), days.map((p) => Number(p[metric]) || 0)];
+  return previous ? [...base, previous.map((n) => Number(n) || 0)] : base;
+}
+
+// Right padding so the last date label, centred on the plot's right edge,
+// is not clipped: half its width at about 7px a character, plus a gap.
+export const edgePad = (lastDay: string | undefined) => (lastDay ? Math.ceil(axisLabel(lastDay).length * 3.5) + 8 : 8);
+
+// The width to draw at: the frame's own width, which the plot cannot set
+// because it sits absolutely inside it. Never below 1.
+export const plotWidth = (frameWidth: number) => Math.max(1, Math.floor(frameWidth));
+
 export const total = (days: SeriesPoint[], metric: Metric) => days.reduce((sum, p) => sum + p[metric], 0);
 
 const noun = (metric: Metric, n: number) => (n === 1 ? NAMES[metric].one : NAMES[metric].many);

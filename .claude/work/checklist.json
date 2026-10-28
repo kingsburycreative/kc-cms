@@ -1498,5 +1498,22 @@
     "verified_at": "2026-10-28T20:44:17.980Z",
     "tree": "6ee7db81dfac853a6def4deb4958cde5fa197fc29e67facb76232cc443f248ee",
     "gate": "full"
+  },
+  {
+    "id": "100",
+    "title": "chart-card-width",
+    "brief": ".claude/work/100-chart-card-width/brief.md",
+    "start_sha": "ffbb5576ff76619a0c97d3c4c00d7e57447f4f2b",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T20:46:33.274Z",
+      "start_sha": "ffbb5576ff76619a0c97d3c4c00d7e57447f4f2b",
+      "mutation_evidence": true,
+      "tree": "86eb5af780d9a2257e8b1348f2c51bae61276d049ae21780b5ad6fb583c916af",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-28T20:47:31.967Z",
+    "tree": "86eb5af780d9a2257e8b1348f2c51bae61276d049ae21780b5ad6fb583c916af",
+    "gate": "full"
   }
 ]

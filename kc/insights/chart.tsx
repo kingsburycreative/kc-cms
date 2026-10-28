@@ -6,17 +6,13 @@ import type uPlot from "uplot";
 import { visitsSummary } from "../dashboard-visits.ts";
 import "uplot/dist/uPlot.min.css";
 import { RANGES, slice, type Range, type SeriesPoint } from "./series.ts";
-import { METRIC_TITLES, axisLabel, compact, summarySentence, tableRows, tooltipText, total, valueSplits, type Metric } from "./chart-model.ts";
+import { METRIC_TITLES, axisLabel, compact, edgePad, plotData, plotWidth, summarySentence, tableRows, tooltipText, total, valueSplits, type Metric } from "./chart-model.ts";
 
 const SM_QUERY = "(min-width: 640px)";
 const REDUCED_QUERY = "(prefers-reduced-motion: reduce)";
 const SPARK_HEIGHT = 72;
 const heightNow = (spark: boolean) => (spark ? SPARK_HEIGHT : window.matchMedia(SM_QUERY).matches ? 200 : 170);
-const toSeconds = (day: string) => Date.parse(`${day}T12:00:00Z`) / 1000;
-const toData = (days: SeriesPoint[], metric: Metric, previous?: number[] | null): uPlot.AlignedData => {
-  const base: uPlot.AlignedData = [days.map((p) => toSeconds(p.day)), days.map((p) => p[metric])];
-  return previous ? [...base, previous] : base;
-};
+const toData = (days: SeriesPoint[], metric: Metric, previous?: number[] | null): uPlot.AlignedData => plotData(days, metric, previous);
 
 type Tip = { text: string; left: number; top: number };
 
@@ -24,6 +20,7 @@ type Tip = { text: string; left: number; top: number };
 // horizontal gridlines only. previous: the period before, drawn dashed.
 export function MetricChart({ days, metric, range, compact: spark = false, bare = false, previous = null }: { days: SeriesPoint[]; metric: Metric; range: Range; compact?: boolean; bare?: boolean; previous?: number[] | null }) {
   const box = useRef<HTMLDivElement>(null);
+  const frame = useRef<HTMLDivElement>(null);
   const plotRef = useRef<uPlot | undefined>(undefined);
   const daysRef = useRef(days);
   const previousRef = useRef(previous);
@@ -36,7 +33,8 @@ export function MetricChart({ days, metric, range, compact: spark = false, bare 
 
   useEffect(() => {
     const el = box.current;
-    if (!el) return;
+    const outer = frame.current;
+    if (!el || !outer) return;
     let observer: ResizeObserver | undefined;
     let cancelled = false;
 
@@ -47,8 +45,9 @@ export function MetricChart({ days, metric, range, compact: spark = false, bare 
       const muted = getComputedStyle(el).getPropertyValue("--chart-grid") || "rgba(128,128,128,0.25)";
       plotRef.current = new UPlot(
         {
-          width: el.clientWidth,
+          width: plotWidth(outer.clientWidth),
           height: heightNow(spark),
+          padding: spark ? undefined : [null, edgePad(daysRef.current.at(-1)?.day), null, null],
           legend: { show: false },
           cursor: spark ? { show: false } : { drag: { x: false, y: false }, points: { size: 9 } },
           scales: { x: { time: false }, y: { range: (_u, _min, max) => [0, valueSplits(max).at(-1)!] } },
@@ -78,8 +77,10 @@ export function MetricChart({ days, metric, range, compact: spark = false, bare 
         toData(daysRef.current, metric, previousRef.current),
         el,
       );
-      observer = new ResizeObserver(() => plotRef.current?.setSize({ width: el.clientWidth, height: heightNow(spark) }));
-      observer.observe(el);
+      // Watch the frame, not the box uPlot fills: the plot is absolute inside
+      // it, so its fixed pixel width can never hold the frame at a stale size.
+      observer = new ResizeObserver(() => plotRef.current?.setSize({ width: plotWidth(outer.clientWidth), height: heightNow(spark) }));
+      observer.observe(outer);
       setReady(true);
     })();
 
@@ -117,9 +118,9 @@ export function MetricChart({ days, metric, range, compact: spark = false, bare 
 
   if (spark) {
     return (
-      <div role="img" aria-label={summary} className="relative h-[72px] text-primary">
+      <div ref={frame} role="img" aria-label={summary} className="relative h-[72px] w-full min-w-0 text-primary">
         {skeleton}
-        <div ref={box} className="h-full w-full" />
+        <div ref={box} className="absolute inset-0" />
       </div>
     );
   }
@@ -130,10 +131,10 @@ export function MetricChart({ days, metric, range, compact: spark = false, bare 
     <Frame className={bare ? undefined : "rounded-lg border p-3 sm:p-4"}>
       {!bare && <h3 className="text-sm font-medium">{METRIC_TITLES[metric]}</h3>}
       {!bare && <p className="text-2xl font-semibold">{compact(sum)}</p>}
-      <div role="img" aria-label={summary} className={`relative h-[170px] text-primary sm:h-[200px] ${bare ? "" : "mt-2"}`}>
+      <div ref={frame} role="img" aria-label={summary} className={`relative h-[170px] w-full min-w-0 text-primary sm:h-[200px] ${bare ? "" : "mt-2"}`}>
         {skeleton}
         <div
-          className={`h-full w-full transition-[opacity,clip-path] duration-500 motion-reduce:transition-none ${fading ? "opacity-40" : "opacity-100"} ${ready ? "[clip-path:inset(0_0_0_0)]" : "[clip-path:inset(0_100%_0_0)] motion-reduce:[clip-path:none]"}`}
+          className={`absolute inset-0 transition-[opacity,clip-path] duration-500 motion-reduce:transition-none ${fading ? "opacity-40" : "opacity-100"} ${ready ? "[clip-path:inset(0_0_0_0)]" : "[clip-path:inset(0_100%_0_0)] motion-reduce:[clip-path:none]"}`}
         >
           <div ref={box} className="h-full w-full" />
         </div>

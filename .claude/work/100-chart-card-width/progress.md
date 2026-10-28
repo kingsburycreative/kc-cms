@@ -1,0 +1,1 @@
+- Read brief and files. Next: add plotData/edgePad/plotWidth to chart-model.ts, wire chart.tsx, tests.
