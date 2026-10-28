@@ -11,6 +11,11 @@ dislike `+`).
 To cut a release: bump `version` in package.json and package-lock.json, add a
 section here, merge, deploy, then tag the deployed commit.
 
+## 2.1.8+kc.5 (2026-10-28)
+
+- Fix: after a save, changing a field back to its earlier value counts as a change, so Save works without a page reload.
+- Fix: JSON files keep their newline at the end after a save.
+
 ## 2.1.8+kc.4 (2026-10-28)
 
 - Fix: after saving analytics IDs the form keeps the saved values and the staff strip shows them at once; before, a second click on Save cleared every ID.
