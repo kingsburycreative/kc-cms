@@ -4,7 +4,6 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
-- **media-delete-guard** (Risky, app/api; Rob, 2026-10-27: "write the card", deploy allowed; from Henike's site issue 48): deleting a media file in the CMS never checks whether content still uses it, so a client can delete an image a page or the build imports and break the next deploy. In the media DELETE branch of `app/api/[owner]/[repo]/[branch]/files/[path]/route.ts` (about lines 493-519; smallest hook, logic in a new `kc/media-refs.ts`), before deleting, search the repo's content files for the file's path in every form the media config produces (the input path, and the public/output path from `.pages.yml` media `input`/`output`), using the CMS's existing content cache or the same GitHub reads the entries routes already make; refuse with a 409 and the JSON error shape the other file errors use, listing up to five referencing files. In the editor, show it where media errors already show, with a friendly message written with the prose skill, then avoid-ai-writing and humanizer (project.md Copy rule): the file is still used on these pages, remove it there first. No generic error, no status code shown. Done-test: new `kc/tests/media-refs.test.ts` covers a referenced file found by input path, found by output path, an unreferenced file allowed, a reference in a non-content file (e.g. src code) handled as the card decides and says in result.md, and the editor mapper turning the 409 into the friendly message; suite, `npx tsc --noEmit`, `npx eslint kc` exit 0. Mutation: make the finder return no references; make the mapper return the generic message.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -49,6 +48,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **media-delete-guard** (78): deleting a media file that content under the .pages.yml content paths still uses is refused with a 409 naming up to five pages; nested collection subfolders are not searched yet, src code references do not block.
 - **save-size-cap** (77): /api bodies capped at 1 MB in the request filter (25 MB on /files/, where non-media saves over 1 MB are refused before zod); a 413 shows a plain too-large message in the editor and uploader.
 - **nodemailer-major** (75): nodemailer 8.0.11 to 10.2.1, no nodemailer advisory left; a jsonTransport test checks from, to, subject and both bodies.
 - **register-changelog** (76): CHANGELOG-KC.md claimed under the release-version register entry; main suite green again.
