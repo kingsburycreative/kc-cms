@@ -1124,5 +1124,22 @@
     "verified_at": "2026-10-27T19:49:39.792Z",
     "tree": "e665963368e96d0918b7e17086fe79da4313c2d1b2f6f216335f20840db25742",
     "gate": "full"
+  },
+  {
+    "id": "78",
+    "title": "media-delete-guard",
+    "brief": ".claude/work/78-media-delete-guard/brief.md",
+    "start_sha": "528484318f6a47ed4a34f870e5a731bf289b9db0",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-10-28T02:02:47.397Z",
+      "start_sha": "528484318f6a47ed4a34f870e5a731bf289b9db0",
+      "mutation_evidence": true,
+      "tree": "1edc234c6f0fe41ddfaa81cd7fbc7f301113bebb32ec3c6d1640f9079d531793",
+      "size": "Risky"
+    },
+    "verified_at": "2026-10-28T02:05:06.859Z",
+    "tree": "1edc234c6f0fe41ddfaa81cd7fbc7f301113bebb32ec3c6d1640f9079d531793",
+    "gate": "full"
   }
 ]

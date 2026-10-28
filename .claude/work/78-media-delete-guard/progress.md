@@ -1,0 +1,1 @@
+- Code written: kc/media-refs.ts, kc/tests/media-refs.test.ts, route.ts hook + import, register entry. Copy through prose/avoid-ai-writing/humanizer, unchanged. Next: run tests, mutation, tsc, eslint.

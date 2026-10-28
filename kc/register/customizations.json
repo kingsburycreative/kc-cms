@@ -219,6 +219,13 @@
       "tests": ["kc/tests/save-size.test.ts"]
     },
     {
+      "id": "media-delete-guard",
+      "title": "Refuse deleting a media file content still uses",
+      "files": ["kc/media-refs.ts", "app/api/[owner]/[repo]/[branch]/files/[path]/route.ts"],
+      "watch": ["kc/media-refs.ts"],
+      "tests": ["kc/tests/media-refs.test.ts"]
+    },
+    {
       "id": "tooling",
       "title": "Fork tooling: loop files, TS imports, GitHub app setup, register",
       "files": [".claude/project.md", "tsconfig.json", "scripts/setup-github-app.mjs", "kc/register/load-config.ts", "kc/register/customizations.ts"],
