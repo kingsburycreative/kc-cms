@@ -11,6 +11,12 @@ dislike `+`).
 To cut a release: bump `version` in package.json and package-lock.json, add a
 section here, merge, deploy, then tag the deployed commit.
 
+## 2.1.8+kc.8 (2026-10-29)
+
+- Dashboard: a visits chart with no visits yet labels its axis 0 and 1 instead of "1 1 1 0 0", and every chart's axis counts in whole steps with no label repeated.
+- Dashboard: the visits chart fills the width of its card and shows the last date in full.
+- Header: on a phone the page title wraps onto its own line instead of being cut off next to "See live site".
+
 ## 2.1.8+kc.7 (2026-10-28)
 
 - Dashboard: the reviews line shows the typed rating itself, for example "5 stars from 24 reviews, typed in by hand on Oct 12."
