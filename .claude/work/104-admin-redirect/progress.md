@@ -1,0 +1,1 @@
+- Done: gate, requireAdminPage, page call, test, mutation, tsc, result.md. Nothing half-written.

@@ -1554,7 +1554,17 @@
     "id": "104",
     "title": "admin-redirect",
     "brief": ".claude/work/104-admin-redirect/brief.md",
-    "start_sha": "f9dd75438eec645746b9af894bb91873d8b7b625",
-    "passes": false
+    "start_sha": "e3749788012392b11d2db1fde6caa4396fa8268c",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-02T01:57:37.818Z",
+      "start_sha": "e3749788012392b11d2db1fde6caa4396fa8268c",
+      "mutation_evidence": true,
+      "tree": "bcf67d985118f59c4f73a5cc90114d04b6609b2dc427a98d5a2f089f01819024",
+      "size": "Risky"
+    },
+    "verified_at": "2026-11-02T01:58:35.340Z",
+    "tree": "bcf67d985118f59c4f73a5cc90114d04b6609b2dc427a98d5a2f089f01819024",
+    "gate": "full"
   }
 ]

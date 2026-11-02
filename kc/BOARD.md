@@ -50,6 +50,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **104 admin-redirect**: /admin signed out redirects to /sign-in?redirect=%2Fadmin and a signed-in non-admin to / (requireAdminPage in lib/admin.ts, pure gate in kc/admin-gate.ts) instead of the React error page; server actions keep the 401/403 throw. The sign-in cookie drop was skipped (needs a live better-auth). Not seen in a browser.
 - **103 schema-stem-token**: `{stem}` in reference values and file names gives the entry's file name without its extension (kc/interpolate.ts, moved out of lib/schema.ts); a real `stem` field wins. Lets posts-fr pair with English posts by file name. Not tried on a live site.
 - **101 header-narrow**: the page header title wraps with a minimum width instead of truncating, and the repo header (components/repo/repo-layout.tsx, upstream, h-14 to min-h-14 py-2) grows to fit a stacked title, publish line and See live site on a phone. Not seen in a browser.
 - **100 chart-card-width**: the visits chart measures and watches an outer frame it sits absolutely inside, so it fills the card instead of holding its first narrow width; the last date label gets right padding (edgePad); counts are coerced to numbers. The flat line cause is unconfirmed (likely the squashed plot). Not seen in a browser.

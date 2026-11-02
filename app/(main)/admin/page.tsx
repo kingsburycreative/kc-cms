@@ -2,7 +2,7 @@ import Link from "next/link";
 import { desc, eq, or, sql } from "drizzle-orm";
 import { ArrowLeft, RefreshCcw } from "lucide-react";
 import { MainRootLayout } from "../main-root-layout";
-import { requireAdminSession } from "@/lib/admin";
+import { requireAdminPage } from "@/lib/admin";
 import { db } from "@/db";
 import {
   accountTable,
@@ -105,7 +105,7 @@ export default async function Page({
 }: {
   searchParams?: Promise<{ q?: string; page?: string }>;
 }) {
-  await requireAdminSession();
+  await requireAdminPage();
   const updateBanner = await fetchBanner();
   const nowMs = Date.now();
   const resolvedSearchParams = await searchParams;
