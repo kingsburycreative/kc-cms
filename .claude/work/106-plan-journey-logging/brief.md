@@ -49,3 +49,7 @@ Keep `progress.md` beside this file from your first step, one line per step that
 
 ## Report
 Write `result.md` beside this file, under 200 words: the tool recommended and why, the card count and order, what Rob must grant, and anything not decided.
+
+## Rob's direction (2026-11-02)
+
+Rob agreed: a first-party journey log in the CMS's own Postgres (page reference ids, the full flow per session), paired with self-hosted OpenObserve on the same OVH box for errors, traces and front-end monitoring with session replay. Self-hosted PostHog (about 16 GB) and Sentry don't fit the 3.8 GB box, and PostHog Cloud sends client journeys off our servers. Plan around that pairing; check OpenObserve's real memory use against the box before committing to it.
