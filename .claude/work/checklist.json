@@ -1583,5 +1583,12 @@
     "verified_at": "2026-11-02T02:34:54.845Z",
     "tree": "a264610735bb0444c11e3c70e25697ce58d3ca49d25bfd507c5f46a504a5aa16",
     "gate": "full"
+  },
+  {
+    "id": "106",
+    "title": "plan-journey-logging",
+    "brief": ".claude/work/106-plan-journey-logging/brief.md",
+    "start_sha": "4ce5dfceabe4daf28f0b9d99e5e980f91613b5e6",
+    "passes": false
   }
 ]

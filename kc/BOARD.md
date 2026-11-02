@@ -10,6 +10,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Next
 
+- **106 plan-journey-logging** (Risky, planner, Opus): plan full journey logging for every client, with a journey id shown in the UI (`.claude/work/106-plan-journey-logging/plan.md`).
 - **gbp-reviews** (Risky, waits on Google Business Profile API access for KC's Cloud project): optional live rating for clients who add KC as a manager on their profile. Business Profile API, free, needs approval (applicant manages a profile verified 60+ days). Weekly rebuild, stored values never older than 30 days, Google's attribution as provided. Typed numbers stay the default and the fallback. Status file gains `source: live` again. Research: `scratchpad gbp-research/progress.md`, 2026-10-28.
 - **short-url-polish** (card 54 audit C, D, F): other owners rewritten into kingsburycreative (kc/short-url.ts:84-88); reserved test misses dotless route files (short-url-reserved.test.ts:13); 308 cached on rollback.
 - **44**: Edit markers on the visits chart, after launch (`.claude/work/39-plan-dashboard/plan.md` card 44)
