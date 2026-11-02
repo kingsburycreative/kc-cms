@@ -1,0 +1,3 @@
+- Read brief, project.md, 105 plan, proxy.ts, schema, admin gate; checked paths. No ssh (no Bash); used brief's box figures.
+- Wrote plan.md (15 cards). Uncommitted.
+- Wrote result.md. Done. Done-test not run (no Bash).

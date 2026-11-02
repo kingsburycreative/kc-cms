@@ -10,7 +10,6 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Next
 
-- **106 plan-journey-logging** (Risky, planner, Opus): plan full journey logging for every client, with a journey id shown in the UI (`.claude/work/106-plan-journey-logging/plan.md`).
 - **gbp-reviews** (Risky, waits on Google Business Profile API access for KC's Cloud project): optional live rating for clients who add KC as a manager on their profile. Business Profile API, free, needs approval (applicant manages a profile verified 60+ days). Weekly rebuild, stored values never older than 30 days, Google's attribution as provided. Typed numbers stay the default and the fallback. Status file gains `source: live` again. Research: `scratchpad gbp-research/progress.md`, 2026-10-28.
 - **short-url-polish** (card 54 audit C, D, F): other owners rewritten into kingsburycreative (kc/short-url.ts:84-88); reserved test misses dotless route files (short-url-reserved.test.ts:13); 308 cached on rollback.
 - **44**: Edit markers on the visits chart, after launch (`.claude/work/39-plan-dashboard/plan.md` card 44)
@@ -21,6 +20,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Waiting on Rob
 
+- **journey-logging grants** (plan 106 card 02): one migration 0015_journey_event (cards 04-12 wait on it), the OpenObserve browser package in package.json (card 14), installing OpenObserve on the box (card 13), whether session replay is on at all, where the privacy notice lives, and the retention window (90 days proposed).
 - **dashboard-gaps live check**: card 63 shipped; check the Staff only strip live while signed in with GitHub (the cause was not found, the client-side second gate was removed), and collection entry titles are not used for Most viewed names yet.
 - **52** (`.claude/work/40-plan-short-urls/plan.md` card 52): coordinator does it in kc-cms (docs for the new settings and the short address).
 - **55** (`.claude/work/40-plan-short-urls/plan.md` card 55): deploy short addresses; the coordinator's deploy per the exception in `.claude/project.md` (Rob, 2026-10-26).
@@ -51,6 +51,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **106 plan-journey-logging**: 15-card plan in .claude/work/106-plan-journey-logging/plan.md. First-party journey log in Postgres plus OpenObserve on the box; reference ids like S7KQ-M4PX made in proxy.ts and shown in the footer. OpenObserve memory unverified, card 13 measures it.
 - **105 create-on-conflict-error**: a collection with `create: { onConflict: error }` refuses a new entry whose file name exists ("A file with this name already exists. Open the existing entry to change it.") instead of numbering it `-1`; default `rename` unchanged (kc/create-conflict.ts, hooks in lib/config-schema.ts and components/entry/entry.tsx). Not seen in a browser.
 - **104 admin-redirect**: /admin signed out redirects to /sign-in?redirect=%2Fadmin and a signed-in non-admin to / (requireAdminPage in lib/admin.ts, pure gate in kc/admin-gate.ts) instead of the React error page; server actions keep the 401/403 throw. The sign-in cookie drop was skipped (needs a live better-auth). Not seen in a browser.
 - **103 schema-stem-token**: `{stem}` in reference values and file names gives the entry's file name without its extension (kc/interpolate.ts, moved out of lib/schema.ts); a real `stem` field wins. Lets posts-fr pair with English posts by file name. Not tried on a live site.
