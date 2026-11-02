@@ -1566,5 +1566,12 @@
     "verified_at": "2026-11-02T01:58:35.340Z",
     "tree": "bcf67d985118f59c4f73a5cc90114d04b6609b2dc427a98d5a2f089f01819024",
     "gate": "full"
+  },
+  {
+    "id": "105",
+    "title": "create-on-conflict-error",
+    "brief": ".claude/work/105-create-on-conflict-error/brief.md",
+    "start_sha": "0c3fa99ecaab9a139002fbbfb730b6b0e2cea633",
+    "passes": false
   }
 ]
