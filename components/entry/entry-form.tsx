@@ -19,6 +19,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { SeoPanel } from "@/kc/seo/panel";
 import { nextBaseline } from "@/kc/save-baseline";
+import { shouldResetForm } from "@/kc/editor-guard";
 import { editComponents } from "@/fields/registry";
 import {
   initializeState,
@@ -1058,7 +1059,11 @@ const EntryForm = ({
     reValidateMode: "onSubmit",
   });
 
+  // KC: a refetch never replaces typed text; a clean form still takes new data
+  const appliedDefaultsRef = useRef(defaultValues);
   useEffect(() => {
+    if (!shouldResetForm({ isDirty: form.formState.isDirty, incoming: defaultValues, current: appliedDefaultsRef.current })) return;
+    appliedDefaultsRef.current = defaultValues;
     form.reset(defaultValues);
   }, [defaultValues, form]);
 
@@ -1151,6 +1156,10 @@ const EntryForm = ({
 
   const handleError = () => {
     toast.error("Please fix the errors before saving.", { duration: 5000 });
+    // KC: each field shows its own message (FormMessage); bring the first into view
+    requestAnimationFrame(() => {
+      document.querySelector('#entry-form [aria-invalid="true"]')?.scrollIntoView({ block: "center", behavior: "smooth" });
+    });
   };
 
   const handleFormSubmit = useCallback(

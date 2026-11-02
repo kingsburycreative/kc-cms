@@ -1588,9 +1588,19 @@
     "id": "107",
     "title": "The editor never throws away text a client typed and has not saved",
     "brief": ".claude/work/107-editor-keeps-unsaved-text/brief.md",
-    "start_sha": "f16110df3a1d7842867117bcbeceb0e57f7ea227",
-    "passes": false,
-    "size": "Risky"
+    "start_sha": "16c377f474a88774f6b39487c61060eb36b03b8f",
+    "passes": true,
+    "size": "Risky",
+    "scope_ok": {
+      "at": "2026-11-02T23:13:09.454Z",
+      "start_sha": "16c377f474a88774f6b39487c61060eb36b03b8f",
+      "mutation_evidence": true,
+      "tree": "4ad7aa67df4a2f96b774d58f4cfec7194c56911e00daf585774eb509c3a58fc6",
+      "size": "Risky"
+    },
+    "verified_at": "2026-11-02T23:15:15.131Z",
+    "tree": "4ad7aa67df4a2f96b774d58f4cfec7194c56911e00daf585774eb509c3a58fc6",
+    "gate": "full"
   },
   {
     "id": "106",
