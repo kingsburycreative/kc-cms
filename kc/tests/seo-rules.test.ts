@@ -13,9 +13,9 @@ import {
 } from "../seo/rules.ts";
 import { fleschKincaidGrade, countSyllables } from "../seo/readability.ts";
 
-test("title must be 50 to 60 characters", () => {
-  assert.equal(checkTitle("a".repeat(49)).ok, false);
-  assert.equal(checkTitle("a".repeat(50)).ok, true);
+test("title must be 30 to 60 characters", () => {
+  assert.equal(checkTitle("a".repeat(29)).ok, false);
+  assert.equal(checkTitle("a".repeat(30)).ok, true);
   assert.equal(checkTitle("a".repeat(60)).ok, true);
   assert.equal(checkTitle("a".repeat(61)).ok, false);
 });

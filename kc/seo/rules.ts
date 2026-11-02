@@ -5,7 +5,7 @@ export type Check = { ok: true; message: string } | { ok: false; message: string
 const ok = (message: string): Check => ({ ok: true, message });
 const problem = (message: string): Check => ({ ok: false, message });
 
-export const TITLE_MIN = 50;
+export const TITLE_MIN = 30;
 export const TITLE_MAX = 60;
 export const DESCRIPTION_MIN = 120;
 export const DESCRIPTION_MAX = 155;
