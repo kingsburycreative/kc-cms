@@ -273,6 +273,13 @@
       "files": ["kc/interpolate.ts", "lib/schema.ts"],
       "watch": ["kc/interpolate.ts"],
       "tests": ["kc/tests/interpolate-stem.test.ts"]
+    },
+    {
+      "id": "create-conflict",
+      "title": "A collection can refuse a duplicate file name instead of numbering it",
+      "files": ["kc/create-conflict.ts", "lib/config-schema.ts", "components/entry/entry.tsx"],
+      "watch": ["kc/create-conflict.ts"],
+      "tests": ["kc/tests/create-conflict.test.ts"]
     }
   ]
 }

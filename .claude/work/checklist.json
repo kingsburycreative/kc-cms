@@ -1571,7 +1571,17 @@
     "id": "105",
     "title": "create-on-conflict-error",
     "brief": ".claude/work/105-create-on-conflict-error/brief.md",
-    "start_sha": "0c3fa99ecaab9a139002fbbfb730b6b0e2cea633",
-    "passes": false
+    "start_sha": "e76cafe08d9721dfbbe7d2803e2f0357a3e1c6d7",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-02T02:34:25.215Z",
+      "start_sha": "e76cafe08d9721dfbbe7d2803e2f0357a3e1c6d7",
+      "mutation_evidence": true,
+      "tree": "a264610735bb0444c11e3c70e25697ce58d3ca49d25bfd507c5f46a504a5aa16",
+      "size": "Normal"
+    },
+    "verified_at": "2026-11-02T02:34:54.845Z",
+    "tree": "a264610735bb0444c11e3c70e25697ce58d3ca49d25bfd507c5f46a504a5aa16",
+    "gate": "full"
   }
 ]

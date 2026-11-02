@@ -14,6 +14,7 @@ import { hasGithubIdentity } from "@/lib/authz-shared";
 import { clientMayDelete } from "@/kc/content-ops";
 import { requireApiSuccess } from "@/lib/api-client";
 import { throwIfTooLarge } from "@/kc/save-error";
+import { CREATE_CONFLICT_MESSAGE, createRequestBody } from "@/kc/create-conflict";
 import { getSchemaActions } from "@/lib/actions";
 import {
   generateFilename,
@@ -387,18 +388,22 @@ export function Entry({
           void mutate((key) => typeof key === "string" && key.startsWith(collectionKeyPrefix));
         }
 
+        const conflictBody = createRequestBody({ path, schema });
         const response = await fetch(`/api/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/files/${encodeURIComponent(savePath)}`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+          body: JSON.stringify(Object.assign({
             type: path === ".pages.yml" ? "settings" : "content",
             name,
             content: schema?.list === true
               ? contentObject.listWrapper
               : contentObject,
             sha: sha
-          }),
+          }, conflictBody)),
         });
+        if (conflictBody.onConflict && response.status === 409) {
+          throw new Error(CREATE_CONFLICT_MESSAGE);
+        }
         throwIfTooLarge(response, "save");
         const data = await requireApiSuccess<any>(
           response,

@@ -7,6 +7,7 @@
 import { z } from "zod";
 import { fieldTypes } from "@/fields/registry";
 import { KcSchema } from "@/kc/client-view";
+import { CreateSchema } from "@/kc/create-conflict";
 
 const ActionSchema = z
   .object({
@@ -711,6 +712,7 @@ const ContentLeafSchema = z
       })
       .optional(),
     list: ListSchema.optional(),
+    create: CreateSchema.optional(),
     commit: z
       .object(
         {
