@@ -1585,6 +1585,14 @@
     "gate": "full"
   },
   {
+    "id": "107",
+    "title": "The editor never throws away text a client typed and has not saved",
+    "brief": ".claude/work/107-editor-keeps-unsaved-text/brief.md",
+    "start_sha": "f16110df3a1d7842867117bcbeceb0e57f7ea227",
+    "passes": false,
+    "size": "Risky"
+  },
+  {
     "id": "106",
     "title": "plan-journey-logging",
     "brief": ".claude/work/106-plan-journey-logging/brief.md",
