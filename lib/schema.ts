@@ -7,6 +7,7 @@ import { defaultValues, schemas } from "@/fields/registry";
 import { z } from "zod";
 import { Field } from "@/types/field";
 import { format } from "date-fns";
+import { safeAccess, interpolate } from "../kc/interpolate";
 
 type SchemaGroupTrailItem = {
   name: string;
@@ -332,37 +333,6 @@ const getSchemaByName = (config: Record<string, any> | null | undefined, name: s
   }
   return clonedSchema;
 };
-
-// Safely access nested properties in an object
-function safeAccess(obj: Record<string, any>, path: string) {
-  return path.split(".").reduce((acc, part) => {
-    if (part.endsWith("]")) {
-      const [arrayPath, index] = part.split("[");
-      if (!acc || typeof acc !== "object") return undefined;
-      const arrayValue = acc[arrayPath];
-      if (!Array.isArray(arrayValue)) return undefined;
-      const parsedIndex = parseInt(index.replace("]", ""), 10);
-      if (Number.isNaN(parsedIndex)) return undefined;
-      return arrayValue[parsedIndex];
-    }
-    return acc && acc[part];
-  }, obj);
-}
-
-// Interpolate a string with a data object, with optional prefix fallback (e.g. "fields")
-function interpolate(input: string, data: Record<string, any>, prefixFallback?: string): string {
-  return input.replace(/(?<!\\)\{([^}]+)\}/g, (_, token) => {
-    // First try direct access
-    let value = safeAccess(data, token);
-    
-    // If value is undefined and we have a prefix fallback, try with prefix
-    if (value === undefined && prefixFallback) {
-      value = safeAccess(data, `${prefixFallback}.${token}`);
-    }
-    
-    return value !== undefined ? String(value) : '';
-  }).replace(/\\([{}])/g, '$1');
-}
 
 // Get a field by its path
 function getFieldByPath(schema: Field[], path: string): Field | undefined {

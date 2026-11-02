@@ -1537,8 +1537,18 @@
     "id": "103",
     "title": "schema-stem-token",
     "brief": ".claude/work/103-schema-stem-token/brief.md",
-    "start_sha": "f9dd75438eec645746b9af894bb91873d8b7b625",
-    "passes": false
+    "start_sha": "d30d7bd82ed2a799f8209470d49c3680b0fb9fa1",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-02T01:54:07.827Z",
+      "start_sha": "d30d7bd82ed2a799f8209470d49c3680b0fb9fa1",
+      "mutation_evidence": true,
+      "tree": "79637300089b50faf1f5055d437c2a84fe159016e817c6694f74b92657eeb097",
+      "size": "Risky"
+    },
+    "verified_at": "2026-11-02T01:55:32.148Z",
+    "tree": "79637300089b50faf1f5055d437c2a84fe159016e817c6694f74b92657eeb097",
+    "gate": "full"
   },
   {
     "id": "104",

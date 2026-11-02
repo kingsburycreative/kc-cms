@@ -1,0 +1,1 @@
+- Done: kc/interpolate.ts, lib/schema.ts, kc/tests/interpolate-stem.test.ts; mutations run and restored; tsc clean; result.md written. Open: register entry for lib/schema.ts (outside file list).

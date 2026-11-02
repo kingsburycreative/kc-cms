@@ -266,6 +266,13 @@
       "files": [".claude/project.md", "tsconfig.json", "scripts/setup-github-app.mjs", "kc/register/load-config.ts", "kc/register/customizations.ts"],
       "watch": [".claude/**", "kc/register/**"],
       "tests": ["kc/tests/register-load.test.ts", "kc/tests/register-customizations.test.ts"]
+    },
+    {
+      "id": "interpolate-stem",
+      "title": "Reference values and file names understand {stem}, the entry file name without its extension",
+      "files": ["kc/interpolate.ts", "lib/schema.ts"],
+      "watch": ["kc/interpolate.ts"],
+      "tests": ["kc/tests/interpolate-stem.test.ts"]
     }
   ]
 }

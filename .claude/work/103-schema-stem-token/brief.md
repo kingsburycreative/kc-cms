@@ -21,6 +21,7 @@ Read by the briefer, not run yet.
 - `kc/interpolate.ts` (new)
 - `lib/schema.ts` (upstream: only remove the two moved functions and add the import; nothing else)
 - `kc/tests/interpolate-stem.test.ts` (new)
+- `kc/register/customizations.json` (one entry claiming `lib/schema.ts`; added by the coordinator)
 - Any test under `kc/tests` that imports `interpolate` from `lib/schema` (grep first; list changes in result.md)
 
 ## Done-test
