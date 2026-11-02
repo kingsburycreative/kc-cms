@@ -1,0 +1,1 @@
+- guard helpers, wiring in entry.tsx/entry-form.tsx, tests written; done-test green; both mutations failed then restored green; result.md written. Not committed. Done.

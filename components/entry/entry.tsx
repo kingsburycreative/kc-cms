@@ -14,6 +14,7 @@ import { hasGithubIdentity } from "@/lib/authz-shared";
 import { clientMayDelete } from "@/kc/content-ops";
 import { requireApiSuccess } from "@/lib/api-client";
 import { throwIfTooLarge } from "@/kc/save-error";
+import { LEAVE_WARNING, cacheAfterSave, isLeavingClick, needsLeaveWarning } from "@/kc/editor-guard";
 import { CREATE_CONFLICT_MESSAGE, createRequestBody } from "@/kc/create-conflict";
 import { getSchemaActions } from "@/lib/actions";
 import {
@@ -236,7 +237,8 @@ export function Entry({
     entryApiUrl,
     fetchEntryByUrl,
     {
-      revalidateOnFocus: true,
+      // KC: no focus refetch, it wiped unsaved text; the save's sha check catches conflicts
+      revalidateOnFocus: false,
       revalidateOnReconnect: true,
       dedupingInterval: 2000,
     },
@@ -411,6 +413,11 @@ export function Entry({
         );
         
         if (data.data.sha !== sha) setSha(data.data.sha);
+        // KC: the cache holds what was saved, so a refetch is not mistaken for a change
+        if (savePath === path) {
+          const saved = schema?.list === true ? contentObject.listWrapper : contentObject;
+          void mutateEntry((current) => current && cacheAfterSave(current, saved, data.data.sha), { revalidate: false });
+        }
         if (submitStartChangeVersion === changeVersionRef.current) {
           setHasRegisteredChanges(false);
         }
@@ -455,6 +462,32 @@ export function Entry({
   };
 
   const isBusy = isLoading || isSaving;
+
+  // KC: warn before leaving with unsaved edits (reload, tab close, in-app link)
+  const leaveWarning = needsLeaveWarning(isFormDirty || hasRegisteredChanges, isSaving);
+  useEffect(() => {
+    if (!leaveWarning) return;
+    const onBeforeUnload = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = "";
+    };
+    const onLinkClick = (event: MouseEvent) => {
+      if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey) return;
+      const link = (event.target as Element | null)?.closest?.("a");
+      if (!link || link.target === "_blank") return;
+      if (!isLeavingClick(link.getAttribute("href"), window.location.href, window.location.origin)) return;
+      if (!window.confirm(LEAVE_WARNING)) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    };
+    window.addEventListener("beforeunload", onBeforeUnload);
+    document.addEventListener("click", onLinkClick, true);
+    return () => {
+      window.removeEventListener("beforeunload", onBeforeUnload);
+      document.removeEventListener("click", onLinkClick, true);
+    };
+  }, [leaveWarning]);
 
   useEffect(() => {
     const handleSaveShortcut = (event: KeyboardEvent) => {
