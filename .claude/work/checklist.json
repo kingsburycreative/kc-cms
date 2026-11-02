@@ -1532,5 +1532,19 @@
     "verified_at": "2026-10-28T20:50:06.735Z",
     "tree": "dd451e5b7971cef2929028e1ad4b37df64ae3868702ad3ff16e6771a1dcee08d",
     "gate": "full"
+  },
+  {
+    "id": "103",
+    "title": "schema-stem-token",
+    "brief": ".claude/work/103-schema-stem-token/brief.md",
+    "start_sha": "f9dd75438eec645746b9af894bb91873d8b7b625",
+    "passes": false
+  },
+  {
+    "id": "104",
+    "title": "admin-redirect",
+    "brief": ".claude/work/104-admin-redirect/brief.md",
+    "start_sha": "f9dd75438eec645746b9af894bb91873d8b7b625",
+    "passes": false
   }
 ]
