@@ -1588,7 +1588,18 @@
     "id": "106",
     "title": "plan-journey-logging",
     "brief": ".claude/work/106-plan-journey-logging/brief.md",
-    "start_sha": "4ce5dfceabe4daf28f0b9d99e5e980f91613b5e6",
-    "passes": false
+    "start_sha": "573a7c5aeab1885abf18b7ae5558c39429ad2779",
+    "passes": true,
+    "size": "Risky",
+    "scope_ok": {
+      "at": "2026-11-02T20:48:27.386Z",
+      "start_sha": "573a7c5aeab1885abf18b7ae5558c39429ad2779",
+      "mutation_evidence": false,
+      "tree": "a264610735bb0444c11e3c70e25697ce58d3ca49d25bfd507c5f46a504a5aa16",
+      "size": "Risky"
+    },
+    "verified_at": "2026-11-02T20:50:27.520Z",
+    "tree": "a264610735bb0444c11e3c70e25697ce58d3ca49d25bfd507c5f46a504a5aa16",
+    "gate": "full"
   }
 ]
