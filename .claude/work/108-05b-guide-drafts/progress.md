@@ -1,0 +1,2 @@
+- build.ts (drafts option + --drafts flag), shell.ts (draft line), guide-build.test.ts (4 new tests) written.
+- Next: run done-test, mutation check, result.md.

@@ -1710,5 +1710,22 @@
     "verified_at": "2026-11-17T20:23:59.885Z",
     "tree": "31a3401859678f6e35272d909ef6114baab5a87e26e31ae352d39192e3ccb2a2",
     "gate": "full"
+  },
+  {
+    "id": "108.05b",
+    "title": "Preview build with unapproved pages",
+    "brief": ".claude/work/108-05b-guide-drafts/brief.md",
+    "start_sha": "ec39883e250ea494382c65390ab89066fa2b95db",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T20:35:42.709Z",
+      "start_sha": "ec39883e250ea494382c65390ab89066fa2b95db",
+      "mutation_evidence": true,
+      "tree": "e23a6d1ad56dff3670f02063cc708527d60222a04c61868fca844766d7370075",
+      "size": "Normal"
+    },
+    "verified_at": "2026-11-17T20:37:14.529Z",
+    "tree": "e23a6d1ad56dff3670f02063cc708527d60222a04c61868fca844766d7370075",
+    "gate": "full"
   }
 ]
