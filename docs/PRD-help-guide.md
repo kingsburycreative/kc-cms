@@ -15,12 +15,7 @@ Small-business owners and their staff. Not technical. Often on a phone. They kno
 ## What gets built
 
 1. **Core guide.** One guide for everything every client does: sign in, find your way around, change the text on a page, add and remove an entry in a list (posts, events, news), photos and files, formatting text, save and what Save does to the live site, undo a change and get an old version back, see who visits, getting help. Built by splitting the core sections out of the BeSciWorks guide.
-2. **Module pages.** One page per thing only some clients have. From the 2026-11-17 inventory of client `.pages.yml` files:
-   - BeSciWorks: Papers (journal details, PDF), What Works, Insight Briefs, Weekly.
-   - Henike: English and French pairs (blog posts and pages), project photo categories, Google reviews and rating, business details.
-   - The Cupboard: Menu, Hours and contact, Events.
-   - Chris Adams: News, Platform, Voting information (only if that site is on the CMS; not confirmed).
-   Generic shapes (a list of posts, a single page) live in the core guide, not as modules.
+2. **Module pages.** Add-ons are modules of the core CMS product (Rob, 2026-11-17: "Think of the addons as modules from the core cms product"), named for what they do, never for the client they were first built for. No page, picture or example names a client. Modules today: Bilingual pages and posts, Photo galleries, Reviews and rating, Business details, Publications, Events, Menu, Opening hours. Which client has which module is read from that client's `.pages.yml` for the in-app link only; it is never written into the guide. Generic shapes (a list of posts, a single page) live in the core guide, not as modules.
 3. **Version stamp.** Every page says which CMS version it was checked on, e.g. "Checked on KC CMS 2.1.8+kc.8, 17 Nov 2026".
 4. **Where.** Public pages on the CMS site at /help, with a Help link inside the app that opens the core guide plus only that client's modules. See ADR 0001.
 
@@ -38,7 +33,7 @@ Videos. Per-release archived copies (ADR 0002). Translating the guide to French.
 
 ## Done means
 
-- /help live with the core guide and the Henike module pages, each stamped with the version and approved by Rob.
+- The guide site live with the core guide and the module pages, each stamped with the version and approved by Rob, and no client name anywhere in it.
 - /guides/besciworks redirects to the new guide (ADR 0003).
 - Screenshot script runs from one command and reports which pages' pictures changed.
 

@@ -4,6 +4,10 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
+- **108.05b**: Preview build with unapproved pages (`--drafts`) (`.claude/work/108-help-guide-plan/plan.md` card 05b). Rob, 2026-11-17 "Go, then let's get building."
+- **108.04b**: Screenshots show demo text only, nothing of KC's (plan card 04b)
+- **108.06**: Module pages part 1: bilingual, galleries, reviews, business details (plan card 06). No client names.
+- **108.07**: Module pages part 2: publications, events, menu, hours (plan card 07). No client names.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
