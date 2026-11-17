@@ -4,7 +4,6 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
-- **108.03**: Guide site builder and page shell, static, not indexed (`.claude/work/108-help-guide-plan/plan.md` card 03; ADR 0004)
 - **108.04**: Screenshot script and changed-pictures report (`.claude/work/108-help-guide-plan/plan.md` card 04)
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
@@ -53,6 +52,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **108.03 guide-builder**: `node kc/guide/build.ts [outDir]` builds the guide to static HTML (index, one page per file, style.css, img/, robots.txt disallowing all, .htaccess X-Robots-Tag noindex), every page noindex and stamped with the package.json version. One placeholder page. kc/guide/out/ is not in .gitignore yet (upstream file, needs a named card). Not seen in a browser.
 - **107 editor-keeps-unsaved-text**: the entry editor no longer refetches on window focus, writes saved content into the SWR cache after a save, never resets a dirty form from a refetch, warns before reload, tab close or an in-app link with unsaved edits, and scrolls to the first field error on a failed save (kc/editor-guard.ts, hooks in components/entry/entry.tsx and entry-form.tsx). Browser back inside the app is not guarded. The leave warning copy was written by hand, a copy pass is owed. Not seen in a browser.
 - **105 create-on-conflict-error**: a collection with `create: { onConflict: error }` refuses a new entry whose file name exists ("A file with this name already exists. Open the existing entry to change it.") instead of numbering it `-1`; default `rename` unchanged (kc/create-conflict.ts, hooks in lib/config-schema.ts and components/entry/entry.tsx). Not seen in a browser.
 - **104 admin-redirect**: /admin signed out redirects to /sign-in?redirect=%2Fadmin and a signed-in non-admin to / (requireAdminPage in lib/admin.ts, pure gate in kc/admin-gate.ts) instead of the React error page; server actions keep the 401/403 throw. The sign-in cookie drop was skipped (needs a live better-auth). Not seen in a browser.

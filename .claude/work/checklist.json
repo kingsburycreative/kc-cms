@@ -1659,5 +1659,22 @@
     "verified_at": "2026-11-17T19:41:22.417Z",
     "tree": "c4739c9d137b3b86b3bf399f1c6c6e3c0d65cc0d5ee4cfdbca16911901fc3cfc",
     "gate": "full"
+  },
+  {
+    "id": "108.03",
+    "title": "Guide site builder and page shell",
+    "brief": ".claude/work/108-03-guide-builder/brief.md",
+    "start_sha": "1048ffb735a5814e85f52c38316f18e1de118cf5",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T19:44:45.907Z",
+      "start_sha": "1048ffb735a5814e85f52c38316f18e1de118cf5",
+      "mutation_evidence": true,
+      "tree": "6489e403322b6837185ffc44371c141abfee1c529655f80f70803d054c2c398e",
+      "size": "Normal"
+    },
+    "verified_at": "2026-11-17T19:45:29.295Z",
+    "tree": "6489e403322b6837185ffc44371c141abfee1c529655f80f70803d054c2c398e",
+    "gate": "full"
   }
 ]
