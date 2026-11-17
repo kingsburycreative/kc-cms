@@ -1,0 +1,101 @@
+# Trimmed from Henike's .pages.yml (the services file entry), keeping the shape
+# that matters: the plain answer, its source list and the FAQ list under each
+# service, and the FAQ list at the end of the page.
+content:
+  - name: services
+    label: Services page (English)
+    type: file
+    path: src/content/en/pages/services.json
+    format: json
+    fields:
+      - name: title
+        label: Page title
+        type: string
+      - name: heading
+        label: Heading
+        type: string
+      - name: services
+        label: Services
+        type: object
+        required: true
+        fields:
+          - name: interlock
+            label: Interlock
+            type: object
+            required: true
+            fields:
+              - &serviceName
+                name: name
+                label: Name
+                type: string
+              - &serviceAnswer
+                name: answer
+                label: Plain answer under the heading (40 to 60 words)
+                type: text
+              - &serviceSource
+                name: source
+                label: Where the answer came from (not shown on the site)
+                type: string
+                list: true
+              - &serviceDescription
+                name: description
+                label: Description
+                type: text
+              - &buildHeading
+                name: buildHeading
+                label: Heading over the layers
+                type: string
+              - &layers
+                name: layers
+                label: Layers, top to bottom
+                type: object
+                list: true
+                fields:
+                  - name: name
+                    label: Layer name
+                    type: string
+                  - name: text
+                    label: One line on it
+                    type: text
+              - &ask
+                name: ask
+                label: Ask link (goes to the contact page)
+                type: string
+              - &faqList
+                name: faq
+                label: Questions and answers
+                type: object
+                list: true
+                fields:
+                  - name: question
+                    label: Question
+                    type: string
+                  - name: answer
+                    label: Answer
+                    type: text
+                  - name: confirmed
+                    label: Checked by Henike
+                    type: boolean
+                  - name: source
+                    label: Where the answer came from (not shown on the site)
+                    type: string
+          - name: decks
+            label: Decks
+            type: object
+            required: true
+            fields:
+              - *serviceName
+              - *serviceAnswer
+              - *serviceSource
+              - *serviceDescription
+              - *buildHeading
+              - *layers
+              - *ask
+              - *faqList
+      - name: permitHeading
+        label: Permit heading
+        type: string
+      - name: permitLinkText
+        label: Permit link text
+        type: string
+      - *faqList

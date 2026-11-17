@@ -1625,5 +1625,22 @@
     "verified_at": "2026-11-17T19:13:39.405Z",
     "tree": "c7dd3806699ab47aefe07f5e01fff9831042458037dbf38a49810de154c62d2e",
     "gate": "documents"
+  },
+  {
+    "id": "108.01",
+    "title": "Would restore have recovered Henike's wiped FAQ",
+    "brief": ".claude/work/108-01-restore-check/brief.md",
+    "start_sha": "1cdde007477e4666c194f4be5a50083315258e87",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T19:33:58.779Z",
+      "start_sha": "1cdde007477e4666c194f4be5a50083315258e87",
+      "mutation_evidence": true,
+      "tree": "356967190e6fd2fd08cce165e58c37469373ad7da80ab9ba3bf38567c439438d",
+      "size": "Normal"
+    },
+    "verified_at": "2026-11-17T19:35:44.965Z",
+    "tree": "356967190e6fd2fd08cce165e58c37469373ad7da80ab9ba3bf38567c439438d",
+    "gate": "full"
   }
 ]
