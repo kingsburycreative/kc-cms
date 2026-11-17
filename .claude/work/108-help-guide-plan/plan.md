@@ -17,8 +17,9 @@ Files it may touch:
 Done-test: `node --test kc/tests/restore-wiped-field.test.ts` passes and finding.md starts with the line `Result: restores` or `Result: does not restore`. The test asserts whichever is true; a "does not restore" result is a recorded finding, not a failure. Mutation check applies to any helper added.
 Risky path: no. Client data is a fixture only; no network.
 
-### 02. Fix restore so a wiped field comes back (job: code) (only if 01 says "does not restore")
-Objective: make the restore-then-save path keep fields the schema does not list (or refuse to save over them), so the Henike case is recovered. Smallest hook into kc/; if the fix needs an upstream file (likely lib/serialization.ts or components/entry/entry.tsx), the card names it and the hook stays one line. Skip this card if 01 says "restores".
+### 02. DROPPED, never run (Rob, 2026-11-17: "I just needed a help guide/docs, not changes to the cms itself")
+01 found restore brings Henike's FAQ back. This card ran anyway on 2026-11-17 (commit 1048ffb) and was backed out on branch help-guide-2. Nothing in this plan changes CMS behaviour. Original text kept below for the record only.
+Former objective: make the restore-then-save path keep fields the schema does not list (or refuse to save over them), so the Henike case is recovered. Smallest hook into kc/; if the fix needs an upstream file (likely lib/serialization.ts or components/entry/entry.tsx), the card names it and the hook stays one line. Skip this card if 01 says "restores".
 Files it may touch:
 - `kc/history/restore.ts`
 - `kc/tests/restore-wiped-field.test.ts` (flip the 01 assertion to the fixed behaviour)

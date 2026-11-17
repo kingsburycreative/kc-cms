@@ -8,7 +8,6 @@ import { z } from "zod";
 import { Field } from "@/types/field";
 import { format } from "date-fns";
 import { safeAccess, interpolate } from "../kc/interpolate";
-import { keepUnlisted } from "../kc/keep-unlisted";
 
 type SchemaGroupTrailItem = {
   name: string;
@@ -93,7 +92,7 @@ const initializeState = (
   // Ensure deepMap gets a valid object even if contentObject is null/undefined
   const sanitizedContent = contentObject || {};
 
-  return keepUnlisted(fields, sanitizedContent, deepMap(sanitizedContent, fields, (value, field) => {
+  return deepMap(sanitizedContent, fields, (value, field) => {
     let appliedValue = value;
     if (value === undefined) {
       appliedValue = field.list
@@ -107,7 +106,7 @@ const initializeState = (
        appliedValue = getDefaultValue(field);
     }
     return appliedValue;
-  }));
+  });
 };
 
 // Get the default value for a field

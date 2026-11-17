@@ -30,7 +30,7 @@ Small-business owners and their staff. Not technical. Often on a phone. They kno
 - One script takes every screenshot. Each release re-runs it; a picture that changed sends its page back for a recheck (ADR 0002).
 - Copy goes through the prose skill. An agent who has never seen the CMS follows each task once; where it gets stuck, the copy is rewritten. That is a filter only.
 - Rob reads every page before it goes live. His read is the sign-off for "understandable and accurate".
-- The save and undo page is checked against Henike's real loss first: confirm kc/history/restore.ts gets wiped content back. If it would not have, the guide says what does, and a CMS fix is carded.
+- The save and undo page is checked against Henike's real loss first (card 108.01: restore brings it back). The guide describes the CMS as it is. This feature never changes how the CMS behaves (Rob, 2026-11-17: "I just needed a help guide/docs, not changes to the cms itself"); anything the guide work turns up goes on the board for Rob to raise.
 
 ## Not in this round
 

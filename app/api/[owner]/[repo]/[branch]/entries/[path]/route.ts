@@ -10,7 +10,6 @@ import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { getToken } from "@/lib/token";
 import { assertBranchAllowed } from "@/kc/branch-lock-server";
 import { refOnBranch } from "@/kc/history/ref-check";
-import { keepUnlisted } from "@/kc/keep-unlisted";
 import { createHttpError, toErrorResponse } from "@/lib/api-error";
 import { requireApiUserSession } from "@/lib/session-server";
 
@@ -163,7 +162,7 @@ const parseContent = (
         entryFields = schema.fields;
       }
 
-      contentObject = keepUnlisted(entryFields, contentObject, deepMap(
+      contentObject = deepMap(
         contentObject,
         entryFields,
         (value, field) => {
@@ -173,7 +172,7 @@ const parseContent = (
           }
           return value;
         }
-      ));
+      );
       if (schema.list) contentObject = contentObject.listWrapper;
     } catch (error: any) {
       throw createHttpError(`Error parsing frontmatter: ${error.message}`, 400);

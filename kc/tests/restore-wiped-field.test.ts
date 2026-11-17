@@ -8,7 +8,6 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { loadCoreConfig } from "../register/load-config.ts";
 import { restoreState } from "../history/restore.ts";
-import { keepUnlisted } from "../keep-unlisted.ts";
 import { parse, stringify } from "../../lib/serialization.ts";
 
 const fixture = (name: string) => readFileSync(new URL(`./fixtures/${name}`, import.meta.url), "utf8");
@@ -30,17 +29,14 @@ async function pipeline(fields: Field[]) {
 
   // app/api/[owner]/[repo]/[branch]/entries/[path]/route.ts, parseContent: what the
   // editor and the History restore receive for a file at a given version.
-  const read = (raw: string) => {
-    const object = parse(raw, { format: "json" });
-    return keepUnlisted(fields, object, deepMap(object, fields, identity));
-  };
+  const read = (raw: string) => deepMap(parse(raw, { format: "json" }), fields, identity);
 
   // app/api/[owner]/[repo]/[branch]/files/[path]/route.ts, POST: validate, map to
   // the schema, sanitise, serialise.
   const save = (values: Record<string, unknown>) => {
     const checked = generateZodSchema(fields).safeParse(values);
     assert.equal(checked.success, true, "the restored values pass validation");
-    const mapped = keepUnlisted(fields, values, deepMap(checked.data, fields, identity));
+    const mapped = deepMap(checked.data, fields, identity);
     return JSON.parse(stringify(sanitizeObject(JSON.parse(JSON.stringify(mapped))), { format: "json" }));
   };
 
@@ -75,27 +71,22 @@ test("when the schema lists the answers and FAQ, restore then save brings them b
   assert.deepEqual(saved.faq, original.faq);
 });
 
-test("when the schema does not list them, restore then save still brings them back", async () => {
+test("when the schema does not list them, restore then save leaves them gone", async () => {
   const fields = without(await schemaFields(), wiped);
   const run = await pipeline(fields);
   const { state, saved } = run.restoreThenSave();
-  const original = JSON.parse(before);
 
-  // Kept on the way in: the old version reaches the editor with them.
+  // Dropped on the way in: the old version arrives at the editor already without them.
   const arrived = (state.values as any).services.interlock;
-  assert.deepEqual(arrived.faq, original.services.interlock.faq);
-  assert.equal(arrived.answer, original.services.interlock.answer);
-  assert.deepEqual((state.values as any).faq, original.faq);
+  assert.equal("faq" in arrived, false);
+  assert.equal("answer" in arrived, false);
+  assert.equal("faq" in (state.values as any), false);
 
-  // Kept on the way out: handing the save the full old content writes them.
-  const direct = run.save(original);
-  assert.deepEqual(direct.services.interlock.faq, original.services.interlock.faq);
-  assert.deepEqual(direct.faq, original.faq);
+  // Dropped on the way out too: handing the save the full old content still loses them.
+  const direct = run.save(JSON.parse(before));
+  assert.equal("faq" in direct.services.interlock, false);
+  assert.equal("faq" in direct, false);
 
-  // What lands in the file has them back.
-  assert.deepEqual(saved.services.interlock.faq, original.services.interlock.faq);
-  assert.deepEqual(saved.services.decks.faq, original.services.decks.faq);
-  assert.equal(saved.services.interlock.answer, original.services.interlock.answer);
-  assert.deepEqual(saved.services.interlock.source, original.services.interlock.source);
-  assert.deepEqual(saved.faq, original.faq);
+  // What lands in the file is the wiped page again.
+  assert.deepEqual(saved, JSON.parse(after));
 });
