@@ -118,5 +118,23 @@ Files it may touch:
 Done-test: `node --test kc/tests/help-redirect.test.ts` passes: the redirect list has `/guides/besciworks` to `/help` with permanent true, and no file remains under public/guides/besciworks. Mutation check: set permanent false; the test fails.
 Risky path: no. Human step: Rob's go-ahead on the guide comes first.
 
+### 11. Guide redesign in the KC brand, from one tokens file (job: code)
+Rob, 2026-11-17, on the first preview: "The font is gross. The design is weak as fuck (remember, we're kingsbury CREATIVE)". Then "Sure go" on the direction and "I'll be revamping the KC design system soon anyway". Spec: docs/adr/0005-guide-design-kc-brand-tokens.md and D:\Dev\hq\.claude\work\guide-redesign\research.md sections (c) and (d), with ADR 0005 winning where they differ (Inter headings, no Fraunces headings). Read C:\personas\cas\memory\design-slop.md and avoid every item. Check D:\Dev\htdocs\ui-library\components\*\manifest.json first and reuse its patterns where they fit.
+Objective: rebuild shell.ts and style.css; add kc/guide/tokens.css (all fonts, colours, scale, radii, shadows, copied from D:\Dev\htdocs\kingsburycreative\css\themes.css and fonts.css) and copy the needed woff2 files from D:\Dev\htdocs\kingsburycreative\fonts\ into kc/guide/fonts/, self-hosted. Shared markup helpers in kc/guide/parts.ts that pages call: steps (numeral, action line, "You will see", "If not"), figure (screenshot with caption, alt, optional ring and numbered dot by percentage position; a styled empty frame with the caption while no image exists), callout (note, warning), button-name chip, menu path, "Check it worked", help bar, page header (goal, time, version stamp). Home page with three entry points (getting started, everyday tasks, modules). Phone: menu sheet; desktop: on-this-page rail. Client-side search over page titles and headings (small script, the page reads without it). Skeleton rule: none needed, server-built static pages. Remove the "Sample page" placeholder. Mobile first, works 280 to 1440px with no sideways scroll. avoid-ai-design runs on the result.
+Files it may touch:
+- `kc/guide/shell.ts`, `kc/guide/style.css`, `kc/guide/tokens.css` (new), `kc/guide/parts.ts` (new), `kc/guide/search.js` (new), `kc/guide/fonts/*.woff2` (new), `kc/guide/build.ts`, `kc/guide/pages.ts`, `kc/guide/pages/placeholder.ts` (delete)
+- `kc/tests/guide-build.test.ts`, `kc/tests/help-pages.test.ts` (extend)
+Done-test: `node --test kc/tests/guide-build.test.ts kc/tests/help-pages.test.ts` passes: no colour hex or font-family outside tokens.css; every page built includes tokens.css and self-hosted fonts only (no http font URLs); parts.ts step output has numeral, action, "You will see" and "If not" slots; the placeholder page is gone; noindex still on every page. Mutation check: put a raw hex in style.css; the test fails. Plus one phone-width (390) and one desktop (1280) screenshot of a built page saved in the card folder.
+Risky path: no.
+
+### 12. Rewrite every page to the new anatomy, checked against the CMS source (job: content)
+Rob: "the documentation seems lean and ambiguous." After card 11. Rewrite all 10 core and 8 module pages with parts.ts: goal line, time, numbered steps with the exact on-screen label of every button, field and menu item in a chip (taken from the kc-cms-app source: components/, app/, kc/, and the demo config on kc-test-site branch card/07-guide-demo, never guessed), a "You will see" line per step, an "If not" fix, "Check it worked", and a figure slot per screen with its caption (images come later from the PM's capture). Writing rules: research.md section (e). Copy through prose, then avoid-ai-writing and humanizer via the Skill tool. No client names (trap), no KC staff-only screens. List every label you could not find in source in result.md.
+Files it may touch:
+- `kc/guide/pages/core-*.ts`, `kc/guide/pages/module-*.ts`
+- `kc/tests/help-pages.test.ts` (extend)
+Done-test: `node --test kc/tests/help-pages.test.ts` passes: every task page has a goal, a time, at least one step with "You will see" and "If not", a "Check it worked" block and a figure slot; no banned word; no client name.
+Human step: Rob reads the preview and approves each page.
+Risky path: no.
+
 ### 10. Host the guide at guide.kingsburycreative.com (PM and Rob, not a loop card)
 Create the subdomain on the WHC hosting that serves kingsburycreative.com, upload kc/guide/out/ there, confirm https works and `curl -sI` shows the X-Robots-Tag header. One-time subdomain setup is Rob's (cPanel); the upload after each approved change is the PM's deploy. Done when the index loads on a phone over https and the noindex header and robots.txt are seen live.
