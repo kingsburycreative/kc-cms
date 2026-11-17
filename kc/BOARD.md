@@ -4,7 +4,6 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
-- **108 help-guide-plan** (docs, Small): plan the /help guide cards from docs/PRD-help-guide.md and ADRs 0001 to 0003 (`.claude/work/108-help-guide-plan/brief.md`). Rob, 2026-11-17.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -52,6 +51,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **108 help-guide-plan**: nine cards for the /help guide in `.claude/work/108-help-guide-plan/plan.md`. 2026-11-17.
 - **105 create-on-conflict-error**: a collection with `create: { onConflict: error }` refuses a new entry whose file name exists ("A file with this name already exists. Open the existing entry to change it.") instead of numbering it `-1`; default `rename` unchanged (kc/create-conflict.ts, hooks in lib/config-schema.ts and components/entry/entry.tsx). Not seen in a browser.
 - **104 admin-redirect**: /admin signed out redirects to /sign-in?redirect=%2Fadmin and a signed-in non-admin to / (requireAdminPage in lib/admin.ts, pure gate in kc/admin-gate.ts) instead of the React error page; server actions keep the 401/403 throw. The sign-in cookie drop was skipped (needs a live better-auth). Not seen in a browser.
 - **103 schema-stem-token**: `{stem}` in reference values and file names gives the entry's file name without its extension (kc/interpolate.ts, moved out of lib/schema.ts); a real `stem` field wins. Lets posts-fr pair with English posts by file name. Not tried on a live site.
