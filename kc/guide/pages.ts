@@ -13,6 +13,10 @@ import * as moduleBilingual from "./pages/module-bilingual.ts";
 import * as moduleGalleries from "./pages/module-galleries.ts";
 import * as moduleReviews from "./pages/module-reviews.ts";
 import * as moduleBusinessDetails from "./pages/module-business-details.ts";
+import * as modulePublications from "./pages/module-publications.ts";
+import * as moduleEvents from "./pages/module-events.ts";
+import * as moduleMenu from "./pages/module-menu.ts";
+import * as moduleHours from "./pages/module-hours.ts";
 
 export type GuidePage = {
   title: string;
@@ -45,6 +49,10 @@ export const pages: GuidePage[] = [
   moduleGalleries,
   moduleReviews,
   moduleBusinessDetails,
+  modulePublications,
+  moduleEvents,
+  moduleMenu,
+  moduleHours,
 ];
 
 export function approvedPages(list: GuidePage[]): GuidePage[] {

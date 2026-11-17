@@ -1761,5 +1761,22 @@
     "verified_at": "2026-11-17T20:47:43.154Z",
     "tree": "eae962a09ffdec9ef5eca28f5fea2e87c4b2c1cd23c450f8c13a889f51afd3e1",
     "gate": "full"
+  },
+  {
+    "id": "108.07",
+    "title": "Module pages part 2: publications, events, menu, hours",
+    "brief": ".claude/work/108-07-module-pages-2/brief.md",
+    "start_sha": "b483bc0c6c1da7c02ce7851fa1b888f293c74907",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T20:50:31.678Z",
+      "start_sha": "b483bc0c6c1da7c02ce7851fa1b888f293c74907",
+      "mutation_evidence": true,
+      "tree": "4dbb71ed97e84efb7cf9b0e86ffd89668875e316252d21ecd5a7f9c6b0469387",
+      "size": "Small"
+    },
+    "verified_at": "2026-11-17T20:51:11.180Z",
+    "tree": "4dbb71ed97e84efb7cf9b0e86ffd89668875e316252d21ecd5a7f9c6b0469387",
+    "gate": "full"
   }
 ]

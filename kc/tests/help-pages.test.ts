@@ -52,10 +52,10 @@ describe("core guide pages", () => {
 
 describe("module guide pages", () => {
   const modules = pages.filter((page) => page.slug.startsWith("module-"));
-  const ids = ["bilingual", "galleries", "reviews", "business-details"];
+  const ids = ["bilingual", "galleries", "reviews", "business-details", "publications", "events", "menu", "hours"];
   const DENY = /henike|besciworks|cupboard|kirk|nikki|chris adams/i;
 
-  it("has the four first module pages", () => {
+  it("has all eight module pages", () => {
     for (const id of ids) assert.ok(modules.some((page) => page.moduleId === id), id);
     checkPages(pages);
   });
