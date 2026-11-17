@@ -1,0 +1,3 @@
+- Read brief, code, Henike repo (98ce106). Schema at 98ce106 DOES list answer/source/faq (added 2cb5c25, 12h before Kirk's save).
+- Wrote 3 fixtures and kc/tests/restore-wiped-field.test.ts.
+- Next: run test, write finding.md, mutation check, result.md.

@@ -1,0 +1,64 @@
+{
+  "title": "Interlock, Decks, Fences and Renovations in Ottawa | Henike",
+  "heading": "What Henike Contracting builds",
+  "services": {
+    "interlock": {
+      "name": "Interlock and landscaping",
+      "description": "We lay pathways, patios, raised gardens, bar tops and fireplaces in interlock stone.",
+      "answer": "Henike Contracting lays pathways, patios, raised gardens, bar tops and fireplaces in interlock stone. The area is excavated, then geotextile fabric, compacted base material, bedding stone, pavers, edge restraint and jointing sand go in. We work in Gloucester, Orleans and Winchester.",
+      "source": [
+        "services.interlock.description",
+        "services.interlock.layers",
+        "intro",
+        "area.text"
+      ],
+      "ask": "Ask about a patio or walkway",
+      "faq": [
+        {
+          "question": "How does an interlock job start?",
+          "answer": "With excavation. The area is excavated based on the geographical location of the project and the intended use of the space.",
+          "confirmed": false,
+          "source": "en/pages/services.json:services.interlock.layers.0"
+        },
+        {
+          "question": "What holds the edge of an interlock patio?",
+          "answer": "An edge restraint, a rigid structural band, is placed along the open exposed ends to reduce material shifting.",
+          "confirmed": false,
+          "source": "en/pages/services.json:services.interlock.layers.5"
+        }
+      ]
+    },
+    "decks": {
+      "name": "Wood and Composite Decks",
+      "description": "Henike Contracting provides different material options including Cedar, Pressure Treated Lumber, Composite and PVC",
+      "answer": "Henike Contracting provides decks in Cedar, Pressure Treated Lumber, Composite and PVC. Each deck has concrete footings or helical piles below the frost line, posts and beams rated for the height and weight, joists with a rot resistant membrane, decking and railings. We work in Gloucester, Orleans and Greely.",
+      "source": [
+        "services.decks.description",
+        "services.decks.layers",
+        "intro",
+        "area.text"
+      ],
+      "ask": "Ask about a deck",
+      "faq": [
+        {
+          "question": "What is a deck frame built from?",
+          "answer": "Concrete footings or helical piles go below the frost line, with posts and beams rated for the height and weight of the finished structure. Each joist receives a rot resistant membrane to extend the life of the frame.",
+          "confirmed": false,
+          "source": "en/pages/services.json:services.decks.layers"
+        },
+        {
+          "question": "Can a deck be resurfaced later?",
+          "answer": "Yes, on a wood deck. Each joist receives a rot resistant membrane, so the frame will outlive the decking and the deck can be resurfaced later with another decking product.",
+          "confirmed": false,
+          "source": "en/pages/services.json:services.decks.layers.3"
+        },
+        {
+          "question": "What decking materials do you use?",
+          "answer": "Henike Contracting provides decks in Cedar, Pressure Treated Lumber, Composite and PVC.",
+          "confirmed": false,
+          "source": "en/pages/services.json:services.decks.description"
+        }
+      ]
+    }
+  }
+}

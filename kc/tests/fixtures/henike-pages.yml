@@ -1,0 +1,124 @@
+# Trimmed from Henike's .pages.yml at commit 98ce106 (the services file entry),
+# anchors expanded. The FAQ, answer and source fields are in the schema.
+content:
+  - name: services
+    label: Services page (English)
+    type: file
+    path: src/content/en/pages/services.json
+    format: json
+    operations:
+      delete: false
+    fields:
+      - name: title
+        label: Page title
+        type: string
+        required: true
+        pattern: '\S'
+      - name: heading
+        label: Heading
+        type: string
+        required: true
+        pattern: '\S'
+      - name: services
+        label: Services
+        type: object
+        required: true
+        fields:
+          - name: interlock
+            label: Interlock
+            type: object
+            required: true
+            fields:
+              - name: name
+                label: Name
+                type: string
+                required: true
+                pattern: '\S'
+              - name: answer
+                label: Plain answer under the heading (40 to 60 words)
+                description: 'Leave it empty to hide it.'
+                type: text
+              - name: source
+                label: Where the answer came from (not shown on the site)
+                type: string
+                list: true
+              - name: description
+                label: Description
+                type: text
+                required: true
+                pattern: '\S'
+              - name: ask
+                label: Ask button
+                type: string
+                required: true
+                pattern: '\S'
+              - name: faq
+                label: Questions and answers
+                description: 'A question whose answer is empty does not show. Tick Checked once the answer is right.'
+                type: object
+                list: true
+                fields:
+                  - name: question
+                    label: Question
+                    type: string
+                    required: true
+                    pattern: '\S'
+                  - name: answer
+                    label: Answer
+                    type: text
+                  - name: confirmed
+                    label: Checked by Henike
+                    type: boolean
+                  - name: source
+                    label: Where the answer came from (not shown on the site)
+                    type: string
+                    required: true
+          - name: decks
+            label: Decks
+            type: object
+            required: true
+            fields:
+              - name: name
+                label: Name
+                type: string
+                required: true
+                pattern: '\S'
+              - name: answer
+                label: Plain answer under the heading (40 to 60 words)
+                description: 'Leave it empty to hide it.'
+                type: text
+              - name: source
+                label: Where the answer came from (not shown on the site)
+                type: string
+                list: true
+              - name: description
+                label: Description
+                type: text
+                required: true
+                pattern: '\S'
+              - name: ask
+                label: Ask button
+                type: string
+                required: true
+                pattern: '\S'
+              - name: faq
+                label: Questions and answers
+                description: 'A question whose answer is empty does not show. Tick Checked once the answer is right.'
+                type: object
+                list: true
+                fields:
+                  - name: question
+                    label: Question
+                    type: string
+                    required: true
+                    pattern: '\S'
+                  - name: answer
+                    label: Answer
+                    type: text
+                  - name: confirmed
+                    label: Checked by Henike
+                    type: boolean
+                  - name: source
+                    label: Where the answer came from (not shown on the site)
+                    type: string
+                    required: true
