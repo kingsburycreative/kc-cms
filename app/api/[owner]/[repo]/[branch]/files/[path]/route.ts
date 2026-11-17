@@ -11,6 +11,7 @@ import { isSettingsPath } from "@/kc/settings-gate";
 import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { isMediaPathAllowed } from "@/kc/media-types";
 import { checkFilesBody } from "@/kc/save-size";
+import { keepUnlisted } from "@/kc/keep-unlisted";
 import { getToken } from "@/lib/token";
 import { assertBranchAllowed } from "@/kc/branch-lock-server";
 import { clientMayDelete, isSingleFilePath } from "@/kc/content-ops";
@@ -117,14 +118,14 @@ export async function POST(
               throw new Error(`Content validation failed: ${errorMessages.join(", ")}`);
             }
 
-            const validatedContentObject = deepMap(
+            const validatedContentObject = keepUnlisted(contentFields, contentObject, deepMap(
               zodValidation.data,
               contentFields,
               (value, field) => {
                 const fieldType = field.type as string;
                 return writeFns[fieldType] ? writeFns[fieldType](value, field, config || {}) : value;
               }
-            );
+            ));
 
             const unwrappedContentObject = schema.list
               ? validatedContentObject.listWrapper

@@ -282,6 +282,13 @@
       "tests": ["kc/tests/interpolate-stem.test.ts"]
     },
     {
+      "id": "keep-unlisted",
+      "title": "Read, the editor and save keep fields the schema does not list",
+      "files": ["kc/keep-unlisted.ts", "lib/schema.ts", "app/api/[owner]/[repo]/[branch]/entries/[path]/route.ts", "app/api/[owner]/[repo]/[branch]/files/[path]/route.ts"],
+      "watch": ["kc/keep-unlisted.ts"],
+      "tests": ["kc/tests/keep-unlisted.test.ts", "kc/tests/restore-wiped-field.test.ts"]
+    },
+    {
       "id": "create-conflict",
       "title": "A collection can refuse a duplicate file name instead of numbering it",
       "files": ["kc/create-conflict.ts", "lib/config-schema.ts", "components/entry/entry.tsx"],

@@ -1,0 +1,2 @@
+- kc/keep-unlisted.ts written.
+- Hooks in entries GET, files POST, lib/schema initializeState; tests; register. Done-test green, mutation done, result.md written. Not committed.

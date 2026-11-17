@@ -1642,5 +1642,22 @@
     "verified_at": "2026-11-17T19:35:44.965Z",
     "tree": "356967190e6fd2fd08cce165e58c37469373ad7da80ab9ba3bf38567c439438d",
     "gate": "full"
+  },
+  {
+    "id": "108.02",
+    "title": "Restore and save keep fields the schema does not list",
+    "brief": ".claude/work/108-02-restore-keeps-fields/brief.md",
+    "start_sha": "843b3edf16da516d4719ca41fd5112cde5291d95",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T19:39:49.315Z",
+      "start_sha": "843b3edf16da516d4719ca41fd5112cde5291d95",
+      "mutation_evidence": true,
+      "tree": "c4739c9d137b3b86b3bf399f1c6c6e3c0d65cc0d5ee4cfdbca16911901fc3cfc",
+      "size": "Risky"
+    },
+    "verified_at": "2026-11-17T19:41:22.417Z",
+    "tree": "c4739c9d137b3b86b3bf399f1c6c6e3c0d65cc0d5ee4cfdbca16911901fc3cfc",
+    "gate": "full"
   }
 ]

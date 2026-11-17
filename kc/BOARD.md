@@ -4,7 +4,6 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
-- **108.02**: Fix restore so a wiped field comes back (`.claude/work/108-help-guide-plan/plan.md` card 02). 108.01 found restore does not bring back fields the CMS schema lists no longer; Kirk's save likely used a stale cached schema (`.claude/work/108-01-restore-check/finding.md`).
 - **108.03**: Guide site builder and page shell, static, not indexed (`.claude/work/108-help-guide-plan/plan.md` card 03; ADR 0004)
 - **108.04**: Screenshot script and changed-pictures report (`.claude/work/108-help-guide-plan/plan.md` card 04)
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
