@@ -1,0 +1,2 @@
+- Read brief and files. Plan: manifest.json becomes { deny, shots }; cleanPage() in compare.ts (self-contained so run.mjs can ship its source into the page); tests with a fake document.
+- Next: edit compare.ts, manifest.json, run.mjs, test.

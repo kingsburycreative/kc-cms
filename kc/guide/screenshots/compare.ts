@@ -18,6 +18,21 @@ export type ManifestEntry = {
   width: number;
   // Plain actions: "goto <path>", "click <selector>", "fill <selector> <text>", "wait <selector>".
   steps: string[];
+  // Swap the text of every element a selector matches, just before the capture, so the
+  // picture shows plain demo figures instead of KC's own.
+  replace?: { selector: string; text: string }[];
+  // Selectors whose elements are removed before the capture (a panel with no demo stand-in).
+  hide?: string[];
+};
+
+// manifest.json: the shots, and the words no picture may show.
+export type Manifest = { deny: string[]; shots: ManifestEntry[] };
+
+// The least of a browser document that cleanPage needs, so a test can pass a fake one.
+export type MaskNode = { textContent: string | null; remove(): void };
+export type MaskDocument = {
+  querySelectorAll(selector: string): Iterable<MaskNode>;
+  body: { innerText?: string; textContent: string | null };
 };
 
 export type PageBody = { slug: string; body: string };
@@ -97,6 +112,24 @@ export function changedPages(
     for (const slug of owners.get(picture) ?? []) slugs.add(slug);
   }
   return [...slugs].sort();
+}
+
+// Cleans a page for its screenshot and returns the deny words it still shows (case-insensitive),
+// so an empty list means the page is safe to capture. run.mjs sends this function's source into
+// the page, so it must use nothing from outside itself.
+export function cleanPage(
+  doc: MaskDocument,
+  mask: { replace?: { selector: string; text: string }[]; hide?: string[] },
+  deny: string[],
+): string[] {
+  for (const rule of mask.replace ?? []) {
+    for (const node of Array.from(doc.querySelectorAll(rule.selector))) node.textContent = rule.text;
+  }
+  for (const selector of mask.hide ?? []) {
+    for (const node of Array.from(doc.querySelectorAll(selector))) node.remove();
+  }
+  const visible = (doc.body.innerText ?? doc.body.textContent ?? "").toLowerCase();
+  return deny.filter((word) => visible.includes(word.toLowerCase()));
 }
 
 export function parseStep(line: string): Step {

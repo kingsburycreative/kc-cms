@@ -1727,5 +1727,22 @@
     "verified_at": "2026-11-17T20:37:14.529Z",
     "tree": "e23a6d1ad56dff3670f02063cc708527d60222a04c61868fca844766d7370075",
     "gate": "full"
+  },
+  {
+    "id": "108.04b",
+    "title": "Screenshots show demo text only, nothing of KC's",
+    "brief": ".claude/work/108-04b-screenshot-masks/brief.md",
+    "start_sha": "aaf59d5142abcf2d87e9c42c6381777425d6bef5",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T20:40:34.176Z",
+      "start_sha": "aaf59d5142abcf2d87e9c42c6381777425d6bef5",
+      "mutation_evidence": true,
+      "tree": "ea0237cacc674e827930d1478b52337414a2f49fcdcf020c65f457531fbc84b6",
+      "size": "Normal"
+    },
+    "verified_at": "2026-11-17T20:41:22.348Z",
+    "tree": "ea0237cacc674e827930d1478b52337414a2f49fcdcf020c65f457531fbc84b6",
+    "gate": "full"
   }
 ]

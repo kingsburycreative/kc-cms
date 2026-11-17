@@ -5,12 +5,16 @@ import { join } from "node:path";
 import { after, before, describe, it } from "node:test";
 import {
   changedPages,
+  cleanPage,
   diffHashes,
   hashFolder,
   missingFromManifest,
   parseStep,
   picturesUsedBy,
+  type Manifest,
   type ManifestEntry,
+  type MaskDocument,
+  type MaskNode,
 } from "../guide/screenshots/compare.ts";
 import { pages } from "../guide/pages.ts";
 
@@ -117,7 +121,24 @@ describe("pictures a page uses", () => {
 });
 
 describe("screenshot manifest", () => {
-  const manifest = JSON.parse(readFileSync(join(shots, "manifest.json"), "utf8")) as ManifestEntry[];
+  const file = JSON.parse(readFileSync(join(shots, "manifest.json"), "utf8")) as Manifest;
+  const manifest = file.shots;
+
+  it("seeds the deny list with KC's names and the client names", () => {
+    const deny = file.deny.map((word) => word.toLowerCase());
+    for (const word of ["kingsbury", "kc test site", "kingsburycreative.com", "skilled-trades-month", "henike", "besciworks"]) {
+      assert.ok(deny.includes(word), `deny list lacks ${word}`);
+    }
+  });
+
+  it("has well-formed replace and hide rules", () => {
+    for (const item of manifest) {
+      for (const rule of item.replace ?? []) {
+        assert.ok(rule.selector && typeof rule.text === "string", `${item.picture} has a bad replace rule`);
+      }
+      for (const selector of item.hide ?? []) assert.ok(selector, `${item.picture} has an empty hide selector`);
+    }
+  });
 
   it("names a picture file for every img a guide page uses", () => {
     for (const page of pages) {
@@ -149,6 +170,93 @@ describe("screenshot manifest", () => {
       assert.match(name, /\.png$/);
       assert.match(hash, /^[0-9a-f]{64}$/);
     }
+  });
+});
+
+// A fixture page with no browser: elements are found by the exact selector string they were
+// registered under, and the page's visible text is whatever attached elements still say.
+function fixturePage(elements: Record<string, string[]>): MaskDocument & { text(selector: string): string[] } {
+  type Fixture = MaskNode & { attached: boolean };
+  const nodes: Record<string, Fixture[]> = {};
+  for (const [selector, texts] of Object.entries(elements)) {
+    nodes[selector] = texts.map((text) => {
+      const node: Fixture = {
+        attached: true,
+        textContent: text,
+        remove() {
+          node.attached = false;
+        },
+      };
+      return node;
+    });
+  }
+  const live = () => Object.values(nodes).flat().filter((node) => node.attached);
+  return {
+    querySelectorAll: (selector) => (nodes[selector] ?? []).filter((node) => node.attached),
+    body: {
+      get textContent() {
+        return live().map((node) => node.textContent).join(" ");
+      },
+    },
+    text: (selector) => (nodes[selector] ?? []).filter((node) => node.attached).map((node) => node.textContent ?? ""),
+  };
+}
+
+describe("screenshot masks", () => {
+  const deny = ["kingsbury", "kc test site"];
+  const dirty = () =>
+    fixturePage({
+      ".pages-loaded": ["Pages loaded: 98,412"],
+      ".site-name": ["KC Test Site", "Welcome to Kingsbury Creative"],
+      ".staff-only": ["Staff only: Kingsbury admin tools"],
+      ".title": ["Recent changes"],
+    });
+
+  it("replace sets the text of every matching element", () => {
+    const page = dirty();
+    cleanPage(page, { replace: [{ selector: ".site-name", text: "Demo Site" }] }, deny);
+    assert.deepEqual(page.text(".site-name"), ["Demo Site", "Demo Site"]);
+    assert.deepEqual(page.text(".title"), ["Recent changes"]);
+  });
+
+  it("hide removes the matching elements and leaves the rest", () => {
+    const page = dirty();
+    cleanPage(page, { hide: [".staff-only"] }, deny);
+    assert.deepEqual(page.text(".staff-only"), []);
+    assert.deepEqual(page.text(".title"), ["Recent changes"]);
+  });
+
+  it("fails a page that still says Kingsbury, in any case", () => {
+    assert.deepEqual(cleanPage(dirty(), {}, deny), ["kingsbury", "kc test site"]);
+    assert.deepEqual(cleanPage(fixturePage({ p: ["KINGSBURY"] }), {}, deny), ["kingsbury"]);
+  });
+
+  it("passes the cleaned page", () => {
+    const page = dirty();
+    const left = cleanPage(
+      page,
+      {
+        replace: [
+          { selector: ".pages-loaded", text: "Pages loaded: 1,240" },
+          { selector: ".site-name", text: "Demo Site" },
+        ],
+        hide: [".staff-only"],
+      },
+      deny,
+    );
+    assert.deepEqual(left, []);
+    assert.deepEqual(page.text(".pages-loaded"), ["Pages loaded: 1,240"]);
+  });
+
+  it("uses the browser's visible text when the page has it", () => {
+    const page = { querySelectorAll: () => [], body: { innerText: "Hello from Kingsbury", textContent: "" } };
+    assert.deepEqual(cleanPage(page, {}, deny), ["kingsbury"]);
+  });
+
+  it("is one self-contained function, so run.mjs can send its source into the page", () => {
+    const inPage = new Function(`return (${cleanPage.toString()})`)() as typeof cleanPage;
+    const page = dirty();
+    assert.deepEqual(inPage(page, { hide: [".staff-only"], replace: [{ selector: ".site-name", text: "Demo" }] }, deny), []);
   });
 });
 

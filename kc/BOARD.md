@@ -4,7 +4,6 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
-- **108.04b**: Screenshots show demo text only, nothing of KC's (plan card 04b)
 - **108.06**: Module pages part 1: bilingual, galleries, reviews, business details (plan card 06). No client names.
 - **108.07**: Module pages part 2: publications, events, menu, hours (plan card 07). No client names.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
@@ -54,6 +53,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **108.04b screenshot-masks**: manifest.json is now `{ deny, shots }`; each shot may carry `replace` (selector, made-up text) and `hide` (selectors), applied in the page before capture, and run.mjs refuses any shot whose visible text still has a deny word (kingsbury, KC domains, client names), exiting 1 without touching hashes.json. No real shots yet; never run against the demo. The deny list names clients, so card 06 client-name check must skip manifest.json.
 - **108.05b guide-drafts**: `node kc/guide/build.ts <outDir> --drafts` builds and lists every page, unapproved ones marked "Draft, not yet approved" above the title; still noindex. Without the flag nothing changes. The draft line has no style yet (style.css was out of scope). Not deployed to /preview/.
 - **108.05 core-guide-pages**: ten core help pages in kc/guide/pages/core-*.ts, words only, 13 visible [picture: ...] markers for a later capture card. Each page is approved = false, so the build skips it until Rob reads and approves it in chat. Written from the October BeSciWorks guide, not checked against the current CMS source; the new-reader walk-through was not run; photo steps, the Insights-may-be-off line and the reload advice are guesses.
 - **108.04 guide-screenshots**: `node kc/guide/screenshots/run.mjs` (needs KC_GUIDE_DEMO_URL) takes the manifest's screenshots with headless Playwright Chromium into kc/guide/img/ and prints the guide pages whose pictures changed since the last run (sha256 hashes in hashes.json). Manifest is empty until pages with pictures exist. playwright added as a devDependency. Never run against the demo site yet.
