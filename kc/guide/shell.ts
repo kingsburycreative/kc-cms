@@ -76,8 +76,12 @@ ${opts.main}
 `;
 }
 
-export function renderPage(page: GuidePage, pages: GuidePage[], version: string): string {
-  const main = `<h1>${escapeHtml(page.title)}</h1>
+export const DRAFT_LINE = "Draft, not yet approved";
+
+// showDraftLine is set only by a drafts build, for pages Rob has not approved yet.
+export function renderPage(page: GuidePage, pages: GuidePage[], version: string, showDraftLine = false): string {
+  const draft = showDraftLine && page.approved === false ? `<p class="draft">${DRAFT_LINE}</p>\n` : "";
+  const main = `${draft}<h1>${escapeHtml(page.title)}</h1>
 ${page.body}
 <p class="stamp"><time datetime="${page.checked}">${escapeHtml(stampText(version, page.checked))}</time></p>`;
   return layout({

@@ -1710,5 +1710,73 @@
     "verified_at": "2026-11-17T20:23:59.885Z",
     "tree": "31a3401859678f6e35272d909ef6114baab5a87e26e31ae352d39192e3ccb2a2",
     "gate": "full"
+  },
+  {
+    "id": "108.05b",
+    "title": "Preview build with unapproved pages",
+    "brief": ".claude/work/108-05b-guide-drafts/brief.md",
+    "start_sha": "ec39883e250ea494382c65390ab89066fa2b95db",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T20:35:42.709Z",
+      "start_sha": "ec39883e250ea494382c65390ab89066fa2b95db",
+      "mutation_evidence": true,
+      "tree": "e23a6d1ad56dff3670f02063cc708527d60222a04c61868fca844766d7370075",
+      "size": "Normal"
+    },
+    "verified_at": "2026-11-17T20:37:14.529Z",
+    "tree": "e23a6d1ad56dff3670f02063cc708527d60222a04c61868fca844766d7370075",
+    "gate": "full"
+  },
+  {
+    "id": "108.04b",
+    "title": "Screenshots show demo text only, nothing of KC's",
+    "brief": ".claude/work/108-04b-screenshot-masks/brief.md",
+    "start_sha": "aaf59d5142abcf2d87e9c42c6381777425d6bef5",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T20:40:34.176Z",
+      "start_sha": "aaf59d5142abcf2d87e9c42c6381777425d6bef5",
+      "mutation_evidence": true,
+      "tree": "ea0237cacc674e827930d1478b52337414a2f49fcdcf020c65f457531fbc84b6",
+      "size": "Normal"
+    },
+    "verified_at": "2026-11-17T20:41:22.348Z",
+    "tree": "ea0237cacc674e827930d1478b52337414a2f49fcdcf020c65f457531fbc84b6",
+    "gate": "full"
+  },
+  {
+    "id": "108.06",
+    "title": "Module pages part 1: bilingual, galleries, reviews, business details",
+    "brief": ".claude/work/108-06-module-pages-1/brief.md",
+    "start_sha": "0814be9fdcf06b1c3a2359cae567ed2695c436e1",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T20:47:07.971Z",
+      "start_sha": "0814be9fdcf06b1c3a2359cae567ed2695c436e1",
+      "mutation_evidence": true,
+      "tree": "eae962a09ffdec9ef5eca28f5fea2e87c4b2c1cd23c450f8c13a889f51afd3e1",
+      "size": "Small"
+    },
+    "verified_at": "2026-11-17T20:47:43.154Z",
+    "tree": "eae962a09ffdec9ef5eca28f5fea2e87c4b2c1cd23c450f8c13a889f51afd3e1",
+    "gate": "full"
+  },
+  {
+    "id": "108.07",
+    "title": "Module pages part 2: publications, events, menu, hours",
+    "brief": ".claude/work/108-07-module-pages-2/brief.md",
+    "start_sha": "b483bc0c6c1da7c02ce7851fa1b888f293c74907",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T20:50:31.678Z",
+      "start_sha": "b483bc0c6c1da7c02ce7851fa1b888f293c74907",
+      "mutation_evidence": true,
+      "tree": "4dbb71ed97e84efb7cf9b0e86ffd89668875e316252d21ecd5a7f9c6b0469387",
+      "size": "Small"
+    },
+    "verified_at": "2026-11-17T20:51:11.180Z",
+    "tree": "4dbb71ed97e84efb7cf9b0e86ffd89668875e316252d21ecd5a7f9c6b0469387",
+    "gate": "full"
   }
 ]

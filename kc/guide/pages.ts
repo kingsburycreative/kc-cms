@@ -9,6 +9,14 @@ import * as coreSaveAndLiveSite from "./pages/core-save-and-live-site.ts";
 import * as coreUndo from "./pages/core-undo.ts";
 import * as coreSeeWhoVisits from "./pages/core-see-who-visits.ts";
 import * as coreGettingHelp from "./pages/core-getting-help.ts";
+import * as moduleBilingual from "./pages/module-bilingual.ts";
+import * as moduleGalleries from "./pages/module-galleries.ts";
+import * as moduleReviews from "./pages/module-reviews.ts";
+import * as moduleBusinessDetails from "./pages/module-business-details.ts";
+import * as modulePublications from "./pages/module-publications.ts";
+import * as moduleEvents from "./pages/module-events.ts";
+import * as moduleMenu from "./pages/module-menu.ts";
+import * as moduleHours from "./pages/module-hours.ts";
 
 export type GuidePage = {
   title: string;
@@ -21,6 +29,8 @@ export type GuidePage = {
   body: string;
   // false keeps the page out of the built guide until Rob approves it. Missing counts as approved.
   approved?: boolean;
+  // Id of the CMS module a page covers, for module pages.
+  moduleId?: string;
 };
 
 export const pages: GuidePage[] = [
@@ -35,6 +45,14 @@ export const pages: GuidePage[] = [
   coreUndo,
   coreSeeWhoVisits,
   coreGettingHelp,
+  moduleBilingual,
+  moduleGalleries,
+  moduleReviews,
+  moduleBusinessDetails,
+  modulePublications,
+  moduleEvents,
+  moduleMenu,
+  moduleHours,
 ];
 
 export function approvedPages(list: GuidePage[]): GuidePage[] {

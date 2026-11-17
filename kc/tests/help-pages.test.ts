@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, mkdtempSync, readFileSync, rmSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, it } from "node:test";
@@ -48,6 +48,43 @@ describe("core guide pages", () => {
       });
     });
   }
+});
+
+describe("module guide pages", () => {
+  const modules = pages.filter((page) => page.slug.startsWith("module-"));
+  const ids = ["bilingual", "galleries", "reviews", "business-details", "publications", "events", "menu", "hours"];
+  const DENY = /henike|besciworks|cupboard|kirk|nikki|chris adams/i;
+
+  it("has all eight module pages", () => {
+    for (const id of ids) assert.ok(modules.some((page) => page.moduleId === id), id);
+    checkPages(pages);
+  });
+
+  for (const page of modules) {
+    describe(page.slug, () => {
+      it("has a title, date, approved and a module id", () => {
+        assert.ok(page.title.length > 0);
+        assert.match(page.checked, /^\d{4}-\d{2}-\d{2}$/);
+        assert.equal(typeof page.approved, "boolean");
+        assert.ok(page.moduleId && page.moduleId.length > 0);
+      });
+
+      it("carries the version stamp when rendered", () => {
+        assert.ok(renderPage(page, [page], version).includes(stampText(version, page.checked)));
+      });
+
+      it("uses none of the banned words", () => {
+        assert.doesNotMatch(textOf(page), BANNED);
+      });
+    });
+  }
+
+  it("names no client in any page source", () => {
+    const dir = join(root, "kc", "guide", "pages");
+    for (const file of [...readdirSync(dir).map((f) => join(dir, f)), join(root, "kc", "guide", "pages.ts")]) {
+      assert.doesNotMatch(readFileSync(file, "utf8"), DENY, file);
+    }
+  });
 });
 
 describe("unapproved pages", () => {

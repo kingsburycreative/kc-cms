@@ -5,7 +5,7 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { changedPages, hashFolder, parseStep } from "./compare.ts";
+import { changedPages, cleanPage, hashFolder, parseStep } from "./compare.ts";
 import { pages } from "../pages.ts";
 
 const here = dirname(fileURLToPath(import.meta.url));
@@ -25,8 +25,9 @@ mkdirSync(imgDir, { recursive: true });
 
 const { chromium } = await import("playwright");
 const browser = await chromium.launch();
+let failed = false;
 try {
-  for (const entry of manifest) {
+  for (const entry of manifest.shots) {
     const context = await browser.newContext({ viewport: { width: entry.width, height: 800 } });
     const tab = await context.newPage();
     await tab.goto(new URL(entry.url, base).href);
@@ -37,6 +38,17 @@ try {
       else if (step.action === "fill") await tab.fill(step.selector, step.text);
       else await tab.waitForSelector(step.selector);
     }
+    // Swap and hide KC's own text, then refuse the shot if a deny word is still on the page.
+    // cleanPage's source runs inside the page, so the test suite checks the same code.
+    const denied = await tab.evaluate(
+      `(${cleanPage.toString()})(document, ${JSON.stringify({ replace: entry.replace, hide: entry.hide })}, ${JSON.stringify(manifest.deny)})`,
+    );
+    if (denied.length > 0) {
+      for (const word of denied) console.error(`Refused ${entry.picture}: the page still shows "${word}"`);
+      failed = true;
+      await context.close();
+      continue;
+    }
     await tab.screenshot({ path: join(imgDir, entry.picture), fullPage: true });
     await context.close();
     console.log(`Took ${entry.picture} (${entry.width}px)`);
@@ -44,9 +56,13 @@ try {
 } finally {
   await browser.close();
 }
+if (failed) {
+  console.error("Some shots were refused, so hashes.json is left as it was.");
+  process.exit(1);
+}
 
 const after = hashFolder(imgDir);
-const changed = changedPages(before, after, manifest, pages);
+const changed = changedPages(before, after, manifest.shots, pages);
 writeFileSync(hashesFile, JSON.stringify(after, null, 2) + "\n");
 
 if (changed.length === 0) console.log("No guide page has a changed picture.");

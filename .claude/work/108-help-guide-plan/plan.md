@@ -44,6 +44,14 @@ Files it may touch:
 Done-test: `node --test kc/tests/help-screenshots.test.ts` passes: compare.ts on two fixture folders lists exactly the pages whose picture hash differs and none that match, and the manifest names a picture file for every `<img>` a guide page uses. Mutation check: make compare report every page; the test fails.
 Risky path: no. Running the script against the live demo is Rob's or the coordinator's step, not the card's.
 
+### 04b. Screenshots show demo text only, nothing of KC's (job: code)
+Rob, 2026-11-17: "We also need to ensure there is no KC stuff. It might make sense for this demo to just fake some of the text in place of 'pages loaded', 'recent changes', etc." The demo site (kc-test-site branch card/07-guide-demo, business name "Maple Street Co.") is wired to KC's own analytics, so the visits, Insights, most viewed pages, where visitors come from and recent changes panels show KC's real data. Without changing the CMS: each manifest entry may carry a `replace` list (CSS selector, made-up text or number) that run.mjs applies in the page with Playwright just before the capture, plus a `hide` list for anything with no demo stand-in (e.g. the Staff only panel). After the swap, run.mjs fails the shot if the page text still contains any word from a deny list kept in the manifest (kingsbury, kc test site, the KC domains, skilled-trades-month, the client names from the trap in C:\Users\roban\.claude\pm\traps.md). The made-up figures are plainly ordinary (e.g. 1,240 visitors) and the same on every run, so pictures only change when the CMS does.
+Files it may touch:
+- `kc/guide/screenshots/run.mjs`, `kc/guide/screenshots/compare.ts`, `kc/guide/screenshots/manifest.json`
+- `kc/tests/help-screenshots.test.ts` (extend)
+Done-test: `node --test kc/tests/help-screenshots.test.ts` passes: on a fixture HTML page, the replace step swaps the named text, the hide step removes the named element, and the deny-list check fails a page that still says "Kingsbury" and passes the cleaned one. Mutation check: skip the deny-list check; the test fails.
+Risky path: no. Nothing in the CMS changes; this is the guide's own tooling.
+
 ### 05. Core guide pages (job: content)
 PM note, 2026-11-17: words first, no pictures in this card. Screenshots must show the client view, which needs an email (non-GitHub) sign-in on the demo branch card/07-guide-demo of kc-test-site; that is not set up yet. Where a picture belongs, put a visible `[picture: <what it shows>]` marker in the page body and list it in result.md; a later card swaps them for real captures. Write from the current CMS (kc-cms-app source and the BeSciWorks guide), and describe only the client's view: no Staff only panel, no analytics IDs. Save and undo page: use .claude/work/108-01-restore-check/finding.md; restore brings back fields the site's setup lists, and a field the setup does not list is not kept on save, so tell clients to ask KC before restoring an old version if a section seems missing.
 Objective: split the shared BeSciWorks sections into core pages: sign in, find your way around, change the text on a page, add and remove an entry in a list, photos and files, format text, save and what Save does to the live site, undo and get an old version back (written from card 01's finding and 02's result), see who visits, getting help. Weekly, Papers and search health are not core. Copy goes through prose, then avoid-ai-writing and humanizer via the Skill tool; result.md lists each piece of copy. Words the reader does not know ("repo", "commit", "collection", "field") are not used. An agent that has never seen the CMS follows each task from the page once and the copy is rewritten where it stalls (a filter only). Pictures come from card 04.
@@ -56,25 +64,33 @@ Done-test: `node --test kc/tests/help-pages.test.ts` passes: every core page has
 Human step: Rob reads each page and approves it in the coordinator's chat; a page he has not approved stays out of the nav (`approved: false` in its header) until he has. His read is the sign-off for understandable and accurate.
 Risky path: no.
 
-### 06. Henike module pages (job: content)
-Objective: pages for what only Henike has, read from D:\Dev\htdocs\henike-contracting\.pages.yml: English and French post pairs (posts, posts-fr, linked by file name via the stem token), page pairs (home and others), project photo categories, Google reviews and rating (typed figures, hidden, follow reviews), business details. Same copy rule, same plain-words rule as 05. Screenshots from the demo site with a copy of the config. Each page header names its module (`module: henike`) so card 08 can list it.
+### 05b. Preview build that includes unapproved pages (job: code)
+Rob, 2026-11-17: "Go" on a preview of the unapproved pages at guide.kingsburycreative.com/preview/ so he can read them on his phone. `node kc/guide/build.ts <outDir> --drafts` builds every page, approved or not, and puts a plain "Draft, not yet approved" line at the top of each unapproved page. Without the flag the build is unchanged (unapproved pages left out). Drafts output is noindex like the rest.
 Files it may touch:
-- `kc/guide/pages/henike-*.ts` (new)
+- `kc/guide/build.ts`, `kc/guide/shell.ts`
+- `kc/tests/guide-build.test.ts` (extend)
+Done-test: `node --test kc/tests/guide-build.test.ts kc/tests/help-pages.test.ts` passes: with --drafts an unapproved page is built and carries the draft line and the noindex tag; without it the page is absent. Mutation check: ignore the flag; the test fails.
+Risky path: no.
+
+### 06. Module pages, part 1: bilingual pages and posts, photo galleries, reviews and rating, business details (job: content)
+PM change, 2026-11-17. Rob: "There should be NO screenshots with client names in them... Think of the addons as modules from the core cms product." Modules are product features of KC CMS, named for what they do. No page, header, file name, picture or example names a client. Examples use the demo's made-up businesses only.
+Objective: one page per module: Bilingual pages and posts (English and French pairs, linked by file name), Photo galleries (photo categories), Reviews and rating (typed figures), Business details. Describe each from the demo config on kc-test-site branch card/07-guide-demo (group "Bilingual posts, galleries and reviews"). Same copy and plain-words rules as 05. Each page header names its module id (`module: bilingual`, `module: galleries`, `module: reviews`, `module: business-details`) so card 08 can list it. Pictures as `[picture: ...]` markers until client-view captures exist.
+Files it may touch:
+- `kc/guide/pages/module-*.ts` (new)
 - `kc/guide/pages.ts`
-- `kc/guide/img/henike-*.png` (from the script)
 - `kc/tests/help-pages.test.ts` (extend, same checks as 05)
-Done-test: `node --test kc/tests/help-pages.test.ts` passes, and every page with `module: henike` has a stamp, a date and alt text.
+Done-test: `node --test kc/tests/help-pages.test.ts` passes: every module page has a stamp, a date and a module id, and no page in kc/guide/ contains henike, besciworks, cupboard, kirk, nikki or chris adams (case-insensitive).
 Human step: Rob reads each page and approves it; unapproved pages stay out of the nav.
 Risky path: no.
 
-### 07. BeSciWorks module pages (job: content)
-Objective: pages for Papers (journal details, PDF), Weekly, What Works and Insight Briefs, from the BeSciWorks guide's sections 3 and 5 and D:\Dev\htdocs\besciworks\.pages.yml. Search health (section 10) is dropped unless Rob asks; say so in result.md. Same copy and plain-words rules as 05; header `module: besciworks`. These pages go live before /guides/besciworks redirects (08 waits on all of 05 to 07 approved).
+### 07. Module pages, part 2: publications and events, menu and hours (job: content)
+PM change, 2026-11-17: modules, not clients (see 06).
+Objective: one page per module: Publications (papers with journal details and a PDF, research summaries, weekly posts), Events, Menu, Opening hours. From the demo config groups "Publications" and "Events, menu and hours" and the shared steps in the old guide at public/guides/besciworks/index.html (reword; no client names). Header `module: publications`, `module: events`, `module: menu`, `module: hours`. These pages go live before /guides/besciworks redirects (09 waits on 05 to 07 approved).
 Files it may touch:
-- `kc/guide/pages/besciworks-*.ts` (new)
+- `kc/guide/pages/module-*.ts` (new)
 - `kc/guide/pages.ts`
-- `kc/guide/img/besciworks-*.png` (from the script)
 - `kc/tests/help-pages.test.ts` (extend)
-Done-test: `node --test kc/tests/help-pages.test.ts` passes for every page with `module: besciworks`.
+Done-test: `node --test kc/tests/help-pages.test.ts` passes for every page with these module ids, and the no-client-names check passes.
 Human step: Rob reads each page and approves it.
 Risky path: no.
 
