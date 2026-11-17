@@ -96,12 +96,16 @@ export function entryPoints(list: GuidePage[]): EntryPoint[] {
 
 export function checkPages(list: GuidePage[]): void {
   const seen = new Set<string>();
+  const titles = new Set<string>();
   for (const page of list) {
-    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(page.slug) || page.slug === "index") {
+    if (!/^[a-z0-9]+(-[a-z0-9]+)*$/.test(page.slug) || page.slug === "index" || page.slug === "404") {
       throw new Error(`Bad guide page slug: ${page.slug}`);
     }
     if (seen.has(page.slug)) throw new Error(`Two guide pages share the slug ${page.slug}`);
     seen.add(page.slug);
+    // A leftover demo or copy of a page would list the same title twice in the nav and on the home page.
+    if (titles.has(page.title)) throw new Error(`Two guide pages share the title "${page.title}"`);
+    titles.add(page.title);
     if (!/^\d{4}-\d{2}-\d{2}$/.test(page.checked)) {
       throw new Error(`Guide page ${page.slug} needs a checked date as YYYY-MM-DD`);
     }

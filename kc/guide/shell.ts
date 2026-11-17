@@ -1,4 +1,4 @@
-import { entryPoints, groupPages, type EntryPoint, type GuidePage } from "./pages.ts";
+import { entryPoints, type EntryPoint, type GuidePage } from "./pages.ts";
 import { escapeHtml, helpBar, pageHeader, stripTags, withHeadingIds, type Heading } from "./parts.ts";
 
 export { escapeHtml };
@@ -22,28 +22,28 @@ export function stampText(version: string, checked: string): string {
   return `Checked on KC CMS ${version}, ${formatDate(checked)}`;
 }
 
-function groupLabel(name: string): string {
-  if (name === "core") return "Every site";
-  if (name === "modules") return "Modules";
-  return name;
-}
-
 const DOORS: Record<EntryPoint["id"], { title: string; text: string }> = {
   start: { title: "Getting started", text: "Sign in and find your way around." },
   everyday: { title: "Everyday tasks", text: "Change text, add photos, save and see your site." },
   modules: { title: "Modules", text: "Guides for the extra parts of your site." },
 };
 
+const HERO_ALT =
+  "A linocut print of a desk with a lit lamp, a laptop showing a web page and a coffee mug, beside a window onto a small-town main street.";
+const NOT_FOUND_ALT = "A linocut print of two hands holding a phone that shows a website.";
+
+// The sidebar groups are the home page's three doors, in the same order and with the same names.
 function navHtml(pages: GuidePage[], currentSlug: string | null): string {
-  const groups = groupPages(pages)
-    .map((group) => {
-      const items = group.pages
+  const groups = entryPoints(pages)
+    .filter((entry) => entry.pages.length > 0)
+    .map((entry) => {
+      const items = entry.pages
         .map((page) => {
           const current = page.slug === currentSlug ? ' aria-current="page"' : "";
           return `<li><a href="${page.slug}.html"${current}>${escapeHtml(page.title)}</a></li>`;
         })
         .join("\n");
-      return `<h2>${escapeHtml(groupLabel(group.name))}</h2>\n<ul>\n${items}\n</ul>`;
+      return `<h2>${DOORS[entry.id].title}</h2>\n<ul>\n${items}\n</ul>`;
     })
     .join("\n");
   const search = `<div class="search" data-search hidden>
@@ -76,6 +76,9 @@ function layout(opts: {
   currentSlug: string | null;
   main: string;
   headings?: Heading[];
+  // A band between the header and the page, used by the home page.
+  hero?: string;
+  frameClass?: string;
 }): string {
   return `<!doctype html>
 <html lang="en-CA">
@@ -93,7 +96,8 @@ function layout(opts: {
 <a class="site-name" href="index.html">${SITE_NAME}</a>
 <a class="menu-open" href="#menu">Menu</a>
 </header>
-<div class="frame">
+${opts.hero ?? ""}
+<div class="frame${opts.frameClass ? ` ${opts.frameClass}` : ""}">
 ${navHtml(opts.pages, opts.currentSlug)}
 <main id="content">
 ${opts.main}
@@ -132,28 +136,51 @@ export function renderPage(page: GuidePage, pages: GuidePage[], version: string,
 
 function doorHtml(entry: EntryPoint): string {
   const door = DOORS[entry.id];
+  // Each row shows the page's title, what it gets done and how long it takes.
   const links = entry.pages
-    .map((page) => `<li><a href="${page.slug}.html">${escapeHtml(page.title)}</a></li>`)
+    .map((page) => {
+      const goal = page.goal ? `<span class="door-goal">${escapeHtml(page.goal)}</span>` : "";
+      const time = page.time ? `<span class="door-time">${escapeHtml(page.time)}</span>` : "";
+      return `<li><a class="door-page" href="${page.slug}.html"><span class="door-title">${escapeHtml(page.title)}</span>${goal}${time}</a></li>`;
+    })
     .join("\n");
   const list = links ? `<ul>\n${links}\n</ul>` : `<p class="door-empty">No pages here yet.</p>`;
   return `<section class="door" id="${entry.id}" aria-labelledby="door-${entry.id}">
 <h2 id="door-${entry.id}">${door.title}</h2>
-<p>${door.text}</p>
+<p class="door-text">${door.text}</p>
 ${list}
 </section>`;
 }
 
 export function renderIndex(pages: GuidePage[], version: string): string {
   const doors = entryPoints(pages).map(doorHtml).join("\n");
-  const main = `<header class="page-head">
-<h1>${HOME_TITLE}</h1>
+  const hero = `<section class="hero" aria-labelledby="home-title">
+<div class="hero-inner">
+<img class="hero-art" src="img/linocut-workspace.webp" alt="${HERO_ALT}" width="1024" height="1024" fetchpriority="high">
+<div class="hero-text">
+<h1 id="home-title">${HOME_TITLE}</h1>
 <p class="goal">${HOME_LEAD}</p>
 <p class="meta"><span class="stamp">Written for KC CMS ${escapeHtml(version)}</span></p>
-</header>
-<div class="doors">
+</div>
+</div>
+</section>`;
+  const main = `<div class="doors">
 ${doors}
 </div>`;
-  return layout({ title: SITE_NAME, pages, currentSlug: null, main });
+  return layout({ title: SITE_NAME, pages, currentSlug: null, main, hero, frameClass: "frame-home" });
+}
+
+export const NOT_FOUND_TITLE = "That page is not here";
+
+// Served by the host for any address that has no page, so it holds the nav and a way home.
+export function renderNotFound(pages: GuidePage[]): string {
+  const main = `<div class="not-found">
+<img class="not-found-art" src="img/linocut-mobile.webp" alt="${NOT_FOUND_ALT}" width="1024" height="1024">
+<h1>${NOT_FOUND_TITLE}</h1>
+<p class="goal">The link may be old, or the page may have moved. Start again from the guide home.</p>
+<a class="button" href="index.html">Back to the guide home</a>
+</div>`;
+  return layout({ title: `Page not found | ${SITE_NAME}`, pages, currentSlug: null, main });
 }
 
 // The data search.js reads: one entry for each page and each of its headings.
