@@ -1608,5 +1608,22 @@
     "brief": ".claude/work/106-plan-journey-logging/brief.md",
     "start_sha": "4ce5dfceabe4daf28f0b9d99e5e980f91613b5e6",
     "passes": false
+  },
+  {
+    "id": "108",
+    "title": "help-guide-plan",
+    "brief": ".claude/work/108-help-guide-plan/brief.md",
+    "start_sha": "dca71d89e928cd0b9741e337a1db4bb1ec0b4496",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T19:13:04.919Z",
+      "start_sha": "dca71d89e928cd0b9741e337a1db4bb1ec0b4496",
+      "mutation_evidence": false,
+      "tree": "c7dd3806699ab47aefe07f5e01fff9831042458037dbf38a49810de154c62d2e",
+      "size": "Small"
+    },
+    "verified_at": "2026-11-17T19:13:39.405Z",
+    "tree": "c7dd3806699ab47aefe07f5e01fff9831042458037dbf38a49810de154c62d2e",
+    "gate": "documents"
   }
 ]
