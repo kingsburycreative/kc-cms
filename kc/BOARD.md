@@ -4,6 +4,7 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
+- **108.13**: Guide polish: linocut home page, door panels, demo page out of nav, sidebar scroll, 404 (plan card 13). PM review 2026-11-17.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
