@@ -1,0 +1,3 @@
+- Read brief, project.md, ADR 0004, plan; ran avoid-ai-design, prose, avoid-ai-writing, humanizer skills (all loaded).
+- Next: write kc/guide/version.ts, pages.ts, pages/placeholder.ts, shell.ts, style.css, build.ts, then kc/tests/guide-build.test.ts. Nothing written yet.
+- .gitignore check: only /out/ (root) and /.next/ ignored; kc/guide/out/ is NOT covered.

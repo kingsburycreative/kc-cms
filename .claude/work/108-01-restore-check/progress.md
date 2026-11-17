@@ -1,0 +1,1 @@
+- Read brief, restore.ts, entry route, save route, lib/schema.ts. Cause found: read path (entries GET parseContent) and save path (zod + deepMap) both rebuild content from the schema, so a field the schema lacks is dropped. Next: write fixtures and test (kc/tests/restore-wiped-field.test.ts), then finding.md, mutation check, result.md.

@@ -212,6 +212,13 @@
       "tests": ["kc/tests/add-editor.test.ts"]
     },
     {
+      "id": "help-guide-docs",
+      "title": "Help guide PRD and decision records",
+      "files": ["docs/PRD-help-guide.md", "docs/adr/0001-help-lives-at-cms-help.md", "docs/adr/0002-guide-tied-to-deployed-version.md", "docs/adr/0003-retire-pdf-and-client-guides.md", "docs/adr/0004-guide-at-guide-kingsburycreative.md"],
+      "watch": ["docs/PRD-help-guide.md", "docs/adr/*"],
+      "tests": ["kc/tests/register-customizations.test.ts"]
+    },
+    {
       "id": "release-version",
       "title": "Release version and its status",
       "files": ["package.json", "kc/update/status.ts", "kc/update/status-fetch.ts", "CHANGELOG-KC.md"],

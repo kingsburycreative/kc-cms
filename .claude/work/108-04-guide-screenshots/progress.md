@@ -1,0 +1,3 @@
+- Read brief, project.md, plan, guide sources.
+- Done: playwright ^1.65.1 added (package.json, package-lock.json), chromium installed.
+- Next: compare.ts, manifest.json, hashes.json, run.mjs, test, mutation check, result.md.

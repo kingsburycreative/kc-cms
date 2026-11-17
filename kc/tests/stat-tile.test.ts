@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 
 // JSX and "@/" imports cannot load under node --test, so these read the source.
-const read = (p: string) => readFileSync(new URL(p, import.meta.url), "utf8");
+const read = (p: string) => readFileSync(new URL(p, import.meta.url), "utf8").replace(/\r\n/g, "\n");
 const tile = read("../stat-tile.tsx");
 const server = read("../dashboard-server.tsx");
 

@@ -54,6 +54,8 @@ box; push to `upstream`; commit `.env*`.
 
 Exception (Rob, 2026-10-27): cards deps-update and nodemailer-major alone may edit `package.json` and `package-lock.json` and run `npm install`, for the dependency updates its board entry names.
 
+Exception (Rob, 2026-11-17): card 108.04 alone may add `playwright` as a devDependency in `package.json` and `package-lock.json` and run `npm install --save-dev playwright` plus `npx playwright install chromium`, for the help guide screenshot script. Nothing else in package.json changes.
+
 Exception (Rob, 2026-10-27): card insights-keys-editor alone may add one new migration under `db/migrations/` and the matching table in `db/schema.ts`, for the analytics IDs table its board entry names.
 
 Exception (Rob, 2026-10-26): the coordinator, not a card worker, may deploy with `server/deploy.sh` from kc-cms after the push's PRs are merged and the suite is green, telling Rob before and after.
