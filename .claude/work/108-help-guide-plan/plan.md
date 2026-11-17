@@ -136,5 +136,19 @@ Done-test: `node --test kc/tests/help-pages.test.ts` passes: every task page has
 Human step: Rob reads the preview and approves each page.
 Risky path: no.
 
+### 13. Guide polish: a home page that looks like a creative studio's (job: code)
+PM review of card 11's own screenshots (.claude/work/108-11-guide-redesign/index-1280.png, demo-change-text-390.png), 2026-11-17, before Rob sees it. Step pages are good; keep them. Fix:
+1. The home page is a bare list of underlined links. Make it: a top band with the linocut illustration D:\Dev\htdocs\kingsburycreative\docs\brand\linocut-workspace.webp (copy into kc/guide/img/, resize to about 1200px wide and keep it under 150 KB, real alt text) beside the title and one plain lead line; then the three doors (Getting started, Everyday tasks, Modules) as large tappable panels, each listing its pages with each page's goal line and "About N minutes" under the title. On a phone the illustration sits above the title, cropped, not hidden.
+2. "Change the text on a page" appears twice in the home list and the sidebar: card 11's demo page leaked into the nav. Remove the demo page from every nav and list; it must not build.
+3. The desktop sidebar is cut off at the bottom ("Bilingual pages and posts" clipped). It scrolls on its own when taller than the screen, sticky under the header.
+4. Sidebar group label "Every site" becomes "Everyday tasks" to match the home doors; Getting started pages listed first.
+5. Use the 404 page for the linocut-mobile.webp art with one line and a link home.
+Slop rules (C:\personas\cas\memory\design-slop.md): no eyebrow labels, no filled-plus-outlined button pairs, no cream, no comma headlines, no proof lines, no curved accent edge on the current nav item (mark it with weight or a plain fill). Colours and fonts only from tokens.css.
+Files it may touch:
+- `kc/guide/shell.ts`, `kc/guide/style.css`, `kc/guide/build.ts`, `kc/guide/pages.ts`, `kc/guide/img/*` (new art), any demo page file card 11 added under `kc/guide/`
+- `kc/tests/guide-build.test.ts`, `kc/tests/help-pages.test.ts` (extend)
+Done-test: `node --test kc/tests/guide-build.test.ts kc/tests/help-pages.test.ts` passes: no page title appears twice in the home page or the nav; the home page has the illustration with alt text and three door panels each listing goal and time per page; a 404.html is built; the illustration file is under 150 KB. Mutation check: add the demo page back to the nav; the test fails. Plus screenshots at 390 and 1280 of the home page and one task page, saved in the card folder.
+Risky path: no.
+
 ### 10. Host the guide at guide.kingsburycreative.com (PM and Rob, not a loop card)
 Create the subdomain on the WHC hosting that serves kingsburycreative.com, upload kc/guide/out/ there, confirm https works and `curl -sI` shows the X-Robots-Tag header. One-time subdomain setup is Rob's (cPanel); the upload after each approved change is the PM's deploy. Done when the index loads on a phone over https and the noindex header and robots.txt are seen live.

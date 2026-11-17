@@ -5,14 +5,15 @@ import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { approvedPages, checkPages, pages as allPages, type GuidePage } from "./pages.ts";
-import { renderIndex, renderPage, renderSearchIndex } from "./shell.ts";
+import { renderIndex, renderNotFound, renderPage, renderSearchIndex } from "./shell.ts";
 import { readVersion } from "./version.ts";
 
 const guideDir = dirname(fileURLToPath(import.meta.url));
 const defaultOut = join(guideDir, "out");
 
 const ROBOTS_TXT = "User-agent: *\nDisallow: /\n";
-const HTACCESS = `<IfModule mod_headers.c>
+const HTACCESS = `ErrorDocument 404 /404.html
+<IfModule mod_headers.c>
 Header set X-Robots-Tag "noindex, nofollow"
 </IfModule>
 `;
@@ -42,6 +43,7 @@ export function build(
   mkdirSync(out, { recursive: true });
 
   writeFileSync(join(out, "index.html"), renderIndex(pages, version));
+  writeFileSync(join(out, "404.html"), renderNotFound(pages));
   for (const page of pages) {
     writeFileSync(join(out, `${page.slug}.html`), renderPage(page, pages, version, drafts));
   }

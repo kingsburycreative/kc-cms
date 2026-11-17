@@ -1,0 +1,5 @@
+- Read brief, plan, source. Duplicate title was a screenshot-only demo page from card 11; not in repo now (pages.ts lists 18 real pages). Test will guard it.
+- Source art is 1024x1024 (cannot reach 1200 wide without upscaling); resized with sharp (already installed) into kc/guide/img/ under 150 KB.
+- Next: pages.ts (group labels, ordering), shell.ts (home, 404), build.ts (404.html), style.css, tests, mutation, screenshots.
+- Edited pages.ts, shell.ts, build.ts, style.css, guide-build.test.ts. Next: run tests, mutation, screenshots, result.md
+- Mutation (duplicate demo page in pages.ts) failed 7 new tests + guide tests; reverted. Rerunning green. Then screenshots, result.md

@@ -1812,5 +1812,22 @@
     "verified_at": "2026-11-17T21:27:47.591Z",
     "tree": "723453f834bd25dd16186cedcc6b33e6c8c5d700828389885a525db48b314ac5",
     "gate": "full"
+  },
+  {
+    "id": "108.13",
+    "title": "Guide polish: home page, nav duplicate, sidebar, 404",
+    "brief": ".claude/work/108-13-guide-polish/brief.md",
+    "start_sha": "5887cc5854de12d38b37dcd9888e41a8b1ce4f5b",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T21:41:35.467Z",
+      "start_sha": "5887cc5854de12d38b37dcd9888e41a8b1ce4f5b",
+      "mutation_evidence": true,
+      "tree": "0e08a77a428b6fdf91991051fa41cd073541afded3deb5219581d9a522119d32",
+      "size": "Normal"
+    },
+    "verified_at": "2026-11-17T21:46:52.034Z",
+    "tree": "0e08a77a428b6fdf91991051fa41cd073541afded3deb5219581d9a522119d32",
+    "gate": "full"
   }
 ]

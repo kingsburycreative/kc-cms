@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { after, before, describe, it } from "node:test";
@@ -232,7 +232,8 @@ describe("the real guide, built with drafts", () => {
 
   it("marks every built page noindex, links the tokens and holds no raw colour", () => {
     const files = readdirSync(out).filter((f) => f.endsWith(".html"));
-    assert.equal(files.length, realPages.length + 1);
+    // Every page, the home page and the 404 page.
+    assert.equal(files.length, realPages.length + 2);
     for (const file of files) {
       const html = readFileSync(join(out, file), "utf8");
       assert.ok(html.includes(NOINDEX), file);
@@ -245,6 +246,87 @@ describe("the real guide, built with drafts", () => {
   it("puts every approved-or-draft page into the search index", () => {
     const index = readFileSync(join(out, "search-index.js"), "utf8");
     for (const page of realPages) assert.ok(index.includes(`"url":"${page.slug}.html"`), page.slug);
+  });
+});
+
+describe("home page, nav and 404 of the real guide", () => {
+  let out: string;
+  before(() => {
+    out = mkdtempSync(join(tmpdir(), "kc-guide-polish-"));
+    build(out, realPages, { drafts: true });
+  });
+  after(() => rmSync(out, { recursive: true, force: true }));
+
+  const read = (name: string) => readFileSync(join(out, name), "utf8");
+  const section = (html: string, from: string, to: string) => html.slice(html.indexOf(from), html.indexOf(to, html.indexOf(from)));
+  const titlesIn = (html: string, pattern: RegExp) => [...html.matchAll(pattern)].map((m) => m[1]);
+  const repeated = (titles: string[]) => titles.filter((title, i) => titles.indexOf(title) !== i);
+
+  it("lists no page title twice in the nav or on the home page", () => {
+    const home = read("index.html");
+    const nav = section(home, '<nav class="side"', "</nav>");
+    const navTitles = titlesIn(nav, /<li><a href="[^"]+\.html"[^>]*>([^<]+)<\/a><\/li>/g);
+    const doorTitles = titlesIn(home, /<span class="door-title">([^<]+)<\/span>/g);
+    assert.equal(navTitles.length, realPages.length);
+    assert.equal(doorTitles.length, realPages.length);
+    assert.deepEqual(repeated(navTitles), []);
+    assert.deepEqual(repeated(doorTitles), []);
+    assert.deepEqual(repeated(realPages.map((page) => page.title)), []);
+  });
+
+  it("refuses two pages with the same title, so a copy or demo page cannot be built or listed", () => {
+    const one = sample("core-one");
+    assert.throws(() => build(out, [one, { ...sample("core-demo"), title: one.title }]), /share the title/);
+    assert.equal(realPages.some((page) => /demo/.test(page.slug)), false);
+  });
+
+  it("has the linocut illustration with alt text, under 150 KB", () => {
+    const html = read("index.html");
+    const art = /<img class="hero-art" src="([^"]+)" alt="([^"]+)"/.exec(html);
+    assert.ok(art, "hero image with alt text");
+    assert.ok(art[2].trim().length > 10);
+    assert.ok(existsSync(join(out, art[1])), art[1]);
+    assert.ok(statSync(join(guideDir, "img", "linocut-workspace.webp")).size < 150 * 1024);
+    assert.ok(statSync(join(guideDir, "img", "linocut-mobile.webp")).size < 150 * 1024);
+    // The picture comes before the title in the page, so on a phone it sits above it.
+    assert.ok(html.indexOf('class="hero-art"') < html.indexOf("<h1"));
+  });
+
+  it("has three door panels, each page showing its goal and time", () => {
+    const home = read("index.html");
+    const doors = [...home.matchAll(/<section class="door" id="(start|everyday|modules)"/g)].map((m) => m[1]);
+    assert.deepEqual(doors, ["start", "everyday", "modules"]);
+    for (const page of realPages) {
+      const row = new RegExp(
+        `<a class="door-page" href="${page.slug}\\.html"><span class="door-title">[^<]+</span><span class="door-goal">[^<]+</span><span class="door-time">About \\d+ minutes?</span></a>`,
+      );
+      assert.match(home, row, page.slug);
+    }
+  });
+
+  it("names the sidebar groups like the home doors, Getting started first", () => {
+    const nav = section(read("core-sign-in.html"), '<nav class="side"', "</nav>");
+    assert.deepEqual(titlesIn(nav, /<h2>([^<]+)<\/h2>/g), ["Getting started", "Everyday tasks", "Modules"]);
+    assert.equal(nav.includes("Every site"), false);
+    assert.ok(nav.indexOf('href="core-sign-in.html"') < nav.indexOf("Everyday tasks"));
+  });
+
+  it("builds a 404 page with the phone linocut, a line and a link home", () => {
+    assert.ok(existsSync(join(out, "404.html")));
+    const html = read("404.html");
+    assert.ok(html.includes(NOINDEX));
+    assert.match(html, /<img class="not-found-art" src="img\/linocut-mobile\.webp" alt="[^"]+"/);
+    assert.ok(existsSync(join(out, "img", "linocut-mobile.webp")));
+    assert.match(html, /<a class="button" href="index\.html">Back to the guide home<\/a>/);
+    assert.ok(read(".htaccess").includes("ErrorDocument 404 /404.html"));
+  });
+
+  it("keeps the desktop sidebar under the header and scrolling on its own", () => {
+    const css = read("style.css");
+    const wide = css.slice(css.indexOf("@media (min-width: 56rem)"), css.indexOf("@media (min-width: 76rem)"));
+    assert.match(wide, /\.site-header \{ position: sticky; top: 0;/);
+    assert.match(wide, /top: var\(--header-height-wide\);\s*z-index: auto;\s*max-height: calc\(100vh - var\(--header-height-wide\)\);/);
+    assert.match(wide, /overflow-y: auto;/);
   });
 });
 
