@@ -3,7 +3,7 @@
 import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { checkPages, pages as allPages, type GuidePage } from "./pages.ts";
+import { approvedPages, checkPages, pages as allPages, type GuidePage } from "./pages.ts";
 import { renderIndex, renderPage } from "./shell.ts";
 import { readVersion } from "./version.ts";
 
@@ -16,13 +16,15 @@ Header set X-Robots-Tag "noindex, nofollow"
 </IfModule>
 `;
 
-export function build(outDir: string = defaultOut, pages: GuidePage[] = allPages): void {
+export function build(outDir: string = defaultOut, allListed: GuidePage[] = allPages): void {
   const out = resolve(outDir);
   // Emptying a folder that holds the guide's own source would delete it.
   if ((guideDir + sep).startsWith(out + sep)) {
     throw new Error(`Refusing to empty ${out}: it holds the guide source`);
   }
-  checkPages(pages);
+  checkPages(allListed);
+  // Unapproved pages are neither built nor listed in the nav.
+  const pages = approvedPages(allListed);
   const version = readVersion();
 
   rmSync(out, { recursive: true, force: true });

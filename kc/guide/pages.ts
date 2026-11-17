@@ -1,4 +1,14 @@
 import * as placeholder from "./pages/placeholder.ts";
+import * as coreSignIn from "./pages/core-sign-in.ts";
+import * as coreFindYourWay from "./pages/core-find-your-way.ts";
+import * as coreChangePageText from "./pages/core-change-page-text.ts";
+import * as coreAddRemoveEntry from "./pages/core-add-remove-entry.ts";
+import * as corePhotosAndFiles from "./pages/core-photos-and-files.ts";
+import * as coreFormatText from "./pages/core-format-text.ts";
+import * as coreSaveAndLiveSite from "./pages/core-save-and-live-site.ts";
+import * as coreUndo from "./pages/core-undo.ts";
+import * as coreSeeWhoVisits from "./pages/core-see-who-visits.ts";
+import * as coreGettingHelp from "./pages/core-getting-help.ts";
 
 export type GuidePage = {
   title: string;
@@ -9,9 +19,27 @@ export type GuidePage = {
   checked: string;
   // Trusted HTML, written in this repo.
   body: string;
+  // false keeps the page out of the built guide until Rob approves it. Missing counts as approved.
+  approved?: boolean;
 };
 
-export const pages: GuidePage[] = [placeholder];
+export const pages: GuidePage[] = [
+  placeholder,
+  coreSignIn,
+  coreFindYourWay,
+  coreChangePageText,
+  coreAddRemoveEntry,
+  corePhotosAndFiles,
+  coreFormatText,
+  coreSaveAndLiveSite,
+  coreUndo,
+  coreSeeWhoVisits,
+  coreGettingHelp,
+];
+
+export function approvedPages(list: GuidePage[]): GuidePage[] {
+  return list.filter((page) => page.approved !== false);
+}
 
 export type PageGroup = { name: string; pages: GuidePage[] };
 

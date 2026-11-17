@@ -4,7 +4,6 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
-- **108.05**: Core guide pages, words first; pictures follow once client-view captures exist (`.claude/work/108-help-guide-plan/plan.md` card 05). Rob, 2026-11-17 "Go."
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -52,6 +51,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **108.05 core-guide-pages**: ten core help pages in kc/guide/pages/core-*.ts, words only, 13 visible [picture: ...] markers for a later capture card. Each page is approved = false, so the build skips it until Rob reads and approves it in chat. Written from the October BeSciWorks guide, not checked against the current CMS source; the new-reader walk-through was not run; photo steps, the Insights-may-be-off line and the reload advice are guesses.
 - **108.04 guide-screenshots**: `node kc/guide/screenshots/run.mjs` (needs KC_GUIDE_DEMO_URL) takes the manifest's screenshots with headless Playwright Chromium into kc/guide/img/ and prints the guide pages whose pictures changed since the last run (sha256 hashes in hashes.json). Manifest is empty until pages with pictures exist. playwright added as a devDependency. Never run against the demo site yet.
 - **108.03 guide-builder**: `node kc/guide/build.ts [outDir]` builds the guide to static HTML (index, one page per file, style.css, img/, robots.txt disallowing all, .htaccess X-Robots-Tag noindex), every page noindex and stamped with the package.json version. One placeholder page. kc/guide/out/ is not in .gitignore yet (upstream file, needs a named card). Not seen in a browser.
 - **107 editor-keeps-unsaved-text**: the entry editor no longer refetches on window focus, writes saved content into the SWR cache after a save, never resets a dirty form from a refetch, warns before reload, tab close or an in-app link with unsaved edits, and scrolls to the first field error on a failed save (kc/editor-guard.ts, hooks in components/entry/entry.tsx and entry-form.tsx). Browser back inside the app is not guarded. The leave warning copy was written by hand, a copy pass is owed. Not seen in a browser.

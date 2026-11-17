@@ -1693,5 +1693,22 @@
     "verified_at": "2026-11-17T20:01:25.812Z",
     "tree": "d98cbbfd8a3700acc700b20a1fb77e263d65c070791e14b0c5c522c337385658",
     "gate": "full"
+  },
+  {
+    "id": "108.05",
+    "title": "Core guide pages, words first",
+    "brief": ".claude/work/108-05-core-guide-pages/brief.md",
+    "start_sha": "ce072d7681d4c1eafda482fbaa7c61bc0897e87b",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T20:22:08.933Z",
+      "start_sha": "ce072d7681d4c1eafda482fbaa7c61bc0897e87b",
+      "mutation_evidence": true,
+      "tree": "31a3401859678f6e35272d909ef6114baab5a87e26e31ae352d39192e3ccb2a2",
+      "size": "Small"
+    },
+    "verified_at": "2026-11-17T20:23:59.885Z",
+    "tree": "31a3401859678f6e35272d909ef6114baab5a87e26e31ae352d39192e3ccb2a2",
+    "gate": "full"
   }
 ]
