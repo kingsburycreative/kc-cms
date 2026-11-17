@@ -4,7 +4,6 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
-- **108.12**: Rewrite every guide page to the new anatomy, labels from the CMS source (plan card 12)
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)
@@ -52,6 +51,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **108.12 guide-rewrite**: all 10 core and 8 module pages rewritten with parts.ts (goal, time, steps with You will see and If not, Check it worked, figure slots); labels from the CMS source, those not found listed in the card result.md. Pages still approved = false, awaiting Rob's read.
 - **108.11 guide-redesign**: guide rebuilt in the KC brand from kc/guide/tokens.css (Inter, JetBrains Mono self-hosted, terracotta on white), shared parts in parts.ts, home with three entry points, phone menu sheet and desktop rail, title and heading search. Pages not yet rewritten to the new parts (card 12); search not checked in a browser.
 - **108.07**: Module pages part 2: publications, events, menu, hours (awaiting Rob's read)
 - **108.06 module-pages-1**: four module help pages (bilingual, galleries, reviews, business details) in kc/guide/pages/module-*.ts, each approved = false with a module id; a test refuses any client name in kc/guide/pages. Written from the demo config, not clicked through the running CMS.

@@ -90,6 +90,50 @@ describe("module guide pages", () => {
   });
 });
 
+describe("every task page follows the anatomy", () => {
+  const all = pages.filter((page) => page.slug.startsWith("core-") || page.slug.startsWith("module-"));
+  const DENY_CLIENTS = /henike|besciworks|cupboard|kirk|nikki|chris adams/i;
+
+  it("covers all 18 pages", () => {
+    assert.equal(all.length, 18);
+  });
+
+  for (const page of all) {
+    describe(page.slug, () => {
+      it("has a goal and a time", () => {
+        assert.ok(page.goal && page.goal.length > 0, "goal");
+        assert.match(page.time ?? "", /^About \d+ minutes?$/);
+      });
+
+      it("has numbered steps, each with You will see and If not", () => {
+        const items = page.body.match(/<li class="step">/g) ?? [];
+        assert.ok(items.length >= 1, "at least one step");
+        assert.equal((page.body.match(/class="step-see"/g) ?? []).length, items.length);
+        assert.equal((page.body.match(/class="step-ifnot"/g) ?? []).length, items.length);
+      });
+
+      it("names buttons in chips", () => {
+        assert.ok(page.body.includes('class="chip"'));
+      });
+
+      it("has a Check it worked block", () => {
+        assert.ok(page.body.includes('<h2 id="check-it-worked">Check it worked</h2>'));
+      });
+
+      it("has a figure slot with a caption", () => {
+        const figures = page.body.match(/<figure\b/g) ?? [];
+        assert.ok(figures.length >= 1);
+        assert.equal((page.body.match(/<figcaption>[^<]+<\/figcaption>/g) ?? []).length, figures.length);
+      });
+
+      it("uses no banned word and no client name", () => {
+        assert.doesNotMatch(textOf(page), BANNED);
+        assert.doesNotMatch(textOf(page), DENY_CLIENTS);
+      });
+    });
+  }
+});
+
 describe("shared page parts", () => {
   it("steps: each has a numeral, an action, You will see and If not", () => {
     const html = steps([

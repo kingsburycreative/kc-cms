@@ -1,3 +1,5 @@
+import { callout, checkItWorked, chip, figure, steps } from "../parts.ts";
+
 export const title = "Menu";
 export const group = "modules";
 export const slug = "module-menu";
@@ -6,22 +8,35 @@ export const moduleId = "menu";
 export const checked = "2026-11-17";
 // Stays out of the guide until Rob has read the page and approved it.
 export const approved = false;
+export const goal = "You will change a price or a dish on your menu page.";
+export const time = "About 3 minutes";
 export const body = `<p>Your menu is a list of sections, such as Starters or Drinks, and each section holds its dishes. You change prices and dishes in one place and the menu page on your site follows.</p>
 <h2>Change a price or a dish</h2>
-<ol>
-  <li>Open <strong>Menu</strong> in the menu on the left.</li>
-  <li>Find the section, then the item.</li>
-  <li>Edit the <strong>Item</strong> name, its <strong>Description</strong> or its <strong>Price</strong>.</li>
-  <li>Choose <strong>Save</strong>.</li>
-</ol>
-<p class="picture-marker">[picture: the menu form with one item open, showing item, description and price]</p>
-<p>Type the price the way you want it shown, with the dollar sign, like <em>$14</em>. The site shows exactly what you type.</p>
-<h2>Add a dish</h2>
-<p>Open the section it belongs in, choose <strong>Add an entry</strong> under <strong>Items</strong>, and fill in the name, description and price. Save when you are done.</p>
-<h2>Add a section</h2>
-<p>Under <strong>Menu sections</strong>, choose <strong>Add an entry</strong>. Type the <strong>Section name</strong>, then add its items.</p>
-<h2>Remove a dish or section</h2>
-<p>Open the item or section and choose the delete button beside it. Removing a section removes every dish inside it, so check before you save.</p>
-<h2>Check the live site</h2>
-<p>After you save, open the menu page on your site and look over the section you changed. The change appears about a minute later.</p>
-<p class="picture-marker">[picture: the menu page on the live site with a changed price]</p>`;
+${steps([
+  {
+    action: `Open ${chip("Menu")} in the menu on the left.`,
+    see: `A form that starts with ${chip("Menu sections")}.`,
+    ifNot: "If the menu has no such entry, your site doesn't use this module. Email Kingsbury Creative.",
+  },
+  {
+    action: `Find the section, then the item under ${chip("Items")}.`,
+    figure: figure({ caption: "The menu form with one item open, showing item, description and price." }),
+    see: `The boxes ${chip("Item")}, ${chip("Description")} and ${chip("Price (e.g. $14)")}.`,
+    ifNot: "Scroll down. Each section lists its own items.",
+  },
+  {
+    action: "Edit the item name, its description or its price. Type the price the way you want it shown, with the dollar sign, like <em>$14</em>.",
+    see: "Your new text in the box.",
+    ifNot: "The site shows exactly what you type, so add the dollar sign yourself.",
+  },
+  {
+    action: `Choose ${chip("Save")}.`,
+    see: "A message that the page saved.",
+    ifNot: "If a box is red, fix it first.",
+  },
+])}
+<h2>Add a dish or a section</h2>
+<p>To add a dish, open its section, choose ${chip("Add an entry")} under ${chip("Items")}, and fill in the name, description and price. To add a section, choose ${chip("Add an entry")} under ${chip("Menu sections")}, type the ${chip("Section name")}, then add its items. Choose ${chip("Save")} when you are done.</p>
+${callout("warning", "Removing a section removes every dish inside it. Use the delete button beside a dish or section, and check before you save.")}
+${figure({ caption: "The menu page on the live site with a changed price." })}
+${checkItWorked("After a minute, open the menu page on your live site and look over the section you changed.")}`;
