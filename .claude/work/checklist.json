@@ -1676,5 +1676,22 @@
     "verified_at": "2026-11-17T19:45:29.295Z",
     "tree": "6489e403322b6837185ffc44371c141abfee1c529655f80f70803d054c2c398e",
     "gate": "full"
+  },
+  {
+    "id": "108.04",
+    "title": "Screenshot script and changed-pictures report",
+    "brief": ".claude/work/108-04-guide-screenshots/brief.md",
+    "start_sha": "cd9545664e4f96e61ad1552bd42003927b9b3415",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T20:00:30.835Z",
+      "start_sha": "cd9545664e4f96e61ad1552bd42003927b9b3415",
+      "mutation_evidence": true,
+      "tree": "d98cbbfd8a3700acc700b20a1fb77e263d65c070791e14b0c5c522c337385658",
+      "size": "Normal"
+    },
+    "verified_at": "2026-11-17T20:01:25.812Z",
+    "tree": "d98cbbfd8a3700acc700b20a1fb77e263d65c070791e14b0c5c522c337385658",
+    "gate": "full"
   }
 ]

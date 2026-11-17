@@ -209,3 +209,4 @@
 - 2026-11-17 restore-check (108.01): Sonnet worker, scope ok with mutation evidence (on the fixture schema; code under test is upstream). Finding: does not restore when the schema lacks the fields; 108.02 now applies. Sent to the gate.
 - 2026-11-17 restore-keeps-fields (108.02): re-planned risky (fix lands in app/api). Opus worker, scope ok with mutation evidence, diff read. Worker also hooked lib/schema.ts initializeState (allowed by the brief); the editor form dropped unlisted keys there. Sent to the gate with an audit.
 - 2026-11-17 guide-builder (108.03): Sonnet worker, scope ok with mutation evidence, diff read, no risky path. kc/guide/out/ not ignored yet. Sent to the gate.
+- 2026-11-17 guide-screenshots (108.04): Sonnet worker, scope ok with mutation evidence, diff read; package.json change is the playwright devDependency only, per Rob's exception. No risky path. Sent to the gate.
