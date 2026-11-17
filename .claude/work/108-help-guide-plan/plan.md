@@ -37,7 +37,7 @@ Done-test: `node --test kc/tests/guide-build.test.ts` passes: building into a te
 Risky path: no.
 
 ### 04. Screenshot script and changed-pictures report (job: code)
-Objective: one command that opens the demo site (kc-test-site, with copies of each module's config) in headless Playwright at 375 and 1280 widths, takes every screenshot the pages name in a manifest (page, picture name, URL, steps), writes them to kc/guide/img/, and prints which guide pages have a picture that changed since the last run (by image hash kept in a manifest file). Fixtures only in tests; the script itself is the one place that talks to the demo site and is not run by the suite. No real client data. No npm install: Playwright must already be present; if it is not, the card parks.
+Objective: one command that opens the demo site (kc-test-site, with copies of each module's config) in headless Playwright at 375 and 1280 widths, takes every screenshot the pages name in a manifest (page, picture name, URL, steps), writes them to kc/guide/img/, and prints which guide pages have a picture that changed since the last run (by image hash kept in a manifest file). Fixtures only in tests; the script itself is the one place that talks to the demo site and is not run by the suite. No real client data. Rob, 2026-11-17, "Go.": this card may add `playwright` as a devDependency (package.json and package-lock.json only) and run `npm install --save-dev playwright` and `npx playwright install chromium`, once project.md carries that exception.
 Files it may touch:
 - `kc/guide/screenshots/run.mjs`, `kc/guide/screenshots/manifest.json`, `kc/guide/screenshots/compare.ts` (new)
 - `kc/tests/help-screenshots.test.ts` (new)
