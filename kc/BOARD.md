@@ -4,6 +4,7 @@
 
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
+- **108 help-guide-plan** (docs, Small): plan the /help guide cards from docs/PRD-help-guide.md and ADRs 0001 to 0003 (`.claude/work/108-help-guide-plan/brief.md`). Rob, 2026-11-17.
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
 - **19**: Sidebar: Insights, History and Help (`.claude/work/15-plan-client-experience/plan.md` card 19)
 - **20**: Advanced section for KC's view (`.claude/work/15-plan-client-experience/plan.md` card 20)

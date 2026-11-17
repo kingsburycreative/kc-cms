@@ -1590,5 +1590,12 @@
     "brief": ".claude/work/106-plan-journey-logging/brief.md",
     "start_sha": "4ce5dfceabe4daf28f0b9d99e5e980f91613b5e6",
     "passes": false
+  },
+  {
+    "id": "108",
+    "title": "help-guide-plan",
+    "brief": ".claude/work/108-help-guide-plan/brief.md",
+    "start_sha": "b5bbb95e643795a24dc0b8286828c74014f1494a",
+    "passes": false
   }
 ]
