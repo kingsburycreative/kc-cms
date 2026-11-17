@@ -1778,5 +1778,39 @@
     "verified_at": "2026-11-17T20:51:11.180Z",
     "tree": "4dbb71ed97e84efb7cf9b0e86ffd89668875e316252d21ecd5a7f9c6b0469387",
     "gate": "full"
+  },
+  {
+    "id": "108.11",
+    "title": "guide-redesign",
+    "brief": ".claude/work/108-11-guide-redesign/brief.md",
+    "start_sha": "57867b702c3ca67a9701e297facc4759d6cf5a9c",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T21:13:12.615Z",
+      "start_sha": "57867b702c3ca67a9701e297facc4759d6cf5a9c",
+      "mutation_evidence": true,
+      "tree": "fe3369f70a556b0d3e59d5f79c0b9171f671f28457f2257b53bebe337ed5d459",
+      "size": "Normal"
+    },
+    "verified_at": "2026-11-17T21:15:34.007Z",
+    "tree": "fe3369f70a556b0d3e59d5f79c0b9171f671f28457f2257b53bebe337ed5d459",
+    "gate": "full"
+  },
+  {
+    "id": "108.12",
+    "title": "guide-rewrite",
+    "brief": ".claude/work/108-12-guide-rewrite/brief.md",
+    "start_sha": "773da7eaa725f959c8ccdd1f5fcb9f8b492f2086",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T21:23:32.417Z",
+      "start_sha": "773da7eaa725f959c8ccdd1f5fcb9f8b492f2086",
+      "mutation_evidence": false,
+      "tree": "723453f834bd25dd16186cedcc6b33e6c8c5d700828389885a525db48b314ac5",
+      "size": "Small"
+    },
+    "verified_at": "2026-11-17T21:27:47.591Z",
+    "tree": "723453f834bd25dd16186cedcc6b33e6c8c5d700828389885a525db48b314ac5",
+    "gate": "full"
   }
 ]

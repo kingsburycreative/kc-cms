@@ -1,3 +1,5 @@
+import { callout, checkItWorked, chip, figure, steps } from "../parts.ts";
+
 export const title = "Change the text on a page";
 export const group = "core";
 export const slug = "core-change-page-text";
@@ -5,14 +7,30 @@ export const slug = "core-change-page-text";
 export const checked = "2026-11-17";
 // Stays out of the guide until Rob has read the page and approved it.
 export const approved = false;
-export const body = `<ol>
-  <li>Choose the page in the menu on the left, for example <strong>Home page</strong>. If your pages are tucked under one entry called <strong>Pages</strong>, choose that first to open the list.</li>
-  <li>Each box is labelled with the part of the page it controls: a heading, the paragraph under it, the wording on a button. Change the words you want.</li>
-  <li>Choose <strong>Save</strong> at the top right.</li>
-</ol>
-<p class="picture-marker">[picture: a page open for editing, with its labelled boxes running top to bottom]</p>
-<p>The boxes run in the same order as the page itself.</p>
-<p>If a box turns red, a message under it says what to fix. Nothing is saved until every red box is fixed.</p>
-<p>Your change goes live on the website about a minute after you save. <a href="core-save-and-live-site.html">Save, and what it does to your live site</a> has the details.</p>
-<h2>Page title and description</h2>
-<p>Many pages have a title and a description. They are what people see in a browser tab and in Google results, so change them with care.</p>`;
+export const goal = "You will change the wording on a page of your site.";
+export const time = "About 2 minutes";
+export const body = `${steps([
+  {
+    action: `Choose the page in the menu on the left, for example ${chip("Home (English)")}.`,
+    see: "The page opens with a labelled box for each part, in the same order as on the site.",
+    ifNot: "If you can't see the page, its group in the menu may be closed. Choose the group name to open it.",
+  },
+  {
+    action: "Click in the box for the part you want to change. The label above each box says which part it controls.",
+    figure: figure({ caption: "A page open for editing, with its labelled boxes running top to bottom." }),
+    see: "A blinking cursor in the box.",
+    ifNot: "If the box is greyed out and won't take typing, email Kingsbury Creative.",
+  },
+  {
+    action: "Type your new words over the old ones.",
+    see: `The text changes in the box. The ${chip("Save")} button becomes available.`,
+    ifNot: `If a box turns red, a message under it says what to fix. ${chip("Save")} won't work until it is fixed.`,
+  },
+  {
+    action: `Choose ${chip("Save")} at the top right.`,
+    see: "A short message that the page saved.",
+    ifNot: "If nothing happens, scroll up and look for a red box.",
+  },
+])}
+${callout("note", `Your change goes live about a minute after you save. <a href="core-save-and-live-site.html">Save, and what it does to your live site</a> has the details. A page title and description are what people see in a browser tab and in Google results, so change them with care.`)}
+${checkItWorked(`Choose ${chip("See live site")} on the dashboard, wait a minute, open the page and look for your new words. If you still see the old ones, reload the page.`)}`;

@@ -1,3 +1,5 @@
+import { callout, checkItWorked, chip, figure, steps } from "../parts.ts";
+
 export const title = "Opening hours";
 export const group = "modules";
 export const slug = "module-hours";
@@ -6,19 +8,37 @@ export const moduleId = "hours";
 export const checked = "2026-11-17";
 // Stays out of the guide until Rob has read the page and approved it.
 export const approved = false;
-export const body = `<p>Your opening hours sit in the same place as your address, phone number and email, under <strong>Hours and contact</strong>. Visitors see them on your contact page and often in the footer.</p>
-<h2>Change your hours</h2>
-<ol>
-  <li>Open <strong>Hours and contact</strong> in the menu.</li>
-  <li>Scroll to <strong>Hours</strong>. Each line has the days and the times that go with them.</li>
-  <li>Edit a line, for example <em>Days: Monday to Thursday</em> and <em>Times: 11 am to 9 pm</em>.</li>
-  <li>Choose <strong>Save</strong>.</li>
-</ol>
-<p class="picture-marker">[picture: the Hours and contact form scrolled to the hours lines]</p>
-<h2>Add a line</h2>
-<p>If your weekend hours differ, choose <strong>Add an entry</strong> under <strong>Hours</strong> and fill in the days and times. Lines show in the order you list them. Remove a line you no longer need with its delete button.</p>
-<h2>A holiday or a day closed</h2>
-<p>Type it into the line yourself, for example <em>Days: Monday</em> and <em>Times: Closed</em>. Change it back when you reopen. The site does not know the calendar, so it will not do this for you.</p>
-<h2>Other details on the same form</h2>
-<p>The restaurant name, one-line description, address, phone, email and Facebook link are here too. Type the Facebook link in full, starting with https.</p>
-<p class="picture-marker">[picture: the contact page on the live site showing the new hours]</p>`;
+export const goal = "You will change your opening hours so visitors see the right times.";
+export const time = "About 2 minutes";
+export const body = `<p>Your opening hours sit in the same place as your address, phone number and email, under ${chip("Hours and contact")}. Visitors see them on your contact page and often in the footer.</p>
+${steps([
+  {
+    action: `Open ${chip("Hours and contact")} in the menu.`,
+    see: "A form with your restaurant name, address, phone and the hours.",
+    ifNot: "If the menu has no such entry, your site doesn't use this module. Email Kingsbury Creative.",
+  },
+  {
+    action: `Scroll to ${chip("Hours")}. Each line has ${chip("Days")} and ${chip("Times")}.`,
+    figure: figure({ caption: "The Hours and contact form scrolled to the hours lines." }),
+    see: "One line per set of days, in the order the site shows them.",
+    ifNot: "If you can't find Hours, scroll to the bottom of the form.",
+  },
+  {
+    action: `Edit a line, for example ${chip("Days")}: <em>Monday to Thursday</em> and ${chip("Times")}: <em>11 am to 9 pm</em>.`,
+    see: "Your new text in the line.",
+    ifNot: "Type the days and times the way you want visitors to read them. The site shows exactly what you type.",
+  },
+  {
+    action: `If your weekend hours differ, choose ${chip("Add an entry")} under ${chip("Hours")} and fill in a new ${chip("Days")} and ${chip("Times")}.`,
+    see: "A new line at the bottom.",
+    ifNot: "Remove a line you no longer need with its delete button.",
+  },
+  {
+    action: `Choose ${chip("Save")}.`,
+    see: "A message that the page saved.",
+    ifNot: "If a box is red, fix it first.",
+  },
+])}
+${callout("note", `For a holiday or a day closed, type it into the line yourself, for example ${chip("Days")}: <em>Monday</em> and ${chip("Times")}: <em>Closed</em>. Change it back when you reopen. The site does not know the calendar. The same form also holds ${chip("Restaurant name")}, ${chip("One-line description")}, ${chip("Address")}, ${chip("Phone")}, ${chip("Email")} and ${chip("Facebook page URL")}. Type the Facebook link in full, starting with https.`)}
+${figure({ caption: "The contact page on the live site showing the new hours." })}
+${checkItWorked("After a minute, open your contact page. The new hours show there and in the footer.")}`;

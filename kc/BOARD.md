@@ -51,6 +51,8 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **108.12 guide-rewrite**: all 10 core and 8 module pages rewritten with parts.ts (goal, time, steps with You will see and If not, Check it worked, figure slots); labels from the CMS source, those not found listed in the card result.md. Pages still approved = false, awaiting Rob's read.
+- **108.11 guide-redesign**: guide rebuilt in the KC brand from kc/guide/tokens.css (Inter, JetBrains Mono self-hosted, terracotta on white), shared parts in parts.ts, home with three entry points, phone menu sheet and desktop rail, title and heading search. Pages not yet rewritten to the new parts (card 12); search not checked in a browser.
 - **108.07**: Module pages part 2: publications, events, menu, hours (awaiting Rob's read)
 - **108.06 module-pages-1**: four module help pages (bilingual, galleries, reviews, business details) in kc/guide/pages/module-*.ts, each approved = false with a module id; a test refuses any client name in kc/guide/pages. Written from the demo config, not clicked through the running CMS.
 - **108.04b screenshot-masks**: manifest.json is now `{ deny, shots }`; each shot may carry `replace` (selector, made-up text) and `hide` (selectors), applied in the page before capture, and run.mjs refuses any shot whose visible text still has a deny word (kingsbury, KC domains, client names), exiting 1 without touching hashes.json. No real shots yet; never run against the demo. The deny list names clients, so card 06 client-name check must skip manifest.json.
