@@ -1,0 +1,4 @@
+- Read brief, ADR 0005, research, KC tokens. Copied 4 woff2 (Inter, JetBrains Mono, latin + ext) into kc/guide/fonts/.
+- Written: tokens.css, parts.ts, style.css, shell.ts, search.js, build.ts edits, pages.ts (placeholder removed + entryPoints + goal/time), placeholder.ts deleted.
+- Tests extended (guide-build, help-pages); runner runs the full suite whatever the args; 757 green.
+- Next: screenshots (390, 1280) from a --drafts build in temp (playwright lives in D:/Dev/htdocs/kc-cms-app-runs/20261117-195500/node_modules), skills on copy, mutation check (raw hex in style.css), result.md.

@@ -1778,5 +1778,22 @@
     "verified_at": "2026-11-17T20:51:11.180Z",
     "tree": "4dbb71ed97e84efb7cf9b0e86ffd89668875e316252d21ecd5a7f9c6b0469387",
     "gate": "full"
+  },
+  {
+    "id": "108.11",
+    "title": "guide-redesign",
+    "brief": ".claude/work/108-11-guide-redesign/brief.md",
+    "start_sha": "57867b702c3ca67a9701e297facc4759d6cf5a9c",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-17T21:13:12.615Z",
+      "start_sha": "57867b702c3ca67a9701e297facc4759d6cf5a9c",
+      "mutation_evidence": true,
+      "tree": "fe3369f70a556b0d3e59d5f79c0b9171f671f28457f2257b53bebe337ed5d459",
+      "size": "Normal"
+    },
+    "verified_at": "2026-11-17T21:15:34.007Z",
+    "tree": "fe3369f70a556b0d3e59d5f79c0b9171f671f28457f2257b53bebe337ed5d459",
+    "gate": "full"
   }
 ]

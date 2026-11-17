@@ -211,3 +211,4 @@
 - 2026-11-17 guide-builder (108.03): Sonnet worker, scope ok with mutation evidence, diff read, no risky path. kc/guide/out/ not ignored yet. Sent to the gate.
 - 2026-11-17 guide-screenshots (108.04): Sonnet worker, scope ok with mutation evidence, diff read; package.json change is the playwright devDependency only, per Rob's exception. No risky path. Sent to the gate.
 - 2026-11-17 module-pages-2 (108.07): Sonnet worker, scope ok with mutation evidence, diff read, no client names, no risky path. Steps checked against the demo config, not a live CMS. Sent to the gate.
+- 2026-11-17 guide-redesign (108.11): Sonnet worker, scope ok with mutation evidence after naming the four font files in the brief (its glob was not read by the scope check), diff read, no risky path. Sent to the gate.

@@ -1,4 +1,3 @@
-import * as placeholder from "./pages/placeholder.ts";
 import * as coreSignIn from "./pages/core-sign-in.ts";
 import * as coreFindYourWay from "./pages/core-find-your-way.ts";
 import * as coreChangePageText from "./pages/core-change-page-text.ts";
@@ -31,10 +30,13 @@ export type GuidePage = {
   approved?: boolean;
   // Id of the CMS module a page covers, for module pages.
   moduleId?: string;
+  // One sentence: what the reader will have done. Shown under the title.
+  goal?: string;
+  // How long it takes, such as "About 2 minutes". Shown under the title.
+  time?: string;
 };
 
 export const pages: GuidePage[] = [
-  placeholder,
   coreSignIn,
   coreFindYourWay,
   coreChangePageText,
@@ -73,6 +75,23 @@ export function groupPages(list: GuidePage[]): PageGroup[] {
     return a.localeCompare(b);
   });
   return names.map((name) => ({ name, pages: byName.get(name) ?? [] }));
+}
+
+// The pages a new editor reads first. Everything else in "core" is an everyday task.
+export const START_SLUGS = ["core-sign-in", "core-find-your-way", "core-getting-help"];
+
+export type EntryPoint = { id: "start" | "everyday" | "modules"; pages: GuidePage[] };
+
+// The home page's three doors: getting started, everyday tasks, modules.
+export function entryPoints(list: GuidePage[]): EntryPoint[] {
+  const start = START_SLUGS.map((slug) => list.find((page) => page.slug === slug)).filter(
+    (page): page is GuidePage => page !== undefined,
+  );
+  return [
+    { id: "start", pages: start },
+    { id: "everyday", pages: list.filter((page) => page.group === "core" && !START_SLUGS.includes(page.slug)) },
+    { id: "modules", pages: list.filter((page) => page.group !== "core") },
+  ];
 }
 
 export function checkPages(list: GuidePage[]): void {

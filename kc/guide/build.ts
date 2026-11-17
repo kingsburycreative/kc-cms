@@ -5,7 +5,7 @@ import { cpSync, existsSync, mkdirSync, rmSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { approvedPages, checkPages, pages as allPages, type GuidePage } from "./pages.ts";
-import { renderIndex, renderPage } from "./shell.ts";
+import { renderIndex, renderPage, renderSearchIndex } from "./shell.ts";
 import { readVersion } from "./version.ts";
 
 const guideDir = dirname(fileURLToPath(import.meta.url));
@@ -45,7 +45,12 @@ export function build(
   for (const page of pages) {
     writeFileSync(join(out, `${page.slug}.html`), renderPage(page, pages, version, drafts));
   }
-  cpSync(join(guideDir, "style.css"), join(out, "style.css"));
+  writeFileSync(join(out, "search-index.js"), renderSearchIndex(pages));
+  // tokens.css and fonts/ go together: the font paths in tokens.css are relative.
+  for (const file of ["tokens.css", "style.css", "search.js"]) {
+    cpSync(join(guideDir, file), join(out, file));
+  }
+  cpSync(join(guideDir, "fonts"), join(out, "fonts"), { recursive: true });
   const imgDir = join(guideDir, "img");
   if (existsSync(imgDir)) cpSync(imgDir, join(out, "img"), { recursive: true });
 
