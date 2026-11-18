@@ -213,3 +213,4 @@
 - 2026-11-17 module-pages-2 (108.07): Sonnet worker, scope ok with mutation evidence, diff read, no client names, no risky path. Steps checked against the demo config, not a live CMS. Sent to the gate.
 - 2026-11-17 guide-redesign (108.11): Sonnet worker, scope ok with mutation evidence after naming the four font files in the brief (its glob was not read by the scope check), diff read, no risky path. Sent to the gate.
 - 2026-11-17 guide-rewrite (108.12): Sonnet worker, done-test green; scope ok after naming the 18 page files in the brief (globs not read by the scope check), diff read, no risky path. Sent to the gate.
+- 2026-11-18 invite-only-sign-in (109): Opus worker, scope ok with mutation evidence, diff read (auth.ts hook after rate limit, lookups in collaborator-access.ts). Message copy is the brief's agreed wording, not run through prose; a copy pass is owed. Sent to the gate with an audit (lib/auth.ts).

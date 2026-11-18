@@ -8,7 +8,8 @@ import { getBaseUrl } from "@/lib/base-url";
 import { repairLegacyGithubStubOnLogin } from "@/lib/github-legacy-stub-repair";
 import { sendEmail } from "@/lib/mailer";
 import { syncGithubProfileOnLogin } from "@/lib/github-account";
-import { bindCollaboratorInvitesToUser } from "@/lib/collaborator-access";
+import { bindCollaboratorInvitesToUser, knownEmailLookups } from "@/lib/collaborator-access";
+import { inviteGate, NOT_INVITED_CODE, NOT_INVITED_MESSAGE } from "@/kc/invite-gate";
 import { LoginEmailTemplate } from "@/components/email/login";
 import { render } from "@react-email/render";
 import { BRAND_NAME } from "@/kc/brand";
@@ -37,6 +38,9 @@ export const auth = betterAuth({
       });
       if (verdict === 404) throw new APIError("NOT_FOUND");
       if (verdict === 429) throw new APIError("TOO_MANY_REQUESTS");
+      if ((await inviteGate({ path: ctx.path, email: ctx.body?.email }, knownEmailLookups)) === "unknown") {
+        throw new APIError("FORBIDDEN", { message: NOT_INVITED_MESSAGE, code: NOT_INVITED_CODE });
+      }
     }),
   },
   user: {

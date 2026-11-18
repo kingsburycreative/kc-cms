@@ -1,0 +1,1 @@
+- Wrote kc/invite-gate.ts, kc/tests/invite-gate.test.ts, lookups in lib/collaborator-access.ts, hook in lib/auth.ts. Next: test, mutation.

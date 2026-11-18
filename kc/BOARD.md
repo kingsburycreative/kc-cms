@@ -2,8 +2,6 @@
 
 ## Now
 
-- **109**: Invite-only email sign-in (`.claude/work/109-invite-only-sign-in/brief.md`). Rob, 2026-11-18: priority.
-
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)
@@ -53,6 +51,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **109 invite-only-sign-in**: email-code sign-in refuses an address that is not a user, a pending collaborator or an invite, with "We don't have that address. Use the one your invite went to." Message copy not yet run through the prose skills; sign-in form not checked live.
 - **110 empty-home-sign-out**: the No repositories yet page says who you are signed in as and has a Sign out button. Phone screenshot not taken (no signed-in local session); needs a live look.
 - **108.12 guide-rewrite**: all 10 core and 8 module pages rewritten with parts.ts (goal, time, steps with You will see and If not, Check it worked, figure slots); labels from the CMS source, those not found listed in the card result.md. Pages still approved = false, awaiting Rob's read.
 - **108.11 guide-redesign**: guide rebuilt in the KC brand from kc/guide/tokens.css (Inter, JetBrains Mono self-hosted, terracotta on white), shared parts in parts.ts, home with three entry points, phone menu sheet and desktop rail, title and heading search. Pages not yet rewritten to the new parts (card 12); search not checked in a browser.

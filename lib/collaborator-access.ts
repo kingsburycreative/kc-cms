@@ -76,8 +76,25 @@ const bindCollaboratorInvitesToUser = async (user: Pick<User, "id" | "email" | "
     .where(sql`lower(${collaboratorInviteTable.email}) = lower(${normalizeEmail(user.email)})`);
 };
 
+// The DB side of kc/invite-gate.ts: is this address a user or a pending invite?
+const knownEmailLookups = {
+  user: async (email: string) => !!(await db.query.userTable.findFirst({
+    where: sql`lower(${userTable.email}) = lower(${normalizeEmail(email)})`,
+  })),
+  pendingCollaborator: async (email: string) => !!(await db.query.collaboratorTable.findFirst({
+    where: and(
+      isNull(collaboratorTable.userId),
+      sql`lower(${collaboratorTable.email}) = lower(${normalizeEmail(email)})`,
+    ),
+  })),
+  invite: async (email: string) => !!(await db.query.collaboratorInviteTable.findFirst({
+    where: sql`lower(${collaboratorInviteTable.email}) = lower(${normalizeEmail(email)})`,
+  })),
+};
+
 export {
   bindCollaboratorInvitesToUser,
+  knownEmailLookups,
   collaboratorMatchesInvite,
   collaboratorMatchesUser,
   collaboratorMatchesUserForRepo,
