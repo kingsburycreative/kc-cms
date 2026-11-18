@@ -11,6 +11,7 @@ import { isSettingsPath } from "@/kc/settings-gate";
 import { requireOwnRepoPush } from "@/kc/settings-gate-server";
 import { isMediaPathAllowed } from "@/kc/media-types";
 import { checkFilesBody } from "@/kc/save-size";
+import { classifySaveError, SAVE_ERROR_MESSAGES } from "@/kc/save-error";
 import { getToken } from "@/lib/token";
 import { assertBranchAllowed } from "@/kc/branch-lock-server";
 import { clientMayDelete, isSingleFilePath } from "@/kc/content-ops";
@@ -355,20 +356,10 @@ const githubSaveFile = async (
       ? error.response.data.message
       : undefined;
 
-    if (error.status === 409) {
-      if (githubMessage?.includes("Repository rule violations found")) {
-        throw createHttpError(
-          "This repository requires changes through a pull request. Save to a different branch or fork, or ask a maintainer to relax the repository rule for direct edits.",
-          409,
-        );
-      }
-
-      if (sha) {
-        throw createHttpError(
-          "File has changed since you last loaded it. Please refresh the page and try again.",
-          409,
-        );
-      }
+    const saveErrorKind = classifySaveError(error.status, githubMessage, Boolean(sha));
+    if (saveErrorKind !== "other") {
+      if (saveErrorKind === "protected") console.warn("GitHub refused save", { owner, repo, status: error.status, githubMessage });
+      throw createHttpError(SAVE_ERROR_MESSAGES[saveErrorKind], 409);
     }
 
     // Only handle 422 errors for new files (no sha)

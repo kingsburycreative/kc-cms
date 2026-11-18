@@ -7,3 +7,30 @@ export const FILE_TOO_LARGE = "This file is too large to upload. Try a smaller f
 export function throwIfTooLarge(response: Response, kind: "save" | "upload"): void {
   if (response.status === 413) throw new Error(kind === "upload" ? FILE_TOO_LARGE : PAGE_TOO_LARGE);
 }
+
+// What a 409 from GitHub's create-or-update-file means. A protected branch is a site
+// setting, not a version clash, so it must never read as "File has changed".
+// Rulesets answer "Repository rule violations found"; classic branch protection answers
+// "Protected branch update failed for refs/heads/<branch>." with errors such as
+// "Changes must be made through a pull request." (GitHub REST docs, branch protection).
+export type SaveErrorKind = "protected" | "conflict" | "other";
+
+export const HELP_EMAIL = "hello@kingsburycreative.com";
+
+export const SAVE_ERROR_MESSAGES: Record<Exclude<SaveErrorKind, "other">, string> = {
+  protected: `Your change couldn't be saved because of a setting on this site. Your text is still on screen, so don't close this page. Email ${HELP_EMAIL} and we'll sort it out.`,
+  conflict: "File has changed since you last loaded it. Please refresh the page and try again.",
+};
+
+const PROTECTED_PATTERNS = [
+  /repository rule violations found/i,
+  /protected branch/i,
+  /through a pull request/i,
+];
+
+export function classifySaveError(status: unknown, githubMessage: unknown, hadSha: boolean): SaveErrorKind {
+  if (status !== 409) return "other";
+  const message = typeof githubMessage === "string" ? githubMessage : "";
+  if (PROTECTED_PATTERNS.some((pattern) => pattern.test(message))) return "protected";
+  return hadSha ? "conflict" : "other";
+}

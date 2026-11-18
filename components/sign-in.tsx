@@ -11,10 +11,12 @@ import { toast } from "sonner";
 import { Loader } from "lucide-react";
 import { BRAND_NAME } from "@/kc/brand";
 import { isStaffParam, signInMethods } from "@/kc/sign-in-methods";
+import { inlineSignInError, type InlineSignInError } from "@/kc/sign-in-error";
 
 export function SignIn() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
+  const [emailError, setEmailError] = useState<InlineSignInError | null>(null);
   const [step, setStep] = useState<"email" | "otp">("email");
   const [submittingMethod, setSubmittingMethod] = useState<
     "github" | "email" | "otp" | null
@@ -91,6 +93,11 @@ export function SignIn() {
         type: "sign-in",
       });
 
+      const inline = inlineSignInError(result.error?.code);
+      if (inline) {
+        setEmailError(inline);
+        return;
+      }
       if (result.error?.message) {
         toast.error(result.error.message);
         return;
@@ -229,8 +236,26 @@ export function SignIn() {
                 required
                 disabled={isSubmitting}
                 value={email}
-                onChange={(event) => setEmail(event.target.value)}
+                onChange={(event) => {
+                  setEmail(event.target.value);
+                  setEmailError(null);
+                }}
+                aria-invalid={emailError ? true : undefined}
+                aria-describedby={emailError ? "email-error" : undefined}
+                className={emailError ? "border-destructive" : undefined}
               />
+              {emailError && (
+                <div id="email-error" className="text-sm text-destructive">
+                  <p>{emailError.message}</p>
+                  <p>
+                    {emailError.help}{" "}
+                    <a className="inline-flex min-h-11 items-center underline" href={emailError.helpHref}>
+                      {emailError.helpEmail}
+                    </a>
+                    .
+                  </p>
+                </div>
+              )}
               <Button type="submit" className="w-full" disabled={isSubmitting}>
                 Continue with email
                 {submittingMethod === "email" && (
