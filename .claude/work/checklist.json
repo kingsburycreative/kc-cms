@@ -1863,5 +1863,22 @@
     "verified_at": "2026-11-18T17:09:50.616Z",
     "tree": "90a0c76dcf836d33ca884d981c1ed9eb7b794f6fd966daa929d9eed2ce6515d5",
     "gate": "full"
+  },
+  {
+    "id": "111",
+    "title": "Clear error messages: unknown sign-in address inline, protected-branch save refusal",
+    "brief": ".claude/work/111-clear-error-messages/brief.md",
+    "start_sha": "d46d6b252d4fd317d6b93e4394b87db7865124a3",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-18T22:18:22.129Z",
+      "start_sha": "d46d6b252d4fd317d6b93e4394b87db7865124a3",
+      "mutation_evidence": true,
+      "tree": "c9375f08a90a98e2675b036ff1828e7c7ac1539387bd78f8536fa547e54d2c59",
+      "size": "Risky"
+    },
+    "verified_at": "2026-11-18T22:20:38.307Z",
+    "tree": "c9375f08a90a98e2675b036ff1828e7c7ac1539387bd78f8536fa547e54d2c59",
+    "gate": "full"
   }
 ]
