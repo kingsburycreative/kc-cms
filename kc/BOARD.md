@@ -2,6 +2,8 @@
 
 ## Now
 
+- **111**: Clear error messages: unknown sign-in address inline, protected-branch save refusal (`.claude/work/111-clear-error-messages/brief.md`). Rob, 2026-11-18: "Good enough, do it."
+
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)

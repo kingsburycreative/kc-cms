@@ -1863,5 +1863,12 @@
     "verified_at": "2026-11-18T17:09:50.616Z",
     "tree": "90a0c76dcf836d33ca884d981c1ed9eb7b794f6fd966daa929d9eed2ce6515d5",
     "gate": "full"
+  },
+  {
+    "id": "111",
+    "title": "Clear error messages: unknown sign-in address inline, protected-branch save refusal",
+    "brief": ".claude/work/111-clear-error-messages/brief.md",
+    "start_sha": "3f0f1de42891e26fa610526a11f6cd132483bf79",
+    "passes": false
   }
 ]
