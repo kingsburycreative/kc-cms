@@ -2,6 +2,9 @@
 
 ## Now
 
+- **110**: Empty home page shows who you are and a Sign out button (`.claude/work/110-empty-home-sign-out/brief.md`). Rob, 2026-11-18: priority.
+- **109**: Invite-only email sign-in (`.claude/work/109-invite-only-sign-in/brief.md`). Rob, 2026-11-18: priority.
+
 Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`, rewritten 2026-10-27); cards 03 and 04 are Rob's, 05 on follow.
 
 - **53**: In-app help text guard (`.claude/work/40-plan-short-urls/plan.md` card 53)

@@ -1829,5 +1829,19 @@
     "verified_at": "2026-11-17T21:46:52.034Z",
     "tree": "0e08a77a428b6fdf91991051fa41cd073541afded3deb5219581d9a522119d32",
     "gate": "full"
+  },
+  {
+    "id": "110",
+    "title": "Empty home page shows who you are and a Sign out button",
+    "brief": ".claude/work/110-empty-home-sign-out/brief.md",
+    "start_sha": "051307abcbd37068f992d1662f7667e9ab92a5ad",
+    "passes": false
+  },
+  {
+    "id": "109",
+    "title": "Invite-only email sign-in",
+    "brief": ".claude/work/109-invite-only-sign-in/brief.md",
+    "start_sha": "051307abcbd37068f992d1662f7667e9ab92a5ad",
+    "passes": false
   }
 ]
