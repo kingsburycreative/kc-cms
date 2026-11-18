@@ -1,0 +1,2 @@
+- Read brief, project.md, page.tsx, user.tsx. Next: copy through prose skills, then kc/empty-home-copy.ts, test, component, page.tsx hook.
+- Wrote copy.ts, test, account.tsx, page.tsx hook. Next: run test, mutation, screenshot.

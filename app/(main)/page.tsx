@@ -9,6 +9,7 @@ import { RepoLatest } from "@/components/repo/repo-latest";
 import { DocumentTitle } from "@/components/document-title";
 import { hasGithubIdentity } from "@/lib/authz-shared";
 import { viewFor } from "@/kc/client-view";
+import { EmptyHomeAccount } from "@/kc/empty-home-account";
 import {
   Empty,
   EmptyContent,
@@ -101,6 +102,7 @@ export default function Page() {
                 invite you.
               </EmptyDescription>
             </EmptyHeader>
+            <EmptyHomeAccount />
           </Empty>
         )}
       </div>
