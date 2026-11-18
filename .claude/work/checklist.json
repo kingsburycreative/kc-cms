@@ -1834,8 +1834,18 @@
     "id": "110",
     "title": "Empty home page shows who you are and a Sign out button",
     "brief": ".claude/work/110-empty-home-sign-out/brief.md",
-    "start_sha": "051307abcbd37068f992d1662f7667e9ab92a5ad",
-    "passes": false
+    "start_sha": "56cba11585412af78753ee7a35f0b449a5059640",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-18T17:03:51.980Z",
+      "start_sha": "56cba11585412af78753ee7a35f0b449a5059640",
+      "mutation_evidence": true,
+      "tree": "04a3aab89bce9489b0c36d5a7f93945ad62badcad430b482deba1cc1106b9eed",
+      "size": "Normal"
+    },
+    "verified_at": "2026-11-18T17:05:48.149Z",
+    "tree": "04a3aab89bce9489b0c36d5a7f93945ad62badcad430b482deba1cc1106b9eed",
+    "gate": "full"
   },
   {
     "id": "109",
