@@ -1,11 +1,14 @@
 import { and, eq, isNotNull, isNull, or, sql } from "drizzle-orm";
 import { nameToApply } from "@/kc/invite-name";
+import { emailKeySql, normaliseEmail } from "@/kc/email-normalise";
 import { db } from "@/db";
 import { collaboratorInviteTable, collaboratorTable, userTable } from "@/db/schema";
 import type { User } from "@/types/user";
 
 const normalizeEmail = (email: string) => email.trim().toLowerCase();
 
+// KC (card 112): email comparisons go through kc/email-normalise, so Gmail
+// addresses match with or without dots and "+tags".
 // An unclaimed invite matches by email only once that email is verified.
 const collaboratorMatchesUser = (user: Pick<User, "id" | "email" | "emailVerified">) => {
   if (user.emailVerified !== true) return eq(collaboratorTable.userId, user.id);
@@ -13,7 +16,7 @@ const collaboratorMatchesUser = (user: Pick<User, "id" | "email" | "emailVerifie
     eq(collaboratorTable.userId, user.id),
     and(
       isNull(collaboratorTable.userId),
-      sql`lower(${collaboratorTable.email}) = lower(${user.email})`,
+      sql`${emailKeySql(collaboratorTable.email)} = ${normaliseEmail(user.email)}`,
     ),
   );
 };
@@ -32,7 +35,7 @@ const collaboratorMatchesUserForRepo = (
 
 const collaboratorMatchesInvite = (email: string, owner: string, repo: string) => (
   and(
-    sql`lower(${collaboratorTable.email}) = lower(${email})`,
+    sql`${emailKeySql(collaboratorTable.email)} = ${normaliseEmail(email)}`,
     sql`lower(${collaboratorTable.owner}) = lower(${owner})`,
     sql`lower(${collaboratorTable.repo}) = lower(${repo})`,
   )
@@ -41,7 +44,7 @@ const collaboratorMatchesInvite = (email: string, owner: string, repo: string) =
 const findVerifiedUserByEmail = async (email: string) => {
   return db.query.userTable.findFirst({
     where: and(
-      sql`lower(${userTable.email}) = lower(${normalizeEmail(email)})`,
+      sql`${emailKeySql(userTable.email)} = ${normaliseEmail(email)}`,
       eq(userTable.emailVerified, true),
     ),
   });
@@ -52,7 +55,7 @@ const bindCollaboratorInvitesToUser = async (user: Pick<User, "id" | "email" | "
 
   const invite = await db.query.collaboratorInviteTable.findFirst({
     where: and(
-      sql`lower(${collaboratorInviteTable.email}) = lower(${normalizeEmail(user.email)})`,
+      sql`${emailKeySql(collaboratorInviteTable.email)} = ${normaliseEmail(user.email)}`,
       isNotNull(collaboratorInviteTable.name),
     ),
   });
@@ -67,28 +70,28 @@ const bindCollaboratorInvitesToUser = async (user: Pick<User, "id" | "email" | "
     .where(
       and(
         isNull(collaboratorTable.userId),
-        sql`lower(${collaboratorTable.email}) = lower(${normalizeEmail(user.email)})`,
+        sql`${emailKeySql(collaboratorTable.email)} = ${normaliseEmail(user.email)}`,
       ),
     );
 
   await db
     .delete(collaboratorInviteTable)
-    .where(sql`lower(${collaboratorInviteTable.email}) = lower(${normalizeEmail(user.email)})`);
+    .where(sql`${emailKeySql(collaboratorInviteTable.email)} = ${normaliseEmail(user.email)}`);
 };
 
 // The DB side of kc/invite-gate.ts: is this address a user or a pending invite?
 const knownEmailLookups = {
   user: async (email: string) => !!(await db.query.userTable.findFirst({
-    where: sql`lower(${userTable.email}) = lower(${normalizeEmail(email)})`,
+    where: sql`${emailKeySql(userTable.email)} = ${normaliseEmail(email)}`,
   })),
   pendingCollaborator: async (email: string) => !!(await db.query.collaboratorTable.findFirst({
     where: and(
       isNull(collaboratorTable.userId),
-      sql`lower(${collaboratorTable.email}) = lower(${normalizeEmail(email)})`,
+      sql`${emailKeySql(collaboratorTable.email)} = ${normaliseEmail(email)}`,
     ),
   })),
   invite: async (email: string) => !!(await db.query.collaboratorInviteTable.findFirst({
-    where: sql`lower(${collaboratorInviteTable.email}) = lower(${normalizeEmail(email)})`,
+    where: sql`${emailKeySql(collaboratorInviteTable.email)} = ${normaliseEmail(email)}`,
   })),
 };
 

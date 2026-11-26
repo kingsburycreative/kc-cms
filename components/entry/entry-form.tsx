@@ -1037,6 +1037,9 @@ const EntryForm = ({
   filePath,
   onDirtyChange,
   onChangeRegistered,
+  valuesRef,
+  markedFields,
+  markedNote,
 }: {
   fields: Field[];
   contentObject?: Record<string, unknown>;
@@ -1044,6 +1047,9 @@ const EntryForm = ({
   filePath?: React.ReactNode;
   onDirtyChange?: (isDirty: boolean) => void;
   onChangeRegistered?: () => void;
+  valuesRef?: React.MutableRefObject<(() => Record<string, unknown>) | null>;
+  markedFields?: string[];
+  markedNote?: string;
 }) => {
   const zodSchema = useMemo(() => {
     return generateZodSchema(fields);
@@ -1061,6 +1067,11 @@ const EntryForm = ({
 
   // KC: a refetch never replaces typed text; a clean form still takes new data
   const appliedDefaultsRef = useRef(defaultValues);
+  if (valuesRef) valuesRef.current = () => form.getValues();
+  // KC (card 112): fields both sides changed in a merge get a note under them; it clears on edit or save
+  useEffect(() => {
+    for (const name of markedFields ?? []) form.setError(name, { type: "kc-merge", message: markedNote });
+  }, [form, markedFields, markedNote]);
   useEffect(() => {
     if (!shouldResetForm({ isDirty: form.formState.isDirty, incoming: defaultValues, current: appliedDefaultsRef.current })) return;
     appliedDefaultsRef.current = defaultValues;

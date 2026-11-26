@@ -42,6 +42,8 @@ Put the logic in new `kc/` modules (pure functions, tested): the sha-change deci
 - `kc/editor-guard.ts`
 - `kc/save-error.ts`
 - `kc/otp-limit.ts`
+- `lib/collaborator-access.ts` (upstream file: invite lookup uses kc/email-normalise.ts only; added by the coordinator, round 2)
+- `kc/tests/invite-gmail.test.ts` (new, round 2)
 - `kc/field-merge.ts` (new)
 - `kc/stale-sync.ts` (new)
 - `kc/email-normalise.ts` (new)

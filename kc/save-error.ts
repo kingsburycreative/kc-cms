@@ -28,6 +28,16 @@ const PROTECTED_PATTERNS = [
   /through a pull request/i,
 ];
 
+// Card 112: what the editor says when a save fails after its own retry, or the sign-in ran out.
+export const SAVE_RETRY_FAILED = "This page kept changing while you were editing, so your changes weren't saved. Your text is still here. Copy what you need, reload the page, then try again.";
+export const SIGNED_OUT = "You were signed out. Sign in again in a new tab, then press Save.";
+
+// The browser's view of a refused save: a 409 carrying the stale-version message
+// is a version clash the editor can merge; the protected-branch 409 is not.
+export function isStaleShaResponse(status: unknown, message: unknown): boolean {
+  return status === 409 && message === SAVE_ERROR_MESSAGES.conflict;
+}
+
 export function classifySaveError(status: unknown, githubMessage: unknown, hadSha: boolean): SaveErrorKind {
   if (status !== 409) return "other";
   const message = typeof githubMessage === "string" ? githubMessage : "";

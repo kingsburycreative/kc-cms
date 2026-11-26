@@ -93,3 +93,14 @@ test("lib/auth.ts wires hooks.before to the kc module", () => {
   assert.match(auth, /throw new APIError\("TOO_MANY_REQUESTS"\)/);
   assert.match(auth, /throw new APIError\("NOT_FOUND"\)/);
 });
+
+test("Gmail spellings of one inbox share one limiter key; other domains keep dots", async () => {
+  const { limitKey } = await import("../otp-limit.ts");
+  assert.equal(limitKey("first.last@gmail.com"), limitKey("FirstLast+x@googlemail.com"));
+  assert.equal(limitKey("first.last@henike.ca"), "first.last@henike.ca");
+  const guard = createOtpGuard();
+  for (const email of ["a.b@gmail.com", "ab@gmail.com", "A.B+1@googlemail.com", "ab+2@gmail.com", "a.b.@gmail.com".replace(".@", "@")]) {
+    guard({ path: SEND, ip: "1.2.3.4", email, now: 0 });
+  }
+  assert.equal(guard({ path: SEND, ip: "1.2.3.4", email: "ab@gmail.com", now: 0 }), 429);
+});

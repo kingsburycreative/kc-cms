@@ -32,3 +32,10 @@ test("protected message names the help address and keeps the text", () => {
   assert.match(SAVE_ERROR_MESSAGES.protected, /text is still on screen/);
   assert.doesNotMatch(SAVE_ERROR_MESSAGES.protected, /File has changed/);
 });
+
+test("only the stale-version 409 counts as mergeable in the browser", async () => {
+  const { isStaleShaResponse } = await import("../save-error.ts");
+  assert.equal(isStaleShaResponse(409, SAVE_ERROR_MESSAGES.conflict), true);
+  assert.equal(isStaleShaResponse(409, SAVE_ERROR_MESSAGES.protected), false);
+  assert.equal(isStaleShaResponse(401, SAVE_ERROR_MESSAGES.conflict), false);
+});

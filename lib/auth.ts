@@ -43,6 +43,11 @@ export const auth = betterAuth({
       }
     }),
   },
+  // KC: sign-in lasts 30 days, renewed at most once a day while in use (card 112)
+  session: {
+    expiresIn: 60 * 60 * 24 * 30,
+    updateAge: 60 * 60 * 24,
+  },
   user: {
     additionalFields: {
       githubUsername: {
