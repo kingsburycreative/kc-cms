@@ -1897,5 +1897,12 @@
     "verified_at": "2026-11-26T02:21:01.950Z",
     "tree": "dbf68f7db5663e80a8ec9e5b9a0e4dc63e070d24e9c8c43ccd86c2c48cbb09c5",
     "gate": "full"
+  },
+  {
+    "id": "113",
+    "title": "Sign-in page builds for production again",
+    "brief": ".claude/work/113-sign-in-bundle-node-net/brief.md",
+    "start_sha": "0ce33acd38335260d11995875708a81b4bcde42a",
+    "passes": false
   }
 ]
