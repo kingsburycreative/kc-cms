@@ -1,0 +1,1 @@
+- Added kc/invite-code.ts, edited invite-gate.ts (re-export) and sign-in-error.ts (imports invite-code). Wrote kc/tests/client-imports.test.ts. Next: point sign-in-error.test.ts at invite-code, run done-test, next build, mutation.

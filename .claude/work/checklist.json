@@ -1902,7 +1902,17 @@
     "id": "113",
     "title": "Sign-in page builds for production again",
     "brief": ".claude/work/113-sign-in-bundle-node-net/brief.md",
-    "start_sha": "0ce33acd38335260d11995875708a81b4bcde42a",
-    "passes": false
+    "start_sha": "f8f9167a97e598a14a09d22274887f4ea271f42c",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-26T02:31:45.034Z",
+      "start_sha": "f8f9167a97e598a14a09d22274887f4ea271f42c",
+      "mutation_evidence": true,
+      "tree": "dc24157dd7fc6a49dd416ae1c21e5b042aa716779b25246267271b5d4dbc9064",
+      "size": "Risky"
+    },
+    "verified_at": "2026-11-26T02:32:44.171Z",
+    "tree": "dc24157dd7fc6a49dd416ae1c21e5b042aa716779b25246267271b5d4dbc9064",
+    "gate": "full"
   }
 ]

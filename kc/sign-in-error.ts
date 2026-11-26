@@ -1,4 +1,4 @@
-import { NOT_INVITED_CODE } from "./invite-gate.ts";
+import { NOT_INVITED_CODE } from "./invite-code.ts";
 
 export const HELP_EMAIL = "hello@kingsburycreative.com";
 
