@@ -254,6 +254,7 @@ export async function POST(
     
     if (response?.data.content && response?.data.commit) {
       // If the file is successfully saved, update the cache
+      // KC: GitHub has the commit, so a cache error is logged, never a failed save (card 112)
       await updateFileCache(
         data.type === 'content' ? 'collection' : 'media',
         params.owner,
@@ -271,7 +272,7 @@ export async function POST(
             timestamp: new Date(response.data.commit.committer?.date ?? new Date().toISOString()).getTime()
           }
         }
-      );
+      ).catch((cacheError) => console.warn("[save] cache update failed after commit", { path: normalizedPath, error: cacheError instanceof Error ? cacheError.message : String(cacheError) }));
     }
 
     return Response.json({

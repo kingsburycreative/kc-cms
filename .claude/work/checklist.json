@@ -1880,5 +1880,22 @@
     "verified_at": "2026-11-18T22:20:38.307Z",
     "tree": "c9375f08a90a98e2675b036ff1828e7c7ac1539387bd78f8536fa547e54d2c59",
     "gate": "full"
+  },
+  {
+    "id": "112",
+    "title": "Open editors stay current: refresh, update banner, merge on clash, longer sign-in",
+    "brief": ".claude/work/112-stale-save-refresh-merge/brief.md",
+    "start_sha": "28f5488255959c8a1efef6eba6f55f813b1cd823",
+    "passes": true,
+    "scope_ok": {
+      "at": "2026-11-26T02:19:40.874Z",
+      "start_sha": "28f5488255959c8a1efef6eba6f55f813b1cd823",
+      "mutation_evidence": true,
+      "tree": "dbf68f7db5663e80a8ec9e5b9a0e4dc63e070d24e9c8c43ccd86c2c48cbb09c5",
+      "size": "Risky"
+    },
+    "verified_at": "2026-11-26T02:21:01.950Z",
+    "tree": "dbf68f7db5663e80a8ec9e5b9a0e4dc63e070d24e9c8c43ccd86c2c48cbb09c5",
+    "gate": "full"
   }
 ]

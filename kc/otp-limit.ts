@@ -1,5 +1,6 @@
 import { isIP } from "node:net";
 import { AUTH_DISABLED_PATHS } from "./auth-disabled-paths.ts";
+import { normaliseEmail } from "./email-normalise.ts";
 
 // A fixed-window limiter in front of the two email-OTP paths KC uses. It counts
 // before it checks, so a burst of simultaneous requests cannot all slip past
@@ -45,6 +46,12 @@ export function emailKey(email: unknown): string | null {
   return typeof email === "string" && email.trim() ? email.trim().toLowerCase() : null;
 }
 
+// The limiter's key: one Gmail inbox is one key however it is spelled (card 112).
+export function limitKey(email: unknown): string | null {
+  const key = emailKey(email);
+  return key === null ? null : normaliseEmail(key);
+}
+
 export function createOtpGuard(
   ipLimit = OTP_IP_LIMIT,
   pairLimit = OTP_PAIR_LIMIT,
@@ -60,7 +67,7 @@ export function createOtpGuard(
     // Each refusal stops before the next counter, so a refused request spends nothing further.
     const ip = ipKey(req.ip);
     if (!byIp.hit(ip, req.now)) return 429;
-    const email = emailKey(req.email);
+    const email = limitKey(req.email);
     if (email === null) return "allow";
     if (!byPair.hit(`${email}|${ip}`, req.now)) return 429;
     return byEmail.hit(email, req.now) ? "allow" : 429;

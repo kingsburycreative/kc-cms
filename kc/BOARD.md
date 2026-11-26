@@ -51,6 +51,7 @@ Then the customization guard (`.claude/work/66-plan-customization-guard/plan.md`
 
 ## Done
 
+- **112 stale-save-refresh-merge**: an open editor checks its file on focus and each minute; unsaved edits get a banner and a field-by-field merge, a stale save merges and retries once, sign-in lasts 30 days rolling, Gmail invites match with or without dots, old tabs keep fields they do not know. Not yet seen in a browser.
 - **111 clear-error-messages**: an unknown sign-in address shows an inline error under the email box with a mailto to hello@; a save GitHub refuses for branch protection now says so instead of "File has changed". Copy passes (prose, avoid-ai-writing, humanizer) still owed on both messages; no phone screenshot yet.
 - **109 invite-only-sign-in**: email-code sign-in refuses an address that is not a user, a pending collaborator or an invite, with "We don't have that address. Use the one your invite went to." Message copy not yet run through the prose skills; sign-in form not checked live.
 - **110 empty-home-sign-out**: the No repositories yet page says who you are signed in as and has a Sign out button. Phone screenshot not taken (no signed-in local session); needs a live look.

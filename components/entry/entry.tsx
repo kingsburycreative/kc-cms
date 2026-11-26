@@ -7,13 +7,16 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { restoreParam, restoreState } from "@/kc/history/restore";
 import Link from "next/link";
 import { useConfig } from "@/contexts/config-context";
-import { parseAndValidateConfig } from "@/lib/config";
+import { normalizeConfig, parseAndValidateConfig, parseConfig } from "@/lib/config";
 import { resolveContentOperations } from "@/lib/operations";
 import { useUser } from "@/contexts/user-context";
 import { hasGithubIdentity } from "@/lib/authz-shared";
 import { clientMayDelete } from "@/kc/content-ops";
 import { requireApiSuccess } from "@/lib/api-client";
-import { throwIfTooLarge } from "@/kc/save-error";
+import { SAVE_RETRY_FAILED, SIGNED_OUT, throwIfTooLarge } from "@/kc/save-error";
+import { CHECK_INTERVAL_MS, applyLatest, configChanged, decideRefresh, reloadedConfig, saveWithRetry } from "@/kc/stale-sync";
+import { keepUnknownFields } from "@/kc/field-merge";
+import { CONFLICT_FIELD_NOTE, UpdateBanner, conflictNote } from "@/kc/components/update-banner";
 import { LEAVE_WARNING, cacheAfterSave, isLeavingClick, needsLeaveWarning } from "@/kc/editor-guard";
 import { CREATE_CONFLICT_MESSAGE, createRequestBody } from "@/kc/create-conflict";
 import { getSchemaActions } from "@/lib/actions";
@@ -118,11 +121,22 @@ export function Entry({
   const [hasRegisteredChanges, setHasRegisteredChanges] = useState(false);
   const [error, setError] = useState<string | undefined | null>(null);
   const changeVersionRef = useRef(0);
+  // KC (card 112): the file the client's edits were made against, the live sha and
+  // dirty state for the refresh check, a newer version waiting, and the form's values
+  const baseRef = useRef<unknown>(undefined);
+  const shaRef = useRef(sha);
+  shaRef.current = sha;
+  const dirtyRef = useRef(false);
+  dirtyRef.current = isFormDirty || hasRegisteredChanges;
+  const [pendingLatest, setPendingLatest] = useState<EntryData | null>(null);
+  const [formKey, setFormKey] = useState(0);
+  const [conflictFields, setConflictFields] = useState<string[]>([]);
+  const formValuesRef = useRef<(() => Record<string, unknown>) | null>(null);
   const { mutate } = useSWRConfig();
 
   const router = useRouter();
   
-  const { config } = useConfig();
+  const { config, setConfig } = useConfig();
   const { user } = useUser();
   if (!config) throw new Error(`Configuration not found.`);
   
@@ -237,12 +251,39 @@ export function Entry({
     entryApiUrl,
     fetchEntryByUrl,
     {
-      // KC: no focus refetch, it wiped unsaved text; the save's sha check catches conflicts
-      revalidateOnFocus: false,
+      // KC: focus, reconnect and the minute check all go through decideRefresh, never straight into the form
+      revalidateOnFocus: true,
       revalidateOnReconnect: true,
+      refreshInterval: CHECK_INTERVAL_MS,
       dedupingInterval: 2000,
     },
   );
+
+  // KC (card 112): a .pages.yml change reaches an open tab, so its field list never predates the file.
+  // Typed values carry over into the remounted form; fields the old list lacked keep the file's value.
+  const configBaseUrl = entryApiUrl?.replace(/\/entries\/.*$/, "/entries/.pages.yml") ?? null;
+  const { data: configMeta } = useSWR<{ sha: string | null }>(
+    configBaseUrl ? `${configBaseUrl}?meta=1` : null,
+    async (url: string) => (await requireApiSuccess<any>(await fetch(url), "Failed to check configuration")).data,
+    { revalidateOnFocus: true, refreshInterval: CHECK_INTERVAL_MS, dedupingInterval: 2000 },
+  );
+  useEffect(() => {
+    const latestSha = configMeta?.sha;
+    if (!configBaseUrl || !latestSha || !configChanged(config.sha, latestSha)) return;
+    let cancelled = false;
+    void (async () => {
+      const data = (await requireApiSuccess<any>(await fetch(configBaseUrl), "Failed to load configuration")).data;
+      const { document, errors } = parseConfig(String(data?.contentObject?.body ?? ""));
+      const next = reloadedConfig(config, latestSha, { errors, object: errors.length ? null : normalizeConfig(document.toJSON()) });
+      if (cancelled || !next) return;
+      const mine = formValuesRef.current?.();
+      setConfig(next);
+      const typed = schema?.list === true ? mine?.listWrapper : mine;
+      if (typed) setEntry((current) => current && { ...current, contentObject: keepUnknownFields(current.contentObject, typed) } as EntryData);
+      setFormKey((key) => key + 1);
+    })().catch((error) => console.warn("kc: configuration reload failed", error));
+    return () => { cancelled = true; };
+  }, [config, configBaseUrl, configMeta?.sha, schema?.list, setConfig]);
 
   useEffect(() => {
     if (!path) return;
@@ -251,6 +292,11 @@ export function Entry({
 
   useEffect(() => {
     if (!swrEntryData || !path) return;
+    const decision = decideRefresh({ currentSha: shaRef.current, incomingSha: swrEntryData.sha, isDirty: dirtyRef.current });
+    if (decision === "banner") setPendingLatest(swrEntryData);
+    if (decision !== "reload") return;
+    setPendingLatest(null);
+    baseRef.current = swrEntryData.contentObject;
     setEntry(swrEntryData);
     setSha(swrEntryData.sha);
     setHasRegisteredChanges(false);
@@ -335,6 +381,30 @@ export function Entry({
     && filenameValue.trim().length > 0
     && filenameValue.trim() !== currentFilename;
 
+  // KC (card 112): file content in the form's shape and back
+  const toForm = (content: unknown) => schema?.list === true ? { listWrapper: content } : content;
+  const fromForm = (values: unknown) => schema?.list === true ? (values as Record<string, unknown>)?.listWrapper : values;
+
+  // KC: the client's edits laid over the newer file; the form remounts on the merged values
+  const showMerged = (latestEntry: EntryData, content: unknown, conflicts: string[]) => {
+    baseRef.current = latestEntry.contentObject;
+    setEntry({ ...latestEntry, contentObject: fromForm(content) } as EntryData);
+    setSha(latestEntry.sha);
+    setPendingLatest(null);
+    setHasRegisteredChanges(true);
+    setFormKey((key) => key + 1);
+    setConflictFields(conflicts);
+    const note = conflictNote(conflicts);
+    if (note) toast.warning(note, { duration: Infinity });
+  };
+
+  const loadLatest = () => {
+    if (!pendingLatest) return;
+    const mine = formValuesRef.current?.() ?? toForm(entry?.contentObject);
+    const next = applyLatest({ base: toForm(baseRef.current), latest: { sha: pendingLatest.sha, content: toForm(pendingLatest.contentObject) }, mine });
+    showMerged(pendingLatest, next.content, next.conflicts);
+  };
+
   const onSubmit = async (contentObject: Record<string, unknown>) => {
     setIsSaving(true);
     const submitStartChangeVersion = changeVersionRef.current;
@@ -391,32 +461,48 @@ export function Entry({
         }
 
         const conflictBody = createRequestBody({ path, schema });
-        const response = await fetch(`/api/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/files/${encodeURIComponent(savePath)}`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(Object.assign({
-            type: path === ".pages.yml" ? "settings" : "content",
-            name,
-            content: schema?.list === true
-              ? contentObject.listWrapper
-              : contentObject,
-            sha: sha
-          }, conflictBody)),
+        // KC (card 112): keep fields this tab's field list predates; a stale-version 409 merges and retries once
+        const result = await saveWithRetry({
+          sha,
+          content: path ? keepUnknownFields(toForm(baseRef.current), contentObject) as Record<string, unknown> : contentObject,
+          base: toForm(baseRef.current),
+          save: (contentObject, sha) => fetch(`/api/${config.owner}/${config.repo}/${encodeURIComponent(config.branch)}/files/${encodeURIComponent(savePath)}`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(Object.assign({
+              type: path === ".pages.yml" ? "settings" : "content",
+              name,
+              content: schema?.list === true
+                ? contentObject.listWrapper
+                : contentObject,
+              sha: sha
+            }, conflictBody)),
+          }),
+          loadLatest: async () => {
+            const latest = await fetchEntryByUrl(entryApiUrl as string);
+            return { sha: latest.sha, content: toForm(latest.contentObject) };
+          },
         });
+        const response = result.response;
+        if (!response.ok) console.warn("[save] refused", { path: savePath, status: response.status, retried: result.retried });
+        if (response.status === 401) throw new Error(SIGNED_OUT);
         if (conflictBody.onConflict && response.status === 409) {
           throw new Error(CREATE_CONFLICT_MESSAGE);
         }
+        if (result.retried && response.status === 409) throw new Error(SAVE_RETRY_FAILED);
         throwIfTooLarge(response, "save");
         const data = await requireApiSuccess<any>(
           response,
           "Failed to save file",
         );
-        
+
         if (data.data.sha !== sha) setSha(data.data.sha);
         // KC: the cache holds what was saved, so a refetch is not mistaken for a change
         if (savePath === path) {
-          const saved = schema?.list === true ? contentObject.listWrapper : contentObject;
+          const saved = fromForm(result.content);
+          baseRef.current = saved;
           void mutateEntry((current) => current && cacheAfterSave(current, saved, data.data.sha), { revalidate: false });
+          if (result.retried && entry) showMerged({ ...entry, sha: data.data.sha, contentObject: saved } as EntryData, result.content, result.conflicts);
         }
         if (submitStartChangeVersion === changeVersionRef.current) {
           setHasRegisteredChanges(false);
@@ -910,7 +996,12 @@ export function Entry({
             This is an older version. Save to keep it as your latest edit.
           </p>
         )}
+        {pendingLatest && <UpdateBanner onLoad={loadLatest} />}
         <EntryForm
+        key={formKey}
+        valuesRef={formValuesRef}
+        markedFields={conflictFields}
+        markedNote={CONFLICT_FIELD_NOTE}
         fields={entryFields}
         contentObject={entryContentObject}
         onSubmit={onSubmit}

@@ -43,9 +43,26 @@ test("only a link to another in-app page counts as leaving", () => {
   assert.equal(isLeavingClick(null, here, "https://cms.example"), false);
 });
 
-test("entry.tsx turns off the focus refetch for the entry", () => {
+test("entry.tsx refetches on focus and each minute, but only through decideRefresh", () => {
   const source = read("components/entry/entry.tsx");
-  assert.match(source, /useSWR<EntryData>\(\s*entryApiUrl,\s*fetchEntryByUrl,\s*\{[^}]*revalidateOnFocus: false/);
+  assert.match(source, /useSWR<EntryData>\(\s*entryApiUrl,\s*fetchEntryByUrl,\s*\{[^}]*revalidateOnFocus: true[^}]*refreshInterval: CHECK_INTERVAL_MS/);
+  const effect = source.slice(source.indexOf("if (!swrEntryData || !path) return;"));
+  const decide = effect.indexOf("decideRefresh(");
+  const guard = effect.indexOf('if (decision !== "reload") return;');
+  assert.ok(decide > 0 && guard > decide && guard < effect.indexOf("setSha(swrEntryData.sha)"));
+});
+
+test("entry.tsx saves through saveWithRetry, keeps unknown fields and names a sign-out", () => {
+  const source = read("components/entry/entry.tsx");
+  assert.match(source, /saveWithRetry\(\{/);
+  assert.match(source, /keepUnknownFields\(toForm\(baseRef\.current\), contentObject\)/);
+  assert.match(source, /response\.status === 401\) throw new Error\(SIGNED_OUT\)/);
+  assert.match(source, /<UpdateBanner onLoad=\{loadLatest\} \/>/);
+});
+
+test("the files route never turns a post-commit cache error into a failed save", () => {
+  const source = read("app/api/[owner]/[repo]/[branch]/files/[path]/route.ts");
+  assert.match(source, /await updateFileCache\([\s\S]*?\)\.catch\(\(cacheError\) => console\.warn\(/);
 });
 
 test("entry.tsx writes the saved content into the cache after a save", () => {
