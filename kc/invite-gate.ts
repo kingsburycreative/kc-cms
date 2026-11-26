@@ -1,8 +1,10 @@
 import { OTP_PATHS, emailKey } from "./otp-limit.ts";
 
+// The code lives in its own import-free module so the browser bundle can read it.
+export { NOT_INVITED_CODE } from "./invite-code.ts";
+
 // Email-code sign-in is invite-only: an address the CMS does not know (no user,
 // no pending collaborator row, no collaborator_invite) gets no code and no account.
-export const NOT_INVITED_CODE = "EMAIL_NOT_INVITED";
 export const NOT_INVITED_MESSAGE = "We don't have that address. Use the one your invite went to.";
 
 export function inviteGateVerdict(req: { path: string; email: unknown; knownEmail: boolean }): "allow" | "unknown" {

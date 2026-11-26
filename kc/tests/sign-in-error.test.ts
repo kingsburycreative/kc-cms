@@ -1,7 +1,12 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { inlineSignInError } from "../sign-in-error.ts";
-import { NOT_INVITED_CODE } from "../invite-gate.ts";
+import { NOT_INVITED_CODE } from "../invite-code.ts";
+import { NOT_INVITED_CODE as GATE_CODE } from "../invite-gate.ts";
+
+test("the gate and the sign-in page share one code", () => {
+  assert.equal(GATE_CODE, NOT_INVITED_CODE);
+});
 
 test("EMAIL_NOT_INVITED maps to inline copy with a mailto", () => {
   const e = inlineSignInError(NOT_INVITED_CODE);
